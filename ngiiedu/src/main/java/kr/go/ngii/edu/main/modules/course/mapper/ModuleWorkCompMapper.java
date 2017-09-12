@@ -1,5 +1,5 @@
 package kr.go.ngii.edu.main.modules.course.mapper;
 
-public interface ModuleUnitMapper {
+public interface ModuleWorkCompMapper {
 
 }

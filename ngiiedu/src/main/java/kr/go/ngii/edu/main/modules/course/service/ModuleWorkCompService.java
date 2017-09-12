@@ -1,5 +1,5 @@
 package kr.go.ngii.edu.main.modules.course.service;
 
-public interface CourseDataService {
+public interface ModuleWorkCompService {
 
 }

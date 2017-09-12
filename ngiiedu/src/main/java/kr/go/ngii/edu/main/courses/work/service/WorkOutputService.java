@@ -1,5 +1,5 @@
 package kr.go.ngii.edu.main.courses.work.service;
 
-public interface WorkResultService {
+public interface WorkOutputService {
 
 }
