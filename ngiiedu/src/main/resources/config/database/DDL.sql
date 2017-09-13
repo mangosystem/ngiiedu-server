@@ -14,7 +14,7 @@ DROP TABLE IF EXISTS works_output;
 DROP TABLE IF EXISTS works;
 DROP TABLE IF EXISTS courses;
 DROP TABLE IF EXISTS modules_work;
-DROP TABLE IF EXISTS modules_work_output;
+DROP TABLE IF EXISTS modules_work_data;
 DROP TABLE IF EXISTS modules;
 DROP TABLE IF EXISTS schools;
 DROP TABLE IF EXISTS users;
@@ -314,7 +314,7 @@ ALTER TABLE modules_work
 ;
 
 
-ALTER TABLE modules_work_output
+ALTER TABLE modules_work_data
 	ADD FOREIGN KEY (module_id)
 	REFERENCES modules (idx)
 	ON UPDATE RESTRICT
@@ -413,13 +413,13 @@ COMMENT ON TABLE modules_work_comp IS '모듈과정컴포넌트';
 COMMENT ON COLUMN modules_work_comp.idx IS '고유키';
 COMMENT ON COLUMN modules_work_comp.module_work_id IS '모듈과정_아이디';
 COMMENT ON COLUMN modules_work_comp.comps_id IS '공통컴포넌트_아이디';
-COMMENT ON TABLE modules_work_output IS '모듈과정자료';
-COMMENT ON COLUMN modules_work_output.idx IS '고유키';
-COMMENT ON COLUMN modules_work_output.module_id IS '모듈_아이디';
-COMMENT ON COLUMN modules_work_output.module_work_output_name IS '자료명';
-COMMENT ON COLUMN modules_work_output.module_work_output_path IS '자료위치경로';
-COMMENT ON COLUMN modules_work_output.module_work_output_division IS '수업데이터구분';
-COMMENT ON COLUMN modules_work_output.module_work_seq IS '수업차수정보';
+COMMENT ON TABLE modules_work_data IS '모듈과정자료';
+COMMENT ON COLUMN modules_work_data.idx IS '고유키';
+COMMENT ON COLUMN modules_work_data.module_id IS '모듈_아이디';
+COMMENT ON COLUMN modules_work_data.module_work_data_name IS '자료명';
+COMMENT ON COLUMN modules_work_data.module_work_data_path IS '자료위치경로';
+COMMENT ON COLUMN modules_work_data.module_work_data_division IS '수업데이터구분';
+COMMENT ON COLUMN modules_work_data.module_work_seq IS '수업차수정보';
 COMMENT ON TABLE schools IS '학교';
 COMMENT ON COLUMN schools.idx IS '고유키';
 COMMENT ON COLUMN schools.school_id IS '학교아이디';
