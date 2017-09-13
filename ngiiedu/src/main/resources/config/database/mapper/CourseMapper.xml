@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.go.ngii.edu.main.courses.course.mapper.CourseMapper">
+
+	<resultMap type="kr.go.ngii.edu.main.courses.course.Course" id="courseMap"></resultMap>
+
+	<select id="get" parameterType="courseMap" resultMap="courseMap">
+	</select>
+
+	<select id="list" parameterType="courseMap" resultMap="courseMap">
+	</select>
+
+	<insert id="create" parameterType="courseMap">
+		<selectKey keyProperty="idx" resultType="int" order="BEFORE">
+			select nextval('courses_idx_seq'::regclass)
+		</selectKey>
+		INSERT INTO public.courses(
+			idx, module_id, course_name, course_desc, course_create_id, course_create_date
+		) VALUES (
+			#{idx}, #{moduleId}, #{courseName}, #{courseDesc}, #{courseCreateId}, #{courseCreateDate}
+		)
+	</insert>
+
+	<update id="modify" parameterType="courseMap">
+	</update>
+
+	<delete id="delete" parameterType="int">
+	</delete>
+
+</mapper>
