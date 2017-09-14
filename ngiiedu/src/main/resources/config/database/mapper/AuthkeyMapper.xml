@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.go.ngii.edu.main.courses.team.mapper.AuthkeyMapper">
+
+	<resultMap type="kr.go.ngii.edu.main.courses.team.model.Authkey" id="authkeyMap">
+		<id property="idx" column="idx" />
+		<result property="authkey" column="authkey" />
+	</resultMap>
+
+	<select id="get" parameterType="authkeyMap" resultMap="authkeyMap">
+		SELECT
+			idx,
+			authkey
+		FROM authkeys
+		where idx = #{idx}
+	</select>
+
+	<select id="list" parameterType="authkeyMap" resultMap="authkeyMap">
+		SELECT
+			idx,
+			authkey
+		FROM authkeys
+	</select>
+
+	<insert id="create" parameterType="authkeyMap">
+		<selectKey keyProperty="idx" resultType="int" order="BEFORE">
+			select nextval('authkeys_idx_seq'::regclass)
+		</selectKey>
+			INSERT INTO authkeys(
+				idx, authkey
+			) VALUES (
+				#{idx}, #{authkey}
+			)
+	</insert>
+
+	<update id="modify" parameterType="authkeyMap">
+		UPDATE authkeys
+			<set>
+				<if test="authkey ! =null"> module_id = #{authkey} </if>
+			</set>
+		WHERE idx = #{idx}
+	</update>
+
+	<delete id="delete" parameterType="int">
+		DELETE FROM authkeys
+ 		WHERE idx = #{idx}
+	</delete>
+
+</mapper>

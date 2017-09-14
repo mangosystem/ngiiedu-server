@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.go.ngii.edu.main.courses.work.mapper.WorkMapper">
+
+	<resultMap type="kr.go.ngii.edu.main.courses.work.model.Work" id="workMap">
+		<id property="idx" column="idx" />
+		<result property="courseId" column="course_id" />
+		<result property="workName" column="work_name" />
+		<result property="workDesc" column="work_desc" />
+		<result property="workSeq" column="work_seq" />
+		<result property="workTeamDivision" column="work_team_division" />
+		<result property="pinogioLayerId" column="pinogio_layer_id" />
+	</resultMap>
+
+	<select id="get" parameterType="workMap" resultMap="workMap">
+		SELECT
+			idx,
+			course_id,
+			work_name,
+			work_desc,
+			work_seq,
+			work_team_division,
+			pinogio_layer_id
+		FROM works
+		where idx = #{idx}
+	</select>
+
+	<select id="list" parameterType="workMap" resultMap="workMap">
+		SELECT
+			idx,
+			course_id,
+			work_name,
+			work_desc,
+			work_seq,
+			work_team_division,
+			pinogio_layer_id
+		FROM works
+	</select>
+
+	<insert id="create" parameterType="workMap">
+		<selectKey keyProperty="idx" resultType="int" order="BEFORE">
+			select nextval('works_idx_seq'::regclass)
+		</selectKey>
+			INSERT INTO works(
+	            idx, course_id, work_name, work_desc, work_seq, work_team_division, pinogio_layer_id
+	        )
+	    	VALUES (
+	    		#{idx}, #{courseId}, #{workName}, #{workDesc}, #{workSeq}, #{workTeamDivision}, #{pinogioLayerId}
+	    	)
+	</insert>
+
+	<update id="modify" parameterType="workMap">
+		UPDATE works
+			<set>
+				<if test="courseId != null"> module_id = #{moduleId}, </if>
+				<if test="workName != null"> course_name = #{courseName}, </if>
+				<if test="workDesc != null"> course_desc = #{courseDesc}, </if>
+				<if test="workSeq != null"> course_create_id = #{courseCreateId}, </if>
+				<if test="workTeamDivision != null"> course_create_date = #{courseCreateDate} </if>
+				<if test="pinogioLayerId != null"> course_create_date = #{courseCreateDate} </if>
+			</set>
+		WHERE idx = #{idx}
+	</update>
+
+	<delete id="delete" parameterType="int">
+		DELETE FROM works
+ 		WHERE idx = #{idx}
+	</delete>
+
+</mapper>

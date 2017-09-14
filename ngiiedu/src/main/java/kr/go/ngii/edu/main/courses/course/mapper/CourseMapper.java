@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import kr.go.ngii.edu.main.courses.course.Course;
+import kr.go.ngii.edu.main.courses.course.model.Course;
 
 @Mapper
 public interface CourseMapper {

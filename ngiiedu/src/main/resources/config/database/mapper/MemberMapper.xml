@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.go.ngii.edu.main.courses.team.mapper.MemberMapper">
+
+	<resultMap type="kr.go.ngii.edu.main.courses.team.model.Member" id="memberMap">
+		<id property="idx" column="idx" />
+		<result property="teamStatus" column="team_status" />
+		<result property="teamId" column="team_id" />
+		<result property="userId" column="user_id" />
+	</resultMap>
+
+	<select id="get" parameterType="memberMap" resultMap="memberMap">
+		SELECT
+			idx,
+			team_status,
+			team_id,
+			user_id
+		FROM members
+		where idx = #{idx}
+	</select>
+
+	<select id="list" parameterType="memberMap" resultMap="memberMap">
+		SELECT
+			idx,
+			team_status,
+			team_id,
+			user_id
+		FROM members
+	</select>
+
+	<insert id="create" parameterType="memberMap">
+		<selectKey keyProperty="idx" resultType="int" order="BEFORE">
+			select nextval('members_idx_seq'::regclass)
+		</selectKey>
+			INSERT INTO members(
+				idx, team_status, team_id, user_id
+			) VALUES (
+				#{idx}, #{teamStatus}, #{teamId}, #{userId}
+			)
+	</insert>
+
+	<update id="modify" parameterType="memberMap">
+		UPDATE members
+			<set>
+				<if test="teamStatus != null"> member_name = #{memberName}, </if>
+				<if test="teamId != null"> member_desc = #{memberDesc}, </if>
+				<if test="userId != null"> member_create_id = #{memberCreateId} </if>
+			</set>
+		WHERE idx = #{idx}
+	</update>
+
+	<delete id="delete" parameterType="int">
+		DELETE FROM members
+ 		WHERE idx = #{idx}
+	</delete>
+
+</mapper>

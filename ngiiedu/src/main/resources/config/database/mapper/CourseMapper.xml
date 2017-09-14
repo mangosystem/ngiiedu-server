@@ -4,29 +4,64 @@
 
 <mapper namespace="kr.go.ngii.edu.main.courses.course.mapper.CourseMapper">
 
-	<resultMap type="kr.go.ngii.edu.main.courses.course.Course" id="courseMap"></resultMap>
+	<resultMap type="kr.go.ngii.edu.main.courses.course.model.Course" id="courseMap">
+		<id property="idx" column="idx" />
+		<result property="modelId" column="module_id" />
+		<result property="courseName" column="course_name" />
+		<result property="courseDesc" column="course_desc" />
+		<result property="courseCreateId" column="course_create_id" />
+		<result property="courseCreateDate" column="course_create_date" />
+	</resultMap>
 
 	<select id="get" parameterType="courseMap" resultMap="courseMap">
+		SELECT
+			idx,
+			module_id,
+			course_name,
+			course_desc,
+			course_create_id,
+			course_create_date
+		FROM courses
+		where idx = #{idx}
 	</select>
 
 	<select id="list" parameterType="courseMap" resultMap="courseMap">
+		SELECT
+			idx,
+			module_id,
+			course_name,
+			course_desc,
+			course_create_id,
+			course_create_date
+		FROM courses
 	</select>
 
 	<insert id="create" parameterType="courseMap">
 		<selectKey keyProperty="idx" resultType="int" order="BEFORE">
 			select nextval('courses_idx_seq'::regclass)
 		</selectKey>
-		INSERT INTO public.courses(
-			idx, module_id, course_name, course_desc, course_create_id, course_create_date
-		) VALUES (
-			#{idx}, #{moduleId}, #{courseName}, #{courseDesc}, #{courseCreateId}, #{courseCreateDate}
-		)
+			INSERT INTO courses(
+				idx, module_id, course_name, course_desc, course_create_id, course_create_date
+			) VALUES (
+				#{idx}, #{moduleId}, #{courseName}, #{courseDesc}, #{courseCreateId}, #{courseCreateDate}
+			)
 	</insert>
 
 	<update id="modify" parameterType="courseMap">
+		UPDATE courses
+			<set>
+				<if test="moduleId != null"> module_id = #{moduleId}, </if>
+				<if test="courseName != null"> course_name = #{courseName}, </if>
+				<if test="courseDesc != null"> course_desc = #{courseDesc}, </if>
+				<if test="courseCreateId != null"> course_create_id = #{courseCreateId}, </if>
+				<if test="courseCreateDate != null"> course_create_date = #{courseCreateDate} </if>
+			</set>
+		WHERE idx = #{idx}
 	</update>
 
 	<delete id="delete" parameterType="int">
+		DELETE FROM courses
+ 		WHERE idx = #{idx}
 	</delete>
 
 </mapper>

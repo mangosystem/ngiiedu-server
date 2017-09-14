@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.go.ngii.edu.main.courses.work.mapper.WorkOutputMapper">
+
+	<resultMap type="kr.go.ngii.edu.main.courses.work.model.WorkOutput" id="workOutputMap">
+		<id property="idx" column="idx" />
+		<result property="workId" column="work_id" />
+		<result property="outputTeamId" column="output_team_id" />
+		<result property="outputUserid" column="output_userid" />
+		<result property="outputDivision" column="output_division" />
+		<result property="pinogioOutputId" column="pinogio_output_id" />
+	</resultMap>
+
+	<select id="get" parameterType="workOutputMap" resultMap="workOutputMap">
+		SELECT
+			idx,
+			work_id,
+			output_team_id,
+			output_userid,
+			output_division,
+			pinogio_output_id
+		FROM works_output
+		where idx = #{idx}
+	</select>
+
+	<select id="list" parameterType="workOutputMap" resultMap="workOutputMap">
+		SELECT
+			idx,
+			work_id,
+			output_team_id,
+			output_userid,
+			output_division,
+			pinogio_output_id
+		FROM works_output
+	</select>
+
+	<insert id="create" parameterType="workOutputMap">
+		<selectKey keyProperty="idx" resultType="int" order="BEFORE">
+			select nextval('works_output_idx_seq'::regclass)
+		</selectKey>
+			INSERT INTO works_output(
+				idx, work_id, output_team_id, output_userid, output_division, pinogio_output_id
+			) VALUES (
+				#{idx}, #{workId}, #{outputTeamId}, #{outputUserId}, #{outputDivision}, #{pinogioOutputId}
+			)
+	</insert>
+
+	<update id="modify" parameterType="workOutputMap">
+		UPDATE works_output
+			<set>
+				<if test="workId != null"> work_id = #{workId}, </if>
+				<if test="outputTeamId != null"> output_team_id = #{outputTeamId}, </if>
+				<if test="outputUserId != null"> output_userid = #{outputUserId}, </if>
+				<if test="outputDivision != null"> output_division = #{outputDivision}, </if>
+				<if test="pinogioOutputId != null"> pinogio_output_id = #{pinogioOutputId} </if>
+			</set>
+		WHERE idx = #{idx}
+	</update>
+
+	<delete id="delete" parameterType="int">
+		DELETE FROM works_output
+ 		WHERE idx = #{idx}
+	</delete>
+
+</mapper>

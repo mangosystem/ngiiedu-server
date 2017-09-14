@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.go.ngii.edu.main.school.mapper.SchoolMapper">
+
+	<resultMap type="kr.go.ngii.edu.main.school.model.School" id="schoolMap">
+		<id property="idx" column="idx" />
+		<result property="schoolId" column="school_id" />
+		<result property="schoolName" column="school_name" />
+	</resultMap>
+
+	<select id="get" parameterType="schoolMap" resultMap="schoolMap">
+		SELECT
+			idx,
+			school_id,
+			school_name
+		FROM schools
+		where idx = #{idx}
+	</select>
+
+	<select id="list" parameterType="schoolMap" resultMap="schoolMap">
+		SELECT
+			idx,
+			school_id,
+			school_name
+		FROM schools
+	</select>
+
+	<insert id="create" parameterType="schoolMap">
+		<selectKey keyProperty="idx" resultType="int" order="BEFORE">
+			select nextval('schools_idx_seq'::regclass)
+		</selectKey>
+			INSERT INTO schools(
+				idx, school_id, school_name
+			) VALUES (
+				#{idx}, #{school_id}, #{school_name}
+			)
+	</insert>
+
+	<update id="modify" parameterType="schoolMap">
+		UPDATE schools
+			<set>
+				<if test="schoolID != null"> module_id = #{moduleId}, </if>
+				<if test="schoolName != null"> course_name = #{courseName} </if>
+			</set>
+		WHERE idx = #{idx}
+	</update>
+
+	<delete id="delete" parameterType="int">
+		DELETE FROM schools
+ 		WHERE idx = #{idx}
+	</delete>
+
+</mapper>
