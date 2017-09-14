@@ -20,7 +20,7 @@ public class Authkey implements Serializable {
 	private Integer idx;
 
 	/** 인증키. */
-	private String aythkey;
+	private String authkey;
 
 	/**
 	 * 생성자.
@@ -50,11 +50,11 @@ public class Authkey implements Serializable {
 	/**
 	 * 인증키을 설정합니다..
 	 * 
-	 * @param aythkey
+	 * @param authkey
 	 *            인증키
 	 */
-	public void setAythkey(String aythkey) {
-		this.aythkey = aythkey;
+	public void setAuthkey(String authkey) {
+		this.authkey = authkey;
 	}
 
 	/**
@@ -62,8 +62,8 @@ public class Authkey implements Serializable {
 	 * 
 	 * @return 인증키
 	 */
-	public String getAythkey() {
-		return this.aythkey;
+	public String getAuthkey() {
+		return this.authkey;
 	}
 
 	/**
