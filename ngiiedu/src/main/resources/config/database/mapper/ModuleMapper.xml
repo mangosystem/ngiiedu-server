@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.go.ngii.edu.main.modules.module.mapper.ModuleMapper">
+
+   <resultMap type="kr.go.ngii.edu.main.modules.module.model.Module" id="ModuleMap">
+      <id property="idx" column="idx" />
+      <result property="moduleName" column="module_name" />
+      <result property="moduleCreateDate" column="module_create_date" />
+      <result property="moduleModifyDate" column="module_modify_date" />
+      <result property="moduleMetadata" column="module_metadata" />
+      <result property="moduleData" column="module_data" />
+   </resultMap>
+
+   <select id="get" parameterType="ModuleMap" resultMap="ModuleMap">
+      SELECT
+         idx,
+         module_name,
+         module_create_date,
+         module_modify_date,
+         module_metadata,
+         module_data
+      FROM modules
+      where idx = #{idx}
+   </select>
+
+   <select id="list" parameterType="ModuleMap" resultMap="ModuleMap">
+      SELECT
+      	 idx,
+         module_name,
+         module_create_date,
+         module_modify_date,
+         module_metadata,
+         module_data
+      FROM modules
+   </select>
+
+   <insert id="create" parameterType="ModuleMap">
+      <selectKey keyProperty="idx" resultType="int" order="BEFORE">
+         select nextval('modules_idx_seq'::regclass)
+      </selectKey>
+         INSERT INTO modules(
+            idx, module_name, module_create_date, module_modify_date, module_metadata, module_data
+         ) VALUES (
+            #{idx}, #{moduleName}, #{moduleCreateDate}, #{moduleModifyDate}, #{moduleMetadata}, #{moduleData}
+         )
+   </insert>
+
+
+   <update id="modify" parameterType="ModuleMap">
+      UPDATE modules
+         <set>
+            <if test="moduleName != null"> module_name = #{moduleName}, </if>
+            <if test="moduleCreateDate != null"> module_create_date = #{moduleCreateDate}, </if>
+            <if test="moduleModifyDate != null"> module_modify_date = #{moduleModifyDate}, </if>
+            <if test="moduleMetadata != null"> module_metadata = #{moduleMetadata}, </if>
+            <if test="moduleData != null"> module_data = #{moduleData} </if>
+         </set>
+      WHERE idx = #{idx}
+   </update>
+
+   <delete id="delete" parameterType="int">
+      DELETE FROM modules
+       WHERE idx = #{idx}
+   </delete>
+
+</mapper>

@@ -1,16 +1,68 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
-	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="kr.go.ngii.edu.sample.mapper.UserMapper">
+<mapper namespace="kr.go.ngii.edu.main.users.mapper.UserMapper">
 
-	<select id="getUsers" resultType="kr.go.ngii.edu.sample.model.User">
-		SELECT
-			seq_idx AS seqIdx,
-			userid,
-			passwd,
-			email
-		FROM commgeneralmember 
-	</select>
+   <resultMap type="kr.go.ngii.edu.main.users.model.User" id="userMap">
+      <id property="idx" column="idx" />
+      <result property="userid" column="userid" />
+      <result property="password" column="password" />
+      <result property="userEmail" column="user_email" />
+      <result property="userName" column="user_name" />
+      <result property="userDivision" column="user_division" />
+   </resultMap>
+
+   <select id="get" parameterType="userMap" resultMap="userMap">
+      SELECT
+         idx,
+         userid,
+         password,
+         user_email,
+         user_name,
+         user_division
+      FROM users
+      where idx = #{idx}
+   </select>
+
+
+   <select id="list" parameterType="userMap" resultMap="userMap">
+      SELECT
+         idx,
+         userid,
+         password,
+         user_email,
+         user_name,
+         user_division
+      FROM users
+   </select>
+
+   <insert id="create" parameterType="userMap">
+      <selectKey keyProperty="idx" resultType="int" order="BEFORE">
+         select nextval('users_idx_seq'::regclass)
+      </selectKey>
+         INSERT INTO users(
+            idx, userid, password, user_email, user_name, user_division
+         ) VALUES (
+            #{idx}, #{userid}, #{password}, #{userEmail}, #{userName}, #{userDivision}
+         )
+   </insert>
+
+   <update id="modify" parameterType="userMap">
+      UPDATE users
+         <set>
+            <if test="userid != null"> userid = #{userid}, </if>
+            <if test="password != null"> password = #{password}, </if>
+            <if test="userEmail != null"> user_email = #{userEmail}, </if>
+            <if test="userName != null"> user_name = #{userName}, </if>
+            <if test="userDivision != null"> user_division = #{userDivision} </if>
+         </set>
+      WHERE idx = #{idx}
+   </update>
+
+   <delete id="delete" parameterType="int">
+      DELETE FROM users
+       WHERE idx = #{idx}
+   </delete>
 
 </mapper>

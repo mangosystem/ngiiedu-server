@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.go.ngii.edu.main.modules.course.mapper.ModuleWorkMapper">
+
+   <resultMap type="kr.go.ngii.edu.main.modules.course.model.ModuleWork" id="ModuleWorkMap">
+      <id property="idx" column="idx" />
+      <result property="moduleId" column="module_id" />
+      <result property="moduleWorkName" column="module_work_name" />
+      <result property="moduleWorkMetadata" column="module_work_metadata" />
+   </resultMap>
+
+   <select id="get" parameterType="ModuleWorkMap" resultMap="ModuleWorkMap">
+      SELECT
+         idx,
+         module_id,
+         module_work_name,
+         module_work_metadata
+      FROM modules_work
+      where idx = #{idx}
+   </select>
+
+   <select id="list" parameterType="ModuleWorkMap" resultMap="ModuleWorkMap">
+      SELECT
+      	 idx,
+         module_id,
+         module_work_name,
+         module_work_metadata
+      FROM modules_work
+   </select>
+
+   <insert id="create" parameterType="ModuleWorkMap">
+      <selectKey keyProperty="idx" resultType="int" order="BEFORE">
+         select nextval('modules_work_idx_seq'::regclass)
+      </selectKey>
+         INSERT INTO modules_work(
+            idx, module_id, module_work_name, module_work_metadata
+         ) VALUES (
+            #{idx}, #{moduleId}, #{moduleWorkName}, #{moduleWorkMetadata}
+         )
+   </insert>
+
+
+   <update id="modify" parameterType="ModuleWorkMap">
+      UPDATE modules_work
+         <set>
+            <if test="moduleId != null"> module_id = #{moduleId}, </if>
+            <if test="moduleWorkName != null"> module_work_name = #{moduleWorkName}, </if>
+            <if test="moduleWorkMetadata != null"> module_work_metadata = #{moduleWorkMetadata} </if>
+         </set>
+      WHERE idx = #{idx}
+   </update>
+
+   <delete id="delete" parameterType="int">
+      DELETE FROM modules_work
+       WHERE idx = #{idx}
+   </delete>
+
+</mapper>

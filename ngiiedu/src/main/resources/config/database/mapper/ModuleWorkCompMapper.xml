@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.go.ngii.edu.main.modules.course.mapper.ModuleWorkCompMapper">
+
+   <resultMap type="kr.go.ngii.edu.main.modules.course.model.ModuleWorkComp" id="ModuleWorkCompMap">
+      <id property="idx" column="idx" />
+      <result property="moduleWorkId" column="module_work_id" />
+      <result property="compsIdmodulesWork" column="comps_id" />
+   </resultMap>
+
+   <select id="get" parameterType="ModuleWorkCompMap" resultMap="ModuleWorkCompMap">
+      SELECT
+         idx,
+         module_work_id,
+         comps_id
+      FROM modules_work_comp
+      where idx = #{idx}
+   </select>
+
+   <select id="list" parameterType="ModuleWorkCompMap" resultMap="ModuleWorkCompMap">
+      SELECT
+      	 idx,
+         module_work_id,
+         comps_id
+      FROM modules_work_comp
+   </select>
+
+   <insert id="create" parameterType="ModuleWorkCompMap">
+      <selectKey keyProperty="idx" resultType="int" order="BEFORE">
+         select nextval('modules_work_comp_idx_seq'::regclass)
+      </selectKey>
+         INSERT INTO modules_work_comp(
+            idx, module_work_id, comps_id
+         ) VALUES (
+            #{idx}, #{moduleWorkId}, #{compsIdmodulesWork}
+         )
+   </insert>
+
+
+   <update id="modify" parameterType="ModuleWorkCompMap">
+      UPDATE modules_work_comp
+         <set>
+            <if test="moduleWorkId != null"> module_work_id = #{moduleWorkId}, </if>
+            <if test="compsIdmodulesWork != null"> comps_id = #{compsIdmodulesWork} </if>
+         </set>
+      WHERE idx = #{idx}
+   </update>
+
+   <delete id="delete" parameterType="int">
+      DELETE FROM modules_work_comp
+       WHERE idx = #{idx}
+   </delete>
+
+</mapper>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.go.ngii.edu.main.modules.comp.mapper.CompMapper">
+
+   <resultMap type="kr.go.ngii.edu.main.modules.comp.model.Comp" id="CompMap">
+      <id property="idx" column="idx" />
+      <result property="compName" column="comp_name" />
+      <result property="compMetadata" column="comp_metadata" />
+      <result property="compThumbnail" column="comp_thumbnail" />
+   </resultMap>
+
+   <select id="get" parameterType="CompMap" resultMap="CompMap">
+      SELECT
+         idx,
+         comp_name,
+         comp_metadata,
+         comp_thumbnail
+      FROM comps
+      where idx = #{idx}
+   </select>
+
+   <select id="list" parameterType="CompMap" resultMap="CompMap">
+      SELECT
+      	 idx,
+         comp_name,
+         comp_metadata,
+         comp_thumbnail
+      FROM comps
+   </select>
+
+   <insert id="create" parameterType="CompMap">
+      <selectKey keyProperty="idx" resultType="int" order="BEFORE">
+         select nextval('comps_idx_seq'::regclass)
+      </selectKey>
+         INSERT INTO comps(
+            idx, comp_name, comp_metadata, comp_thumbnail
+         ) VALUES (
+            #{idx}, #{compName}, #{compMetadata}, #{compThumbnail}
+         )
+   </insert>
+
+
+   <update id="modify" parameterType="CompMap">
+      UPDATE comps
+         <set>
+            <if test="compName != null"> comp_name = #{compName}, </if>
+            <if test="compMetadata != null"> comp_metadata = #{compMetadata}, </if>
+            <if test="compThumbnail != null"> comp_thumbnail = #{compThumbnail} </if>
+         </set>
+      WHERE idx = #{idx}
+   </update>
+
+   <delete id="delete" parameterType="int">
+      DELETE FROM comps
+       WHERE idx = #{idx}
+   </delete>
+
+</mapper>

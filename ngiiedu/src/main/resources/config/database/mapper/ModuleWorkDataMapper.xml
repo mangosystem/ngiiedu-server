@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.go.ngii.edu.main.modules.course.mapper.ModuleWorkDataMapper">
+
+   <resultMap type="kr.go.ngii.edu.main.modules.course.model.ModuleWorkData" id="ModuleWorkDataMap">
+      <id property="idx" column="idx" />
+      <result property="moduleId" column="module_id" />
+      <result property="moduleWorkOutputName" column="module_work_data_name" />
+      <result property="moduleWorkOutputPath" column="module_work_data_path" />
+      <result property="moduleWorkOutputDivision" column="module_work_data_division" />
+      <result property="moduleWorkSeq" column="module_work_seq" />      
+   </resultMap>
+
+   <select id="get" parameterType="ModuleWorkDataMap" resultMap="ModuleWorkDataMap">
+      SELECT
+         idx,
+         module_id,
+         module_work_data_name,
+         module_work_data_path,
+         module_work_data_division,
+         module_work_seq
+      FROM modules_work_data
+      where idx = #{idx}
+   </select>
+
+   <select id="list" parameterType="ModuleWorkDataMap" resultMap="ModuleWorkDataMap">
+      SELECT
+      	 idx,
+         module_id,
+         module_work_data_name,
+         module_work_data_path,
+         module_work_data_division,
+         module_work_seq
+      FROM modules_work_data
+   </select>
+
+   <insert id="create" parameterType="ModuleWorkDataMap">
+      <selectKey keyProperty="idx" resultType="int" order="BEFORE">
+         select nextval('modules_work_data_idx_seq'::regclass)
+      </selectKey>
+         INSERT INTO modules_work_data(
+            idx, module_id, module_work_data_name, module_work_data_path, module_work_data_division, module_work_seq
+         ) VALUES (
+            #{idx}, #{moduleId}, #{moduleWorkOutputName}, #{moduleWorkOutputPath}, #{moduleWorkOutputDivision}, #{moduleWorkSeq}
+         )
+   </insert>
+
+
+   <update id="modify" parameterType="ModuleWorkDataMap">
+      UPDATE modules_work_data
+         <set>
+            <if test="moduleId != null"> module_id = #{moduleId}, </if>
+            <if test="moduleWorkOutputName != null"> module_work_data_name = #{moduleWorkOutputName}, </if>
+            <if test="moduleWorkOutputPath != null"> module_work_data_path = #{moduleWorkOutputPath}, </if>
+            <if test="moduleWorkOutputDivision != null"> module_work_data_division = #{moduleWorkOutputDivision}, </if>
+            <if test="moduleWorkSeq != null"> module_work_seq = #{moduleWorkSeq} </if>
+         </set>
+      WHERE idx = #{idx}
+   </update>
+
+   <delete id="delete" parameterType="int">
+      DELETE FROM modules_work_data
+       WHERE idx = #{idx}
+   </delete>
+
+</mapper>
