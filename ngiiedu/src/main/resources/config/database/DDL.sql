@@ -30,7 +30,7 @@ CREATE TABLE authkeys
 	-- 고유키
 	idx serial NOT NULL UNIQUE,
 	-- 인증키
-	aythkey char(6) NOT NULL UNIQUE,
+	authkey char(6) NOT NULL UNIQUE,
 	PRIMARY KEY (idx)
 ) WITHOUT OIDS;
 
@@ -367,7 +367,7 @@ ALTER TABLE works_output
 
 COMMENT ON TABLE authkeys IS '팀인증키';
 COMMENT ON COLUMN authkeys.idx IS '고유키';
-COMMENT ON COLUMN authkeys.aythkey IS '인증키';
+COMMENT ON COLUMN authkeys.authkey IS '인증키';
 COMMENT ON TABLE bbs_faq IS 'FAQ';
 COMMENT ON COLUMN bbs_faq.idx IS '고유키';
 COMMENT ON TABLE bbs_pds IS '자료실';

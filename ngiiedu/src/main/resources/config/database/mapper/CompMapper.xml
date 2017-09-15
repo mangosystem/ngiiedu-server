@@ -11,7 +11,7 @@
       <result property="compThumbnail" column="comp_thumbnail" />
    </resultMap>
 
-   <select id="get" parameterType="CompMap" resultMap="CompMap">
+   <select id="get" parameterMap="CompMap" resultMap="CompMap">
       SELECT
          idx,
          comp_name,
@@ -21,7 +21,7 @@
       where idx = #{idx}
    </select>
 
-   <select id="list" parameterType="CompMap" resultMap="CompMap">
+   <select id="list" parameterMap="CompMap" resultMap="CompMap">
       SELECT
       	 idx,
          comp_name,
@@ -30,7 +30,7 @@
       FROM comps
    </select>
 
-   <insert id="create" parameterType="CompMap">
+   <insert id="create" parameterMap="CompMap">
       <selectKey keyProperty="idx" resultType="int" order="BEFORE">
          select nextval('comps_idx_seq'::regclass)
       </selectKey>
@@ -42,7 +42,7 @@
    </insert>
 
 
-   <update id="modify" parameterType="CompMap">
+   <update id="modify" parameterMap="CompMap">
       UPDATE comps
          <set>
             <if test="compName != null"> comp_name = #{compName}, </if>

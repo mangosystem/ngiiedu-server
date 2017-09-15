@@ -13,7 +13,7 @@
 		<result property="pinogioOutputId" column="pinogio_output_id" />
 	</resultMap>
 
-	<select id="get" parameterType="workOutputMap" resultMap="workOutputMap">
+	<select id="get" parameterMap="workOutputMap" resultMap="workOutputMap">
 		SELECT
 			idx,
 			work_id,
@@ -25,7 +25,7 @@
 		where idx = #{idx}
 	</select>
 
-	<select id="list" parameterType="workOutputMap" resultMap="workOutputMap">
+	<select id="list" parameterMap="workOutputMap" resultMap="workOutputMap">
 		SELECT
 			idx,
 			work_id,
@@ -36,7 +36,7 @@
 		FROM works_output
 	</select>
 
-	<insert id="create" parameterType="workOutputMap">
+	<insert id="create" parameterMap="workOutputMap">
 		<selectKey keyProperty="idx" resultType="int" order="BEFORE">
 			select nextval('works_output_idx_seq'::regclass)
 		</selectKey>
@@ -47,7 +47,7 @@
 			)
 	</insert>
 
-	<update id="modify" parameterType="workOutputMap">
+	<update id="modify" parameterMap="workOutputMap">
 		UPDATE works_output
 			<set>
 				<if test="workId != null"> work_id = #{workId}, </if>

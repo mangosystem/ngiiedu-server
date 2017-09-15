@@ -10,7 +10,7 @@
 		<result property="authkey" column="authkey" />
 	</resultMap>
 
-	<select id="get" parameterType="teamMap" resultMap="teamMap">
+	<select id="get" parameterMap="teamMap" resultMap="teamMap">
 		SELECT
 			idx,
 			work_id,
@@ -19,7 +19,7 @@
 		where idx = #{idx}
 	</select>
 
-	<select id="list" parameterType="teamMap" resultMap="teamMap">
+	<select id="list" parameterMap="teamMap" resultMap="teamMap">
 		SELECT
 			idx,
 			work_id,
@@ -28,7 +28,7 @@
 		where idx = #{idx}
 	</select>
 
-	<insert id="create" parameterType="teamMap">
+	<insert id="create" parameterMap="teamMap">
 		<selectKey keyProperty="idx" resultType="int" order="BEFORE">
 			select nextval('teams_idx_seq'::regclass)
 		</selectKey>
@@ -39,7 +39,7 @@
 			)
 	</insert>
 
-	<update id="modify" parameterType="teamMap">
+	<update id="modify" parameterMap="teamMap">
 		UPDATE teams
 			<set>
 				<if test="workId != null"> work_id = #{workId}, </if>

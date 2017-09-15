@@ -7,10 +7,10 @@
    <resultMap type="kr.go.ngii.edu.main.modules.course.model.ModuleWorkComp" id="ModuleWorkCompMap">
       <id property="idx" column="idx" />
       <result property="moduleWorkId" column="module_work_id" />
-      <result property="compsIdmodulesWork" column="comps_id" />
+      <result property="compsId" column="comps_id" />
    </resultMap>
 
-   <select id="get" parameterType="ModuleWorkCompMap" resultMap="ModuleWorkCompMap">
+   <select id="get" parameterMap="ModuleWorkCompMap" resultMap="ModuleWorkCompMap">
       SELECT
          idx,
          module_work_id,
@@ -19,7 +19,7 @@
       where idx = #{idx}
    </select>
 
-   <select id="list" parameterType="ModuleWorkCompMap" resultMap="ModuleWorkCompMap">
+   <select id="list" parameterMap="ModuleWorkCompMap" resultMap="ModuleWorkCompMap">
       SELECT
       	 idx,
          module_work_id,
@@ -27,7 +27,7 @@
       FROM modules_work_comp
    </select>
 
-   <insert id="create" parameterType="ModuleWorkCompMap">
+   <insert id="create" parameterMap="ModuleWorkCompMap">
       <selectKey keyProperty="idx" resultType="int" order="BEFORE">
          select nextval('modules_work_comp_idx_seq'::regclass)
       </selectKey>
@@ -39,7 +39,7 @@
    </insert>
 
 
-   <update id="modify" parameterType="ModuleWorkCompMap">
+   <update id="modify" parameterMap="ModuleWorkCompMap">
       UPDATE modules_work_comp
          <set>
             <if test="moduleWorkId != null"> module_work_id = #{moduleWorkId}, </if>

@@ -13,7 +13,7 @@
 		<result property="courseCreateDate" column="course_create_date" />
 	</resultMap>
 
-	<select id="get" parameterType="courseMap" resultMap="courseMap">
+	<select id="get" parameterMap="courseMap" resultMap="courseMap">
 		SELECT
 			idx,
 			module_id,
@@ -25,7 +25,7 @@
 		where idx = #{idx}
 	</select>
 
-	<select id="list" parameterType="courseMap" resultMap="courseMap">
+	<select id="list" parameterMap="courseMap" resultMap="courseMap">
 		SELECT
 			idx,
 			module_id,
@@ -36,7 +36,7 @@
 		FROM courses
 	</select>
 
-	<insert id="create" parameterType="courseMap">
+	<insert id="create" parameterMap="courseMap">
 		<selectKey keyProperty="idx" resultType="int" order="BEFORE">
 			select nextval('courses_idx_seq'::regclass)
 		</selectKey>
@@ -47,7 +47,7 @@
 			)
 	</insert>
 
-	<update id="modify" parameterType="courseMap">
+	<update id="modify" parameterMap="courseMap">
 		UPDATE courses
 			<set>
 				<if test="moduleId != null"> module_id = #{moduleId}, </if>

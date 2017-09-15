@@ -11,7 +11,7 @@
 		<result property="userId" column="user_id" />
 	</resultMap>
 
-	<select id="get" parameterType="memberMap" resultMap="memberMap">
+	<select id="get" parameterMap="memberMap" resultMap="memberMap">
 		SELECT
 			idx,
 			team_status,
@@ -21,7 +21,7 @@
 		where idx = #{idx}
 	</select>
 
-	<select id="list" parameterType="memberMap" resultMap="memberMap">
+	<select id="list" parameterMap="memberMap" resultMap="memberMap">
 		SELECT
 			idx,
 			team_status,
@@ -30,7 +30,7 @@
 		FROM members
 	</select>
 
-	<insert id="create" parameterType="memberMap">
+	<insert id="create" parameterMap="memberMap">
 		<selectKey keyProperty="idx" resultType="int" order="BEFORE">
 			select nextval('members_idx_seq'::regclass)
 		</selectKey>
@@ -41,7 +41,7 @@
 			)
 	</insert>
 
-	<update id="modify" parameterType="memberMap">
+	<update id="modify" parameterMap="memberMap">
 		UPDATE members
 			<set>
 				<if test="teamStatus != null"> member_name = #{memberName}, </if>

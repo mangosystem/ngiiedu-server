@@ -13,7 +13,7 @@
       <result property="moduleData" column="module_data" />
    </resultMap>
 
-   <select id="get" parameterType="ModuleMap" resultMap="ModuleMap">
+   <select id="get" parameterMap="ModuleMap" resultMap="ModuleMap">
       SELECT
          idx,
          module_name,
@@ -25,7 +25,7 @@
       where idx = #{idx}
    </select>
 
-   <select id="list" parameterType="ModuleMap" resultMap="ModuleMap">
+   <select id="list" parameterMap="ModuleMap" resultMap="ModuleMap">
       SELECT
       	 idx,
          module_name,
@@ -36,7 +36,7 @@
       FROM modules
    </select>
 
-   <insert id="create" parameterType="ModuleMap">
+   <insert id="create" parameterMap="ModuleMap">
       <selectKey keyProperty="idx" resultType="int" order="BEFORE">
          select nextval('modules_idx_seq'::regclass)
       </selectKey>
@@ -48,7 +48,7 @@
    </insert>
 
 
-   <update id="modify" parameterType="ModuleMap">
+   <update id="modify" parameterMap="ModuleMap">
       UPDATE modules
          <set>
             <if test="moduleName != null"> module_name = #{moduleName}, </if>

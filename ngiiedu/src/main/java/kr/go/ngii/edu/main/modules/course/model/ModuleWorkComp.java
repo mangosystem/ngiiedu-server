@@ -23,7 +23,7 @@ public class ModuleWorkComp implements Serializable {
 	private Integer moduleWorkId;
 
 	/** 모듈과정. */
-	private ModuleWork compsIdmodulesWork;
+	private Integer compsId;
 
 	/**
 	 * 생성자.
@@ -72,11 +72,11 @@ public class ModuleWorkComp implements Serializable {
 	/**
 	 * 모듈과정을 설정합니다..
 	 * 
-	 * @param compsIdmodulesWork
+	 * @param compsId
 	 *            모듈과정
 	 */
-	public void setCompsIdmodulesWork(ModuleWork compsIdmodulesWork) {
-		this.compsIdmodulesWork = compsIdmodulesWork;
+	public void setcompsId(Integer compsId) {
+		this.compsId = compsId;
 	}
 
 	/**
@@ -84,8 +84,8 @@ public class ModuleWorkComp implements Serializable {
 	 * 
 	 * @return 모듈과정
 	 */
-	public ModuleWork getCompsIdmodulesWork() {
-		return this.compsIdmodulesWork;
+	public Integer getcompsId() {
+		return this.compsId;
 	}
 
 	/**

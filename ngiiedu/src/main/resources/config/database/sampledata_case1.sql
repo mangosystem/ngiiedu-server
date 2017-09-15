@@ -1,9 +1,9 @@
 -- 팀인증키
-INSERT INTO authkeys ( aythkey) VALUES ('인증키_1');
-INSERT INTO authkeys ( aythkey) VALUES ('인증키_2');
-INSERT INTO authkeys ( aythkey) VALUES ('인증키_3');
-INSERT INTO authkeys ( aythkey) VALUES ('인증키_4');
-INSERT INTO authkeys ( aythkey) VALUES ('인증키_5');
+INSERT INTO authkeys ( authkey) VALUES ('인증키_1');
+INSERT INTO authkeys ( authkey) VALUES ('인증키_2');
+INSERT INTO authkeys ( authkey) VALUES ('인증키_3');
+INSERT INTO authkeys ( authkey) VALUES ('인증키_4');
+INSERT INTO authkeys ( authkey) VALUES ('인증키_5');
 
 
 -- 코드테이블

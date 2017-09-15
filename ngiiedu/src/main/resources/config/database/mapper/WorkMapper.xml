@@ -14,7 +14,7 @@
 		<result property="pinogioLayerId" column="pinogio_layer_id" />
 	</resultMap>
 
-	<select id="get" parameterType="workMap" resultMap="workMap">
+	<select id="get" parameterMap="workMap" resultMap="workMap">
 		SELECT
 			idx,
 			course_id,
@@ -27,7 +27,7 @@
 		where idx = #{idx}
 	</select>
 
-	<select id="list" parameterType="workMap" resultMap="workMap">
+	<select id="list" parameterMap="workMap" resultMap="workMap">
 		SELECT
 			idx,
 			course_id,
@@ -39,7 +39,7 @@
 		FROM works
 	</select>
 
-	<insert id="create" parameterType="workMap">
+	<insert id="create" parameterMap="workMap">
 		<selectKey keyProperty="idx" resultType="int" order="BEFORE">
 			select nextval('works_idx_seq'::regclass)
 		</selectKey>
@@ -51,7 +51,7 @@
 	    	)
 	</insert>
 
-	<update id="modify" parameterType="workMap">
+	<update id="modify" parameterMap="workMap">
 		UPDATE works
 			<set>
 				<if test="courseId != null"> module_id = #{moduleId}, </if>

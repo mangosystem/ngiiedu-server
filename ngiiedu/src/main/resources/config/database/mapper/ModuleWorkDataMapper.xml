@@ -13,7 +13,7 @@
       <result property="moduleWorkSeq" column="module_work_seq" />      
    </resultMap>
 
-   <select id="get" parameterType="ModuleWorkDataMap" resultMap="ModuleWorkDataMap">
+   <select id="get" parameterMap="ModuleWorkDataMap" resultMap="ModuleWorkDataMap">
       SELECT
          idx,
          module_id,
@@ -25,7 +25,7 @@
       where idx = #{idx}
    </select>
 
-   <select id="list" parameterType="ModuleWorkDataMap" resultMap="ModuleWorkDataMap">
+   <select id="list" parameterMap="ModuleWorkDataMap" resultMap="ModuleWorkDataMap">
       SELECT
       	 idx,
          module_id,
@@ -36,7 +36,7 @@
       FROM modules_work_data
    </select>
 
-   <insert id="create" parameterType="ModuleWorkDataMap">
+   <insert id="create" parameterMap="ModuleWorkDataMap">
       <selectKey keyProperty="idx" resultType="int" order="BEFORE">
          select nextval('modules_work_data_idx_seq'::regclass)
       </selectKey>
@@ -48,7 +48,7 @@
    </insert>
 
 
-   <update id="modify" parameterType="ModuleWorkDataMap">
+   <update id="modify" parameterMap="ModuleWorkDataMap">
       UPDATE modules_work_data
          <set>
             <if test="moduleId != null"> module_id = #{moduleId}, </if>

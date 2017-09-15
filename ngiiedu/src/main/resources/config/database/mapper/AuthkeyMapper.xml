@@ -9,7 +9,7 @@
 		<result property="authkey" column="authkey" />
 	</resultMap>
 
-	<select id="get" parameterType="authkeyMap" resultMap="authkeyMap">
+	<select id="get" parameterMap="authkeyMap" resultMap="authkeyMap">
 		SELECT
 			idx,
 			authkey
@@ -17,14 +17,14 @@
 		where idx = #{idx}
 	</select>
 
-	<select id="list" parameterType="authkeyMap" resultMap="authkeyMap">
+	<select id="list" parameterMap="authkeyMap" resultMap="authkeyMap">
 		SELECT
 			idx,
 			authkey
 		FROM authkeys
 	</select>
 
-	<insert id="create" parameterType="authkeyMap">
+	<insert id="create" parameterMap="authkeyMap">
 		<selectKey keyProperty="idx" resultType="int" order="BEFORE">
 			select nextval('authkeys_idx_seq'::regclass)
 		</selectKey>
@@ -35,10 +35,10 @@
 			)
 	</insert>
 
-	<update id="modify" parameterType="authkeyMap">
+	<update id="modify" parameterMap="authkeyMap">
 		UPDATE authkeys
 			<set>
-				<if test="authkey ! =null"> module_id = #{authkey} </if>
+				<if test="authkey ! =null"> authkey = #{authkey} </if>
 			</set>
 		WHERE idx = #{idx}
 	</update>

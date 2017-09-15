@@ -13,7 +13,7 @@
       <result property="userDivision" column="user_division" />
    </resultMap>
 
-   <select id="get" parameterType="userMap" resultMap="userMap">
+   <select id="get" parameterMap="userMap" resultMap="userMap">
       SELECT
          idx,
          userid,
@@ -26,7 +26,7 @@
    </select>
 
 
-   <select id="list" parameterType="userMap" resultMap="userMap">
+   <select id="list" parameterMap="userMap" resultMap="userMap">
       SELECT
          idx,
          userid,
@@ -37,7 +37,7 @@
       FROM users
    </select>
 
-   <insert id="create" parameterType="userMap">
+   <insert id="create" parameterMap="userMap">
       <selectKey keyProperty="idx" resultType="int" order="BEFORE">
          select nextval('users_idx_seq'::regclass)
       </selectKey>
@@ -48,7 +48,7 @@
          )
    </insert>
 
-   <update id="modify" parameterType="userMap">
+   <update id="modify" parameterMap="userMap">
       UPDATE users
          <set>
             <if test="userid != null"> userid = #{userid}, </if>

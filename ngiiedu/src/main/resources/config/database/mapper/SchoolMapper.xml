@@ -10,7 +10,7 @@
 		<result property="schoolName" column="school_name" />
 	</resultMap>
 
-	<select id="get" parameterType="schoolMap" resultMap="schoolMap">
+	<select id="get" parameterMap="schoolMap" resultMap="schoolMap">
 		SELECT
 			idx,
 			school_id,
@@ -19,7 +19,7 @@
 		where idx = #{idx}
 	</select>
 
-	<select id="list" parameterType="schoolMap" resultMap="schoolMap">
+	<select id="list" parameterMap="schoolMap" resultMap="schoolMap">
 		SELECT
 			idx,
 			school_id,
@@ -27,7 +27,7 @@
 		FROM schools
 	</select>
 
-	<insert id="create" parameterType="schoolMap">
+	<insert id="create" parameterMap="schoolMap">
 		<selectKey keyProperty="idx" resultType="int" order="BEFORE">
 			select nextval('schools_idx_seq'::regclass)
 		</selectKey>
@@ -38,7 +38,7 @@
 			)
 	</insert>
 
-	<update id="modify" parameterType="schoolMap">
+	<update id="modify" parameterMap="schoolMap">
 		UPDATE schools
 			<set>
 				<if test="schoolID != null"> module_id = #{moduleId}, </if>
