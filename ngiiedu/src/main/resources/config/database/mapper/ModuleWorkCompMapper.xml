@@ -34,7 +34,7 @@
          INSERT INTO modules_work_comp(
             idx, module_work_id, comps_id
          ) VALUES (
-            #{idx}, #{moduleWorkId}, #{compsIdmodulesWork}
+            #{idx}, #{moduleWorkId}, #{compsId}
          )
    </insert>
 
@@ -43,7 +43,7 @@
       UPDATE modules_work_comp
          <set>
             <if test="moduleWorkId != null"> module_work_id = #{moduleWorkId}, </if>
-            <if test="compsIdmodulesWork != null"> comps_id = #{compsIdmodulesWork} </if>
+            <if test="compsId != null"> comps_id = #{compsId} </if>
          </set>
       WHERE idx = #{idx}
    </update>

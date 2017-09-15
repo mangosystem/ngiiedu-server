@@ -54,12 +54,12 @@
 	<update id="modify" parameterMap="workMap">
 		UPDATE works
 			<set>
-				<if test="courseId != null"> module_id = #{moduleId}, </if>
-				<if test="workName != null"> course_name = #{courseName}, </if>
-				<if test="workDesc != null"> course_desc = #{courseDesc}, </if>
-				<if test="workSeq != null"> course_create_id = #{courseCreateId}, </if>
-				<if test="workTeamDivision != null"> course_create_date = #{courseCreateDate} </if>
-				<if test="pinogioLayerId != null"> course_create_date = #{courseCreateDate} </if>
+				<if test="courseId != null"> course_id = #{courseId}, </if>
+				<if test="workName != null"> work_name = #{workName}, </if>
+				<if test="workDesc != null"> work_desc = #{workDesc}, </if>
+				<if test="workSeq != null"> work_seq = #{workSeq}, </if>
+				<if test="workTeamDivision != null"> work_team_division = #{workTeamDivision}, </if>
+				<if test="pinogioLayerId != null"> pinogio_layer_id = #{pinogioLayerId} </if>
 			</set>
 		WHERE idx = #{idx}
 	</update>

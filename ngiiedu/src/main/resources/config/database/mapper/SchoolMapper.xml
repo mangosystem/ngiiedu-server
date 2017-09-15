@@ -34,15 +34,15 @@
 			INSERT INTO schools(
 				idx, school_id, school_name
 			) VALUES (
-				#{idx}, #{school_id}, #{school_name}
+				#{idx}, #{schoolId}, #{schoolName}
 			)
 	</insert>
 
 	<update id="modify" parameterMap="schoolMap">
 		UPDATE schools
 			<set>
-				<if test="schoolID != null"> module_id = #{moduleId}, </if>
-				<if test="schoolName != null"> course_name = #{courseName} </if>
+				<if test="schoolID != null"> school_id = #{schoolId}, </if>
+				<if test="schoolName != null"> school_name = #{schoolName} </if>
 			</set>
 		WHERE idx = #{idx}
 	</update>

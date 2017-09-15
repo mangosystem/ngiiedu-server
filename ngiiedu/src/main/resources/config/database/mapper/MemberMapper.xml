@@ -44,9 +44,9 @@
 	<update id="modify" parameterMap="memberMap">
 		UPDATE members
 			<set>
-				<if test="teamStatus != null"> member_name = #{memberName}, </if>
-				<if test="teamId != null"> member_desc = #{memberDesc}, </if>
-				<if test="userId != null"> member_create_id = #{memberCreateId} </if>
+				<if test="teamStatus != null"> team_status = #{teamStatus}, </if>
+				<if test="teamId != null"> team_id = #{teamId}, </if>
+				<if test="userId != null"> user_id = #{userId} </if>
 			</set>
 		WHERE idx = #{idx}
 	</update>
