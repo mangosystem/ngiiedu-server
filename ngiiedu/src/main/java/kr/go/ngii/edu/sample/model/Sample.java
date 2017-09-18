@@ -2,8 +2,8 @@ package kr.go.ngii.edu.sample.model;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name = "user")
-public class User {
+@XmlRootElement(name = "sample")
+public class Sample {
 
 	private Integer seqIdx 	= null;
 	private String userid 	= null;

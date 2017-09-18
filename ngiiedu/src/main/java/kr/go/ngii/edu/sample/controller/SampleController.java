@@ -10,14 +10,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import kr.go.ngii.edu.sample.model.User;
-import kr.go.ngii.edu.sample.service.UserService;
+import kr.go.ngii.edu.sample.model.Sample;
+import kr.go.ngii.edu.sample.service.SampleService;
 
 @Controller
 public class SampleController {
 	
 	@Autowired
-	private UserService userService;
+	private SampleService sampleService;
 	
 	
 	@RequestMapping(value="/message", method=RequestMethod.GET)
@@ -29,14 +29,14 @@ public class SampleController {
 	}
 	
 	@RequestMapping(value="/user", method=RequestMethod.GET)
-	public @ResponseBody ResponseEntity<User> getUser() {
-		return new ResponseEntity<User>(userService.getList().get(0), HttpStatus.OK);
+	public @ResponseBody ResponseEntity<Sample> getUser() {
+		return new ResponseEntity<Sample>(sampleService.getList().get(0), HttpStatus.OK);
 	}
 	
 	@RequestMapping(value="/users", method=RequestMethod.GET)
-	public @ResponseBody ResponseEntity<List<User>> getUsers() {
+	public @ResponseBody ResponseEntity<List<Sample>> getUsers() {
 		
-		return new ResponseEntity<List<User>>(userService.getList(), HttpStatus.OK);
+		return new ResponseEntity<List<Sample>>(sampleService.getList(), HttpStatus.OK);
 	}
 	
 }

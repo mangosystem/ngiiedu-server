@@ -4,11 +4,11 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import kr.go.ngii.edu.sample.model.User;
+import kr.go.ngii.edu.sample.model.Sample;
 
 @Mapper
-public interface UserMapper {
+public interface SampleMapper {
 
-	List<User> getUsers();
+	List<Sample> getUsers();
 
 }
