@@ -73,12 +73,12 @@
 			</export_ddl_setting>
 			<export_excel_setting>
 				<category_id>null</category_id>
-				<output_path>C:\Users\seojun\Desktop\ERD.xls</output_path>
+				<output_path>C:\Users\USER\git\ngiiedu-server\ngiiedu\src\main\resources\config\database\테이블명세서.xls</output_path>
 				<template></template>
 				<template_path></template_path>
 				<used_default_template_lang>en</used_default_template_lang>
 				<image_output></image_output>
-				<is_open_after_saved>true</is_open_after_saved>
+				<is_open_after_saved>false</is_open_after_saved>
 				<is_put_diagram>true</is_put_diagram>
 				<is_use_logical_name>true</is_use_logical_name>
 			</export_excel_setting>
@@ -103,7 +103,7 @@
 			</export_java_setting>
 			<export_testdata_setting>
 				<file_encoding>UTF-8</file_encoding>
-				<file_path>C:\Users\USER\Desktop\새 폴더</file_path>
+				<file_path>src\main\resources\config\database\sampledata_case1.sql</file_path>
 				<format>0</format>
 			</export_testdata_setting>
 		</export_setting>
@@ -135,7 +135,7 @@
 			</connections>
 			<display>false</display>
 			<creation_date>2017-09-08 09:39:47</creation_date>
-			<updated_date>2017-09-26 18:52:59</updated_date>
+			<updated_date>2017-09-26 18:56:03</updated_date>
 			<model_property>
 				<name>프로젝트명</name>
 				<value></value>
