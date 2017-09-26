@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.go.ngii.edu.main.modules.course.mapper.ModuleWorkMapper">
+
+	<resultMap type="kr.go.ngii.edu.main.modules.course.model.ModuleWork" id="moduleWorkMap">
+		<id property="idx" column="idx" />
+		<result property="moduleId" column="module_id" />
+		<result property="moduleWorkName" column="module_work_name" />
+		<result property="moduleWorkSeq" column="module_work_seq" />
+		<result property="moduleWorkCourseType" column="module_work_course_type" />
+		<result property="createDate" column="create_date" />
+		<result property="modifyDate" column="modify_date" />
+		<result property="moduleWorkMetadata" column="module_work_metadata" />
+	</resultMap>
+	
+	<select id="list" parameterType="map" resultMap="moduleWorkMap">
+		SELECT
+			idx,
+			module_id,
+			module_work_name,
+			module_work_seq,
+			module_work_course_type,
+			create_date,
+			modify_date,
+			module_work_metadata
+		FROM modules_work
+		WHERE module_id = #{moduleId}
+		ORDER BY idx
+	</select>
+
+	<select id="get" parameterType="map" resultMap="moduleWorkMap">
+		SELECT
+			idx,
+			module_id,
+			module_work_name,
+			module_work_seq,
+			module_work_course_type,
+			create_date,
+			modify_date,
+			module_work_metadata
+		FROM modules_work
+		WHERE idx = #{idx}
+	</select>
+
+	<insert id="create" parameterType="map">
+		<selectKey keyProperty="idx" resultType="int" order="BEFORE">
+			SELECT nextval('modules_work_idx_seq'::regclass)
+		</selectKey>
+		INSERT INTO modules_work (
+			idx,
+			module_id,
+			module_work_name,
+			module_work_seq,
+			module_work_course_type,
+			create_date,
+			modify_date,
+			module_work_metadata
+		) VALUES (
+			#{idx}, 
+			#{moduleId}, 
+			#{moduleWorkName}, 
+			#{moduleWorkSeq},
+			#{moduleWorkCourseType},
+			#{createDate}, 
+			#{modifyDate},
+			#{moduleWorkMetadata}
+		)
+	</insert>
+
+	<update id="modify" parameterType="map">
+		UPDATE modules_work
+			module_id = #{moduleId},
+			module_work_name =  #{moduleWorkName},
+			module_work_seq = #{moduleWorkSeq},
+			module_work_course_type = #{moduleWorkCourseType},
+			modify_date = #{modifyDate},
+			module_work_metadata = #{moduleWorkMetadata}
+		WHERE idx = #{idx}
+	</update>
+
+	<delete id="delete" parameterType="int">
+		DELETE FROM modules_work
+		WHERE module_id = #{moduleId} AND idx = #{moduleWorkId}
+	</delete>
+
+</mapper>

@@ -16,15 +16,20 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.go.ngii.edu.controller.rest.BaseController;
 import kr.go.ngii.edu.controller.rest.ResponseData;
+import kr.go.ngii.edu.main.modules.course.model.ModuleWork;
+import kr.go.ngii.edu.main.modules.course.service.ModuleWorkService;
 import kr.go.ngii.edu.main.modules.module.model.Module;
 import kr.go.ngii.edu.main.modules.module.service.ModuleService;
 
 @Controller
-@RequestMapping("/v1/modules")
+@RequestMapping("/api/v1/modules")
 public class ModuleController extends BaseController {
 
 	@Autowired
 	private ModuleService moduleService;
+
+	@Autowired
+	private ModuleWorkService workService;
 
 
 	/**
@@ -36,11 +41,19 @@ public class ModuleController extends BaseController {
 	 */
 	@RequestMapping(value="", method=RequestMethod.GET)
 	public @ResponseBody ResponseEntity<ResponseData> list(
-			@RequestParam(value="offset", required=false, defaultValue="0") int offset, 
-			@RequestParam(value="limit", required=false, defaultValue="10") int limit, 
+			@RequestParam(value="offset", required=false, defaultValue="0") Integer offset, 
+			@RequestParam(value="limit", required=false, defaultValue="0") Integer limit, 
 			HttpSession session) throws Exception {
-		
-		List<Module> list = moduleService.list(offset, limit);
+
+		List<Module> list = null;
+
+		if (offset==0 && limit==0) {
+			list = moduleService.list();
+
+		} else {
+			list = moduleService.list(offset, limit);
+		}
+
 		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
 	}
 
@@ -99,7 +112,7 @@ public class ModuleController extends BaseController {
 		Module result = moduleService.modify(moduleId, moduleName, moduleMetadata);
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
-	
+
 	/**
 	 * 모듈 삭제하기
 	 * 
@@ -112,27 +125,31 @@ public class ModuleController extends BaseController {
 	public @ResponseBody ResponseEntity<ResponseData> delete(
 			@PathVariable("moduleId") Integer moduleId,
 			HttpSession session) throws Exception {
-		
+
 		boolean result = moduleService.delete(moduleId);
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
-	
-	
-//	@RequestMapping(value="/{moduleId}/moduleWork", method=RequestMethod.GET)
-//	public @ResponseBody ResponseEntity<ResponseData> workList(
-//			@PathVariable("moduleId") Integer moduleId,
-//			HttpSession session) throws Exception {
-//
-//		return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
-//	}
-//	
-//	@RequestMapping(value="/{moduleId}/moduleWork/{moduleWorkId}", method=RequestMethod.GET)
-//	public @ResponseBody ResponseEntity<ResponseData> workGet(
-//			@PathVariable("moduleId") Integer moduleId,
-//			@PathVariable("moduleWorkId") Integer moduleWorkId,
-//			HttpSession session) throws Exception {
-//
-//		return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
-//	}
+
+
+	@RequestMapping(value="/{moduleId}/moduleWork", method=RequestMethod.GET)
+	public @ResponseBody ResponseEntity<ResponseData> workList(
+			@PathVariable("moduleId") Integer moduleId,
+			HttpSession session) throws Exception {
+
+		List<ModuleWork> list = workService.list(moduleId);
+
+		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
+	}
+
+	@RequestMapping(value="/{moduleId}/moduleWork/{moduleWorkId}", method=RequestMethod.GET)
+	public @ResponseBody ResponseEntity<ResponseData> workGet(
+			@PathVariable("moduleId") Integer moduleId,
+			@PathVariable("moduleWorkId") Integer moduleWorkId,
+			HttpSession session) throws Exception {
+
+		ModuleWork moduleWork = workService.get(moduleId, moduleWorkId);
+
+		return new ResponseEntity<ResponseData>(responseBody(moduleWork), HttpStatus.OK);
+	}
 
 }

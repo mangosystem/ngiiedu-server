@@ -21,7 +21,7 @@
 			module_metadata
 		FROM modules
 		<if test="offset != null and limit != null">
-		OFFSET ${offset} LIMIT ${limit}
+			OFFSET ${offset} LIMIT ${limit}
 		</if>
 	</select>
 
@@ -56,12 +56,10 @@
 	</insert>
 
 	<update id="modify" parameterType="map">
-		UPDATE modules
-		<set>
-			<if test="moduleName != null"> module_name = #{moduleName},</if>
-			<if test="moduleMetadata != null"> module_metadata = #{moduleMetadata},</if>
-			<if test="modifyDate != null"> modify_date = #{modifyDate}</if>
-		</set>
+		UPDATE modules 
+			module_name = #{moduleName}, 
+			module_metadata = #{moduleMetadata}, 
+			modify_date = #{modifyDate} 
 		WHERE idx = #{idx}
 	</update>
 
@@ -69,5 +67,5 @@
 		DELETE FROM modules
 		WHERE idx = #{idx}
 	</delete>
-	
+
 </mapper>
