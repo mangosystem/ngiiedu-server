@@ -13,6 +13,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "school")
 public class School implements Serializable {
 
+
 	/** serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
@@ -24,6 +25,54 @@ public class School implements Serializable {
 
 	/** 학교명. */
 	private String schoolName;
+
+	/** 학교급구분. */
+	private String schoolLevel;
+
+	/** 운영상태. */
+	private String schoolStatus;
+
+	/** 교육지원청명. */
+	private String schoolEduOfficeName;
+
+	/** 교육지원청코드. */
+	private Integer schoolEduOfficeCode;
+
+	/** 시도교육청명. */
+	private String schoolSidoOfficeName;
+
+	/** 시도교육청코드. */
+	private Integer schoolSidoOfficeCode;
+
+	/** 소재지지번주소. */
+	private String schoolAddr;
+
+	/** 설립일자. */
+	private String schoolBuildDate;
+
+	/** 설립형태. */
+	private String schoolEstablishType;
+
+	/** 위도. */
+	private String schoolLat;
+
+	/** 경도. */
+	private String schoolLon;
+
+	/** 본교분교구분. */
+	private String schoolBranchType;
+
+	/** 소재지도로명주소. */
+	private String schoolAddrRoad;
+
+	/** 데이터기준일자. */
+	private String schoolReferenceDate;
+
+	/** 생성일자. */
+	private String schoolDataCreateDate;
+
+	/** 변경일자. */
+	private String schoolDateEditDate;
 
 	/**
 	 * 생성자.
@@ -86,6 +135,310 @@ public class School implements Serializable {
 	 */
 	public String getSchoolName() {
 		return this.schoolName;
+	}
+
+	/**
+	 * 학교급구분을 설정합니다..
+	 * 
+	 * @param schoolLevel
+	 *            학교급구분
+	 */
+	public void setSchoolLevel(String schoolLevel) {
+		this.schoolLevel = schoolLevel;
+	}
+
+	/**
+	 * 학교급구분을 가져옵니다..
+	 * 
+	 * @return 학교급구분
+	 */
+	public String getSchoolLevel() {
+		return this.schoolLevel;
+	}
+
+	/**
+	 * 운영상태을 설정합니다..
+	 * 
+	 * @param schoolStatus
+	 *            운영상태
+	 */
+	public void setSchoolStatus(String schoolStatus) {
+		this.schoolStatus = schoolStatus;
+	}
+
+	/**
+	 * 운영상태을 가져옵니다..
+	 * 
+	 * @return 운영상태
+	 */
+	public String getSchoolStatus() {
+		return this.schoolStatus;
+	}
+
+	/**
+	 * 교육지원청명을 설정합니다..
+	 * 
+	 * @param schoolEduOfficeName
+	 *            교육지원청명
+	 */
+	public void setSchoolEduOfficeName(String schoolEduOfficeName) {
+		this.schoolEduOfficeName = schoolEduOfficeName;
+	}
+
+	/**
+	 * 교육지원청명을 가져옵니다..
+	 * 
+	 * @return 교육지원청명
+	 */
+	public String getSchoolEduOfficeName() {
+		return this.schoolEduOfficeName;
+	}
+
+	/**
+	 * 교육지원청코드을 설정합니다..
+	 * 
+	 * @param schoolEduOfficeCode
+	 *            교육지원청코드
+	 */
+	public void setSchoolEduOfficeCode(Integer schoolEduOfficeCode) {
+		this.schoolEduOfficeCode = schoolEduOfficeCode;
+	}
+
+	/**
+	 * 교육지원청코드을 가져옵니다..
+	 * 
+	 * @return 교육지원청코드
+	 */
+	public Integer getSchoolEduOfficeCode() {
+		return this.schoolEduOfficeCode;
+	}
+
+	/**
+	 * 시도교육청명을 설정합니다..
+	 * 
+	 * @param schoolSidoOfficeName
+	 *            시도교육청명
+	 */
+	public void setSchoolSidoOfficeName(String schoolSidoOfficeName) {
+		this.schoolSidoOfficeName = schoolSidoOfficeName;
+	}
+
+	/**
+	 * 시도교육청명을 가져옵니다..
+	 * 
+	 * @return 시도교육청명
+	 */
+	public String getSchoolSidoOfficeName() {
+		return this.schoolSidoOfficeName;
+	}
+
+	/**
+	 * 시도교육청코드을 설정합니다..
+	 * 
+	 * @param schoolSidoOfficeCode
+	 *            시도교육청코드
+	 */
+	public void setSchoolSidoOfficeCode(Integer schoolSidoOfficeCode) {
+		this.schoolSidoOfficeCode = schoolSidoOfficeCode;
+	}
+
+	/**
+	 * 시도교육청코드을 가져옵니다..
+	 * 
+	 * @return 시도교육청코드
+	 */
+	public Integer getSchoolSidoOfficeCode() {
+		return this.schoolSidoOfficeCode;
+	}
+
+	/**
+	 * 소재지지번주소을 설정합니다..
+	 * 
+	 * @param schoolAddr
+	 *            소재지지번주소
+	 */
+	public void setSchoolAddr(String schoolAddr) {
+		this.schoolAddr = schoolAddr;
+	}
+
+	/**
+	 * 소재지지번주소을 가져옵니다..
+	 * 
+	 * @return 소재지지번주소
+	 */
+	public String getSchoolAddr() {
+		return this.schoolAddr;
+	}
+
+	/**
+	 * 설립일자을 설정합니다..
+	 * 
+	 * @param schoolBuildDate
+	 *            설립일자
+	 */
+	public void setSchoolBuildDate(String schoolBuildDate) {
+		this.schoolBuildDate = schoolBuildDate;
+	}
+
+	/**
+	 * 설립일자을 가져옵니다..
+	 * 
+	 * @return 설립일자
+	 */
+	public String getSchoolBuildDate() {
+		return this.schoolBuildDate;
+	}
+
+	/**
+	 * 설립형태을 설정합니다..
+	 * 
+	 * @param schoolEstablishType
+	 *            설립형태
+	 */
+	public void setSchoolEstablishType(String schoolEstablishType) {
+		this.schoolEstablishType = schoolEstablishType;
+	}
+
+	/**
+	 * 설립형태을 가져옵니다..
+	 * 
+	 * @return 설립형태
+	 */
+	public String getSchoolEstablishType() {
+		return this.schoolEstablishType;
+	}
+
+	/**
+	 * 위도을 설정합니다..
+	 * 
+	 * @param schoolLat
+	 *            위도
+	 */
+	public void setSchoolLat(String schoolLat) {
+		this.schoolLat = schoolLat;
+	}
+
+	/**
+	 * 위도을 가져옵니다..
+	 * 
+	 * @return 위도
+	 */
+	public String getSchoolLat() {
+		return this.schoolLat;
+	}
+
+	/**
+	 * 경도을 설정합니다..
+	 * 
+	 * @param schoolLon
+	 *            경도
+	 */
+	public void setSchoolLon(String schoolLon) {
+		this.schoolLon = schoolLon;
+	}
+
+	/**
+	 * 경도을 가져옵니다..
+	 * 
+	 * @return 경도
+	 */
+	public String getSchoolLon() {
+		return this.schoolLon;
+	}
+
+	/**
+	 * 본교분교구분을 설정합니다..
+	 * 
+	 * @param schoolBranchType
+	 *            본교분교구분
+	 */
+	public void setSchoolBranchType(String schoolBranchType) {
+		this.schoolBranchType = schoolBranchType;
+	}
+
+	/**
+	 * 본교분교구분을 가져옵니다..
+	 * 
+	 * @return 본교분교구분
+	 */
+	public String getSchoolBranchType() {
+		return this.schoolBranchType;
+	}
+
+	/**
+	 * 소재지도로명주소을 설정합니다..
+	 * 
+	 * @param schoolAddrRoad
+	 *            소재지도로명주소
+	 */
+	public void setSchoolAddrRoad(String schoolAddrRoad) {
+		this.schoolAddrRoad = schoolAddrRoad;
+	}
+
+	/**
+	 * 소재지도로명주소을 가져옵니다..
+	 * 
+	 * @return 소재지도로명주소
+	 */
+	public String getSchoolAddrRoad() {
+		return this.schoolAddrRoad;
+	}
+
+	/**
+	 * 데이터기준일자을 설정합니다..
+	 * 
+	 * @param schoolReferenceDate
+	 *            데이터기준일자
+	 */
+	public void setSchoolReferenceDate(String schoolReferenceDate) {
+		this.schoolReferenceDate = schoolReferenceDate;
+	}
+
+	/**
+	 * 데이터기준일자을 가져옵니다..
+	 * 
+	 * @return 데이터기준일자
+	 */
+	public String getSchoolReferenceDate() {
+		return this.schoolReferenceDate;
+	}
+
+	/**
+	 * 생성일자을 설정합니다..
+	 * 
+	 * @param schoolDataCreateDate
+	 *            생성일자
+	 */
+	public void setSchoolDataCreateDate(String schoolDataCreateDate) {
+		this.schoolDataCreateDate = schoolDataCreateDate;
+	}
+
+	/**
+	 * 생성일자을 가져옵니다..
+	 * 
+	 * @return 생성일자
+	 */
+	public String getSchoolDataCreateDate() {
+		return this.schoolDataCreateDate;
+	}
+
+	/**
+	 * 변경일자을 설정합니다..
+	 * 
+	 * @param schoolDateEditDate
+	 *            변경일자
+	 */
+	public void setSchoolDateEditDate(String schoolDateEditDate) {
+		this.schoolDateEditDate = schoolDateEditDate;
+	}
+
+	/**
+	 * 변경일자을 가져옵니다..
+	 * 
+	 * @return 변경일자
+	 */
+	public String getSchoolDateEditDate() {
+		return this.schoolDateEditDate;
 	}
 
 	/**

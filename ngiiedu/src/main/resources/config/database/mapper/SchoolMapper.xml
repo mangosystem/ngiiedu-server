@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.go.ngii.edu.main.school.mapper.SchoolMapper">
+
+	<resultMap type="kr.go.ngii.edu.main.school.model.School" id="schoolMap">
+		<id property="idx" column="idx" />
+		<result property="school_id" column="schoolId "/>
+		<result property="school_name" column="schoolName "/>
+		<result property="school_level" column="schoolLevel "/>
+		<result property="school_status" column="schoolStatus "/>
+		<result property="school_edu_office_name" column="schoolEduOfficeName "/>
+		<result property="school_edu_office_code" column="schoolEduOfficeCode "/>
+		<result property="school_sido_office_name" column="schoolSidoOfficeName "/>
+		<result property="school_sido_office_code" column="schoolSidoOfficeCode "/>
+		<result property="school_addr" column="schoolAddr "/>
+		<result property="school_build_date" column="schoolBuildDate "/>
+		<result property="school_establish_type" column="schoolEstablishType "/>
+		<result property="school_lat" column="schoolLat "/>
+		<result property="school_lon" column="schoolLon "/>
+		<result property="school_branch_type" column="schoolBranchType "/>
+		<result property="school_addr_road" column="schoolAddrRoad "/>
+		<result property="school_reference_date" column="schoolReferenceDate "/>
+		<result property="school_data_create_date" column="schoolDataCreateDate "/>
+		<result property="school_date_edit_date" column="schoolDateEditDate "/>
+	</resultMap>
+
+	<select id="get" parameterType="map" resultMap="schoolMap">
+		SELECT
+			idx, 
+			school_id, 
+			school_name, 
+			school_level, 
+			school_status, 
+			school_edu_office_name, 
+       		school_edu_office_code, 
+       		school_sido_office_name, 
+       		school_sido_office_code, 
+       		school_addr, 
+       		school_build_date, 
+       		school_establish_type, 
+       		school_lat, 
+       		school_lon,
+       		school_branch_type, 
+       		school_addr_road, 
+       		school_reference_date,
+       		school_data_create_date, 
+       		school_date_edit_date
+		FROM schools
+		where idx = #{idx}
+	</select>
+
+	<select id="list" parameterType="map" resultMap="schoolMap">
+		SELECT
+			idx, 
+			school_id, 
+			school_name, 
+			school_level, 
+			school_status, 
+			school_edu_office_name, 
+       		school_edu_office_code, 
+       		school_sido_office_name, 
+       		school_sido_office_code, 
+       		school_addr, 
+       		school_build_date, 
+       		school_establish_type, 
+       		school_lat, 
+       		school_lon,
+       		school_branch_type, 
+       		school_addr_road, 
+       		school_reference_date,
+       		school_data_create_date, 
+       		school_date_edit_date
+ 		 FROM schools
+ 		 <if test="offset != null and limit != null">
+			OFFSET ${offset} LIMIT ${limit}
+		 </if>
+
+	</select>
+
+	<insert id="create" parameterType="map">
+		<selectKey keyProperty="idx" resultType="int" order="BEFORE">
+			select nextval('schools_idx_seq'::regclass)
+		</selectKey>
+			INSERT INTO schools(
+				idx, 
+				school_id, 
+				school_name, 
+				school_level, 
+				school_status, 
+				school_edu_office_name, 
+	       		school_edu_office_code, 
+	       		school_sido_office_name, 
+	       		school_sido_office_code, 
+	       		school_addr, 
+	       		school_build_date, 
+	       		school_establish_type, 
+	       		school_lat, 
+	       		school_lon,
+	       		school_branch_type, 
+	       		school_addr_road, 
+	       		school_reference_date,
+	       		school_data_create_date, 
+	       		school_date_edit_date
+			) VALUES (
+				#{idx},
+				#{schoolId},
+				#{schoolName},
+				#{schoolLevel},
+				#{schoolStatus},
+				#{schoolEduOfficeName},
+				#{schoolEduOfficeCode},
+				#{schoolSidoOfficeName},
+				#{schoolSidoOfficeCode},
+				#{schoolAddr},
+				#{schoolBuildDate},
+				#{schoolEstablishType},
+				#{schoolLat},
+				#{schoolLon},
+				#{schoolBranchType},
+				#{schoolAddrRoad},
+				#{schoolReferenceDate},
+				#{schoolDataCreateDate},
+				#{schoolDateEditDate}
+			)
+			
+	</insert>
+
+	<update id="modify" parameterType="map">
+		UPDATE schools
+			<set>
+				<if test="schoolId != null"> school_id = #{schoolId}, </if>
+				<if test="schoolName != null"> school_name = #{schoolName}, </if>
+				<if test="schoolLevel != null"> school_level = #{schoolLevel}, </if>
+				<if test="schoolStatus != null"> school_status = #{schoolStatus}, </if>
+				<if test="schoolEduOfficeName != null"> school_edu_office_name = #{schoolEduOfficeName}, </if>
+				<if test="schoolEduOfficeCode != null"> school_edu_office_code = #{schoolEduOfficeCode}, </if>
+				<if test="schoolSidoOfficeName != null"> school_sido_office_name = #{schoolSidoOfficeName}, </if>
+				<if test="schoolSidoOfficeCode != null"> school_sido_office_code = #{schoolSidoOfficeCode}, </if>
+				<if test="schoolAddr != null"> school_addr = #{schoolAddr}, </if>
+				<if test="schoolBuildDate != null"> school_build_date = #{schoolBuildDate}, </if>
+				<if test="schoolEstablishType != null"> school_establish_type = #{schoolEstablishType}, </if>
+				<if test="schoolLat != null"> school_lat = #{schoolLat}, </if>
+				<if test="schoolLon != null"> school_lon = #{schoolLon}, </if>
+				<if test="schoolBranchType != null"> school_branch_type = #{schoolBranchType}, </if>
+				<if test="schoolAddrRoad != null"> school_addr_road = #{schoolAddrRoad}, </if>
+				<if test="schoolReferenceDate != null"> school_reference_date = #{schoolReferenceDate}, </if>
+				<if test="schoolDataCreateDate != null"> school_data_create_date = #{schoolDataCreateDate}, </if>
+				<if test="schoolDateEditDate != null"> school_date_edit_date = #{schoolDateEditDate} </if>
+
+			</set>
+		WHERE idx = #{idx}
+	</update>
+
+	<delete id="delete" parameterType="int">
+		DELETE FROM schools
+ 		WHERE idx = #{idx}
+	</delete>
+
+</mapper>
