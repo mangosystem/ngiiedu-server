@@ -135,14 +135,12 @@ CREATE TABLE modules
 	idx serial NOT NULL UNIQUE,
 	-- 모듈명
 	module_name varchar,
-	-- 생성일
-	module_create_date varchar,
-	-- 수정일
-	module_modify_date varchar,
 	-- 메타데이터
 	module_metadata varchar,
-	-- 데이터
-	module_data varchar,
+	-- 생성일
+	create_date timestamp with time zone,
+	-- 수정일
+	modify_date timestamp with time zone,
 	PRIMARY KEY (idx)
 ) WITHOUT OIDS;
 
@@ -183,11 +181,11 @@ CREATE TABLE modules_work_data
 	-- 모듈_아이디
 	module_id int NOT NULL,
 	-- 자료명
-	module_work_data_name varchar,
+	module_work_output_name varchar,
 	-- 자료위치경로
-	module_work_data_path varchar,
+	module_work_output_path varchar,
 	-- 수업데이터구분
-	module_work_data_division char(1),
+	module_work_output_division char(1),
 	-- 수업차수정보
 	module_work_seq varchar,
 	PRIMARY KEY (idx)
@@ -197,12 +195,44 @@ CREATE TABLE modules_work_data
 -- 학교
 CREATE TABLE schools
 (
-	-- 고유키
+	-- 고유키 : 고유키
 	idx serial NOT NULL UNIQUE,
-	-- 학교아이디
-	school_id varchar,
-	-- 학교명
-	school_name varchar,
+	-- 학교아이디 : 학교아이디
+	school_id varchar NOT NULL UNIQUE,
+	-- 학교명 : 학교명
+	school_name varchar NOT NULL,
+	-- 학교급구분 : 학교급구분
+	school_level varchar NOT NULL,
+	-- 운영상태 : 운영상태
+	school_status varchar NOT NULL,
+	-- 교육지원청명 : 교육지원청명
+	school_edu_office_name varchar NOT NULL,
+	-- 교육지원청코드 : 교육지원청코드
+	school_edu_office_code numeric NOT NULL,
+	-- 시도교육청명 : 시도교육청명
+	school_sido_office_name varchar,
+	-- 시도교육청코드 : 시도교육청코드
+	school_sido_office_code numeric,
+	-- 소재지지번주소 : 소재지지번주소
+	school_addrschool_addr varchar,
+	-- 설립일자 : 설립일자
+	school_build_date varchar,
+	-- 설립형태 : 설립형태
+	school_establish_type varchar,
+	-- 위도 : 위도
+	lat varchar,
+	-- 경도 : 경도
+	lon varchar,
+	-- 본교분교구분 : 본교분교구분
+	school_branch_type varchar,
+	-- 소재지도로명주소 : 소재지도로명주소
+	school_addr_road varchar,
+	-- 데이터기준일자 : 데이터기준일자
+	school_reference_date varchar,
+	-- 생성일자 : 생성일자
+	school_data_create_date varchar,
+	-- 변경일자 : 변경일자
+	school_date_edit_date varchar,
 	PRIMARY KEY (idx)
 ) WITHOUT OIDS;
 
@@ -400,10 +430,9 @@ COMMENT ON COLUMN members.user_id IS '사용자_아이디';
 COMMENT ON TABLE modules IS '모듈';
 COMMENT ON COLUMN modules.idx IS '고유키';
 COMMENT ON COLUMN modules.module_name IS '모듈명';
-COMMENT ON COLUMN modules.module_create_date IS '생성일';
-COMMENT ON COLUMN modules.module_modify_date IS '수정일';
 COMMENT ON COLUMN modules.module_metadata IS '메타데이터';
-COMMENT ON COLUMN modules.module_data IS '데이터';
+COMMENT ON COLUMN modules.create_date IS '생성일';
+COMMENT ON COLUMN modules.modify_date IS '수정일';
 COMMENT ON TABLE modules_work IS '모듈과정';
 COMMENT ON COLUMN modules_work.idx IS '고유키';
 COMMENT ON COLUMN modules_work.module_id IS '모듈아이디';
@@ -416,14 +445,30 @@ COMMENT ON COLUMN modules_work_comp.comps_id IS '공통컴포넌트_아이디';
 COMMENT ON TABLE modules_work_data IS '모듈과정자료';
 COMMENT ON COLUMN modules_work_data.idx IS '고유키';
 COMMENT ON COLUMN modules_work_data.module_id IS '모듈_아이디';
-COMMENT ON COLUMN modules_work_data.module_work_data_name IS '자료명';
-COMMENT ON COLUMN modules_work_data.module_work_data_path IS '자료위치경로';
-COMMENT ON COLUMN modules_work_data.module_work_data_division IS '수업데이터구분';
+COMMENT ON COLUMN modules_work_data.module_work_output_name IS '자료명';
+COMMENT ON COLUMN modules_work_data.module_work_output_path IS '자료위치경로';
+COMMENT ON COLUMN modules_work_data.module_work_output_division IS '수업데이터구분';
 COMMENT ON COLUMN modules_work_data.module_work_seq IS '수업차수정보';
 COMMENT ON TABLE schools IS '학교';
-COMMENT ON COLUMN schools.idx IS '고유키';
-COMMENT ON COLUMN schools.school_id IS '학교아이디';
-COMMENT ON COLUMN schools.school_name IS '학교명';
+COMMENT ON COLUMN schools.idx IS '고유키 : 고유키';
+COMMENT ON COLUMN schools.school_id IS '학교아이디 : 학교아이디';
+COMMENT ON COLUMN schools.school_name IS '학교명 : 학교명';
+COMMENT ON COLUMN schools.school_level IS '학교급구분 : 학교급구분';
+COMMENT ON COLUMN schools.school_status IS '운영상태 : 운영상태';
+COMMENT ON COLUMN schools.school_edu_office_name IS '교육지원청명 : 교육지원청명';
+COMMENT ON COLUMN schools.school_edu_office_code IS '교육지원청코드 : 교육지원청코드';
+COMMENT ON COLUMN schools.school_sido_office_name IS '시도교육청명 : 시도교육청명';
+COMMENT ON COLUMN schools.school_sido_office_code IS '시도교육청코드 : 시도교육청코드';
+COMMENT ON COLUMN schools.school_addrschool_addr IS '소재지지번주소 : 소재지지번주소';
+COMMENT ON COLUMN schools.school_build_date IS '설립일자 : 설립일자';
+COMMENT ON COLUMN schools.school_establish_type IS '설립형태 : 설립형태';
+COMMENT ON COLUMN schools.lat IS '위도 : 위도';
+COMMENT ON COLUMN schools.lon IS '경도 : 경도';
+COMMENT ON COLUMN schools.school_branch_type IS '본교분교구분 : 본교분교구분';
+COMMENT ON COLUMN schools.school_addr_road IS '소재지도로명주소 : 소재지도로명주소';
+COMMENT ON COLUMN schools.school_reference_date IS '데이터기준일자 : 데이터기준일자';
+COMMENT ON COLUMN schools.school_data_create_date IS '생성일자 : 생성일자';
+COMMENT ON COLUMN schools.school_date_edit_date IS '변경일자 : 변경일자';
 COMMENT ON TABLE teams IS '팀';
 COMMENT ON COLUMN teams.idx IS '고유키';
 COMMENT ON COLUMN teams.work_id IS '수업과정_아이디';
