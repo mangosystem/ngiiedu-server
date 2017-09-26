@@ -4,65 +4,70 @@
 
 <mapper namespace="kr.go.ngii.edu.main.modules.module.mapper.ModuleMapper">
 
-   <resultMap type="kr.go.ngii.edu.main.modules.module.model.Module" id="ModuleMap">
-      <id property="idx" column="idx" />
-      <result property="moduleName" column="module_name" />
-      <result property="moduleCreateDate" column="module_create_date" />
-      <result property="moduleModifyDate" column="module_modify_date" />
-      <result property="moduleMetadata" column="module_metadata" />
-      <result property="moduleData" column="module_data" />
-   </resultMap>
+	<resultMap type="kr.go.ngii.edu.main.modules.module.model.Module" id="moduleMap">
+		<id property="idx" column="idx" />
+		<result property="moduleName" column="module_name" />
+		<result property="moduleMetadata" column="module_metadata" />
+		<result property="createDate" column="create_date" />
+		<result property="modifyDate" column="modify_date" />
+	</resultMap>
 
-   <select id="get" parameterMap="ModuleMap" resultMap="ModuleMap">
-      SELECT
-         idx,
-         module_name,
-         module_create_date,
-         module_modify_date,
-         module_metadata,
-         module_data
-      FROM modules
-      where idx = #{idx}
-   </select>
+	<select id="list" parameterType="map" resultMap="moduleMap">
+		SELECT
+			idx,
+			module_name,
+			create_date,
+			modify_date,
+			module_metadata
+		FROM modules
+		<if test="offset != null and limit != null">
+		OFFSET ${offset} LIMIT ${limit}
+		</if>
+	</select>
 
-   <select id="list" parameterMap="ModuleMap" resultMap="ModuleMap">
-      SELECT
-      	 idx,
-         module_name,
-         module_create_date,
-         module_modify_date,
-         module_metadata,
-         module_data
-      FROM modules
-   </select>
+	<select id="get" parameterType="map" resultMap="moduleMap">
+		SELECT
+			idx,
+			module_name,
+			create_date,
+			modify_date,
+			module_metadata
+		FROM modules
+		WHERE idx = #{idx}
+	</select>
 
-   <insert id="create" parameterMap="ModuleMap">
-      <selectKey keyProperty="idx" resultType="int" order="BEFORE">
-         select nextval('modules_idx_seq'::regclass)
-      </selectKey>
-         INSERT INTO modules(
-            idx, module_name, module_create_date, module_modify_date, module_metadata, module_data
-         ) VALUES (
-            #{idx}, #{moduleName}, #{moduleCreateDate}, #{moduleModifyDate}, #{moduleMetadata}, #{moduleData}
-         )
-   </insert>
+	<insert id="create" parameterType="map">
+		<selectKey keyProperty="idx" resultType="int" order="BEFORE">
+			SELECT nextval('modules_idx_seq'::regclass)
+		</selectKey>
+		INSERT INTO modules(
+			idx, 
+			module_name, 
+			module_metadata, 
+			create_date, 
+			modify_date 
+		) VALUES (
+			#{idx}, 
+			#{moduleName}, 
+			#{moduleMetadata}, 
+			#{createDate}, 
+			#{modifyDate}
+		)
+	</insert>
 
+	<update id="modify" parameterType="map">
+		UPDATE modules
+		<set>
+			<if test="moduleName != null"> module_name = #{moduleName},</if>
+			<if test="moduleMetadata != null"> module_metadata = #{moduleMetadata},</if>
+			<if test="modifyDate != null"> modify_date = #{modifyDate}</if>
+		</set>
+		WHERE idx = #{idx}
+	</update>
 
-   <update id="modify" parameterMap="ModuleMap">
-      UPDATE modules
-         <set>
-            <if test="moduleName != null"> module_name = #{moduleName}, </if>
-            <if test="moduleCreateDate != null"> module_create_date = #{moduleCreateDate}, </if>
-            <if test="moduleModifyDate != null"> module_modify_date = #{moduleModifyDate}, </if>
-            <if test="moduleMetadata != null"> module_metadata = #{moduleMetadata}, </if>
-            <if test="moduleData != null"> module_data = #{moduleData} </if>
-         </set>
-      WHERE idx = #{idx}
-   </update>
-
-   <delete id="delete" parameterType="int">
-      DELETE FROM modules
-       WHERE idx = #{idx}
-   </delete>
-
+	<delete id="delete" parameterType="int">
+		DELETE FROM modules
+		WHERE idx = #{idx}
+	</delete>
+	
 </mapper>
