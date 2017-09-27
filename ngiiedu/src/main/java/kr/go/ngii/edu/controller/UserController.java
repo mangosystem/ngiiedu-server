@@ -20,14 +20,14 @@ import kr.go.ngii.edu.main.users.model.User;
 import kr.go.ngii.edu.main.users.service.UserService;
 
 @Controller
-@RequestMapping(value="/v1/users")
+@RequestMapping(value="api/v1/users")
 public class UserController extends BaseController {
 	
 	@Autowired
 	private UserService userService;
 	
 	/**
-	 * 모듈 목록 조회하기
+	 * 사용자 목록 조회하기
 	 * 
 	 * @param session
 	 * @return
@@ -35,11 +35,19 @@ public class UserController extends BaseController {
 	 */
 	@RequestMapping(value="", method=RequestMethod.GET)
 	public @ResponseBody ResponseEntity<ResponseData> list(
-			@RequestParam(value="offset", required=false, defaultValue="0") int offset, 
-			@RequestParam(value="limit", required=false, defaultValue="10") int limit, 
+			@RequestParam(value="offset", required=false, defaultValue="0") Integer offset, 
+			@RequestParam(value="limit", required=false, defaultValue="10") Integer limit, 
 			HttpSession session) throws Exception {
+				
 		
-		List<User> list = userService.list(offset, limit);
+		List<User> list = null;
+		
+		if (offset==0 && limit==0) {
+			list = userService.list(new User());
+		} else {
+			list = userService.list(offset, limit);
+		}
+		
 		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
 	}
 	

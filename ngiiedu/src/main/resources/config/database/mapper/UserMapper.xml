@@ -35,6 +35,9 @@
          user_name,
          user_division
       FROM users
+      	<if test="offset != null and limit != null">
+			OFFSET ${offset} LIMIT ${limit}
+		</if>
    </select>
 
    <insert id="create" parameterType="map">
