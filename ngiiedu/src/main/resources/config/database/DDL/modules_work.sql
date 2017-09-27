@@ -4,15 +4,15 @@
 
 CREATE TABLE public.modules_work
 (
-  idx serial NOT NULL, -- 고유키
-  module_id integer NOT NULL, -- 모듈아이디
-  module_work_name character varying, -- 과정명
-  module_work_seq integer DEFAULT 0, -- 과정순서
-  module_work_course_type character varying(128), -- 과정수업방식
-  create_date timestamp with time zone DEFAULT now(), -- 생성일
-  modify_date timestamp with time zone DEFAULT now(), -- 수정일
-  module_work_metadata text, -- 과정메타데이터
-  CONSTRAINT modules_work_pkey PRIMARY KEY (idx)
+	idx serial NOT NULL, -- 고유키
+	module_id integer NOT NULL, -- 모듈아이디
+	module_work_name character varying, -- 과정명
+	module_work_seq integer DEFAULT 0, -- 과정순서
+	module_work_course_type character varying(128), -- 과정수업방식
+	create_date timestamp with time zone DEFAULT now(), -- 생성일
+	modify_date timestamp with time zone DEFAULT now(), -- 수정일
+	module_work_metadata text, -- 과정메타데이터
+	CONSTRAINT modules_work_pkey PRIMARY KEY (idx)
 );
 
 ALTER TABLE public.modules_work OWNER TO ngiiedu;

@@ -3,8 +3,11 @@ package kr.go.ngii.edu.controller.rest;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 import org.springframework.http.HttpStatus;
 
+@XmlRootElement(name = "response")
 public class ResponseData {
 
 	private Map<String, Object> response = null;

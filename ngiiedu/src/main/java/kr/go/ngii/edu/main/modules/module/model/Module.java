@@ -31,6 +31,9 @@ public class Module implements Serializable {
 	/** 수정일. */
 	private Date modifyDate;
 
+	/** 모듈활성화 상태 */
+	private boolean status;
+
 
 	public Integer getIdx() {
 		return idx;
@@ -70,6 +73,14 @@ public class Module implements Serializable {
 
 	public void setModifyDate(Date modifyDate) {
 		this.modifyDate = modifyDate;
+	}
+
+	public boolean getStatus() {
+		return status;
+	}
+
+	public void setStatus(boolean status) {
+		this.status = status;
 	}
 
 }

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.go.ngii.edu.main.courses.course.mapper.CourseMapper">
+
+	<resultMap type="kr.go.ngii.edu.main.courses.course.model.Course" id="courseMap">
+		<id property="idx" column="idx" />
+		<result property="modelId" column="module_id" />
+		<result property="courseName" column="course_name" />
+		<result property="course_metadata" column="course_metadata" />
+		<result property="courseCreateId" column="course_create_id" />
+		<result property="createDate" column="create_date" />
+		<result property="modifyDate" column="modify_date" />
+	</resultMap>
+	
+	
+	<!-- 사용자별 내가 만든 수업목록 -->
+	<select id="listOwn" parameterType="map" resultMap="courseMap">
+		SELECT
+			idx,
+			module_id,
+			course_name,
+			course_metadata,
+			course_create_id,
+			create_date,
+			modify_date
+		FROM courses
+		WHERE 
+			course_create_id = #{value}
+		<if test="offset != null and limit != null">
+			OFFSET ${offset} LIMIT ${limit}
+		</if>
+	</select>
+	
+	<!-- 사용자별 내가 참여하는 수업목록 -->
+	<select id="listJoin" parameterType="map" resultMap="courseMap">
+		SELECT
+			idx,
+			module_id,
+			course_name,
+			course_metadata,
+			course_create_id,
+			create_date,
+			modify_date
+		FROM courses
+		WHERE 
+			course_create_id = #{value}
+		<if test="offset != null and limit != null">
+			OFFSET ${offset} LIMIT ${limit}
+		</if>
+	</select>
+	
+	
+	<!-- 수업 추가하기 -->
+	<insert id="create" parameterType="map">
+		<selectKey keyProperty="idx" resultType="int" order="BEFORE">
+			SELECT nextval('courses_idx_seq'::regclass)
+		</selectKey>
+		INSERT INTO courses (
+			idx,
+			module_id,
+			course_name,
+			course_metadata,
+			course_create_id,
+			create_date,
+			modify_date
+		) VALUES (
+			#{idx},
+			#{moduleId},
+			#{courseName},
+			#{courseMetadata},
+			#{courseCreateId},
+			#{createDate},
+			#{modifyDate}
+		)
+	</insert>
+
+</mapper>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.go.ngii.edu.main.courses.work.mapper.WorkMapper">
+
+	<resultMap type="kr.go.ngii.edu.main.courses.work.model.Work" id="workMap">
+		<id property="idx" column="idx" />
+		<result property="courseId" column="course_id" />
+		<result property="moduleWorkId" column="module_work_id" />
+		<result property="workSeq" column="work_seq" />
+		<result property="workTeamDivision" column="work_team_division" />
+		<result property="createDate" column="create_date" />
+		<result property="modifyDate" column="modify_date" />
+	</resultMap>
+	
+	<insert id="create" parameterType="map">
+		<selectKey keyProperty="idx" resultType="int" order="BEFORE">
+			SELECT nextval('works_idx_seq'::regclass)
+		</selectKey>
+		INSERT INTO works (
+			idx,
+			course_id,
+			module_work_id,
+			work_seq,
+			work_team_division,
+			create_date,
+			modify_date
+		) VALUES (
+			#{idx},
+			#{courseId},
+			#{moduleWorkId},
+			#{workSeq},
+			#{workTeamDivision},
+			#{createDate},
+			#{modifyDate}
+		)
+	</insert>
+
+</mapper>
