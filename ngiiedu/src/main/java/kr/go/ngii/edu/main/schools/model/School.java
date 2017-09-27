@@ -1,4 +1,4 @@
-package kr.go.ngii.edu.main.school.model;
+package kr.go.ngii.edu.main.schools.model;
 
 import java.io.Serializable;
 

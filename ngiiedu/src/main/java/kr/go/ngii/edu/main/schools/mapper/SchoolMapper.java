@@ -1,11 +1,11 @@
-package kr.go.ngii.edu.main.school.mapper;
+package kr.go.ngii.edu.main.schools.mapper;
 
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import kr.go.ngii.edu.main.school.model.School;
+import kr.go.ngii.edu.main.schools.model.School;
 
 @Mapper
 public interface SchoolMapper {
