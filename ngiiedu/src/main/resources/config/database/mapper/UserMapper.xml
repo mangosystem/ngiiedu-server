@@ -4,68 +4,88 @@
 
 <mapper namespace="kr.go.ngii.edu.main.users.mapper.UserMapper">
 
-   <resultMap type="kr.go.ngii.edu.main.users.model.User" id="userMap">
-      <id property="idx" column="idx" />
-      <result property="userid" column="userid" />
-      <result property="password" column="password" />
-      <result property="userEmail" column="user_email" />
-      <result property="userName" column="user_name" />
-      <result property="userDivision" column="user_division" />
-   </resultMap>
+	<resultMap type="kr.go.ngii.edu.main.users.model.User" id="userMap">
+		<id property="idx" column="idx" />
+		<result property="userid" column="userid" />
+		<result property="password" column="password" />
+		<result property="userEmail" column="user_email" />
+		<result property="userName" column="user_name" />
+		<result property="userDivision" column="user_division" />
+		<result property="userState" column="user_state" />
+	</resultMap>
 
-   <select id="get" parameterType="map" resultMap="userMap">
-      SELECT
-         idx,
-         userid,
-         password,
-         user_email,
-         user_name,
-         user_division
-      FROM users
-      where idx = #{idx}
-   </select>
+	<select id="get" parameterType="map" resultMap="userMap">
+		SELECT
+			idx,
+			userid,
+			password,
+			user_email,
+			user_name,
+			user_division,
+			user_state
+		FROM users
+		WHERE userid = #{userid}
+	</select>
 
 
-   <select id="list" parameterType="map" resultMap="userMap">
-      SELECT
-         idx,
-         userid,
-         password,
-         user_email,
-         user_name,
-         user_division
-      FROM users
-      	<if test="offset != null and limit != null">
+	<select id="list" parameterType="map" resultMap="userMap">
+		SELECT
+			idx,
+			userid,
+			password,
+			user_email,
+			user_name,
+			user_division,
+			user_state
+		FROM users
+		<where>
+			<if test="category == 'userid' and keyword != '' and keyword != null">
+				userid = #{keyword}
+			</if>
+			<if test="category == 'userName' and keyword != '' and keyword != null">
+				user_name = #{keyword}
+			</if>
+			<if test="category == 'userEmail' and keyword != '' and keyword != null">
+				user_email = #{keyword}
+			</if>
+		</where>
+		order by userid
+		<if test="offset != null and limit != null">
 			OFFSET ${offset} LIMIT ${limit}
 		</if>
-   </select>
+	</select>
 
-   <insert id="create" parameterType="map">
-      <selectKey keyProperty="idx" resultType="int" order="BEFORE">
-         select nextval('users_idx_seq'::regclass)
-      </selectKey>
-         INSERT INTO users(
-            idx, userid, password, user_email, user_name, user_division
-         ) VALUES (
-            #{idx}, #{userid}, #{password}, #{userEmail}, #{userName}, #{userDivision}
-         )
-   </insert>
+	<insert id="create" parameterType="map">
+		<selectKey keyProperty="idx" resultType="int" order="BEFORE">
+			select
+			nextval('users_idx_seq'::regclass)
+		</selectKey>
+		INSERT INTO users(
+		idx, userid, password, user_email, user_name,
+		user_division
+		) VALUES (
+		#{idx}, #{userid}, #{password}, #{userEmail},
+		#{userName}, #{userDivision}
+		)
+	</insert>
 
-   <update id="modify" parameterType="map">
-      UPDATE users
-         <set>
-            <if test="userid != null"> userid = #{userid}, </if>
-            <if test="password != null"> password = #{password}, </if>
-            <if test="userEmail != null"> user_email = #{userEmail}, </if>
-            <if test="userName != null"> user_name = #{userName}, </if>
-            <if test="userDivision != null"> user_division = #{userDivision} </if>
-         </set>
-      WHERE idx = #{idx}
-   </update>
+	<update id="modify" parameterType="map">
+		UPDATE users
+		<set>
+			<if test="userid != null"> userid = #{userid}, </if>
+			<if test="password != null"> password = #{password}, </if>
+			<if test="userEmail != null"> user_email = #{userEmail}, </if>
+			<if test="userName != null"> user_name = #{userName}, </if>
+			<if test="userDivision != null"> user_division = #{userDivision}, </if>
+			<if test="userState != null"> user_state = #{userState} </if>
+		</set>
+		WHERE idx = #{idx}
+	</update>
 
-   <delete id="delete" parameterType="int">
-      DELETE FROM users
-       WHERE idx = #{idx}
-   </delete>
+	<delete id="delete" parameterType="int">
+		DELETE FROM users
+		WHERE idx =
+		#{idx}
+	</delete>
 
 </mapper>

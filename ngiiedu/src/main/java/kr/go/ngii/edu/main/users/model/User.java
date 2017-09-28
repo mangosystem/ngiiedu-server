@@ -31,6 +31,9 @@ public class User implements Serializable {
 
 	/** 사용자구분. */
 	private String userDivision;
+	
+	/** 로그인 활성화 여부. */
+	private boolean userState;
 
 	/**
 	 * 생성자.
@@ -150,6 +153,15 @@ public class User implements Serializable {
 	 */
 	public String getUserDivision() {
 		return this.userDivision;
+	}
+	
+	
+	public boolean getUserState() {
+		return userState;
+	}
+
+	public void setUserState(boolean userState) {
+		this.userState = userState;
 	}
 
 	/**

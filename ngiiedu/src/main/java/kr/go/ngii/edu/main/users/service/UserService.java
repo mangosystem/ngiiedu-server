@@ -14,12 +14,25 @@ public class UserService {
 	@Autowired
 	private UserMapper userMapper;
 	
-	public List<User> list(User user) {
-		return userMapper.list(user);
+/*	public List<User> list(User user) {
+		
+		User param = new User();
+		
+		param.setUserid(user.getUserid());
+		param.setUserEmail(user.getUserEmail());
+		param.setUserName(user.getUserName());
+		
+		return null;
+		return userMapper.list(param);
 	}
 	
 	public List<User> list(int offset, int limit) {
+		return null;
 		return userMapper.list(offset, limit);
+	}*/
+	
+	public List<User> list(int offset, int limit, String category, String keyword) {
+		return userMapper.list(offset, limit, category, keyword);
 	}
 	
 	public User get(User user) {
@@ -34,7 +47,12 @@ public class UserService {
 	//확인필요
 	public User modify(User user) {
 		User param = new User();
+		
 		param.setIdx(user.getIdx());
+		param.setPassword(user.getPassword());
+		param.setUserName(user.getUserName());
+		param.setUserState(user.getUserState());
+		
 		userMapper.modify(param);
 		
 		return param;

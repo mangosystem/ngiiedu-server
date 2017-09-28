@@ -26,9 +26,11 @@ public class UserController extends BaseController {
 	@Autowired
 	private UserService userService;
 	
+	
 	/**
 	 * 사용자 목록 조회하기
 	 * 
+	 * @param idx
 	 * @param session
 	 * @return
 	 * @throws Exception
@@ -36,21 +38,61 @@ public class UserController extends BaseController {
 	@RequestMapping(value="", method=RequestMethod.GET)
 	public @ResponseBody ResponseEntity<ResponseData> list(
 			@RequestParam(value="offset", required=false, defaultValue="0") Integer offset, 
-			@RequestParam(value="limit", required=false, defaultValue="10") Integer limit, 
+			@RequestParam(value="limit", required=false, defaultValue="10") Integer limit,
+			@RequestParam(value="category", required=false, defaultValue="") String category,
+			@RequestParam(value="keyword", required=false, defaultValue="") String keyword,
 			HttpSession session) throws Exception {
-				
 		
-		List<User> list = null;
-		
-		if (offset==0 && limit==0) {
-			list = userService.list(new User());
-		} else {
-			list = userService.list(offset, limit);
-		}
+		List<User> list = userService.list(offset, limit, category, keyword);
 		
 		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
 	}
 	
+	/**
+	 * 사용자 조회하기
+	 * 
+	 * @param idx
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/{userid}", method=RequestMethod.GET)
+	public @ResponseBody ResponseEntity<ResponseData> get(
+			@PathVariable("userid") String userid,
+			HttpSession session) throws Exception {
+		
+		User user = new User();
+		user.setUserid(userid);
+		user = userService.get(user);
+		
+		return new ResponseEntity<ResponseData>(responseBody(user), HttpStatus.OK);
+	}
 	
+	
+	/**
+	 * 사용자 로그인 활성화여부 변경
+	 * 
+	 * @param idx
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/userState/{userid}", method=RequestMethod.PUT)
+	public @ResponseBody ResponseEntity<ResponseData> modify(
+			@PathVariable("userid") String userid,
+			@RequestParam(value="userState", required=true) boolean userState, 
+			HttpSession session) throws Exception {
+		
+		
+		User user = new User();
+		user.setUserid(userid);
+		user = userService.get(user);
+		
+		user.setUserState(userState);
+
+		user = userService.modify(user);
+		
+		return new ResponseEntity<ResponseData>(responseBody(user), HttpStatus.OK);
+	}
 
 }
