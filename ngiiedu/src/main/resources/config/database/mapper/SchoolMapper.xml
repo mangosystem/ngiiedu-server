@@ -48,6 +48,14 @@
 			school_data_create_date, 
 			school_date_edit_date
 		FROM schools
+		<where>
+			<if test="category =='schoolName' and keyword !='' and keyword !=null">
+				school_name = #{keyword}
+			</if>
+			<if test="category =='schoolEduOfficeName' and keyword !='' and keyword !=null">
+				school_edu_office_name = #{keyword}
+			</if>
+		</where>
 		
 		<if test="offset != null and limit != null">
 			OFFSET ${offset} LIMIT ${limit}
@@ -56,7 +64,7 @@
 	</select>
 	
  
-	<select id="get" parameterType="map" resultMap="schoolMap">
+ 	<select id="get" parameterType="map" resultMap="schoolMap">
 		SELECT
 			idx, 
 			school_id, 
@@ -79,7 +87,7 @@
        		school_date_edit_date
 		FROM schools
 		where idx = #{idx}
-	</select>
+	</select> 
 
 
 	<insert id="create" parameterType="map">

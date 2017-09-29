@@ -12,9 +12,10 @@ public interface SchoolMapper {
 
 	public School get(School school);
 
-	public List<School> list();
+/*	public List<School> list();*/
 
-	public List<School> list(@Param("offset") int offset, @Param("limit") int limit);
+	public List<School> list(@Param("offset") int offset, @Param("limit") int limit,
+			@Param("category") String category, @Param("keyword") String keyword);
 
 	public void create(School school);
 

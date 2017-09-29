@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -36,15 +37,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import kr.go.ngii.edu.controller.rest.BaseController;
 import kr.go.ngii.edu.controller.rest.ResponseData;
+import kr.go.ngii.edu.main.modules.module.model.Module;
 import kr.go.ngii.edu.main.schools.model.School;
 import kr.go.ngii.edu.main.schools.service.SchoolService;
+import kr.go.ngii.edu.main.users.model.User;
 
 @Controller
 @RequestMapping("/api/v1/schools")
 public class SchoolController extends BaseController{
 	@Autowired
 	private SchoolService schoolService;
-
 
 	/**
 	 * 학교 목록 조회하기
@@ -56,19 +58,13 @@ public class SchoolController extends BaseController{
 	@RequestMapping(value="", method=RequestMethod.GET)
 	public @ResponseBody ResponseEntity<ResponseData> list(
 			@RequestParam(value="offset", required=false, defaultValue="0") Integer offset, 
-			@RequestParam(value="limit", required=false, defaultValue="0") Integer limit,
+			@RequestParam(value="limit", required=false, defaultValue="10") Integer limit,
+			@RequestParam(value="category", required=false, defaultValue="") String category,
+			@RequestParam(value="keyword", required=false, defaultValue="") String keyword,
 			HttpSession session) throws Exception {
-
-		List<School> list = null;
-//		list = schoolService.list();
-
-		if (offset==0 && limit==0) {
-			list = schoolService.list();
-
-		} else {
-			list = schoolService.list(offset, limit);
-		}
-
+		
+		List<School> list = schoolService.list(offset, limit, category, keyword);
+		
 		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
 	}
 
@@ -182,7 +178,39 @@ public class SchoolController extends BaseController{
 		
 		
 	}
+	
+	/**
+	 * 학교정보 조회하기
+	 * 
+	 * @param idx
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/{schoolId}", method=RequestMethod.GET)
+	public @ResponseBody ResponseEntity<ResponseData> get(
+			@PathVariable("schoolId") Integer schoolId,
+			HttpSession session) throws Exception {
 
+		School list = schoolService.get(schoolId);
+		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
+	}
+	
+	/**
+	 * 학교 목록 삭제하기
+	 * 
+	 * @param idx
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/{schoolId}", method=RequestMethod.DELETE)
+	public @ResponseBody ResponseEntity<ResponseData> delete(
+			@PathVariable("schoolId") Integer schoolId,
+			HttpSession session) throws Exception {
 
-
+		boolean result = schoolService.delete(schoolId);
+		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
+	}
+	
 }
