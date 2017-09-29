@@ -84,8 +84,7 @@
 
 	<delete id="delete" parameterType="int">
 		DELETE FROM users
-		WHERE idx =
-		#{idx}
+		WHERE idx = #{idx}
 	</delete>
 
 </mapper>

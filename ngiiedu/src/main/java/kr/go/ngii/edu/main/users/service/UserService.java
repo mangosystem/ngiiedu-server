@@ -58,15 +58,15 @@ public class UserService {
 		return param;
 	}
 	
-	public User get(int idx) {
+	public User get(String userid) {
 		User user = new User();
-		user.setIdx(idx);
+		user.setUserid(userid);;
 		return userMapper.get(user);
 	}
 	
-	public boolean delete(int idx) {
-		if (get(idx) != null) {
-			userMapper.delete(idx);
+	public boolean delete(String userid) {
+		if (get(userid) != null) {
+			userMapper.delete(userid);
 			return true;
 		} else {
 			return false;

@@ -19,6 +19,6 @@ public interface UserMapper {
 	
 	public void modify(User user);
 	
-	public void delete(int idx);
+	public void delete(String userid);
 	
 }

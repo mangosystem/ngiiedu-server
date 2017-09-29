@@ -61,9 +61,7 @@ public class UserController extends BaseController {
 			@PathVariable("userid") String userid,
 			HttpSession session) throws Exception {
 		
-		User user = new User();
-		user.setUserid(userid);
-		user = userService.get(user);
+		User user = userService.get(userid);
 		
 		return new ResponseEntity<ResponseData>(responseBody(user), HttpStatus.OK);
 	}
@@ -77,17 +75,14 @@ public class UserController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/userState/{userid}", method=RequestMethod.PUT)
+	@RequestMapping(value="/{userid}", method=RequestMethod.PUT)
 	public @ResponseBody ResponseEntity<ResponseData> modify(
 			@PathVariable("userid") String userid,
 			@RequestParam(value="userState", required=true) boolean userState, 
 			HttpSession session) throws Exception {
 		
 		
-		User user = new User();
-		user.setUserid(userid);
-		user = userService.get(user);
-		
+		User user = userService.get(userid);
 		user.setUserState(userState);
 
 		user = userService.modify(user);
