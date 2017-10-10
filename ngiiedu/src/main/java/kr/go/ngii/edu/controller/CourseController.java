@@ -135,5 +135,48 @@ public class CourseController extends BaseController {
 		boolean result = courseMemberService.leave(courseId, userId);
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
+	
+	/**
+	 * 수업 목록 조회하기
+	 * 
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="", method=RequestMethod.GET)
+	public @ResponseBody ResponseEntity<ResponseData> list(
+			@RequestParam(value="offset", required=false, defaultValue="0") Integer offset, 
+			@RequestParam(value="limit", required=false, defaultValue="0") Integer limit, 
+			HttpSession session) throws Exception {
+
+		List<Course> list = null;
+
+		if (offset==0 && limit==0) {
+			list = courseService.list();
+
+		} else {
+			list = courseService.list(offset, limit);
+		}
+
+		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
+	}
+
+	
+	/**
+	 * 수업 조회하기
+	 * 
+	 * @param idx
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/{courseId}", method=RequestMethod.GET)
+	public @ResponseBody ResponseEntity<ResponseData> get(
+			@PathVariable("courseId") Integer courseId,
+			HttpSession session) throws Exception {
+
+		Course list = courseService.get(courseId);
+		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
+	}
 
 }

@@ -40,5 +40,19 @@ public class CourseService extends BaseService {
 
 		return param;
 	}
+	
+	public List<Course> list() {
+		return courseMapper.list();
+	}
+
+	public List<Course> list(int offset, int limit) {
+		return courseMapper.list(offset, limit);
+	}
+
+	public Course get(int idx) {
+		Course course = new Course();
+		course.setIdx(idx);
+		return courseMapper.get(course);
+	}
 
 }
