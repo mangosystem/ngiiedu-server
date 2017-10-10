@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.go.ngii.edu.main.courses.course.mapper.CourseAuthkeyMapper">
+
+	<resultMap type="kr.go.ngii.edu.main.courses.course.model.CourseAuthkey" id="courseAuthkeyMap">
+		<id property="idx" column="idx" />
+		<result property="authkey" column="authkey" />
+		<result property="courseId" column="course_id" />
+		<result property="status" column="status" />
+		<result property="createDate" column="create_date" />
+	</resultMap>
+
+	<select id="getAuthkey" parameterType="int" resultType="string">
+		SELECT 
+			authkey 
+		FROM courses_authkey
+		WHERE 
+			status IS true
+			AND 	course_id = #{value}
+	</select>
+
+	<select id="getCourseId" parameterType="string" resultType="int">
+		SELECT 
+			course_id
+		FROM courses_authkey
+		WHERE 
+			status IS true
+			AND 	authkey = #{value}
+	</select>
+
+	<select id="exists" parameterType="string" resultType="boolean">
+		SELECT
+			CASE WHEN EXISTS (
+				SELECT
+					authkey
+				FROM courses_authkey
+				WHERE authkey = #{value}
+			)  THEN true ELSE false END
+	</select>
+	
+	<update id="updateDeactive" parameterType="int">
+		UPDATE courses_authkey
+		SET 
+			status = false
+		WHERE course_id = #{value}
+	</update>
+
+	<insert id="create" parameterType="map">
+		<selectKey keyProperty="idx" resultType="int" order="BEFORE">
+			select nextval('courses_authkey_idx_seq'::regclass)
+		</selectKey>
+		INSERT INTO courses_authkey(
+			idx, 
+			authkey, 
+			course_id, 
+			status, 
+			create_date
+	    ) VALUES (
+			#{idx}, 
+			#{authkey}, 
+			#{courseId}, 
+			#{status}, 
+			#{createDate}
+		)
+	</insert>
+
+</mapper>

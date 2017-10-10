@@ -14,7 +14,7 @@ public interface ModuleMapper {
 
 	public List<Module> list();
 
-	public List<Module> list(@Param("offset") int offset, @Param("limit") int limit);
+	public List<Module> listByOffsetAndLimit(@Param("offset") int offset, @Param("limit") int limit);
 
 	public void create(Module module);
 

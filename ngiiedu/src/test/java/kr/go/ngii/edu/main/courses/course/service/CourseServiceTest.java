@@ -7,11 +7,13 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import kr.go.ngii.edu.BaseTest;
+import kr.go.ngii.edu.common.UIDUtil;
 import kr.go.ngii.edu.main.courses.course.model.Course;
 
 public class CourseServiceTest extends BaseTest {
 	
 	@Autowired private CourseService service;
+
 
 	@Test
 	public void testCreate() {
@@ -33,6 +35,19 @@ public class CourseServiceTest extends BaseTest {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	@Test
+	public void testUIDGenerator() {
+		System.out.println(UIDUtil.randomKey36(8));
+		System.out.println(UIDUtil.randomKey62(8));
+		System.out.println(UIDUtil.uuid());
+		System.out.println(UIDUtil.uuid());
+		System.out.println(UIDUtil.uuid());
+		System.out.println(UIDUtil.uuid());
+		System.out.println(UIDUtil.uuid());
+		System.out.println(UIDUtil.uuid());
+		
 	}
 
 }

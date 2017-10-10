@@ -21,7 +21,7 @@ public class ModuleService {
 	}
 
 	public List<Module> list(int offset, int limit) {
-		return moduleMapper.list(offset, limit);
+		return moduleMapper.listByOffsetAndLimit(offset, limit);
 	}
 
 	public Module get(int idx) {

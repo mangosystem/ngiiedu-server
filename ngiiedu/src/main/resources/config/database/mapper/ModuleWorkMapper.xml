@@ -71,6 +71,7 @@
 
 	<update id="modify" parameterType="map">
 		UPDATE modules_work
+		SET
 			module_id = #{moduleId},
 			module_work_name =  #{moduleWorkName},
 			module_work_seq = #{moduleWorkSeq},
