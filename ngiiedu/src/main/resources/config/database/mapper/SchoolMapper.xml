@@ -55,7 +55,12 @@
 			<if test="category =='schoolEduOfficeName' and keyword !='' and keyword !=null">
 				school_edu_office_name = #{keyword}
 			</if>
+			<if test="schoolLevel !='' and schoolLevel !=null">
+				and school_level = #{schoolLevel}
+			</if>
 		</where>
+		
+		ORDER BY idx
 		
 		<if test="offset != null and limit != null">
 			OFFSET ${offset} LIMIT ${limit}

@@ -61,9 +61,10 @@ public class SchoolController extends BaseController{
 			@RequestParam(value="limit", required=false, defaultValue="10") Integer limit,
 			@RequestParam(value="category", required=false, defaultValue="") String category,
 			@RequestParam(value="keyword", required=false, defaultValue="") String keyword,
+			@RequestParam(value="schoolLevel", required=false, defaultValue="") String schoolLevel,
 			HttpSession session) throws Exception {
 		
-		List<School> list = schoolService.list(offset, limit, category, keyword);
+		List<School> list = schoolService.list(offset, limit, category, keyword, schoolLevel);
 		
 		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
 	}
@@ -210,6 +211,79 @@ public class SchoolController extends BaseController{
 			HttpSession session) throws Exception {
 
 		boolean result = schoolService.delete(schoolId);
+		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
+	}
+	
+	/**
+	 * 학교 목록 생성하기
+	 * 
+	 * @param 
+	 * @param 
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="", method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<ResponseData> create(
+			@RequestParam(value="schoolId", required=false) String schoolId, 
+			@RequestParam(value="schoolName", required=false) String schoolName,
+			@RequestParam(value="schoolLevel", required=false) String schoolLevel,
+			@RequestParam(value="schoolStatus", required=false) String schoolStatus,
+			@RequestParam(value="schoolEduOfficeName", required=false) String schoolEduOfficeName,
+			@RequestParam(value="schoolEduOfficeCode", required=false) Integer schoolEduOfficeCode,
+			@RequestParam(value="schoolSidoOfficeName", required=false) String schoolSidoOfficeName,
+			@RequestParam(value="schoolSidoOfficeCode", required=false) Integer schoolSidoOfficeCode,
+			@RequestParam(value="schoolAddr", required=false) String schoolAddr,
+			@RequestParam(value="schoolBuildDate", required=false) String schoolBuildDate,
+			@RequestParam(value="schoolEstablishType", required=false) String schoolEstablishType,
+			@RequestParam(value="schoolLat", required=false) String schoolLat,
+			@RequestParam(value="schoolLon", required=false) String schoolLon,
+			@RequestParam(value="schoolBranchType", required=false) String schoolBranchType,
+			@RequestParam(value="schoolAddrRoad", required=false) String schoolAddrRoad,
+			@RequestParam(value="schoolRefDate", required=false) String schoolRefDate,
+			@RequestParam(value="schoolCreateDate", required=false) String schoolCreateDate,
+			@RequestParam(value="schoolEditDate", required=false) String schoolEditDate,
+			HttpSession session) throws Exception {
+		        
+		School result = schoolService.create(schoolId, schoolName, schoolLevel, schoolStatus, schoolEduOfficeName, schoolEduOfficeCode, schoolSidoOfficeName, schoolSidoOfficeCode, schoolAddr,
+				schoolBuildDate, schoolEstablishType, schoolLat, schoolLon, schoolBranchType, schoolAddrRoad, schoolRefDate, schoolCreateDate, schoolEditDate);
+		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
+	}
+	
+	/**
+	 * 학교 목록 변경하기
+	 * 
+	 * @param idx
+	 * @param 
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/{idx}", method=RequestMethod.PUT)
+	public @ResponseBody ResponseEntity<ResponseData> modify(
+			@RequestParam(value="idx", required=false) Integer idx, 
+			@RequestParam(value="schoolId", required=false) String schoolId, 
+			@RequestParam(value="schoolName", required=false) String schoolName,
+			@RequestParam(value="schoolLevel", required=false) String schoolLevel,
+			@RequestParam(value="schoolStatus", required=false) String schoolStatus,
+			@RequestParam(value="schoolEduOfficeName", required=false) String schoolEduOfficeName,
+			@RequestParam(value="schoolEduOfficeCode", required=false) Integer schoolEduOfficeCode,
+			@RequestParam(value="schoolSidoOfficeName", required=false) String schoolSidoOfficeName,
+			@RequestParam(value="schoolSidoOfficeCode", required=false) Integer schoolSidoOfficeCode,
+			@RequestParam(value="schoolAddr", required=false) String schoolAddr,
+			@RequestParam(value="schoolBuildDate", required=false) String schoolBuildDate,
+			@RequestParam(value="schoolEstablishType", required=false) String schoolEstablishType,
+			@RequestParam(value="schoolLat", required=false) String schoolLat,
+			@RequestParam(value="schoolLon", required=false) String schoolLon,
+			@RequestParam(value="schoolBranchType", required=false) String schoolBranchType,
+			@RequestParam(value="schoolAddrRoad", required=false) String schoolAddrRoad,
+			@RequestParam(value="schoolReferenceDate", required=false) String schoolReferenceDate,
+			@RequestParam(value="schoolDataCreateDate", required=false) String schoolDataCreateDate,
+			@RequestParam(value="schoolDateEditDate", required=false) String schoolDateEditDate,
+			HttpSession session) throws Exception {
+		
+		School result = schoolService.modify(idx, schoolId, schoolName, schoolLevel, schoolStatus, schoolEduOfficeName, schoolEduOfficeCode, schoolSidoOfficeName, schoolSidoOfficeCode, schoolAddr,
+				schoolBuildDate, schoolEstablishType, schoolLat, schoolLon, schoolBranchType, schoolAddrRoad, schoolReferenceDate, schoolDataCreateDate, schoolDateEditDate);
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
 	
