@@ -33,6 +33,7 @@ public class ResponseData {
 	}
 	
 	public void setError(Exception e) {
+		response.put("data", null);
 		response.put("code", HttpStatus.INTERNAL_SERVER_ERROR);
 		response.put("message", e.getMessage());
 	}

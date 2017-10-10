@@ -20,6 +20,10 @@ public interface CourseMemberMapper {
 
 	public void modify(CourseMember params);
 
-	public void delete(@Param("courseId") int courseId, @Param("userId") int userId);
+	public void deleteByCourseId(@Param("courseId") int courseId);
+
+	public void deleteByCourseIdAndUserId(@Param("courseId") int courseId, @Param("userId") int userId);
+
+	public Boolean exists(@Param("courseId") int courseId, @Param("userId") int userId);
 
 }

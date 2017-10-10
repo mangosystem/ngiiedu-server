@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.go.ngii.edu.main.courses.course.mapper.CourseTeamMapper">
+
+	<resultMap type="kr.go.ngii.edu.main.courses.course.model.CourseTeam" id="courseTeamMap">
+		<id property="idx" column="idx" />
+		<result property="courseId" column="course_id" />
+		<result property="teamName" column="team_name" />
+		<result property="teamSeq" column="team_seq" />
+		<result property="createDate" column="create_date" />
+		<result property="modifyDate" column="modify_date" />
+	</resultMap>
+
+
+	<select id="list" parameterType="map" resultMap="courseTeamMap">
+		SELECT
+			idx,
+			course_id,
+			team_name,
+			team_seq,
+			create_date,
+			modify_date
+		FROM courses_team
+		WHERE course_id = #{courseId}
+		ORDER BY team_seq
+	</select>
+	
+	<select id="get" parameterType="map" resultMap="courseTeamMap">
+		SELECT
+			idx,
+			course_id,
+			team_name,
+			team_seq,
+			create_date,
+			modify_date
+		FROM courses_team
+		WHERE course_id = #{courseId} AND idx = #{teamId}
+	</select>
+	
+	<insert id="create" parameterType="map">
+		<selectKey keyProperty="idx" resultType="int" order="BEFORE">
+			SELECT nextval('courses_team_idx_seq'::regclass)
+		</selectKey>
+		INSERT INTO courses_team (
+			idx, 
+			course_id, 
+			team_name, 
+			team_seq, 
+			create_date, 
+			modify_date
+		) VALUES (
+			#{idx}, 
+			#{courseId}, 
+			#{teamName}, 
+			#{teamSeq}, 
+			#{createDate}, 
+			#{modifyDate}
+		)
+	</insert>
+	
+	<update id="modifyTeamName" parameterType="map">
+		UPDATE courses_team
+		SET 
+			team_name = #{teamName},
+			modify_date = #{modifyDate}
+		WHERE course_id = #{courseId} AND idx = #{teamId} 
+	</update>
+	
+	<delete id="delete" parameterType="map">
+		DELETE FROM courses_team 
+		WHERE course_id = #{courseId} AND idx = #{teamId}
+	</delete>
+	
+	<select id="countByCourseId" parameterType="map" resultType="int">
+		SELECT COUNT(*)+1 AS count FROM courses_team
+		WHERE course_id = #{courseId}
+	</select>
+	
+	
+	<select id="exists" parameterType="map" resultType="boolean">
+		SELECT
+			CASE WHEN EXISTS (
+				SELECT idx FROM courses_team
+				WHERE course_id = #{courseId} AND idx = #{teamId}
+			)  THEN true ELSE false END
+	</select>
+
+</mapper>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.go.ngii.edu.main.courses.course.mapper.CourseTeamMemberMapper">
+
+	<resultMap type="kr.go.ngii.edu.main.courses.course.model.CourseTeamMember" id="courseTeamMemberMap">
+		<id property="idx" column="idx" />
+		<result property="teamId" column="team_id" />
+		<result property="memberId" column="member_id" />
+		<result property="createDate" column="create_date" />
+	</resultMap>
+
+
+	<select id="list" parameterType="map" resultMap="courseTeamMemberMap">
+		SELECT 
+			T1.idx, 
+			T1.team_id, 
+			T1.member_id, 
+			T1.create_date
+		FROM courses_team_member T1, courses_team T2
+		WHERE T1.team_id = T2.idx
+		AND T1.team_id = #{teamId}
+		AND T2.course_id = #{courseId}
+		ORDER BY T1.create_date
+	</select>
+
+	<insert id="create" parameterType="map">
+		<selectKey keyProperty="idx" resultType="int" order="BEFORE">
+			SELECT nextval('courses_team_member_idx_seq'::regclass)
+		</selectKey>
+		INSERT INTO courses_team_member (
+			idx, 
+			team_id, 
+			member_id, 
+			create_date 
+		) VALUES (
+			#{idx}, 
+			#{teamId}, 
+			#{memberId}, 
+			#{createDate}
+		)
+	</insert>
+
+	<delete id="deleteByTeamId" parameterType="map">
+		DELETE FROM courses_team_member T1 
+			USING courses_team T2
+		WHERE 
+			T2.course_id = #{courseId}
+			AND T1.team_id = #{teamId}
+	</delete>
+
+	<delete id="deleteByTeamIdAndMemberId" parameterType="map">
+		DELETE FROM courses_team_member T1 
+			USING courses_team T2
+		WHERE 
+			T2.course_id = #{courseId}
+			AND T1.team_id = #{teamId} AND T1.member_id = #{memberId} 
+	</delete>
+
+	<select id="exists" parameterType="map" resultType="boolean">
+		SELECT 
+			CASE WHEN EXISTS (
+				SELECT idx FROM courses_team_member T1, courses_team T2 
+				WHERE T2.course_id = #{courseId} 
+				AND T1.team_id = #{teamId} AND T1.member_id = #{memberId} 
+			)  THEN true ELSE false END 
+	</select>
+	
+</mapper>

@@ -18,7 +18,7 @@
 		<selectKey keyProperty="idx" resultType="int" order="BEFORE">
 			SELECT nextval('works_idx_seq'::regclass)
 		</selectKey>
-		INSERT INTO works (
+		INSERT INTO courses_work (
 			idx,
 			course_id,
 			module_work_id,

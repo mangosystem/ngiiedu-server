@@ -35,8 +35,6 @@ public class WorkService extends BaseService {
 
 		Work param = null;
 		
-		
-		
 		for (int i=0; i<moduleWorkIds.size(); i++) {
 			param = new Work();
 			param.setCourseId(courseId);

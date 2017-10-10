@@ -83,10 +83,24 @@
 			course_id = #{courseId} AND user_id = #{userId}
 	</update>
 
-	<delete id="delete" parameterType="map">
+	<delete id="deleteByCourseId" parameterType="map">
+		DELETE FROM courses_member 
+		WHERE 
+			course_id = #{courseId}
+	</delete>
+
+	<delete id="deleteByCourseIdAndUserId" parameterType="map">
 		DELETE FROM courses_member 
 		WHERE 
 			course_id = #{courseId} AND user_id = #{userId}
 	</delete>
+
+	<select id="exists" parameterType="map" resultType="boolean">
+		SELECT 
+			CASE WHEN EXISTS (
+				SELECT idx FROM courses_member
+				WHERE course_id = #{courseId} AND user_id = #{userId}
+			)  THEN true ELSE false END 
+	</select>
 
 </mapper>

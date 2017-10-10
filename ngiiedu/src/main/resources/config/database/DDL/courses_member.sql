@@ -11,10 +11,14 @@ CREATE TABLE public.courses_member
 	create_date timestamp with time zone DEFAULT now(), -- 생성일
 	modify_date timestamp with time zone DEFAULT now(), -- 수정일
 	CONSTRAINT courses_member_pkey PRIMARY KEY (idx),
+	CONSTRAINT courses_member_course_id_fkey FOREIGN KEY (course_id)
+		REFERENCES public.courses (idx) MATCH SIMPLE
+		ON UPDATE RESTRICT ON DELETE RESTRICT,
 	CONSTRAINT courses_member_user_id_fkey FOREIGN KEY (user_id)
 		REFERENCES public.users (idx) MATCH SIMPLE
 		ON UPDATE RESTRICT ON DELETE RESTRICT
 );
+
 
 ALTER TABLE public.courses_member OWNER TO ngiiedu;
 

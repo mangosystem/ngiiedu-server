@@ -17,7 +17,6 @@ public class BaseController {
 		return body;
 	}
 
-
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<ResponseData> exception(Exception e) {
 		return new ResponseEntity<ResponseData>(responseError(e), HttpStatus.INTERNAL_SERVER_ERROR);

@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import kr.go.ngii.edu.common.enums.EnumJoinStatus;
 import kr.go.ngii.edu.main.courses.course.mapper.CourseAuthkeyMapper;
 import kr.go.ngii.edu.main.courses.course.mapper.CourseMemberMapper;
-import kr.go.ngii.edu.main.courses.course.model.CourseAuthkey;
 import kr.go.ngii.edu.main.courses.course.model.CourseMember;
 
 @Service
@@ -75,7 +74,7 @@ public class CourseMemberService {
 	}
 
 	/**
-	 * 학생사용자의 상태변경하기
+	 * 학생사용자 상태변경하기
 	 * 
 	 * @param courseId
 	 * @param userId
@@ -125,10 +124,9 @@ public class CourseMemberService {
 	 * @return
 	 */
 	public boolean leave(int courseId, int userId) {
-
-		courseMemberMapper.delete(courseId, userId);
-
-		if (courseMemberMapper.get(courseId, userId) == null) {
+		
+		if (courseMemberMapper.exists(courseId, userId)) {
+			courseMemberMapper.deleteByCourseIdAndUserId(courseId, userId);
 			return true;
 		} else {
 			return false;
