@@ -32,7 +32,6 @@ public class CourseController extends BaseController {
 	@Autowired
 	private CourseMemberService courseMemberService;
 
-
 	/**
 	 * 교사사용자가 모듈을 선택하여 새로운 수업을 만듭니다.
 	 * 
@@ -56,8 +55,6 @@ public class CourseController extends BaseController {
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
 
-
-
 	/**
 	 * 수업에 참여하고 있는 사용자 목록 조회
 	 * 
@@ -74,7 +71,6 @@ public class CourseController extends BaseController {
 		List<CourseMember> list = courseMemberService.list(courseId);
 		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
 	}
-
 
 	/**
 	 * 수업코드를 이용한 학생사용자의 수업참여하기
@@ -95,7 +91,6 @@ public class CourseController extends BaseController {
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
 
-
 	/**
 	 * 수업에 참여하고 있는 사용자의 상태 변경하기 - 관리자용
 	 * @param courseId
@@ -115,7 +110,6 @@ public class CourseController extends BaseController {
 		CourseMember result = courseMemberService.updateStatus(courseId, userId, status);
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
-
 
 	/**
 	 * 수업에서 탈퇴하기
@@ -160,7 +154,6 @@ public class CourseController extends BaseController {
 
 		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
 	}
-
 	
 	/**
 	 * 수업 조회하기

@@ -21,7 +21,8 @@ public class CourseService extends BaseService {
 	@Autowired
 	private WorkService workService;
 
-
+	
+	
 	public Course create(int moduleId, List<Integer> moduleWorkIds, String courseName, String courseMetadata) throws Exception {
 
 		Course param = new Course();

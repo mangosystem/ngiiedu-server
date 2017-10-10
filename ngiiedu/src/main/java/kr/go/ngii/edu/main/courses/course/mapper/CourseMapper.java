@@ -18,5 +18,4 @@ public interface CourseMapper {
 
 	public List<Course> list(@Param("offset") int offset, @Param("limit") int limit);
 
-
 }

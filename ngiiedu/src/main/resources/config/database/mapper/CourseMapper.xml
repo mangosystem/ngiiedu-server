@@ -14,7 +14,6 @@
 		<result property="modifyDate" column="modify_date" />
 	</resultMap>
 	
-	
 	<!-- 사용자별 내가 만든 수업목록 -->
 	<select id="listOwn" parameterType="map" resultMap="courseMap">
 		SELECT
