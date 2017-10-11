@@ -23,18 +23,18 @@ public class ResponseData {
 	}
 	
 	public void setResponse(HttpStatus status, Object result) {
-//		response.put("code", status.value());
+		response.put("code", status.value());
 		response.put("data", result);
 	}
 	
 	public void setResponse(Object result) {
-//		response.put("code", HttpStatus.OK);
+		response.put("code", HttpStatus.OK.value());
 		response.put("data", result);
 	}
 	
 	public void setError(Exception e) {
 		response.put("data", null);
-		response.put("code", HttpStatus.INTERNAL_SERVER_ERROR);
+		response.put("code", HttpStatus.INTERNAL_SERVER_ERROR.value());
 		response.put("message", e.getMessage());
 	}
 	

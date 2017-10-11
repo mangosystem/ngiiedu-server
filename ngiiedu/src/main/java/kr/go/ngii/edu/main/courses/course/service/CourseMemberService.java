@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.go.ngii.edu.common.enums.EnumJoinStatus;
+import kr.go.ngii.edu.common.message.ErrorMessage;
 import kr.go.ngii.edu.main.courses.course.mapper.CourseAuthkeyMapper;
 import kr.go.ngii.edu.main.courses.course.mapper.CourseMemberMapper;
 import kr.go.ngii.edu.main.courses.course.model.CourseMember;
@@ -51,26 +52,53 @@ public class CourseMemberService {
 	 */
 	public CourseMember create(String courseSecurityKey, int userId) {
 
+		// 수업코드 유효성 검사
 		Integer courseId = courseAuthkeyMapper.getCourseId(courseSecurityKey);
-
 		if (courseId == null) {
-			return null;
+			throw new RuntimeException(ErrorMessage.COURSE_AUTHKEY_FAILED);
 		}
 
-		if (courseMemberMapper.get(courseId, userId)!=null) {
-			return null;
+		// 수업에 참여하고 있는지 확인
+		CourseMember member = courseMemberMapper.get(courseId, userId);
+
+		if (member == null) {
+			CourseMember params = null;
+			try {
+				params = new CourseMember();
+				params.setCourseId(courseId);
+				params.setUserId(userId);
+				params.setStatus(EnumJoinStatus.WAITING.code());
+				params.setCreateDate(new Date());
+				params.setModifyDate(new Date());
+				courseMemberMapper.create(params);
+
+			} catch (Exception e) {
+				throw new RuntimeException(ErrorMessage.SERVER_ERROR);
+			}
+
+			return params;
+
+		} else {
+			String status = EnumJoinStatus.findKey(member.getStatus());
+
+			if ("WAITING".equals(status)) {
+				// 대기중
+				status = ErrorMessage.COURSE_JOIN_WAITING;
+				
+			} else if ("ACTIVE".equals(status) || "DEACTIVE".equals(status)) {
+				// 참여중
+				status = ErrorMessage.COURSE_JOIN_ACTIVE;
+				
+			} else if ("BLOCK".equals(status)) {
+				// 블락
+				status = ErrorMessage.COURSE_JOIN_BLOCK;
+				
+			} else {
+				status = ErrorMessage.SERVER_ERROR;
+			}
+			
+			throw new RuntimeException(status);
 		}
-
-		CourseMember params = new CourseMember();
-		params.setCourseId(courseId);
-		params.setUserId(userId);
-		params.setStatus(EnumJoinStatus.WAITING.code());
-		params.setCreateDate(new Date());
-		params.setModifyDate(new Date());
-
-		courseMemberMapper.create(params);
-
-		return params;
 	}
 
 	/**
@@ -124,7 +152,7 @@ public class CourseMemberService {
 	 * @return
 	 */
 	public boolean leave(int courseId, int userId) {
-		
+
 		if (courseMemberMapper.exists(courseId, userId)) {
 			courseMemberMapper.deleteByCourseIdAndUserId(courseId, userId);
 			return true;

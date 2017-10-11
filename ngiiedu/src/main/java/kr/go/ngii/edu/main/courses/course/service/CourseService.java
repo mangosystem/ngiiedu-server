@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import kr.go.ngii.edu.main.common.BaseService;
 import kr.go.ngii.edu.main.courses.course.mapper.CourseMapper;
 import kr.go.ngii.edu.main.courses.course.model.Course;
+import kr.go.ngii.edu.main.courses.course.model.CourseTeam;
 import kr.go.ngii.edu.main.courses.work.model.Work;
 import kr.go.ngii.edu.main.courses.work.service.WorkService;
 
@@ -17,9 +18,16 @@ public class CourseService extends BaseService {
 
 	@Autowired
 	private CourseMapper courseMapper;
-
+	
 	@Autowired
 	private WorkService workService;
+	
+	@Autowired
+	private CourseTeamService courseTeamService;
+	
+	@Autowired
+	private CourseMemberService courseMemberService;
+	
 
 	
 	
@@ -55,5 +63,24 @@ public class CourseService extends BaseService {
 		course.setIdx(idx);
 		return courseMapper.get(course);
 	}
+
+
+//	public boolean delete(int courseId) {
+//		
+//		// 수업결과물
+//		
+//		// 팀, 팀원삭제
+//		List<CourseTeam> teamList = courseTeamService.list(courseId);
+//		for (CourseTeam team : teamList) {
+//			courseTeamService.delete(courseId, team.getIdx());
+//		}
+//		
+//		// 수업참여자
+////		courseMemberService.delete()
+//		
+//		// 수업과정
+//		
+//		return false;
+//	}
 
 }

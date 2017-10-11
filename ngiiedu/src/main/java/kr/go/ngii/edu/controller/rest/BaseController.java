@@ -19,7 +19,7 @@ public class BaseController {
 
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<ResponseData> exception(Exception e) {
-		return new ResponseEntity<ResponseData>(responseError(e), HttpStatus.INTERNAL_SERVER_ERROR);
+		return new ResponseEntity<ResponseData>(responseError(e), HttpStatus.OK);
 	}
 
 	protected ResponseData responseError(Exception e) {

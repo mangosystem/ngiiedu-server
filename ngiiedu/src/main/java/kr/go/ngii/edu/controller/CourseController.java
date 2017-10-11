@@ -18,9 +18,12 @@ import kr.go.ngii.edu.controller.rest.BaseController;
 import kr.go.ngii.edu.controller.rest.ResponseData;
 import kr.go.ngii.edu.main.courses.course.model.Course;
 import kr.go.ngii.edu.main.courses.course.model.CourseMember;
+import kr.go.ngii.edu.main.courses.course.model.CourseTeam;
+import kr.go.ngii.edu.main.courses.course.model.CourseTeamMember;
 import kr.go.ngii.edu.main.courses.course.service.CourseMemberService;
 import kr.go.ngii.edu.main.courses.course.service.CourseService;
-
+import kr.go.ngii.edu.main.courses.course.service.CourseTeamMemberService;
+import kr.go.ngii.edu.main.courses.course.service.CourseTeamService;
 
 @Controller
 @RequestMapping("/api/v1/courses")
@@ -31,6 +34,14 @@ public class CourseController extends BaseController {
 
 	@Autowired
 	private CourseMemberService courseMemberService;
+	
+	@Autowired
+	private CourseTeamService courseTeamService;
+	
+	@Autowired
+	private CourseTeamMemberService courseTeamMemberService;
+	
+	
 
 	/**
 	 * 교사사용자가 모듈을 선택하여 새로운 수업을 만듭니다.
@@ -53,6 +64,23 @@ public class CourseController extends BaseController {
 
 		Course result = courseService.create(moduleId, moduleWorkIds, courseName, courseMetadata);
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
+	}
+	
+	
+	/**
+	 * 교사사용자가 수업을 삭제합니다.
+	 * 
+	 * @param courseId
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/{courseId}", method=RequestMethod.DELETE)
+	public @ResponseBody ResponseEntity<ResponseData> delete(
+			@PathVariable("courseId") Integer courseId,
+			HttpSession session) throws Exception {
+		
+		return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
 	}
 
 	/**
@@ -170,6 +198,172 @@ public class CourseController extends BaseController {
 
 		Course list = courseService.get(courseId);
 		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
+	}
+
+
+
+	/**
+	 * 수업내 팀 목록 조회
+	 * @param courseId
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/{courseId}/team", method=RequestMethod.GET)
+	public @ResponseBody ResponseEntity<ResponseData> teamList(
+			@PathVariable("courseId") Integer courseId,
+			HttpSession session) throws Exception {
+		
+		List<CourseTeam> list = courseTeamService.list(courseId);
+		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
+	}
+
+
+	@RequestMapping(value="/{courseId}/team/{teamId}", method=RequestMethod.GET)
+	public @ResponseBody ResponseEntity<ResponseData> teamGet(
+			@PathVariable("courseId") Integer courseId,
+			@PathVariable("teamId") Integer teamId,
+			HttpSession session) throws Exception {
+		
+		CourseTeam result = courseTeamService.get(courseId, teamId);
+		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
+	}
+
+	/**
+	 * 수업내 팀 추가
+	 * @param courseId
+	 * @param teamName
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/{courseId}/team", method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<ResponseData> teamCreate(
+			@PathVariable("courseId") Integer courseId,
+			@RequestParam(value="teamName", required=true) String teamName, 
+			HttpSession session) throws Exception {
+		
+		CourseTeam result = courseTeamService.create(courseId, teamName);
+		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
+	}
+
+	/**
+	 * 수업내 팀 명 변경
+	 * 
+	 * @param courseId
+	 * @param teamId
+	 * @param teamName
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/{courseId}/team/{teamId}/name", method=RequestMethod.PUT)
+	public @ResponseBody ResponseEntity<ResponseData> teamModifyName(
+			@PathVariable("courseId") Integer courseId,
+			@PathVariable("teamId") Integer teamId,
+			@RequestParam(value="teamName", required=true) String teamName, 
+			HttpSession session) throws Exception {
+		
+		CourseTeam result = courseTeamService.modifyName(courseId, teamId, teamName);
+		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
+	}
+
+//	/**
+//	 * 수업내 팀 순서 변경
+//	 * @param courseId
+//	 * @param teamId
+//	 * @param teamSeq
+//	 * @param session
+//	 * @return
+//	 * @throws Exception
+//	 */
+//	@RequestMapping(value="/{courseId}/team/{teamId}/sequence", method=RequestMethod.PUT)
+//	public @ResponseBody ResponseEntity<ResponseData> teamModifySeq(
+//			@PathVariable("courseId") Integer courseId,
+//			@PathVariable("teamId") Integer teamId,
+//			@RequestParam(value="seq", required=true) Integer seq, 
+//			HttpSession session) throws Exception {
+	
+//		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
+//	}
+
+	/**
+	 * 수업내 팀 삭제
+	 * 
+	 * @param courseId
+	 * @param teamId
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/{courseId}/team/{teamId}", method=RequestMethod.DELETE)
+	public @ResponseBody ResponseEntity<ResponseData> teamDelete(
+			@PathVariable("courseId") Integer courseId,
+			@PathVariable("teamId") Integer teamId,
+			HttpSession session) throws Exception {
+
+		boolean result = courseTeamService.delete(courseId, teamId);
+		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
+	}
+
+
+
+	/**
+	 * 수업내 팀 멤버 목록 조회
+	 * 
+	 * @param courseId
+	 * @param teamId
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/{courseId}/team/{teamId}/member", method=RequestMethod.GET)
+	public @ResponseBody ResponseEntity<ResponseData> teamMemberList(
+			@PathVariable("courseId") Integer courseId,
+			@PathVariable("teamId") Integer teamId,
+			HttpSession session) throws Exception {
+		
+		List<CourseTeamMember> list = courseTeamMemberService.list(courseId, teamId);
+		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
+	}
+
+	/**
+	 * 수업내 팀 멤버 추가
+	 * @param courseId
+	 * @param teamId
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/{courseId}/team/{teamId}/member", method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<ResponseData> teamMemberCreate(
+			@PathVariable("courseId") Integer courseId,
+			@PathVariable("teamId") Integer teamId,
+			@RequestParam(value="memberId", required=true) Integer memberId,
+			HttpSession session) throws Exception {
+
+		CourseTeamMember result = courseTeamMemberService.create(courseId, teamId, memberId);
+		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
+	}
+
+	/**
+	 * 수업내 팀 멤버 삭제
+	 * 
+	 * @param courseId
+	 * @param teamId
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/{courseId}/team/{teamId}/member/{memberId}", method=RequestMethod.DELETE)
+	public @ResponseBody ResponseEntity<ResponseData> teamMemberDelete(
+			@PathVariable("courseId") Integer courseId,
+			@PathVariable("teamId") Integer teamId,
+			@PathVariable("memberId") Integer memberId,
+			HttpSession session) throws Exception {
+		
+		boolean result = courseTeamMemberService.delete(courseId, teamId, memberId);
+		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
 
 }
