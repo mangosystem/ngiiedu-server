@@ -22,5 +22,9 @@ public interface SchoolMapper {
 	public void modify(School school);
 
 	public void delete(@Param("idx") int idx);
+	
+	public int count();
+
+	public void createAPI(School school);
 
 }

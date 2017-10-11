@@ -173,6 +173,79 @@
 		DELETE FROM schools
  		WHERE idx = #{idx}
 	</delete>
+	
+	<select id="count" resultType="int">
+		SELECT count(*) 
+		FROM schools
+	</select>
+	
+	<insert id="createAPI" parameterType="map">
+		INSERT INTO schools(
+			idx, 
+			school_id, 
+			school_name, 
+			school_level, 
+			school_status, 
+			school_edu_office_name, 
+       		school_edu_office_code, 
+       		school_sido_office_name, 
+       		school_sido_office_code, 
+       		school_addr, 
+       		school_build_date, 
+       		school_establish_type, 
+       		school_lat, 
+       		school_lon,
+       		school_branch_type, 
+       		school_addr_road, 
+       		school_reference_date,
+       		school_data_create_date, 
+       		school_date_edit_date
+		) VALUES (
+			select nextval('schools_idx_seq'::regclass),
+			#{schoolId},
+			#{schoolName},
+			#{schoolLevel},
+			#{schoolStatus},
+			#{schoolEduOfficeName},
+			#{schoolEduOfficeCode},
+			#{schoolSidoOfficeName},
+			#{schoolSidoOfficeCode},
+			#{schoolAddr},
+			#{schoolBuildDate},
+			#{schoolEstablishType},
+			#{schoolLat},
+			#{schoolLon},
+			#{schoolBranchType},
+			#{schoolAddrRoad},
+			#{schoolReferenceDate},
+			#{schoolDataCreateDate},
+			#{schoolDateEditDate}
+		)
+		on conflict (school_id) do update
+		<set>
+			<if test="schoolId != null"> school_id = #{schoolId}, </if>
+			<if test="schoolName != null"> school_name = #{schoolName}, </if>
+			<if test="schoolLevel != null"> school_level = #{schoolLevel}, </if>
+			<if test="schoolStatus != null"> school_status = #{schoolStatus}, </if>
+			<if test="schoolEduOfficeName != null"> school_edu_office_name = #{schoolEduOfficeName}, </if>
+			<if test="schoolEduOfficeCode != null"> school_edu_office_code = #{schoolEduOfficeCode}, </if>
+			<if test="schoolSidoOfficeName != null"> school_sido_office_name = #{schoolSidoOfficeName}, </if>
+			<if test="schoolSidoOfficeCode != null"> school_sido_office_code = #{schoolSidoOfficeCode}, </if>
+			<if test="schoolAddr != null"> school_addr = #{schoolAddr}, </if>
+			<if test="schoolBuildDate != null"> school_build_date = #{schoolBuildDate}, </if>
+			<if test="schoolEstablishType != null"> school_establish_type = #{schoolEstablishType}, </if>
+			<if test="schoolLat != null"> school_lat = #{schoolLat}, </if>
+			<if test="schoolLon != null"> school_lon = #{schoolLon}, </if>
+			<if test="schoolBranchType != null"> school_branch_type = #{schoolBranchType}, </if>
+			<if test="schoolAddrRoad != null"> school_addr_road = #{schoolAddrRoad}, </if>
+			<if test="schoolReferenceDate != null"> school_reference_date = #{schoolReferenceDate}, </if>
+			<if test="schoolDataCreateDate != null"> school_data_create_date = #{schoolDataCreateDate}, </if>
+			<if test="schoolDateEditDate != null"> school_date_edit_date = #{schoolDateEditDate} </if>
+		
+		</set>
+		
+	</insert>
+	
 
 
 </mapper>

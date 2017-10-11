@@ -102,5 +102,38 @@ public class SchoolService {
 		return param;
 	}
 	
+	public School createAPI(String schoolId, String schoolName, String schoolLevel, String schoolStatus, String schoolEduOfficeName, Integer schoolEduOfficeCode, String schoolSidoOfficeName, 
+			Integer schoolSidoOfficeCode, String schoolAddr, String schoolBuildDate, String schoolEstablishType, String schoolLat, String schoolLon, String schoolBranchType, 
+			String schoolAddrRoad, String schoolRefDate, String schoolCreateDate, String schoolEditDate) {
+		School param = new School();
+		param.setSchoolId(schoolId);
+		param.setSchoolName(schoolName);
+		param.setSchoolLevel(schoolLevel);
+		param.setSchoolStatus(schoolStatus);
+		param.setSchoolEduOfficeName(schoolEduOfficeName);
+		param.setSchoolEduOfficeCode(schoolEduOfficeCode);
+		param.setSchoolSidoOfficeName(schoolSidoOfficeName);
+		param.setSchoolSidoOfficeCode(schoolSidoOfficeCode);
+		param.setSchoolAddr(schoolAddr);
+		param.setSchoolBuildDate(schoolBuildDate);
+		param.setSchoolEstablishType(schoolEstablishType);
+		param.setSchoolLat(schoolLat);
+		param.setSchoolLon(schoolLon);
+		param.setSchoolBranchType(schoolBranchType);
+		param.setSchoolAddrRoad(schoolAddrRoad);
+		param.setSchoolReferenceDate(schoolRefDate);
+		param.setSchoolDataCreateDate(schoolCreateDate);
+		param.setSchoolDateEditDate(schoolEditDate);
+		schoolMapper.createAPI(param);
+
+		return param;
+	}
+
+	public int count() {
+		return schoolMapper.count();
+	}
+	
+	
+	
 }
 
