@@ -70,7 +70,7 @@ public class SchoolController extends BaseController{
 	}
 
 	/**
-	 * 학교 목록 조회하기
+	 * API 학교 목록 조회하기
 	 * 
 	 * @param session
 	 * @return
@@ -96,9 +96,6 @@ public class SchoolController extends BaseController{
 		addr = addr + serviceKey + parameter;
 		URL url = new URL(addr);
 		
-	    // 문자열로 URL 표현
-        System.out.println("URL :" + url.toExternalForm());
-        
         // HTTP Connection 구하기 
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         
@@ -110,22 +107,102 @@ public class SchoolController extends BaseController{
         // 읽기 타임아웃 설정 
         conn.setReadTimeout(3000); // 3초 
         
-        // 요청 방식 구하기
-        System.out.println("getRequestMethod():" + conn.getRequestMethod());
-        // 응답 콘텐츠 유형 구하기
-        System.out.println("getContentType():" + conn.getContentType());
-        // 응답 코드 구하기
-        System.out.println("getResponseCode():"    + conn.getResponseCode());
-        // 응답 메시지 구하기
-        System.out.println("getResponseMessage():" + conn.getResponseMessage());
-        
-        
-        // 응답 헤더의 정보를 모두 출력
-        for (Map.Entry<String, List<String>> header : conn.getHeaderFields().entrySet()) {
-            for (String value : header.getValue()) {
-                System.out.println(header.getKey() + " : " + value);
+        String result;
+        // 응답 내용(BODY) 구하기        
+        try (InputStream in = conn.getInputStream();
+                ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+            
+            byte[] buf = new byte[1024 * 8];
+            int length = 0;
+            while ((length = in.read(buf)) != -1) {
+                out.write(buf, 0, length);
             }
+            result = new String(out.toByteArray());
         }
+        ArrayList<HashMap<String,Object>> map = new ArrayList<HashMap<String,Object>>();
+		
+		try {
+
+			ObjectMapper mapper = new ObjectMapper();
+
+			// convert JSON string to Map
+			map = mapper.readValue(result, new TypeReference<ArrayList<HashMap<String,Object>>>(){});
+			
+		} catch (JsonGenerationException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return new ResponseEntity<ResponseData>(responseBody(map), HttpStatus.OK);
+	}
+	
+	/**
+	 * API 동기화 
+	 * 
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/sync/apiupload", method=RequestMethod.POST)
+			public ResponseEntity<ResponseData> insertAPI(		
+			@RequestParam(value="editColumn[]", required=true, defaultValue="0") List<String> editColumn
+			) throws Exception {
+		
+		List<String> apiColumn = new ArrayList<String>();
+	
+		String[] dbColumn = {
+	        "schoolId",
+	        "schoolName",
+	        "schoolLevel",
+	        "schoolStatus",
+	        "schoolEduOfficeName",
+	        "schoolEduOfficeCode",
+	        "schoolSidoOfficeName",
+	        "schoolSidoOfficeCode",
+	        "schoolAddr",
+	        "schoolAddrRoad",
+	        "schoolBuildDate",
+	        "schoolEstablishType",
+	        "schoolLat",
+	        "schoolLon",
+	        "schoolBranchType",
+	        "schoolReferenceDate",
+	        "schoolDataCreateDate",
+	        "schoolDateEditDate"
+	     };
+		
+		//시간측정
+		long start = System.currentTimeMillis();
+
+		
+		String sPage="0";
+		String sList="100";
+		
+		String addr = "http://api.data.go.kr/openapi/elesch-mskul-lc-std?serviceKey=";
+		String serviceKey = "Yi8DoSjyAGhSiZy4cRAPT614KxQFYsGlhE%2Fh7WPOaG5A5pqT%2FYrHYDdwZ0Mefa%2B1Ducm62vuAUeg0nkY1%2BRZrw%3D%3D";
+		String parameter = "";
+
+		parameter = parameter + "&" + "s_page="+sPage;
+		parameter = parameter + "&" + "s_list="+sList;
+		parameter = parameter + "&" + "type=json";
+		
+		addr = addr + serviceKey + parameter;
+		URL url = new URL(addr);
+
+		//         HTTP Connection 구하기 
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        
+        // 요청 방식 설정 ( GET or POST or .. 별도로 설정하지않으면 GET 방식 )
+        conn.setRequestMethod("GET"); 
+        
+        // 연결 타임아웃 설정 
+        conn.setConnectTimeout(3000); // 3초 
+        // 읽기 타임아웃 설정 
+        conn.setReadTimeout(3000); // 3초 
+
         String result;
         // 응답 내용(BODY) 구하기        
         try (InputStream in = conn.getInputStream();
@@ -139,25 +216,14 @@ public class SchoolController extends BaseController{
             result = new String(out.toByteArray());
         }
         
-        System.out.println(result);
-		
-		
-		
-        ArrayList<HashMap<String,Object>> map = new ArrayList<HashMap<String,Object>>();
+        ArrayList<HashMap<String,String>> map = new ArrayList<HashMap<String,String>>();
 		
 		try {
 
 			ObjectMapper mapper = new ObjectMapper();
-//			String json = "{\"name\":\"mkyong\", \"age\":29}";
-
-//			List<Map<String, Object>> map = new ArrayList<HashMap<String, Object>>();
 
 			// convert JSON string to Map
-			map = mapper.readValue(result, new TypeReference<ArrayList<HashMap<String,Object>>>(){});
-			
-			System.out.println(map.get(0).toString());
-			System.out.println(map.toString());
-			
+			map = mapper.readValue(result, new TypeReference<ArrayList<HashMap<String,String>>>(){});
 		} catch (JsonGenerationException e) {
 			e.printStackTrace();
 		} catch (JsonMappingException e) {
@@ -166,19 +232,61 @@ public class SchoolController extends BaseController{
 			e.printStackTrace();
 		}
 		
-		Iterator iterator = map.get(0).entrySet().iterator();
+		//기존 데이터 개수
+		int oldRowCount = schoolService.count();
+		//api 데이터 개수
+		int apiRowCount =map.size();
+		System.out.println("schoolServiceCount : "+schoolService.count());
 		
-		while (iterator.hasNext()) {
-			Entry entry = (Entry)iterator.next();
-			System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
+		for(int i=0;i<map.size();i++){
+			
+			
+			schoolService.createAPI(
+					map.get(i).get(editColumn.get(0)),
+					map.get(i).get(editColumn.get(1)),
+					map.get(i).get(editColumn.get(2)),
+					map.get(i).get(editColumn.get(3)),
+					map.get(i).get(editColumn.get(4)),
+					Integer.parseInt(map.get(i).get(editColumn.get(5)).toString()),
+					map.get(i).get(editColumn.get(6)),
+					Integer.parseInt(map.get(i).get(editColumn.get(7)).toString()),
+					map.get(i).get(editColumn.get(8)),
+					map.get(i).get(editColumn.get(9)),
+					map.get(i).get(editColumn.get(10)),
+					map.get(i).get(editColumn.get(11)),
+					map.get(i).get(editColumn.get(12)),
+					map.get(i).get(editColumn.get(13)),
+					map.get(i).get(editColumn.get(14)),
+					map.get(i).get(editColumn.get(15)),
+					map.get(i).get(editColumn.get(16)),
+					map.get(i).get(editColumn.get(17))
+			);
 		}
+		
+		int resultRowCount = schoolService.count();
+		
+		//중복 데이터 수
+		int overlapRow = oldRowCount+ apiRowCount -resultRowCount;
+		//신규 데이터 수
+		int newRow = apiRowCount - overlapRow ;
+		System.out.println("schoolServiceCount : "+schoolService.count());
+		System.out.println("overlap : " + overlapRow);
+		System.out.println("newRow : " + newRow);
+		
+		//중복신규데이터를 보내기
+        HashMap<String,Integer> returnValue = new HashMap<String,Integer>();
+        returnValue.put("overlapRow",overlapRow);
+        returnValue.put("newRow",newRow);
 
-		
-		return new ResponseEntity<ResponseData>(responseBody(map), HttpStatus.OK);
-		
-		
+//끝시간
+        long end = System.currentTimeMillis();
+        System.out.println( "실행 시간 : " + ( end - start )/1000.0 );
+        
+		return new ResponseEntity<ResponseData>(responseBody(returnValue), HttpStatus.OK);
 		
 	}
+	
+	
 	
 	/**
 	 * 학교정보 조회하기
@@ -251,232 +359,6 @@ public class SchoolController extends BaseController{
 	}
 	
 
-	
-	
-	
-	/**
-	 * 동기화 API
-	 * 
-	 * @param session
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value="/sync/apiupload", method=RequestMethod.POST)
-//	public @ResponseBody ResponseEntity<ResponseData> apiList(
-			public ResponseEntity<ResponseData> insert(		
-			@RequestParam(value="editColumn[]", required=true, defaultValue="0") List<String> editColumn
-
-//			HttpServletRequest request,
-//			HttpServletResponse response,
-//			HttpSession 
-			) throws Exception {
-		
-		List<String> apiColumn = new ArrayList<String>();
-	
-		String[] dbColumn = {
-	        "schoolId",
-	        "schoolName",
-	        "schoolLevel",
-	        "schoolStatus",
-	        "schoolEduOfficeName",
-	        "schoolEduOfficeCode",
-	        "schoolSidoOfficeName",
-	        "schoolSidoOfficeCode",
-	        "schoolAddr",
-	        "schoolAddrRoad",
-	        "schoolBuildDate",
-	        "schoolEstablishType",
-	        "schoolLat",
-	        "schoolLon",
-	        "schoolBranchType",
-	        "schoolReferenceDate",
-	        "schoolDataCreateDate",
-	        "schoolDateEditDate"
-	     };
-		
-//		for(int i =0;i<=dbColumnIndex.size();i++) {
-//			System.out.println(dbColumnIndex.get(i));
-//		}
-		
-		//시간측정
-		long start = System.currentTimeMillis();
-
-		
-		String sPage="0";
-		String sList="100";
-		
-		String addr = "http://api.data.go.kr/openapi/elesch-mskul-lc-std?serviceKey=";
-		String serviceKey = "Yi8DoSjyAGhSiZy4cRAPT614KxQFYsGlhE%2Fh7WPOaG5A5pqT%2FYrHYDdwZ0Mefa%2B1Ducm62vuAUeg0nkY1%2BRZrw%3D%3D";
-		String parameter = "";
-
-		parameter = parameter + "&" + "s_page="+sPage;
-		parameter = parameter + "&" + "s_list="+sList;
-		parameter = parameter + "&" + "type=json";
-		
-		addr = addr + serviceKey + parameter;
-		URL url = new URL(addr);
-		
-//	    // 문자열로 URL 표현
-//        System.out.println("URL :" + url.toExternalForm());
-//        
-//         HTTP Connection 구하기 
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        
-        // 요청 방식 설정 ( GET or POST or .. 별도로 설정하지않으면 GET 방식 )
-        conn.setRequestMethod("GET"); 
-        
-        // 연결 타임아웃 설정 
-        conn.setConnectTimeout(3000); // 3초 
-        // 읽기 타임아웃 설정 
-        conn.setReadTimeout(3000); // 3초 
-        
-//        // 요청 방식 구하기
-//        System.out.println("getRequestMethod():" + conn.getRequestMethod());
-//        // 응답 콘텐츠 유형 구하기
-//        System.out.println("getContentType():" + conn.getContentType());
-//        // 응답 코드 구하기
-//        System.out.println("getResponseCode():"    + conn.getResponseCode());
-//        // 응답 메시지 구하기
-//        System.out.println("getResponseMessage():" + conn.getResponseMessage());
-        
-        
-        // 응답 헤더의 정보를 모두 출력
-        for (Map.Entry<String, List<String>> header : conn.getHeaderFields().entrySet()) {
-            for (String value : header.getValue()) {
-                System.out.println(header.getKey() + " : " + value);
-            }
-        }
-        String result;
-        // 응답 내용(BODY) 구하기        
-        try (InputStream in = conn.getInputStream();
-                ByteArrayOutputStream out = new ByteArrayOutputStream()) {
-            
-            byte[] buf = new byte[1024 * 8];
-            int length = 0;
-            while ((length = in.read(buf)) != -1) {
-                out.write(buf, 0, length);
-            }
-            result = new String(out.toByteArray());
-        }
-        
-//        System.out.println(result);
-		
-		
-		
-        ArrayList<HashMap<String,String>> map = new ArrayList<HashMap<String,String>>();
-		
-		try {
-
-			ObjectMapper mapper = new ObjectMapper();
-//			String json = "{\"name\":\"mkyong\", \"age\":29}";
-
-//			List<Map<String, Object>> map = new ArrayList<HashMap<String, Object>>();
-
-			// convert JSON string to Map
-			map = mapper.readValue(result, new TypeReference<ArrayList<HashMap<String,String>>>(){});
-			
-//			System.out.println(map.get(0).toString());
-//			System.out.println(map.toString());
-			
-		} catch (JsonGenerationException e) {
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-//		Iterator iterator = map.get(0).entrySet().iterator();
-//		System.out.println(map.size());
-//		while (iterator.hasNext()) {
-//			Entry entry = (Entry)iterator.next();
-////			System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
-//			apiColumn.add((String) entry.getKey());
-//		}
-		
-//		System.out.println(apiColumn.toString());
-//		School
-		//기존 데이터 개수
-		int oldRowCount = schoolService.count();
-		//api 데이터 개수
-		int apiRowCount =map.size();
-		
-		System.out.println("schoolServiceCount : "+schoolService.count());
-//		String[] tempEditColumn = new String[editColumn.size()+1];
-//		for(int i=0;i<tempEditColumn.length;i++){
-//			tempEditColumn[i]=editColumn.get(i);
-//		}
-		
-		
-		
-		for(int i=0;i<map.size();i++){
-			
-			
-			schoolService.create(
-					map.get(i).get(editColumn.get(0)),
-					map.get(i).get(editColumn.get(1)),
-					map.get(i).get(editColumn.get(2)),
-					map.get(i).get(editColumn.get(3)),
-					map.get(i).get(editColumn.get(4)),
-					Integer.parseInt(map.get(i).get(editColumn.get(5)).toString()),
-					map.get(i).get(editColumn.get(6)),
-					Integer.parseInt(map.get(i).get(editColumn.get(7)).toString()),
-					map.get(i).get(editColumn.get(8)),
-					map.get(i).get(editColumn.get(9)),
-					map.get(i).get(editColumn.get(10)),
-					map.get(i).get(editColumn.get(11)),
-					map.get(i).get(editColumn.get(12)),
-					map.get(i).get(editColumn.get(13)),
-					map.get(i).get(editColumn.get(14)),
-					map.get(i).get(editColumn.get(15)),
-					map.get(i).get(editColumn.get(16)),
-					map.get(i).get(editColumn.get(17))
-			);
-			
-//			for(int j=0;j<dbColumn.length;j++) {
-//				map.get(i).get(editColumn.get(j));
-//			}
-		}
-		
-//		//맵으로 넘기기
-//		Map<String,Object> paramMap = new HashMap<String, Object>();
-//		paramMap.put("dataList", map);
-//		schoolService.creatApi(paramMap);
-		
-		
-		
-		
-		int resultRowCount = schoolService.count();
-		
-		//중복 데이터 수
-		int overlapRow = oldRowCount+ apiRowCount -resultRowCount;
-		//신규 데이터 수
-		int newRow = apiRowCount - overlapRow ;
-
-		System.out.println("schoolServiceCount : "+schoolService.count());
-		System.out.println("overlap : " + overlapRow);
-		System.out.println("newRow : " + newRow);
-		
-		//중복신규데이터를 보내기
-        HashMap<String,Integer> returnValue = new HashMap<String,Integer>();
-        returnValue.put("overlapRow",overlapRow);
-        returnValue.put("newRow",newRow);
-
-//끝시간
-        long end = System.currentTimeMillis();
-        System.out.println( "실행 시간 : " + ( end - start )/1000.0 );
-        
-        
-		return new ResponseEntity<ResponseData>(responseBody(returnValue), HttpStatus.OK);
-		
-//		return new ResponseEntity<ResponseData>(responseBody(map), HttpStatus.OK);
-		
-		
-		
-	}
-	
-	
-	
 	/**
 	 * 학교 목록 변경하기
 	 * 

@@ -201,7 +201,7 @@
        		school_data_create_date, 
        		school_date_edit_date
 		) VALUES (
-			select nextval('schools_idx_seq'::regclass),
+			nextval('schools_idx_seq'::regclass),
 			#{schoolId},
 			#{schoolName},
 			#{schoolLevel},
