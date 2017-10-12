@@ -83,7 +83,7 @@ public class SchoolController extends BaseController{
 			HttpSession session) throws Exception {
 		
 		String sPage="0";
-		String sList="100";
+		String sList="50";
 		
 		String addr = "http://api.data.go.kr/openapi/elesch-mskul-lc-std?serviceKey=";
 		String serviceKey = "Yi8DoSjyAGhSiZy4cRAPT614KxQFYsGlhE%2Fh7WPOaG5A5pqT%2FYrHYDdwZ0Mefa%2B1Ducm62vuAUeg0nkY1%2BRZrw%3D%3D";
@@ -278,14 +278,13 @@ public class SchoolController extends BaseController{
         returnValue.put("overlapRow",overlapRow);
         returnValue.put("newRow",newRow);
 
-//끝시간
+        //끝시간
         long end = System.currentTimeMillis();
         System.out.println( "실행 시간 : " + ( end - start )/1000.0 );
         
 		return new ResponseEntity<ResponseData>(responseBody(returnValue), HttpStatus.OK);
 		
 	}
-	
 	
 	
 	/**

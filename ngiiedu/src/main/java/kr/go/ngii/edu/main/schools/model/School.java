@@ -73,6 +73,9 @@ public class School implements Serializable {
 
 	/** 변경일자. */
 	private String schoolDateEditDate;
+	
+	/** 학교인증키. */
+	private String schoolAuthkey;
 
 	/**
 	 * 생성자.
@@ -439,6 +442,25 @@ public class School implements Serializable {
 	 */
 	public String getSchoolDateEditDate() {
 		return this.schoolDateEditDate;
+	}
+	
+	/**
+	 * 변경일자을 설정합니다..
+	 * 
+	 * @param setSchoolAuthkey
+	 *            학교인증키
+	 */
+	public void setSchoolAuthkey(String schoolAuthkey) {
+		this.schoolAuthkey = schoolAuthkey;
+	}
+	
+	/**
+	 * 학교인증키를 가져옵니다..
+	 * 
+	 * @return 학교인증키
+	 */
+	public String getSchoolAuthkey() {
+		return schoolAuthkey;
 	}
 
 	/**

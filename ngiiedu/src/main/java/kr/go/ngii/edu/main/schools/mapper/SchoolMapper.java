@@ -24,7 +24,12 @@ public interface SchoolMapper {
 	public void delete(@Param("idx") int idx);
 	
 	public int count();
-
+	
+	//api 동기화
 	public void createAPI(School school);
+	
+	//인증키 중복 확인
+	public boolean exists(String authkey);
+	
 
 }

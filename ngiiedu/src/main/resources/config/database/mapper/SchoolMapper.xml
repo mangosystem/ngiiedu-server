@@ -24,6 +24,8 @@
 			<result property="schoolReferenceDate" column="school_reference_date"/>
 			<result property="schoolDataCreateDate" column="school_data_create_date"/>
 			<result property="schoolDateEditDate" column="school_date_edit_date"/>
+			<result property="schoolAuthkey" column="school_authkey" />
+			
 	</resultMap>
 	
 	<select id="list" parameterType="map" resultMap="schoolMap">
@@ -199,7 +201,8 @@
        		school_addr_road, 
        		school_reference_date,
        		school_data_create_date, 
-       		school_date_edit_date
+       		school_date_edit_date,
+       		school_authkey
 		) VALUES (
 			nextval('schools_idx_seq'::regclass),
 			#{schoolId},
@@ -219,7 +222,8 @@
 			#{schoolAddrRoad},
 			#{schoolReferenceDate},
 			#{schoolDataCreateDate},
-			#{schoolDateEditDate}
+			#{schoolDateEditDate},
+			#{schoolAuthkey}
 		)
 		on conflict (school_id) do update
 		<set>
@@ -246,6 +250,14 @@
 		
 	</insert>
 	
-
+	<select id="exists" parameterType="string" resultType="boolean">
+		SELECT
+			CASE WHEN EXISTS (
+				SELECT
+					school_authkey
+				FROM schools
+				WHERE school_authkey = #{value}
+			)  THEN true ELSE false END
+	</select>
 
 </mapper>
