@@ -30,6 +30,10 @@ public interface SchoolMapper {
 	
 	//인증키 중복 확인
 	public boolean exists(String authkey);
+
+	public void modifyAuthkey(School school);
+
+	public String getAuthkey(@Param("idx") int idx);
 	
 
 }

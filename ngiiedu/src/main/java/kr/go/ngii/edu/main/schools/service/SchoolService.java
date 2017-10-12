@@ -168,6 +168,29 @@ try {
 			return key;
 		}
 	}
+
+	public void modifyAuthkey(Integer idx) {
+		try {
+			School param = new School();
+			
+			String schoolAuthkey = getAuthkey();
+			param.setIdx(idx);
+			param.setSchoolAuthkey(schoolAuthkey);
+
+			
+			 schoolMapper.modifyAuthkey(param);
+		} catch (Exception e) {
+			LOGGER.debug(e.getMessage());
+			e.printStackTrace();
+		}
+		
+	}
+
+	public String getAuthkey(Integer idx) {
+		
+		return schoolMapper.getAuthkey(idx);
+
+	}
 	
 }
 

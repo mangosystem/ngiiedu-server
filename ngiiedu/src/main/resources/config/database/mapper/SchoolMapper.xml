@@ -259,5 +259,19 @@
 				WHERE school_authkey = #{value}
 			)  THEN true ELSE false END
 	</select>
+	
+	<update id="modifyAuthkey" parameterType="map">
+	UPDATE schools
+			set school_authkey = #{schoolAuthkey}
+		WHERE idx = #{idx}
+	</update>
+	
+	<select id="getAuthkey" parameterType="int" resultType="java.lang.String">
+		select school_authkey
+		from schools
+		WHERE idx = #{idx}	
+	</select>
+	
+	
 
 </mapper>

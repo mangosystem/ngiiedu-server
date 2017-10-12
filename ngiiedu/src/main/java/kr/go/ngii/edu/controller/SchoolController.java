@@ -286,6 +286,17 @@ public class SchoolController extends BaseController{
 		
 	}
 	
+	//인증키 재발급
+	@RequestMapping(value="/modify/authkey/{idx}", method=RequestMethod.GET)
+	public @ResponseBody ResponseEntity<ResponseData> modifyAuthkey(
+			@PathVariable(value="idx") Integer idx
+			) throws Exception {
+		System.out.println("idx : "+idx);
+		schoolService.modifyAuthkey(idx);
+		String schoolAuthkey = schoolService.getAuthkey(idx);
+		return new ResponseEntity<ResponseData>(responseBody(schoolAuthkey), HttpStatus.OK);
+	}
+	
 	
 	/**
 	 * 학교정보 조회하기
@@ -394,5 +405,6 @@ public class SchoolController extends BaseController{
 				schoolBuildDate, schoolEstablishType, schoolLat, schoolLon, schoolBranchType, schoolAddrRoad, schoolReferenceDate, schoolDataCreateDate, schoolDateEditDate);
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
+
 	
 }
