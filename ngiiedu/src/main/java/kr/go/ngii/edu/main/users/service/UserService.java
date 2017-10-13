@@ -14,23 +14,7 @@ public class UserService {
 	@Autowired
 	private UserMapper userMapper;
 	
-/*	public List<User> list(User user) {
-		
-		User param = new User();
-		
-		param.setUserid(user.getUserid());
-		param.setUserEmail(user.getUserEmail());
-		param.setUserName(user.getUserName());
-		
-		return null;
-		return userMapper.list(param);
-	}
-	
-	public List<User> list(int offset, int limit) {
-		return null;
-		return userMapper.list(offset, limit);
-	}*/
-	
+
 	public List<User> list(int offset, int limit, String category, String keyword) {
 		return userMapper.list(offset, limit, category, keyword);
 	}
@@ -39,19 +23,27 @@ public class UserService {
 		return userMapper.get(user);
 	}
 	
-	//확인필요
-	public int create(User user) {
-		return userMapper.create(user);
+	
+	public User create(String userid, String password, String userEmail, String userName, String userDivision) {
+		User param = new User();
+		
+		param.setUserid(userid);
+		param.setPassword(password);
+		param.setUserEmail(userEmail);
+		param.setUserName(userName);
+		param.setUserDivision(userDivision);
+		userMapper.create(param);
+		
+		return param;
 	}
 	
 	//확인필요
-	public User modify(User user) {
-		User param = new User();
+	public User modify(String userid, String userName, String password, boolean userState) {
+		User param = get(userid);
 		
-		param.setIdx(user.getIdx());
-		param.setPassword(user.getPassword());
-		param.setUserName(user.getUserName());
-		param.setUserState(user.getUserState());
+		param.setPassword(password);
+		param.setUserName(userName);
+		param.setUserState(userState);
 		
 		userMapper.modify(param);
 		

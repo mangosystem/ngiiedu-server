@@ -24,7 +24,7 @@
 			user_division,
 			user_state
 		FROM users
-		WHERE userid = #{userid}
+		where userid = #{userid}
 	</select>
 
 
@@ -40,13 +40,13 @@
 		FROM users
 		<where>
 			<if test="category == 'userid' and keyword != '' and keyword != null">
-				userid = #{keyword}
+				userid like #{keyword}
 			</if>
 			<if test="category == 'userName' and keyword != '' and keyword != null">
-				user_name = #{keyword}
+				user_name like #{keyword}
 			</if>
 			<if test="category == 'userEmail' and keyword != '' and keyword != null">
-				user_email = #{keyword}
+				user_email like #{keyword}
 			</if>
 		</where>
 		order by userid
