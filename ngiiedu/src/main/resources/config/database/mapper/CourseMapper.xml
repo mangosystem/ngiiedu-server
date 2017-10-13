@@ -14,6 +14,22 @@
 		<result property="modifyDate" column="modify_date" />
 	</resultMap>
 	
+	<resultMap type="kr.go.ngii.edu.main.courses.course.model.CourseDetail" id="courseDetailMap">
+		<id property="idx" column="idx" />
+		<result property="moduleId" column="module_id" />
+		<result property="moduleName" column="module_name" />
+		<result property="moduleMetadata" column="module_metadata" />
+		<result property="courseName" column="course_name" />
+		<result property="courseMetadata" column="course_metadata" />
+		<result property="courseCreateId" column="course_create_id" />
+		<result property="courseCreateUserId" column="course_create_userid" />
+		<result property="userDivision" column="user_division" />
+		<result property="createDate" column="create_date" />
+		<result property="modifyDate" column="modify_date" />
+		<result property="userId" column="user_id" />
+		<result property="status" column="status" />
+	</resultMap>
+	
 	<!-- 사용자별 내가 만든 수업목록 -->
 	<select id="listOwn" parameterType="map" resultMap="courseMap">
 		SELECT
@@ -50,6 +66,7 @@
 		</if>
 	</select>
 	
+	<!-- 전체수업 목록 -->
 	<select id="list" parameterType="map" resultMap="courseMap">
 		SELECT
 			idx,
@@ -63,6 +80,47 @@
 		<if test="offset != null and limit != null">
 			OFFSET ${offset} LIMIT ${limit}
 		</if>
+	</select>
+	
+	<!-- 전체수업 자세한 목록 -->
+	<select id="courseDetailList" parameterType="map" resultMap="courseDetailMap">
+		SELECT 
+			idx, 
+			module_id, 
+			module_name, 
+			module_metadata, 
+			course_name, 
+			course_metadata, 
+       		course_create_id, 
+       		userid as course_create_userid, 
+       		user_division, 
+       		create_date, 
+       		modify_date
+  		FROM public.courses_detail
+		<if test="offset != null and limit != null">
+			OFFSET ${offset} LIMIT ${limit}
+		</if>
+	</select>
+	
+	<!-- 사용자별 참여한 수업목록 -->
+	<select id="courseDetailListByUserId" parameterType="map" resultMap="courseDetailMap">
+		SELECT
+		    tb1.idx,
+		    tb1.module_id,
+		    tb1.module_name,
+		    tb1.module_metadata,
+		    tb1.course_name,
+		    tb1.course_metadata,
+		    tb1.course_create_id,
+		    tb1.userid as course_create_userid,
+		    tb1.user_division,
+		    tb1.create_date,
+		    tb1.modify_date,
+		    tb2.user_id,
+		    tb2.status
+		FROM courses_detail tb1 left join courses_member tb2
+		    ON tb1.idx = tb2.course_id
+		WHERE tb2.user_id = ${userId}
 	</select>
 
 	<select id="get" parameterType="map" resultMap="courseMap">

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import kr.go.ngii.edu.main.common.BaseService;
 import kr.go.ngii.edu.main.courses.course.mapper.CourseMapper;
 import kr.go.ngii.edu.main.courses.course.model.Course;
+import kr.go.ngii.edu.main.courses.course.model.CourseDetail;
 import kr.go.ngii.edu.main.courses.course.model.CourseTeam;
 import kr.go.ngii.edu.main.courses.work.model.Work;
 import kr.go.ngii.edu.main.courses.work.service.WorkService;
@@ -62,6 +63,23 @@ public class CourseService extends BaseService {
 		Course course = new Course();
 		course.setIdx(idx);
 		return courseMapper.get(course);
+	}
+	
+	public List<CourseDetail> courseDetailList() {
+		return courseMapper.courseDetailList();
+	}
+
+	public List<CourseDetail> courseDetailList(int offset, int limit) {
+		return courseMapper.courseDetailList(offset, limit);
+	}
+	
+	public List<CourseDetail> courseDetailListByUserId(int userId) {
+		return courseMapper.courseDetailListByUserId(userId);
+	}
+
+	public List<CourseDetail> courseDetailListByUserId(int userId, int offset, int limit) {
+//		return courseMapper.courseDetailListByUserId(userId, offset, limit);
+		return courseMapper.courseDetailListByUserId(userId);
 	}
 
 

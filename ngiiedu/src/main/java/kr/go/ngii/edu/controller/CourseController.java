@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import kr.go.ngii.edu.controller.rest.BaseController;
 import kr.go.ngii.edu.controller.rest.ResponseData;
 import kr.go.ngii.edu.main.courses.course.model.Course;
+import kr.go.ngii.edu.main.courses.course.model.CourseDetail;
 import kr.go.ngii.edu.main.courses.course.model.CourseMember;
 import kr.go.ngii.edu.main.courses.course.model.CourseTeam;
 import kr.go.ngii.edu.main.courses.course.model.CourseTeamMember;
@@ -182,6 +183,50 @@ public class CourseController extends BaseController {
 
 		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
 	}
+	
+	
+	/**
+	 * 수업 목록 조회하기 (상세정보와 함께)
+	 * 
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/list/courseDetail", method=RequestMethod.GET)
+	public @ResponseBody ResponseEntity<ResponseData> courseDetailList(
+			@RequestParam(value="offset", required=false, defaultValue="0") Integer offset, 
+			@RequestParam(value="limit", required=false, defaultValue="0") Integer limit, 
+			HttpSession session) throws Exception {
+
+		List<CourseDetail> list = null;
+
+		if (offset==0 && limit==0) {
+			list = courseService.courseDetailList();
+
+		} else {
+			list = courseService.courseDetailList(offset, limit);
+		}
+
+		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
+	}
+	
+	/**
+	 * 수업  조회하기 (상세정보와 함께)
+	 * 
+	 * @param idx
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/list/{userId}/courseDetail", method=RequestMethod.GET)
+	public @ResponseBody ResponseEntity<ResponseData> courseDetailList(
+			@PathVariable("userId") Integer userId,
+			HttpSession session) throws Exception {
+
+		List<CourseDetail> list = courseService.courseDetailListByUserId(userId);
+		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
+	}
+	
 	
 	/**
 	 * 수업 조회하기
