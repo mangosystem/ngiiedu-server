@@ -276,8 +276,11 @@
 		WHERE idx = #{idx}
 	</update>
 	
-	<select id="getAuthkey" parameterType="int" resultType="java.lang.String">
-		select school_authkey
+	<select id="getAuthkey" parameterType="int" resultMap="schoolMap">
+		select 
+		idx,
+		school_name,
+		school_authkey
 		from schools
 		WHERE idx = #{idx}	
 	</select>

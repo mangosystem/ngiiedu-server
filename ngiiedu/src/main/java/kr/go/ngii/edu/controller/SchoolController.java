@@ -298,9 +298,9 @@ public class SchoolController extends BaseController{
 	public @ResponseBody ResponseEntity<ResponseData> modifyAuthkey(
 			@PathVariable(value="idx") Integer idx
 			) throws Exception {
-		System.out.println("idx : "+idx);
+		
 		schoolService.modifyAuthkey(idx);
-		String schoolAuthkey = schoolService.getAuthkey(idx);
+		School schoolAuthkey = schoolService.getAuthkey(idx);
 		return new ResponseEntity<ResponseData>(responseBody(schoolAuthkey), HttpStatus.OK);
 	}
 	
@@ -316,8 +316,8 @@ public class SchoolController extends BaseController{
 	public @ResponseBody ResponseEntity<ResponseData> getAuthkey(
 			@PathVariable(value="idx") Integer idx
 			) throws Exception {
-		System.out.println("idx : "+idx);
-		String schoolAuthkey = schoolService.getAuthkey(idx);
+		
+		School schoolAuthkey = schoolService.getAuthkey(idx);
 		return new ResponseEntity<ResponseData>(responseBody(schoolAuthkey), HttpStatus.OK);
 	}
 	

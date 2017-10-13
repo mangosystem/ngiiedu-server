@@ -33,7 +33,7 @@ public interface SchoolMapper {
 
 	public void modifyAuthkey(School school);
 
-	public String getAuthkey(@Param("idx") int idx);
+	public School getAuthkey(@Param("idx") int idx);
 	
 
 }

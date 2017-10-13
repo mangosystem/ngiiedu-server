@@ -192,7 +192,7 @@ try {
 		
 	}
 
-	public String getAuthkey(Integer idx) {
+	public School getAuthkey(Integer idx) {
 		
 		return schoolMapper.getAuthkey(idx);
 
