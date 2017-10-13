@@ -128,7 +128,8 @@
 	       		school_addr_road, 
 	       		school_reference_date,
 	       		school_data_create_date, 
-	       		school_date_edit_date
+	       		school_date_edit_date,
+       			school_authkey
 			) VALUES (
 				#{idx},
 				#{schoolId},
@@ -148,7 +149,8 @@
 				#{schoolAddrRoad},
 				#{schoolReferenceDate},
 				#{schoolDataCreateDate},
-				#{schoolDateEditDate}
+				#{schoolDateEditDate},
+				#{schoolAuthkey}
 			)
 			
 	</insert>
