@@ -36,6 +36,12 @@ public class SchoolService extends BaseService{
 		return schoolMapper.get(school);
 	}
 	
+	public School get(String schoolAuthkey) {
+		School school = new School();
+		school.setSchoolAuthkey(schoolAuthkey);
+		return schoolMapper.get(school);
+	}
+	
 	public boolean delete(int idx) {
 		if (get(idx)!=null) {
 			schoolMapper.delete(idx);

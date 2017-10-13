@@ -428,6 +428,22 @@ public class SchoolController extends BaseController{
 				schoolBuildDate, schoolEstablishType, schoolLat, schoolLon, schoolBranchType, schoolAddrRoad, schoolReferenceDate, schoolDataCreateDate, schoolDateEditDate);
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
+	
+	/**
+	 * 인증키로 학교정보 조회하기
+	 * 
+	 * @param idx
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/authkey/{schoolAuthkey}/get", method=RequestMethod.GET)
+	public @ResponseBody ResponseEntity<ResponseData> getToAuthkey(
+			@PathVariable("schoolAuthkey") String schoolAuthkey,
+			HttpSession session) throws Exception {
 
+		School list = schoolService.get(schoolAuthkey);
+		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
+	}
 	
 }

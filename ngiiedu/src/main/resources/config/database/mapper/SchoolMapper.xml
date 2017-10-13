@@ -93,7 +93,15 @@
        		school_data_create_date, 
        		school_date_edit_date
 		FROM schools
-		where idx = #{idx}
+		<where>
+			<if test="idx !='' and idx !=null">
+				idx = #{idx}
+			</if>
+			<if test="schoolAuthkey !='' and schoolAuthkey !=null">
+				school_authkey = #{schoolAuthkey}
+			</if>
+		</where>
+		
 	</select> 
 
 
