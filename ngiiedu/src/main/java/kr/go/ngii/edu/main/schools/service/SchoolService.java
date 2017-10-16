@@ -22,8 +22,8 @@ public class SchoolService extends BaseService{
 	}*/
 
 	
-	public List<School> list(int offset, int limit, String category, String keyword, String schoolLevel) {
-		return schoolMapper.list(offset, limit, category, keyword, schoolLevel);
+	public List<School> list(int offset, int limit, String keyword, String schoolLevel) {
+		return schoolMapper.list(offset, limit, keyword, schoolLevel);
 	}
 	
 	public School get(School school) {

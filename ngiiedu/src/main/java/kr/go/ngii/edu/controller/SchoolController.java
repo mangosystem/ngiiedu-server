@@ -59,12 +59,11 @@ public class SchoolController extends BaseController{
 	public @ResponseBody ResponseEntity<ResponseData> list(
 			@RequestParam(value="offset", required=false, defaultValue="0") Integer offset, 
 			@RequestParam(value="limit", required=false, defaultValue="10") Integer limit,
-			@RequestParam(value="category", required=false, defaultValue="") String category,
 			@RequestParam(value="keyword", required=false, defaultValue="") String keyword,
 			@RequestParam(value="schoolLevel", required=false, defaultValue="") String schoolLevel,
 			HttpSession session) throws Exception {
 		
-		List<School> list = schoolService.list(offset, limit, category, keyword, schoolLevel);
+		List<School> list = schoolService.list(offset, limit, keyword, schoolLevel);
 		
 		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
 	}

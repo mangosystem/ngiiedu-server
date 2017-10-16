@@ -51,15 +51,14 @@
 			school_date_edit_date
 		FROM schools
 		<where>
-			<if test="category =='schoolName' and keyword !='' and keyword !=null">
-				school_name = #{keyword}
-			</if>
-			<if test="category =='schoolEduOfficeName' and keyword !='' and keyword !=null">
-				school_edu_office_name = #{keyword}
-			</if>
 			<if test="schoolLevel !='' and schoolLevel !=null">
-				and school_level = #{schoolLevel}
+				school_level = #{schoolLevel} and
 			</if>
+			<if test="keyword !='' and keyword !=null">
+				(school_name like #{keyword} or
+				school_edu_office_name like #{keyword})
+			</if>
+			
 		</where>
 		
 		ORDER BY idx

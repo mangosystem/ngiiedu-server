@@ -15,7 +15,7 @@ public interface SchoolMapper {
 /*	public List<School> list();*/
 
 	public List<School> list(@Param("offset") int offset, @Param("limit") int limit,
-			@Param("category") String category, @Param("keyword") String keyword, @Param("schoolLevel") String schoolLevel);
+			@Param("keyword") String keyword, @Param("schoolLevel") String schoolLevel);
 
 	public void create(School school);
 
