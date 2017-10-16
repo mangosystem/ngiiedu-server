@@ -24,9 +24,17 @@
 			user_division,
 			user_state
 		FROM users
-		where userid = #{userid}
+		<where>
+			<if test="userEmail == null">
+				userid = #{userid}
+			</if>
+			<if test="userEmail != null">
+				user_email = #{userEmail}
+			</if>
+		</where>
+		
 	</select>
-
+	
 
 	<select id="list" parameterType="map" resultMap="userMap">
 		SELECT
@@ -39,13 +47,9 @@
 			user_state
 		FROM users
 		<where>
-			<if test="category == 'userid' and keyword != '' and keyword != null">
-				userid like #{keyword}
-			</if>
-			<if test="category == 'userName' and keyword != '' and keyword != null">
-				user_name like #{keyword}
-			</if>
-			<if test="category == 'userEmail' and keyword != '' and keyword != null">
+			<if test="keyword != '' and keyword != null">
+				userid like #{keyword} or 
+				user_name like #{keyword} or
 				user_email like #{keyword}
 			</if>
 		</where>

@@ -15,15 +15,11 @@ public class UserService {
 	private UserMapper userMapper;
 	
 
-	public List<User> list(int offset, int limit, String category, String keyword) {
-		return userMapper.list(offset, limit, category, keyword);
+	public List<User> list(int offset, int limit, String keyword) {
+		return userMapper.list(offset, limit, keyword);
 	}
 	
-	public User get(User user) {
-		return userMapper.get(user);
-	}
-	
-	
+
 	public User create(String userid, String password, String userEmail, String userName, String userDivision) {
 		User param = new User();
 		
@@ -53,6 +49,12 @@ public class UserService {
 	public User get(String userid) {
 		User user = new User();
 		user.setUserid(userid);;
+		return userMapper.get(user);
+	}
+	
+	public User getByEmail(String userEmail) {
+		User user = new User();
+		user.setUserEmail(userEmail);
 		return userMapper.get(user);
 	}
 	

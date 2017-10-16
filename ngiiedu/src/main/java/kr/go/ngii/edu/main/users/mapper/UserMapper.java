@@ -13,7 +13,7 @@ public interface UserMapper {
 	public User get(User user);
 		
 	public List<User> list(@Param("offset") int offset, @Param("limit") int limit,
-			@Param("category") String category, @Param("keyword") String keyword);
+			@Param("keyword") String keyword);
 	
 	public int create(User user);
 	

@@ -42,11 +42,10 @@ public class UserController extends BaseController {
 	public @ResponseBody ResponseEntity<ResponseData> list(
 			@RequestParam(value="offset", required=false, defaultValue="0") Integer offset, 
 			@RequestParam(value="limit", required=false, defaultValue="10") Integer limit,
-			@RequestParam(value="category", required=false, defaultValue="") String category,
 			@RequestParam(value="keyword", required=false, defaultValue="") String keyword,
 			HttpSession session) throws Exception {
 		
-		List<User> list = userService.list(offset, limit, category, keyword);
+		List<User> list = userService.list(offset, limit, keyword);
 		
 		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
 	}
@@ -67,8 +66,7 @@ public class UserController extends BaseController {
 		User user = null;
 		
 		if (isEmail(userid)) {			
-			List<User> param = userService.list(0, 1, "userEmail", userid);
-			user = param.get(0);			
+			user = userService.getByEmail(userid);
 		} else {
 			user = userService.get(userid);
 		}
@@ -116,8 +114,7 @@ public class UserController extends BaseController {
 		
 		User user = null;
 		if (isEmail(userid)) {			
-			List<User> param = userService.list(0, 1, "userEmail", userid);
-			user = param.get(0);			
+			user = userService.getByEmail(userid);
 		} else {
 			user = userService.get(userid);
 		}
