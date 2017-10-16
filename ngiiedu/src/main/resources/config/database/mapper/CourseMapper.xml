@@ -97,6 +97,13 @@
        		create_date, 
        		modify_date
   		FROM public.courses_detail
+  		<where>
+			<if test="keyword != '' and keyword != null">
+				module_name like #{keyword} or 
+				course_name like #{keyword} or
+				userid like #{keyword}
+			</if>
+		</where>
 		<if test="offset != null and limit != null">
 			OFFSET ${offset} LIMIT ${limit}
 		</if>
@@ -121,6 +128,15 @@
 		FROM courses_detail tb1 left join courses_member tb2
 		    ON tb1.idx = tb2.course_id
 		WHERE tb2.user_id = ${userId}
+		<if test="keyword != '' and keyword != null">
+				and (
+				module_name like #{keyword} or 
+				course_name like #{keyword} or
+				userid like #{keyword} )
+			</if>
+		<if test="offset != null and limit != null">
+			OFFSET ${offset} LIMIT ${limit}
+		</if>
 	</select>
 
 	<select id="get" parameterType="map" resultMap="courseMap">

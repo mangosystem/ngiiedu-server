@@ -18,12 +18,16 @@ public interface CourseMapper {
 	public List<Course> list();
 
 	public List<Course> list(@Param("offset") int offset, @Param("limit") int limit);
-
-	public List<CourseDetail> courseDetailList();
 	
-	public List<CourseDetail> courseDetailList(@Param("offset") int offset, @Param("limit") int limit);
+	public List<CourseDetail> list(@Param("offset") int offset, @Param("limit") int limit,
+			@Param("keyword") String keyword);
+
+	public List<CourseDetail> courseDetailList(@Param("offset") int offset, @Param("limit") int limit,
+			@Param("keyword") String keyword);
 
 	public List<CourseDetail> courseDetailListByUserId(@Param("userId") int userId);
 	
-//	public List<CourseDetail> courseDetailListByUserId(@Param("userId") int userId, @Param("offset") int offset, @Param("limit") int limit);
+	public List<CourseDetail> courseDetailListByUserId(@Param("userId") int userId, @Param("offset") int offset,
+			@Param("limit") int limit, @Param("keyword") String keyword);
+
 }

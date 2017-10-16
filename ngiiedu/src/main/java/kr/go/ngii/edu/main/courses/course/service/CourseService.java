@@ -58,6 +58,11 @@ public class CourseService extends BaseService {
 	public List<Course> list(int offset, int limit) {
 		return courseMapper.list(offset, limit);
 	}
+	
+	public List<CourseDetail> list(int offset, int limit, String keyword ) {
+		return courseMapper.list(offset, limit, keyword);
+//		return courseMapper.courseDetailList(offset, limit, keyword);
+	}
 
 	public Course get(int idx) {
 		Course course = new Course();
@@ -65,21 +70,16 @@ public class CourseService extends BaseService {
 		return courseMapper.get(course);
 	}
 	
-	public List<CourseDetail> courseDetailList() {
-		return courseMapper.courseDetailList();
-	}
-
-	public List<CourseDetail> courseDetailList(int offset, int limit) {
-		return courseMapper.courseDetailList(offset, limit);
+	public List<CourseDetail> courseDetailList(int offset, int limit, String keyword) {
+		return courseMapper.courseDetailList(offset, limit, keyword);
 	}
 	
 	public List<CourseDetail> courseDetailListByUserId(int userId) {
 		return courseMapper.courseDetailListByUserId(userId);
 	}
 
-	public List<CourseDetail> courseDetailListByUserId(int userId, int offset, int limit) {
-//		return courseMapper.courseDetailListByUserId(userId, offset, limit);
-		return courseMapper.courseDetailListByUserId(userId);
+	public List<CourseDetail> courseDetailListByUserId(int userId, int offset, int limit, String keyword) {
+		return courseMapper.courseDetailListByUserId(userId, offset, limit, keyword);
 	}
 
 

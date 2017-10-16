@@ -175,10 +175,10 @@ public class CourseController extends BaseController {
 		List<Course> list = null;
 
 		if (offset==0 && limit==0) {
-			list = courseService.list();
+//			list = courseService.list();
 
 		} else {
-			list = courseService.list(offset, limit);
+//			list = courseService.list(offset, limit);
 		}
 
 		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
@@ -195,18 +195,12 @@ public class CourseController extends BaseController {
 	@RequestMapping(value="/list/courseDetail", method=RequestMethod.GET)
 	public @ResponseBody ResponseEntity<ResponseData> courseDetailList(
 			@RequestParam(value="offset", required=false, defaultValue="0") Integer offset, 
-			@RequestParam(value="limit", required=false, defaultValue="0") Integer limit, 
+			@RequestParam(value="limit", required=false, defaultValue="10") Integer limit, 
+			@RequestParam(value="keyword", required=false, defaultValue="") String keyword,
 			HttpSession session) throws Exception {
 
 		List<CourseDetail> list = null;
-
-		if (offset==0 && limit==0) {
-			list = courseService.courseDetailList();
-
-		} else {
-			list = courseService.courseDetailList(offset, limit);
-		}
-
+		list = courseService.courseDetailList(offset, limit, keyword);
 		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
 	}
 	
@@ -221,9 +215,12 @@ public class CourseController extends BaseController {
 	@RequestMapping(value="/list/{userId}/courseDetail", method=RequestMethod.GET)
 	public @ResponseBody ResponseEntity<ResponseData> courseDetailList(
 			@PathVariable("userId") Integer userId,
+			@RequestParam(value="offset", required=false, defaultValue="0") Integer offset, 
+			@RequestParam(value="limit", required=false, defaultValue="10") Integer limit, 
+			@RequestParam(value="keyword", required=false, defaultValue="") String keyword,
 			HttpSession session) throws Exception {
 
-		List<CourseDetail> list = courseService.courseDetailListByUserId(userId);
+		List<CourseDetail> list = courseService.courseDetailListByUserId(userId, offset, limit, keyword);
 		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
 	}
 	
