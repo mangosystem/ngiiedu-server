@@ -35,5 +35,6 @@ public interface SchoolMapper {
 
 	public School getAuthkey(@Param("idx") int idx);
 	
+	//public boolean duplicateId(String schoolId);
 
 }

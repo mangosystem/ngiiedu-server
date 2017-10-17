@@ -157,7 +157,6 @@
 	<update id="modify" parameterType="map">
 		UPDATE schools
 			<set>
-				<if test="schoolId != null"> school_id = #{schoolId}, </if>
 				<if test="schoolName != null"> school_name = #{schoolName}, </if>
 				<if test="schoolLevel != null"> school_level = #{schoolLevel}, </if>
 				<if test="schoolStatus != null"> school_status = #{schoolStatus}, </if>
@@ -283,6 +282,16 @@
 		from schools
 		WHERE idx = #{idx}	
 	</select>
+	
+	<!-- <select id="duplicateId" parameterType="string" resultType="boolean">
+		SELECT
+			CASE WHEN EXISTS (
+				SELECT
+					school_id
+				FROM schools
+				WHERE school_id = #{value}
+			)  THEN true ELSE false END
+	</select> -->
 	
 	
 

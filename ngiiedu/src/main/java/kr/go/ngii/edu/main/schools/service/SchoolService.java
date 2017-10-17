@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.go.ngii.edu.common.UIDUtil;
+import kr.go.ngii.edu.common.message.ErrorMessage;
 import kr.go.ngii.edu.main.common.BaseService;
 import kr.go.ngii.edu.main.schools.mapper.SchoolMapper;
 import kr.go.ngii.edu.main.schools.model.School;
@@ -88,12 +89,11 @@ try {
 		return null;
 	}
 	
-	public School modify(Integer idx,String schoolId, String schoolName, String schoolLevel, String schoolStatus, String schoolEduOfficeName, Integer schoolEduOfficeCode, String schoolSidoOfficeName, 
+	public School modify(Integer idx, String schoolName, String schoolLevel, String schoolStatus, String schoolEduOfficeName, Integer schoolEduOfficeCode, String schoolSidoOfficeName, 
 			Integer schoolSidoOfficeCode, String schoolAddr, String schoolBuildDate, String schoolEstablishType, String schoolLat, String schoolLon, String schoolBranchType, 
 			String schoolAddrRoad, String schoolReferenceDate, String schoolDataCreateDate, String schoolDateEditDate) {
 		School param = new School();
 		param.setIdx(idx);
-		param.setSchoolId(schoolId);
 		param.setSchoolName(schoolName);
 		param.setSchoolLevel(schoolLevel);
 		param.setSchoolStatus(schoolStatus);

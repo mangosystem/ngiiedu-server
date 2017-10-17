@@ -58,7 +58,7 @@ public class SchoolController extends BaseController{
 	@RequestMapping(value="", method=RequestMethod.GET)
 	public @ResponseBody ResponseEntity<ResponseData> list(
 			@RequestParam(value="offset", required=false, defaultValue="0") Integer offset, 
-			@RequestParam(value="limit", required=false, defaultValue="10") Integer limit,
+			@RequestParam(value="limit", required=false, defaultValue="20") Integer limit,
 			@RequestParam(value="keyword", required=false, defaultValue="") String keyword,
 			@RequestParam(value="schoolLevel", required=false, defaultValue="") String schoolLevel,
 			HttpSession session) throws Exception {
@@ -403,7 +403,6 @@ public class SchoolController extends BaseController{
 	@RequestMapping(value="/{idx}", method=RequestMethod.PUT)
 	public @ResponseBody ResponseEntity<ResponseData> modify(
 			@RequestParam(value="idx", required=false) Integer idx, 
-			@RequestParam(value="schoolId", required=false) String schoolId, 
 			@RequestParam(value="schoolName", required=false) String schoolName,
 			@RequestParam(value="schoolLevel", required=false) String schoolLevel,
 			@RequestParam(value="schoolStatus", required=false) String schoolStatus,
@@ -423,7 +422,7 @@ public class SchoolController extends BaseController{
 			@RequestParam(value="schoolDateEditDate", required=false) String schoolDateEditDate,
 			HttpSession session) throws Exception {
 		
-		School result = schoolService.modify(idx, schoolId, schoolName, schoolLevel, schoolStatus, schoolEduOfficeName, schoolEduOfficeCode, schoolSidoOfficeName, schoolSidoOfficeCode, schoolAddr,
+		School result = schoolService.modify(idx, schoolName, schoolLevel, schoolStatus, schoolEduOfficeName, schoolEduOfficeCode, schoolSidoOfficeName, schoolSidoOfficeCode, schoolAddr,
 				schoolBuildDate, schoolEstablishType, schoolLat, schoolLon, schoolBranchType, schoolAddrRoad, schoolReferenceDate, schoolDataCreateDate, schoolDateEditDate);
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
