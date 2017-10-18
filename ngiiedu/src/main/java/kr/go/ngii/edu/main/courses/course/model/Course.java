@@ -31,7 +31,7 @@ public class Course implements Serializable {
 	private String courseMetadata;
 
 	/** 생성자. */
-	private String courseCreateId;
+	private Integer courseCreateId;
 
 	/** 생성일 */
 	private Date createDate;
@@ -74,11 +74,11 @@ public class Course implements Serializable {
 		this.courseMetadata = courseMetadata;
 	}
 
-	public String getCourseCreateId() {
+	public Integer getCourseCreateId() {
 		return courseCreateId;
 	}
 
-	public void setCourseCreateId(String courseCreateId) {
+	public void setCourseCreateId(Integer courseCreateId) {
 		this.courseCreateId = courseCreateId;
 	}
 

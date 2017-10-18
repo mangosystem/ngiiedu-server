@@ -12,7 +12,10 @@ public class ErrorMessage {
 	public static String COURSE_JOIN_ACTIVE 		= "이미 수업에 참여하고 있습니다.";
 
 	public static String COURSE_JOIN_BLOCK 		= "참여할 수 없는 수업입니다.";
-	
+
+	public static String COURSE_CREATE_FAILED	= "새로운 수업을 만들 수 없습니다.";
+
+
 	public static String DUPICATE_ID 		= "이미 존재하는 아이디입니다.";
 
 

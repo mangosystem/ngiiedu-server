@@ -16,7 +16,7 @@
 	
 	<insert id="create" parameterType="map">
 		<selectKey keyProperty="idx" resultType="int" order="BEFORE">
-			SELECT nextval('works_idx_seq'::regclass)
+			SELECT nextval('courses_work_idx_seq'::regclass)
 		</selectKey>
 		INSERT INTO courses_work (
 			idx,

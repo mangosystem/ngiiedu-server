@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import kr.go.ngii.edu.common.message.ErrorMessage;
 import kr.go.ngii.edu.main.common.BaseService;
 import kr.go.ngii.edu.main.courses.course.mapper.CourseMapper;
 import kr.go.ngii.edu.main.courses.course.model.Course;
@@ -19,38 +20,48 @@ public class CourseService extends BaseService {
 
 	@Autowired
 	private CourseMapper courseMapper;
-	
+
 	@Autowired
 	private WorkService workService;
-	
+
+	@Autowired
+	private CourseAuthkeyService courseAuthkeyService;;
+
 	@Autowired
 	private CourseTeamService courseTeamService;
-	
+
 	@Autowired
 	private CourseMemberService courseMemberService;
-	
 
-	
-	
+
 	public Course create(int moduleId, List<Integer> moduleWorkIds, String courseName, String courseMetadata) throws Exception {
 
 		Course param = new Course();
-		param.setCourseName(courseName);
-		param.setCourseMetadata(courseMetadata);
-		param.setModuleId(moduleId);
-		//param.setCourseCreateId( getHttpSession().getAttribute("USERID").toString() );
-		param.setCreateDate(new Date());
-		param.setModifyDate(new Date());
+		try {
+			param.setCourseName(courseName);
+			param.setCourseMetadata(courseMetadata);
+			param.setModuleId(moduleId);
+			//param.setCourseCreateId( getHttpSession().getAttribute("USERID").toString() );
+			param.setCourseCreateId(1);
+			param.setCreateDate(new Date());
+			param.setModifyDate(new Date());
 
-		courseMapper.create(param);
+			courseMapper.create(param);
 
-		// 수업과정 추가 로직 필요함
-		List<Work> workResult = workService.create(param.getIdx(), moduleWorkIds);
-		param.setWork(workResult);
+			courseAuthkeyService.create(param.getIdx());
+
+			// 수업과정 추가 로직 필요함
+			List<Work> workResult = workService.create(param.getIdx(), moduleWorkIds);
+			param.setWork(workResult);
+
+		} catch(Exception e) {
+			throw new RuntimeException(ErrorMessage.COURSE_CREATE_FAILED);
+		}
 
 		return param;
+
 	}
-	
+
 	public List<Course> list() {
 		return courseMapper.list();
 	}
@@ -58,10 +69,10 @@ public class CourseService extends BaseService {
 	public List<Course> list(int offset, int limit) {
 		return courseMapper.list(offset, limit);
 	}
-	
+
 	public List<CourseDetail> list(int offset, int limit, String keyword ) {
 		return courseMapper.list(offset, limit, keyword);
-//		return courseMapper.courseDetailList(offset, limit, keyword);
+		//		return courseMapper.courseDetailList(offset, limit, keyword);
 	}
 
 	public Course get(int idx) {
@@ -69,11 +80,11 @@ public class CourseService extends BaseService {
 		course.setIdx(idx);
 		return courseMapper.get(course);
 	}
-	
+
 	public List<CourseDetail> courseDetailList(int offset, int limit, String keyword) {
 		return courseMapper.courseDetailList(offset, limit, keyword);
 	}
-	
+
 	public List<CourseDetail> courseDetailListByUserId(int userId) {
 		return courseMapper.courseDetailListByUserId(userId);
 	}
@@ -83,22 +94,22 @@ public class CourseService extends BaseService {
 	}
 
 
-//	public boolean delete(int courseId) {
-//		
-//		// 수업결과물
-//		
-//		// 팀, 팀원삭제
-//		List<CourseTeam> teamList = courseTeamService.list(courseId);
-//		for (CourseTeam team : teamList) {
-//			courseTeamService.delete(courseId, team.getIdx());
-//		}
-//		
-//		// 수업참여자
-////		courseMemberService.delete()
-//		
-//		// 수업과정
-//		
-//		return false;
-//	}
+	//	public boolean delete(int courseId) {
+	//		
+	//		// 수업결과물
+	//		
+	//		// 팀, 팀원삭제
+	//		List<CourseTeam> teamList = courseTeamService.list(courseId);
+	//		for (CourseTeam team : teamList) {
+	//			courseTeamService.delete(courseId, team.getIdx());
+	//		}
+	//		
+	//		// 수업참여자
+	////		courseMemberService.delete()
+	//		
+	//		// 수업과정
+	//		
+	//		return false;
+	//	}
 
 }
