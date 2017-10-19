@@ -10,8 +10,8 @@ import javax.xml.bind.annotation.XmlRootElement;
  * 
  * @author mg
  */
-@XmlRootElement(name = "work")
-public class Work implements Serializable {
+@XmlRootElement(name = "courseWork")
+public class CourseWork implements Serializable {
 
 	/** serialVersionUID. */
 	private static final long serialVersionUID = 1L;
@@ -27,6 +27,9 @@ public class Work implements Serializable {
 
 	/** 과정순서 */
 	private Integer workSeq;
+
+	/** 과정 활성화상태 */
+	private boolean status;
 
 	/** 과정팀유형 */
 	private String workTeamDivision;
@@ -64,6 +67,14 @@ public class Work implements Serializable {
 
 	public Integer getWorkSeq() {
 		return workSeq;
+	}
+
+	public void setStatus(boolean status) {
+		this.status = status;
+	}
+
+	public boolean getStatus() {
+		return status;
 	}
 
 	public void setWorkSeq(Integer workSeq) {

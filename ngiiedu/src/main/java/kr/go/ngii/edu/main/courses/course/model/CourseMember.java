@@ -4,9 +4,6 @@ import java.util.Date;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-import kr.go.ngii.edu.common.enums.EnumJoinStatus;
-
-
 /**
  * 팀원 모델 클래스.
  * 
@@ -28,7 +25,7 @@ public class CourseMember implements Serializable {
 	private Integer userId;
 
 	/** 참여자상태 */
-	private String status;
+	private String joinStatus;
 
 	/** 생성일 */
 	private Date createDate;
@@ -61,13 +58,13 @@ public class CourseMember implements Serializable {
 		this.userId = userId;
 	}
 
-	public String getStatus() {
+	public String getJoinStatus() {
 //		return EnumJoinStatus.findKey(status);
-		return status;
+		return joinStatus;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
+	public void setJoinStatus(String joinStatus) {
+		this.joinStatus = joinStatus;
 	}
 
 	public Date getCreateDate() {

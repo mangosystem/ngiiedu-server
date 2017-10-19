@@ -20,7 +20,7 @@ public class WorkOutput implements Serializable {
 	private Integer idx;
 
 	/** 수업과정. */
-	private Work workIdworks;
+	private CourseWork workIdworks;
 
 	/** 팀아이디. */
 	private String outputTeamId;
@@ -65,7 +65,7 @@ public class WorkOutput implements Serializable {
 	 * @param workIdworks
 	 *            수업과정
 	 */
-	public void setWorkIdworks(Work workIdworks) {
+	public void setWorkIdworks(CourseWork workIdworks) {
 		this.workIdworks = workIdworks;
 	}
 
@@ -74,7 +74,7 @@ public class WorkOutput implements Serializable {
 	 * 
 	 * @return 수업과정
 	 */
-	public Work getWorkIdworks() {
+	public CourseWork getWorkIdworks() {
 		return this.workIdworks;
 	}
 

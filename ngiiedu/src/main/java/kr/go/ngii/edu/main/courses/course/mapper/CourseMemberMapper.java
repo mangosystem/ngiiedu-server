@@ -12,7 +12,7 @@ public interface CourseMemberMapper {
 
 	public List<CourseMember> listByCourseId(@Param("courseId") int courseId);
 
-	public List<CourseMember> listByCourseIdAndStatus(@Param("courseId") int courseId, @Param("joinStatus") String joinStatus);
+	public List<CourseMember> listByCourseIdAndJoinStatus(@Param("courseId") int courseId, @Param("joinStatus") String joinStatus);
 
 	public CourseMember get(@Param("courseId") int courseId, @Param("userId") int userId);
 

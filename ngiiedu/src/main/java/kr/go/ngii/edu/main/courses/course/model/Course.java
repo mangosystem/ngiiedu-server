@@ -5,7 +5,7 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-import kr.go.ngii.edu.main.courses.work.model.Work;
+import kr.go.ngii.edu.main.courses.work.model.CourseWork;
 
 /**
  * 수업 모델 클래스.
@@ -39,7 +39,7 @@ public class Course implements Serializable {
 	/** 수정일. */
 	private Date modifyDate;
 	
-	List<Work> work;
+	List<CourseWork> work;
 
 
 	public Integer getIdx() {
@@ -98,11 +98,11 @@ public class Course implements Serializable {
 		this.modifyDate = modifyDate;
 	}
 
-	public List<Work> getWork() {
+	public List<CourseWork> getWork() {
 		return work;
 	}
 
-	public void setWork(List<Work> work) {
+	public void setWork(List<CourseWork> work) {
 		this.work = work;
 	}
 

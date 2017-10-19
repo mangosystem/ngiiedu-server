@@ -5,7 +5,7 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-import kr.go.ngii.edu.main.courses.work.model.Work;
+import kr.go.ngii.edu.main.courses.work.model.CourseWork;
 
 /**
  * 수업 모델 클래스.

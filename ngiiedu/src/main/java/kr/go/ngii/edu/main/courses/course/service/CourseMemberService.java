@@ -40,7 +40,7 @@ public class CourseMemberService {
 	 * @return
 	 */
 	public List<CourseMember> list(int courseId, String joinStatus) {
-		return courseMemberMapper.listByCourseIdAndStatus(courseId, EnumJoinStatus.findCode(joinStatus));
+		return courseMemberMapper.listByCourseIdAndJoinStatus(courseId, EnumJoinStatus.findCode(joinStatus));
 	}
 
 	/**
@@ -67,7 +67,7 @@ public class CourseMemberService {
 				params = new CourseMember();
 				params.setCourseId(courseId);
 				params.setUserId(userId);
-				params.setStatus(EnumJoinStatus.WAITING.code());
+				params.setJoinStatus(EnumJoinStatus.WAITING.code());
 				params.setCreateDate(new Date());
 				params.setModifyDate(new Date());
 				courseMemberMapper.create(params);
@@ -79,7 +79,7 @@ public class CourseMemberService {
 			return params;
 
 		} else {
-			String status = EnumJoinStatus.findKey(member.getStatus());
+			String status = EnumJoinStatus.findKey(member.getJoinStatus());
 
 			if ("WAITING".equals(status)) {
 				// 대기중
@@ -109,20 +109,20 @@ public class CourseMemberService {
 	 * @param status
 	 * @return
 	 */
-	public CourseMember updateStatus(int courseId, int userId, String status) {
+	public CourseMember updateStatus(int courseId, int userId, String joinStatus) {
 
 		String statusCode = null;
 
-		if (status.equals(EnumJoinStatus.WAITING.name())) {
+		if (joinStatus.equals(EnumJoinStatus.WAITING.name())) {
 			statusCode = EnumJoinStatus.WAITING.code();
 
-		} else if (status.equals(EnumJoinStatus.ACTIVE.name())) {
-			statusCode = EnumJoinStatus.ACTIVE.code();
+		} else if (joinStatus.equals(EnumJoinStatus.ACTIVE.name())) {
+			joinStatus = EnumJoinStatus.ACTIVE.code();
 
-		} else if (status.equals(EnumJoinStatus.DEACTIVE.name())) {
+		} else if (joinStatus.equals(EnumJoinStatus.DEACTIVE.name())) {
 			statusCode = EnumJoinStatus.DEACTIVE.code();
 
-		} else if (status.equals(EnumJoinStatus.BLOCK.name())) {
+		} else if (joinStatus.equals(EnumJoinStatus.BLOCK.name())) {
 			statusCode = EnumJoinStatus.BLOCK.code();
 
 		} else {
@@ -136,7 +136,7 @@ public class CourseMemberService {
 		CourseMember params = new CourseMember();
 		params.setCourseId(courseId);
 		params.setUserId(userId);
-		params.setStatus(statusCode);
+		params.setJoinStatus(statusCode);
 		params.setModifyDate(new Date());
 		courseMemberMapper.modify(params);
 

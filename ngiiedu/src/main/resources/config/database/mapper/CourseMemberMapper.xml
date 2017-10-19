@@ -8,7 +8,7 @@
 		<id property="idx" column="idx" />
 		<result property="courseId" column="course_id" />
 		<result property="userId" column="user_id" />
-		<result property="status" column="status" />
+		<result property="joinStatus" column="join_status" />
 		<result property="createDate" column="create_date" />
 		<result property="modifyDate" column="modify_date" />
 	</resultMap>
@@ -19,7 +19,7 @@
 			idx,
 			course_id,
 			user_id,
-			status,
+			join_status,
 			create_date,
 			modify_date
 		FROM courses_member
@@ -27,17 +27,17 @@
 			course_id = #{courseId}
 	</select>
 
-	<select id="listByCourseIdAndStatus" parameterType="map" resultMap="courseMemberMap">
+	<select id="listByCourseIdAndJoinStatus" parameterType="map" resultMap="courseMemberMap">
 		SELECT
 			idx,
 			course_id,
 			user_id,
-			status,
+			join_status,
 			create_date,
 			modify_date
 		FROM courses_member
 		WHERE 
-			course_id = #{courseId} AND status = #{joinStatus}
+			course_id = #{courseId} AND join_status = #{joinStatus}
 	</select>
 
 	<select id="get" parameterType="map" resultMap="courseMemberMap">
@@ -45,7 +45,7 @@
 			idx,
 			course_id,
 			user_id,
-			status,
+			join_status,
 			create_date,
 			modify_date
 		FROM courses_member
@@ -61,14 +61,14 @@
 			idx,
 			course_id,
 			user_id,
-			status,
+			join_status,
 			create_date,
 			modify_date
 		) VALUES (
 			#{idx}, 
 			#{courseId}, 
 			#{userId}, 
-			#{status}, 
+			#{joinStatus}, 
 			#{createDate}, 
 			#{modifyDate}
 		)
@@ -77,7 +77,7 @@
 	<update id="modify" parameterType="map">
 		UPDATE courses_member 
 		SET 
-			status = #{status}, 
+			join_status = #{joinStatus}, 
 			modify_date = #{modifyDate} 
 		WHERE 
 			course_id = #{courseId} AND user_id = #{userId}

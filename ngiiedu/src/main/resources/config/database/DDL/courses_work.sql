@@ -8,6 +8,7 @@ CREATE TABLE public.courses_work
 	course_id integer NOT NULL, -- 수업아이디
 	module_work_id integer NOT NULL, --모듈과정아이디
 	work_seq integer, -- 과정순서
+	status boolean NOT NULL DEFAULT false, -- 활성화상태
 	work_team_division character varying, -- 과정팀유형
 	create_date timestamp with time zone DEFAULT now(), -- 생성일
 	modify_date timestamp with time zone DEFAULT now(), -- 수정일

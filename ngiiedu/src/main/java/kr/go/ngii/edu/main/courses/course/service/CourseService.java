@@ -12,8 +12,8 @@ import kr.go.ngii.edu.main.courses.course.mapper.CourseMapper;
 import kr.go.ngii.edu.main.courses.course.model.Course;
 import kr.go.ngii.edu.main.courses.course.model.CourseDetail;
 import kr.go.ngii.edu.main.courses.course.model.CourseTeam;
-import kr.go.ngii.edu.main.courses.work.model.Work;
-import kr.go.ngii.edu.main.courses.work.service.WorkService;
+import kr.go.ngii.edu.main.courses.work.model.CourseWork;
+import kr.go.ngii.edu.main.courses.work.service.CourseWorkService;
 
 @Service
 public class CourseService extends BaseService {
@@ -22,7 +22,7 @@ public class CourseService extends BaseService {
 	private CourseMapper courseMapper;
 
 	@Autowired
-	private WorkService workService;
+	private CourseWorkService workService;
 
 	@Autowired
 	private CourseAuthkeyService courseAuthkeyService;;
@@ -51,7 +51,7 @@ public class CourseService extends BaseService {
 			courseAuthkeyService.create(param.getIdx());
 
 			// 수업과정 추가 로직 필요함
-			List<Work> workResult = workService.create(param.getIdx(), moduleWorkIds);
+			List<CourseWork> workResult = workService.create(param.getIdx(), moduleWorkIds);
 			param.setWork(workResult);
 
 		} catch(Exception e) {
