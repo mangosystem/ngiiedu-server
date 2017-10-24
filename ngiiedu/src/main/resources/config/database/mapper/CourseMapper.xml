@@ -14,7 +14,7 @@
 		<result property="modifyDate" column="modify_date" />
 	</resultMap>
 	
-	<resultMap type="kr.go.ngii.edu.main.courses.course.model.CourseDetail" id="courseDetailMap">
+	<resultMap type="kr.go.ngii.edu.main.courses.course.model.CourseInfo" id="courseInfoMap">
 		<id property="idx" column="idx" />
 		<result property="moduleId" column="module_id" />
 		<result property="moduleName" column="module_name" />
@@ -83,20 +83,20 @@
 	</select>
 	
 	<!-- 전체수업 자세한 목록 -->
-	<select id="courseDetailList" parameterType="map" resultMap="courseDetailMap">
+	<select id="courseInfoList" parameterType="map" resultMap="courseInfoMap">
 		SELECT 
 			idx, 
 			module_id, 
 			module_name, 
 			module_metadata, 
 			course_name, 
-			course_metadata, 
+			course_metadata,
        		course_create_id, 
        		userid as course_create_userid, 
        		user_division, 
        		create_date, 
        		modify_date
-  		FROM public.courses_detail
+  		FROM public.courses_infos
   		<where>
 			<if test="keyword != '' and keyword != null">
 				module_name like #{keyword} or 
@@ -110,24 +110,24 @@
 	</select>
 	
 	<!-- 사용자별 참여한 수업목록 -->
-	<select id="courseDetailListByUserId" parameterType="map" resultMap="courseDetailMap">
+	<select id="courseInfoListByUserId" parameterType="map" resultMap="courseInfoMap">
 		SELECT
-		    tb1.idx,
-		    tb1.module_id,
-		    tb1.module_name,
-		    tb1.module_metadata,
-		    tb1.course_name,
-		    tb1.course_metadata,
-		    tb1.course_create_id,
-		    tb1.userid as course_create_userid,
-		    tb1.user_division,
-		    tb1.create_date,
-		    tb1.modify_date,
-		    tb2.user_id,
-		    tb2.status
-		FROM courses_detail tb1 left join courses_member tb2
-		    ON tb1.idx = tb2.course_id
-		WHERE tb2.user_id = ${userId}
+		    courses_infos.idx,
+		    courses_infos.module_id,
+		    courses_infos.module_name,
+		    courses_infos.module_metadata,
+		    courses_infos.course_name,
+		    courses_infos.course_metadata,
+		    courses_infos.course_create_id,
+		    courses_infos.userid as course_create_userid,
+		    courses_infos.user_division,
+		    courses_infos.create_date,
+		    courses_infos.modify_date,
+		    courses_member.user_id,
+		    courses_member.join_status as status 
+		FROM courses_infos courses_infos left join courses_member courses_member
+		    ON courses_infos.idx = courses_member.course_id
+		WHERE courses_infos.user_id = ${userId}
 		<if test="keyword != '' and keyword != null">
 				and (
 				module_name like #{keyword} or 
@@ -175,5 +175,14 @@
 			#{modifyDate}
 		)
 	</insert>
+	
+	<update id="modify" parameterType="map">
+		UPDATE course 
+		SET
+			course_name = #{courseName}, 
+			course_metadata = #{courseMetadata}, 
+			modify_date = #{modifyDate} 
+		WHERE idx = #{idx}
+	</update>
 
 </mapper>

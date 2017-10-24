@@ -10,8 +10,7 @@ import kr.go.ngii.edu.common.message.ErrorMessage;
 import kr.go.ngii.edu.main.common.BaseService;
 import kr.go.ngii.edu.main.courses.course.mapper.CourseMapper;
 import kr.go.ngii.edu.main.courses.course.model.Course;
-import kr.go.ngii.edu.main.courses.course.model.CourseDetail;
-import kr.go.ngii.edu.main.courses.course.model.CourseTeam;
+import kr.go.ngii.edu.main.courses.course.model.CourseInfo;
 import kr.go.ngii.edu.main.courses.work.model.CourseWork;
 import kr.go.ngii.edu.main.courses.work.service.CourseWorkService;
 
@@ -70,7 +69,7 @@ public class CourseService extends BaseService {
 		return courseMapper.list(offset, limit);
 	}
 
-	public List<CourseDetail> list(int offset, int limit, String keyword ) {
+	public List<CourseInfo> list(int offset, int limit, String keyword ) {
 		return courseMapper.list(offset, limit, keyword);
 		//		return courseMapper.courseDetailList(offset, limit, keyword);
 	}
@@ -81,19 +80,35 @@ public class CourseService extends BaseService {
 		return courseMapper.get(course);
 	}
 
-	public List<CourseDetail> courseDetailList(int offset, int limit, String keyword) {
+	public List<CourseInfo> courseDetailList(int offset, int limit, String keyword) {
 		return courseMapper.courseDetailList(offset, limit, keyword);
 	}
 
-	public List<CourseDetail> courseDetailListByUserId(int userId) {
+	public List<CourseInfo> courseDetailListByUserId(int userId) {
 		return courseMapper.courseDetailListByUserId(userId);
 	}
 
-	public List<CourseDetail> courseDetailListByUserId(int userId, int offset, int limit, String keyword) {
+	public List<CourseInfo> courseDetailListByUserId(int userId, int offset, int limit, String keyword) {
 		return courseMapper.courseDetailListByUserId(userId, offset, limit, keyword);
 	}
+	
+	public Course modify(int idx, String courseName, String courseMetadata) {
+		
+		
+		Course param = new Course();
+		param.setIdx(idx);
+		param.setCourseName(courseName);
+		param.setCourseMetadata(courseMetadata);
+		param.setModifyDate(new Date());
 
+//		courseMapper.modify(param);
 
+		if (param.getIdx()!=null) {
+			param = get(idx);
+		}
+		
+		return param;
+	}
 	//	public boolean delete(int courseId) {
 	//		
 	//		// 수업결과물

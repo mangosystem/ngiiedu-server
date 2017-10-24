@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.go.ngii.edu.main.courses.course.mapper.CourseWorkDataMapper">
+
+	<resultMap type="kr.go.ngii.edu.main.courses.course.model.CourseWorkData" id="courseWorkDataMap">
+		<id property="idx" column="idx" />
+		<result property="courseId" column="course_id" />
+		<result property="moduleWorkDataId" column="module_work_data_id" />
+		<result property="status" column="status" />
+	</resultMap>
+
+	<resultMap type="kr.go.ngii.edu.main.courses.course.model.CourseWorkDataInfo" id="courseWorkDataInfoMap">
+		<id property="idx" column="idx" />
+		<result property="courseId" column="course_id" />
+		<result property="moduleId" column="module_id" />
+		<result property="moduleWorkDataName" column="module_work_data_name" />
+		<result property="moduleWorkDataPath" column="module_work_data_path" />
+		<result property="moduleWorkDataDivision" column="module_work_data_division" />
+		<result property="moduleWorkSeq" column="module_work_seq" />
+		<result property="status" column="status" />
+	</resultMap>
+	
+	<select id="listCourseWorkDataInfo" parameterType="map" resultMap="courseWorkDataInfoMap">
+		SELECT
+			idx, 
+			course_id, 
+			module_id, 
+			module_work_data_name, 
+			module_work_data_path, 
+		    module_work_data_division, 
+		    module_work_seq, 
+		    status
+		FROM courses_work_data_infos
+		WHERE course_id = #{courseId}
+		ORDER BY idx
+	</select>
+
+	<select id="getCourseWorkDataInfo" parameterType="map" resultMap="courseWorkDataInfoMap">
+		SELECT
+			idx, 
+			course_id, 
+			module_id, 
+			module_work_data_name, 
+			module_work_data_path, 
+		    module_work_data_division, 
+		    module_work_seq, 
+		    status
+		FROM courses_work_data_infos
+		WHERE idx = #{idx}
+	</select>
+	
+	<select id="list" parameterType="map" resultMap="courseWorkDataMap">
+		SELECT
+			idx, 
+			course_id,
+			module_work_data_id, 
+		    status
+		FROM courses_work_data
+		WHERE course_id = #{course_id}
+		ORDER BY idx
+	</select>
+
+	<select id="get" parameterType="map" resultMap="courseWorkDataMap">
+		SELECT
+			idx, 
+			course_id,
+			module_work_data_id,
+		    status
+		FROM courses_work_data
+		WHERE idx = #{idx}
+	</select>
+
+	<insert id="create" parameterType="map">
+		<selectKey keyProperty="idx" resultType="int" order="BEFORE">
+			SELECT nextval('courses_work_data_idx_seq'::regclass)
+		</selectKey>
+		INSERT INTO courses_work_data (
+			idx, 
+			course_id,
+			module_work_data_id,
+		    status
+		) VALUES (
+			#{idx}, 
+			#{course_id}, 
+			#{module_work_data_id}, 
+			#{status}
+		)
+	</insert>
+
+	<update id="modify" parameterType="map">
+		UPDATE courses_work_data
+		SET
+			course_id = #{courseId},
+			module_work_data_id =  #{moduleWorkDataId},
+			status = #{status}
+		WHERE idx = #{idx}
+	</update>
+
+	<delete id="delete" parameterType="int">
+		DELETE FROM courses_work_data
+		WHERE courseId = #{courseId} AND idx = #{idx}
+	</delete>
+
+</mapper>

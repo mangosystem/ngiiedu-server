@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import kr.go.ngii.edu.main.courses.course.model.Course;
-import kr.go.ngii.edu.main.courses.course.model.CourseDetail;
+import kr.go.ngii.edu.main.courses.course.model.CourseInfo;
 
 @Mapper
 public interface CourseMapper {
@@ -19,15 +19,17 @@ public interface CourseMapper {
 
 	public List<Course> list(@Param("offset") int offset, @Param("limit") int limit);
 	
-	public List<CourseDetail> list(@Param("offset") int offset, @Param("limit") int limit,
+	public List<CourseInfo> list(@Param("offset") int offset, @Param("limit") int limit,
 			@Param("keyword") String keyword);
 
-	public List<CourseDetail> courseDetailList(@Param("offset") int offset, @Param("limit") int limit,
+	public List<CourseInfo> courseDetailList(@Param("offset") int offset, @Param("limit") int limit,
 			@Param("keyword") String keyword);
 
-	public List<CourseDetail> courseDetailListByUserId(@Param("userId") int userId);
+	public List<CourseInfo> courseDetailListByUserId(@Param("userId") int userId);
 	
-	public List<CourseDetail> courseDetailListByUserId(@Param("userId") int userId, @Param("offset") int offset,
+	public List<CourseInfo> courseDetailListByUserId(@Param("userId") int userId, @Param("offset") int offset,
 			@Param("limit") int limit, @Param("keyword") String keyword);
+	
+	public void modify(Course course);
 
 }

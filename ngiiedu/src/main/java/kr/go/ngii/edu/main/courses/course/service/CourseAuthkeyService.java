@@ -9,6 +9,7 @@ import kr.go.ngii.edu.common.UIDUtil;
 import kr.go.ngii.edu.main.common.BaseService;
 import kr.go.ngii.edu.main.courses.course.mapper.CourseAuthkeyMapper;
 import kr.go.ngii.edu.main.courses.course.model.CourseAuthkey;
+import kr.go.ngii.edu.main.courses.course.model.CourseWorkDataInfo;
 
 @Service
 public class CourseAuthkeyService extends BaseService {
@@ -69,6 +70,17 @@ public class CourseAuthkeyService extends BaseService {
 
 		return null;
 	}
+	
+	/**
+	 * 인증코드를 수정한다.
+	 * 
+	 * @param authkey
+	 * @return
+	 */
+	public String modify(int courseId) {
+		return this.create(courseId);
+	}
+	
 
 	/**
 	 * 중복되지 않는 수업코드를 자동으로 생성하여 리턴한다.

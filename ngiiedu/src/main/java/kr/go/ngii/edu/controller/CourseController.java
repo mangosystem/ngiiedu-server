@@ -17,14 +17,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import kr.go.ngii.edu.controller.rest.BaseController;
 import kr.go.ngii.edu.controller.rest.ResponseData;
 import kr.go.ngii.edu.main.courses.course.model.Course;
-import kr.go.ngii.edu.main.courses.course.model.CourseDetail;
+import kr.go.ngii.edu.main.courses.course.model.CourseInfo;
 import kr.go.ngii.edu.main.courses.course.model.CourseMember;
 import kr.go.ngii.edu.main.courses.course.model.CourseTeam;
 import kr.go.ngii.edu.main.courses.course.model.CourseTeamMember;
+import kr.go.ngii.edu.main.courses.course.model.CourseWorkDataInfo;
+import kr.go.ngii.edu.main.courses.course.service.CourseAuthkeyService;
 import kr.go.ngii.edu.main.courses.course.service.CourseMemberService;
 import kr.go.ngii.edu.main.courses.course.service.CourseService;
 import kr.go.ngii.edu.main.courses.course.service.CourseTeamMemberService;
 import kr.go.ngii.edu.main.courses.course.service.CourseTeamService;
+import kr.go.ngii.edu.main.courses.course.service.CourseWorkDataService;
 
 @Controller
 @RequestMapping("/api/v1/courses")
@@ -42,7 +45,11 @@ public class CourseController extends BaseController {
 	@Autowired
 	private CourseTeamMemberService courseTeamMemberService;
 	
+	@Autowired
+	private CourseAuthkeyService courseAuthkeyService;
 	
+	@Autowired
+	private CourseWorkDataService courseWorkDataService;
 
 	/**
 	 * 교사사용자가 모듈을 선택하여 새로운 수업을 만듭니다.
@@ -184,43 +191,41 @@ public class CourseController extends BaseController {
 		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
 	}
 	
-	
 	/**
-	 * 수업 목록 조회하기 (상세정보와 함께)
+	 * 수업 목록 조회하기 
 	 * 
 	 * @param session
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/list/courseDetail", method=RequestMethod.GET)
-	public @ResponseBody ResponseEntity<ResponseData> courseDetailList(
+	@RequestMapping(value="/list/courseInfos", method=RequestMethod.GET)
+	public @ResponseBody ResponseEntity<ResponseData> courseInfoList(
 			@RequestParam(value="offset", required=false, defaultValue="0") Integer offset, 
 			@RequestParam(value="limit", required=false, defaultValue="10") Integer limit, 
 			@RequestParam(value="keyword", required=false, defaultValue="") String keyword,
 			HttpSession session) throws Exception {
 
-		List<CourseDetail> list = null;
-		list = courseService.courseDetailList(offset, limit, keyword);
+		List<CourseInfo> list = courseService.courseDetailList(offset, limit, keyword);
 		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
 	}
 	
 	/**
-	 * 수업  조회하기 (상세정보와 함께)
+	 * userId 기준으로 참여된 수업  조회하기
 	 * 
 	 * @param idx
 	 * @param session
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/list/{userId}/courseDetail", method=RequestMethod.GET)
-	public @ResponseBody ResponseEntity<ResponseData> courseDetailList(
+	@RequestMapping(value="/list/{userId}/courseInfos", method=RequestMethod.GET)
+	public @ResponseBody ResponseEntity<ResponseData> courseInfoList(
 			@PathVariable("userId") Integer userId,
 			@RequestParam(value="offset", required=false, defaultValue="0") Integer offset, 
 			@RequestParam(value="limit", required=false, defaultValue="10") Integer limit, 
 			@RequestParam(value="keyword", required=false, defaultValue="") String keyword,
 			HttpSession session) throws Exception {
 
-		List<CourseDetail> list = courseService.courseDetailListByUserId(userId, offset, limit, keyword);
+		List<CourseInfo> list = courseService.courseDetailListByUserId(userId, offset, limit, keyword);
 		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
 	}
 	
@@ -241,9 +246,62 @@ public class CourseController extends BaseController {
 		Course list = courseService.get(courseId);
 		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
 	}
+	
+	/**
+	 * 수업 정보 수정하기
+	 * 
+	 * @param idx
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/{courseId}", method=RequestMethod.PUT)
+	public @ResponseBody ResponseEntity<ResponseData> modify(
+			@PathVariable("idx") Integer idx,
+			@PathVariable("courseName") String courseName,
+			@PathVariable("courseMetadata") String courseMetadata,
+			HttpSession session) throws Exception {
 
-
-
+		Course list = courseService.modify(idx, courseName, courseMetadata);
+		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
+	}
+	
+	/**
+	 * 인증키 조회
+	 * 
+	 * @param idx
+	 * 
+	 * @return 
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/{courseId}/authkey", method=RequestMethod.GET)
+	public @ResponseBody ResponseEntity<ResponseData> getAuthkey(
+			@PathVariable(value="courseId") Integer courseId
+			) throws Exception {
+		
+		String authKey = courseAuthkeyService.get(courseId);
+		return new ResponseEntity<ResponseData>(responseBody(authKey), HttpStatus.OK);
+	}
+	
+	
+	/**
+	 * 인증키 재발급
+	 * 
+	 * @param idx
+	 * 
+	 * @return 
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/{courseId}/authkey/modify", method=RequestMethod.GET)
+	public @ResponseBody ResponseEntity<ResponseData> modifyAuthkey(
+			@PathVariable(value="courseId") Integer courseId
+			) throws Exception {
+		
+		String result = courseAuthkeyService.modify(courseId);
+		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
+	}
+	
+	
 	/**
 	 * 수업내 팀 목록 조회
 	 * @param courseId
@@ -405,6 +463,42 @@ public class CourseController extends BaseController {
 			HttpSession session) throws Exception {
 		
 		boolean result = courseTeamMemberService.delete(courseId, teamId, memberId);
+		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
+	}
+	
+	/**
+	 * 수업내 관련 데이터 조회
+	 * 
+	 * @param courseId
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/{courseId}/workData", method=RequestMethod.GET)
+	public @ResponseBody ResponseEntity<ResponseData> courseWorkDataList(
+			@PathVariable("courseId") Integer courseId,
+			HttpSession session) throws Exception {
+		
+		List<CourseWorkDataInfo> list = courseWorkDataService.list(courseId);
+		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
+	}
+	
+	/**
+	 * 수업내 관련 데이터 상태 수정
+	 * 
+	 * @param courseId
+	 * @param teamId
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/{courseId}/workData", method=RequestMethod.PUT)
+	public @ResponseBody ResponseEntity<ResponseData> modifyCourseWorkData(
+			@PathVariable("idx") Integer idx,
+			@PathVariable("status") Boolean status,
+			HttpSession session) throws Exception {
+		
+		CourseWorkDataInfo result = courseWorkDataService.modify(idx, status);
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
 

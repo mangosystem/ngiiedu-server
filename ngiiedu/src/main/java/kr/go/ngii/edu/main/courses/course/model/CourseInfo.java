@@ -13,7 +13,7 @@ import kr.go.ngii.edu.main.courses.work.model.CourseWork;
  * @author mg
  */
 @XmlRootElement(name = "courseDetail")
-public class CourseDetail implements Serializable {
+public class CourseInfo implements Serializable {
 
 	/** serialVersionUID. */
 	private static final long serialVersionUID = 1L;
