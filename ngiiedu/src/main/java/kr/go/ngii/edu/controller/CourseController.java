@@ -257,9 +257,9 @@ public class CourseController extends BaseController {
 	 */
 	@RequestMapping(value="/{courseId}", method=RequestMethod.PUT)
 	public @ResponseBody ResponseEntity<ResponseData> modify(
-			@PathVariable("idx") Integer idx,
-			@PathVariable("courseName") String courseName,
-			@PathVariable("courseMetadata") String courseMetadata,
+			@PathVariable("courseId") Integer idx,
+			@RequestParam(value="courseName", required=false, defaultValue="") String courseName,
+			@RequestParam(value="courseMetadata", required=false, defaultValue="") String courseMetadata,
 			HttpSession session) throws Exception {
 
 		Course list = courseService.modify(idx, courseName, courseMetadata);
@@ -495,7 +495,7 @@ public class CourseController extends BaseController {
 	@RequestMapping(value="/{courseId}/workData", method=RequestMethod.PUT)
 	public @ResponseBody ResponseEntity<ResponseData> modifyCourseWorkData(
 			@PathVariable("idx") Integer idx,
-			@PathVariable("status") Boolean status,
+			@RequestParam(value="status", required=true) Boolean status,
 			HttpSession session) throws Exception {
 		
 		CourseWorkDataInfo result = courseWorkDataService.modify(idx, status);
