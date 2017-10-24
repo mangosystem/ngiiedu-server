@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import kr.go.ngii.edu.common.enums.EnumCourseDataDiv;
+
 /**
  * 수업 과정데이터 모델 클래스.
  * 
@@ -123,7 +125,7 @@ public class CourseWorkDataInfo implements Serializable{
 	 * @param moduleWorkOutputPath
 	 *            자료위치경로
 	 */
-	public void setModuleWorkDataPath(String modmoduleWorkDataPathuleWorkOutputPath) {
+	public void setModuleWorkDataPath(String moduleWorkDataPath) {
 		this.moduleWorkDataPath = moduleWorkDataPath;
 	}
 
@@ -192,6 +194,10 @@ public class CourseWorkDataInfo implements Serializable{
 	 */
 	public String getStatus() {
 		return this.status;
+	}
+	
+	public String getModuleWorkDataDivisionText() {
+		return EnumCourseDataDiv.findText(this.moduleWorkDataDivision);
 	}
 
 	

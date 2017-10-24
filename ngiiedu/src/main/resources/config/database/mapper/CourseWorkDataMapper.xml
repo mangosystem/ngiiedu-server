@@ -42,7 +42,7 @@
 			idx, 
 			course_id, 
 			module_id, 
-			module_work_data_name, 
+			module_work_data_name,
 			module_work_data_path, 
 		    module_work_data_division, 
 		    module_work_seq, 

@@ -49,5 +49,5 @@ public class CourseServiceTest extends BaseTest {
 		System.out.println(UIDUtil.uuid());
 		
 	}
-
+	
 }
