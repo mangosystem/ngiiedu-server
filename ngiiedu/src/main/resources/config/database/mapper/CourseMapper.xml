@@ -177,7 +177,7 @@
 	</insert>
 	
 	<update id="modify" parameterType="map">
-		UPDATE course 
+		UPDATE courses
 		SET
 			course_name = #{courseName}, 
 			course_metadata = #{courseMetadata}, 

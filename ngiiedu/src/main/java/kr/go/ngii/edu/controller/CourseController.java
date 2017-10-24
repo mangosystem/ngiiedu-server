@@ -494,7 +494,7 @@ public class CourseController extends BaseController {
 	 */
 	@RequestMapping(value="/{courseId}/workData", method=RequestMethod.PUT)
 	public @ResponseBody ResponseEntity<ResponseData> modifyCourseWorkData(
-			@PathVariable("idx") Integer idx,
+			@PathVariable("courseId") Integer idx,
 			@RequestParam(value="status", required=true) Boolean status,
 			HttpSession session) throws Exception {
 		

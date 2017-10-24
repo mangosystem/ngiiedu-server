@@ -94,14 +94,13 @@ public class CourseService extends BaseService {
 	
 	public Course modify(int idx, String courseName, String courseMetadata) {
 		
-		
 		Course param = new Course();
 		param.setIdx(idx);
 		param.setCourseName(courseName);
 		param.setCourseMetadata(courseMetadata);
 		param.setModifyDate(new Date());
 
-//		courseMapper.modify(param);
+		courseMapper.modify(param);
 
 		if (param.getIdx()!=null) {
 			param = get(idx);
