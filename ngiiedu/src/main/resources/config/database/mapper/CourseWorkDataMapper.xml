@@ -92,9 +92,15 @@
 	<update id="modify" parameterType="map">
 		UPDATE courses_work_data
 		SET
-			course_id = #{courseId},
-			module_work_data_id =  #{moduleWorkDataId},
-			status = #{status}
+			<if test="courseId !=null">
+				course_id = #{courseId},
+			</if>
+			<if test="moduleWorkDataId !=null">
+				module_work_data_id =  #{moduleWorkDataId},
+			</if>
+			<if test="status !=null">
+				status = #{status}
+			</if>
 		WHERE idx = #{idx}
 	</update>
 

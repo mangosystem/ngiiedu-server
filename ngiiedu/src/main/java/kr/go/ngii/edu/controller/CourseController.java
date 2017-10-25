@@ -21,6 +21,7 @@ import kr.go.ngii.edu.main.courses.course.model.CourseInfo;
 import kr.go.ngii.edu.main.courses.course.model.CourseMember;
 import kr.go.ngii.edu.main.courses.course.model.CourseTeam;
 import kr.go.ngii.edu.main.courses.course.model.CourseTeamMember;
+import kr.go.ngii.edu.main.courses.course.model.CourseWorkData;
 import kr.go.ngii.edu.main.courses.course.model.CourseWorkDataInfo;
 import kr.go.ngii.edu.main.courses.course.service.CourseAuthkeyService;
 import kr.go.ngii.edu.main.courses.course.service.CourseMemberService;
@@ -492,13 +493,13 @@ public class CourseController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/{courseId}/workData", method=RequestMethod.PUT)
+	@RequestMapping(value="/{idx}/workData", method=RequestMethod.PUT)
 	public @ResponseBody ResponseEntity<ResponseData> modifyCourseWorkData(
-			@PathVariable("courseId") Integer idx,
+			@PathVariable("idx") Integer idx,
 			@RequestParam(value="status", required=true) Boolean status,
 			HttpSession session) throws Exception {
 		
-		CourseWorkDataInfo result = courseWorkDataService.modify(idx, status);
+		CourseWorkData result = courseWorkDataService.modify(idx, status);
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
 

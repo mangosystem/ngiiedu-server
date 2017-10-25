@@ -41,8 +41,10 @@ public class CourseMemberServiceTest extends BaseTest {
 
 	@Test
 	public void testCreate() {
-		CourseMember member = service.create("CAPTOZ", 1);
-		System.out.println(member.getIdx());
+
+		CourseMember member3 = service.create("CAPTOZ", 9);
+		CourseMember member4 = service.create("CAPTOZ", 18);
+//		System.out.println(member.getIdx());
 	}
 
 	@Test

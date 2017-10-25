@@ -41,12 +41,12 @@ public class CourseWorkDataService extends BaseService {
 		return courseWorkDataMapper.create(courseWorkData);
 	}
 	
-	public CourseWorkDataInfo modify(int idx, boolean status) {
+	public CourseWorkData modify(int idx, boolean status) {
 		CourseWorkData params = new CourseWorkData();
 		params.setIdx(idx);
 		params.setStatus(status);
 		courseWorkDataMapper.modify(params);
-		return this.get(params.getCourseId());
+		return params;
 	}
 	
 	public void delete(int idx) {

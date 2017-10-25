@@ -22,6 +22,9 @@ public class CourseWorkData implements Serializable{
 	/** 코스 */
 	private Integer courseId;
 	
+	/** 모듈과정자료 ID	 */
+	private Integer moduleWorkDataId;
+	
 	/** 자료 활성화 정보. */
 	private boolean status;
 
@@ -45,9 +48,30 @@ public class CourseWorkData implements Serializable{
 	}
 
 	/**
-	 * 모듈을 가져옵니다..
+	 * 모듈과정자료 Id 가져옵니다..
 	 * 
-	 * @return 모듈
+	 * @return 모듈과정자료 Id
+	 */
+	public Integer getModuleWorkDataId() {
+		return this.moduleWorkDataId;
+	}
+	
+	
+	/**
+	 * 모듈과정자료 Id를 설정합니다..
+	 * 
+	 * @param courseId
+	 *            모듈과정자료 Id
+	 */
+	public void setModuleWworkDataId(int moduleWorkDataId) {
+		this.moduleWorkDataId = moduleWorkDataId;
+	}
+
+	
+	/**
+	 * 코스 Id 가져옵니다..
+	 * 
+	 * @return 코스 Id
 	 */
 	public Integer getCourseId() {
 		return this.courseId;
@@ -55,10 +79,10 @@ public class CourseWorkData implements Serializable{
 	
 	
 	/**
-	 * 코스를 설정합니다..
+	 * 코코스 Id를 설정합니다..
 	 * 
 	 * @param courseId
-	 *            코스
+	 *            코스Id
 	 */
 	public void setCourseId(int courseId) {
 		this.courseId = courseId;
