@@ -140,5 +140,28 @@ public class CourseService extends BaseService {
 		boolean courseDeleteResult = courseMapper.delete(params);
 		return courseDeleteResult;
 	}
+	
+	public boolean delete(int courseId, int userId, String password) {
+		
+		// 수업결과물
+		
+		// 팀, 팀원삭제
+//			List<CourseTeam> teamList = courseTeamService.list(courseId);
+//			for (CourseTeam team : teamList) {
+//				courseTeamService.delete(courseId, team.getIdx());
+//			}
+		
+		// 수업참여자
+//		courseMemberService.delete()
+		
+		// 수업과정
+		
+		// 수업삭제
+		Course params = new Course();
+		params.setIdx(courseId);
+		boolean courseDeleteResult = courseMapper.delete(params);
+		return courseDeleteResult;
+	}
+
 
 }

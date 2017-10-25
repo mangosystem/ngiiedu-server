@@ -26,9 +26,12 @@ import kr.go.ngii.edu.main.courses.course.service.CourseMemberService;
 import kr.go.ngii.edu.main.courses.course.service.CourseService;
 import kr.go.ngii.edu.main.courses.course.service.CourseTeamMemberService;
 import kr.go.ngii.edu.main.courses.course.service.CourseTeamService;
+import kr.go.ngii.edu.main.courses.work.model.CourseWork;
 import kr.go.ngii.edu.main.courses.work.model.CourseWorkData;
 import kr.go.ngii.edu.main.courses.work.model.CourseWorkDataInfo;
+import kr.go.ngii.edu.main.courses.work.model.CourseWorkInfo;
 import kr.go.ngii.edu.main.courses.work.service.CourseWorkDataService;
+import kr.go.ngii.edu.main.courses.work.service.CourseWorkService;
 
 @Controller
 @RequestMapping("/api/v1/courses")
@@ -50,7 +53,16 @@ public class CourseController extends BaseController {
 	private CourseAuthkeyService courseAuthkeyService;
 	
 	@Autowired
+	private CourseWorkService courseWorkService;
+	
+	@Autowired
 	private CourseWorkDataService courseWorkDataService;
+	
+	
+	/**
+	 * 
+	 *  수업관련 
+	 */
 
 	/**
 	 * 교사사용자가 모듈을 선택하여 새로운 수업을 만듭니다.
@@ -91,7 +103,68 @@ public class CourseController extends BaseController {
 		
 		return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
 	}
+	
+	
+	/**
+	 * 교사사용자가 수업을 삭제합니다.
+	 * 
+	 * @param courseId
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/{courseId}", method=RequestMethod.DELETE)
+	public @ResponseBody ResponseEntity<ResponseData> delete(
+			@PathVariable("courseId") Integer courseId,
+			@RequestParam(value="userid", required=false, defaultValue="") Integer userid,
+			@RequestParam(value="password", required=false, defaultValue="") String password,
+			HttpSession session) throws Exception {
+		boolean result = courseService.delete(courseId, userid, password);
+		return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+	}
+	
+	/**
+	 * 
+	 *  과정관련 
+	 */
+	
+	/**
+	 * 수업에 설정되어 있는 과정 목록 초회
+	 * 
+	 * @param courseId
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/{courseId}/work", method=RequestMethod.GET)
+	public @ResponseBody ResponseEntity<ResponseData> workList(
+			@PathVariable("courseId") Integer courseId,
+			HttpSession session) throws Exception {
 
+		List<CourseWorkInfo> list = courseWorkService.listCourseWorkInfo(courseId);
+		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
+	}
+	
+	/**
+	 * 수업에 상태 업데이트
+	 * 
+	 * @param courseId
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/{courseId}/work", method=RequestMethod.PUT)
+	public @ResponseBody ResponseEntity<ResponseData> workUpdate(
+			@PathVariable("courseId") Integer courseId,
+			@RequestParam(value="status", required=true) Boolean status,
+			HttpSession session) throws Exception {
+
+		CourseWork list = courseWorkService.modify(courseId, status);
+		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
+	}
+	
+	
+	
 	/**
 	 * 수업에 참여하고 있는 사용자 목록 조회
 	 * 
@@ -315,7 +388,7 @@ public class CourseController extends BaseController {
 	public @ResponseBody ResponseEntity<ResponseData> memberDelete(
 			@PathVariable("courseId") Integer courseId,
 			@RequestParam(value="userid", required=false, defaultValue="") Integer userid,
-			@RequestParam(value="passsword", required=false, defaultValue="") String password,
+			@RequestParam(value="password", required=false, defaultValue="") String password,
 			HttpSession session) throws Exception {
 		
 		boolean result = courseMemberService.leave(courseId, userid, password);
