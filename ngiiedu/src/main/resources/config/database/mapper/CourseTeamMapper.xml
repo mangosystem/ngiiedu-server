@@ -13,7 +13,6 @@
 		<result property="modifyDate" column="modify_date" />
 	</resultMap>
 
-
 	<select id="list" parameterType="map" resultMap="courseTeamMap">
 		SELECT
 			idx,
@@ -77,8 +76,7 @@
 		SELECT COUNT(*)+1 AS count FROM courses_team
 		WHERE course_id = #{courseId}
 	</select>
-	
-	
+
 	<select id="exists" parameterType="map" resultType="boolean">
 		SELECT
 			CASE WHEN EXISTS (

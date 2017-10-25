@@ -28,7 +28,6 @@ public class CourseTeamMember implements Serializable {
 	/** 생성일 */
 	private Date createDate;
 
-
 	public Integer getIdx() {
 		return idx;
 	}

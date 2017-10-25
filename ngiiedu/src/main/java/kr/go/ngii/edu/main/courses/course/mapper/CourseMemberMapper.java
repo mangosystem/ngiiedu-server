@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import kr.go.ngii.edu.main.courses.course.model.CourseMember;
+import kr.go.ngii.edu.main.courses.course.model.CourseMemberInfo;
 
 @Mapper
 public interface CourseMemberMapper {
@@ -13,6 +14,10 @@ public interface CourseMemberMapper {
 	public List<CourseMember> listByCourseId(@Param("courseId") int courseId);
 
 	public List<CourseMember> listByCourseIdAndJoinStatus(@Param("courseId") int courseId, @Param("joinStatus") String joinStatus);
+
+	public List<CourseMemberInfo> courseMemberInfoListByCourseId(@Param("courseId") int courseId);
+	
+	public List<CourseMemberInfo> courseMemberInfoListByCourseIdAndJoinStatus(@Param("courseId") int courseId, @Param("joinStatus") String joinStatus);
 
 	public CourseMember get(@Param("courseId") int courseId, @Param("userId") int userId);
 

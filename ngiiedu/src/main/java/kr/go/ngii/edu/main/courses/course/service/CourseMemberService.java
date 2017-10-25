@@ -11,6 +11,7 @@ import kr.go.ngii.edu.common.message.ErrorMessage;
 import kr.go.ngii.edu.main.courses.course.mapper.CourseAuthkeyMapper;
 import kr.go.ngii.edu.main.courses.course.mapper.CourseMemberMapper;
 import kr.go.ngii.edu.main.courses.course.model.CourseMember;
+import kr.go.ngii.edu.main.courses.course.model.CourseMemberInfo;
 
 @Service
 public class CourseMemberService {
@@ -20,7 +21,6 @@ public class CourseMemberService {
 
 	@Autowired
 	private CourseAuthkeyMapper courseAuthkeyMapper;
-
 
 	/**
 	 * 수업에 참여하고 있는 학생사용자 목록 조회
@@ -41,6 +41,27 @@ public class CourseMemberService {
 	 */
 	public List<CourseMember> list(int courseId, String joinStatus) {
 		return courseMemberMapper.listByCourseIdAndJoinStatus(courseId, EnumJoinStatus.findCode(joinStatus));
+	}
+	
+	/**
+	 * 수업에 참여하고 있는 학생사용자 목록 조회 (뷰테이블)
+	 * @param courseId
+	 * @return
+	 */
+	public List<CourseMemberInfo> courseMemberInfoList(int courseId) {
+		return courseMemberMapper.courseMemberInfoListByCourseId(courseId);
+	}
+
+	/**
+	 * 수업에 참여하고 있는 학생사용자 목록을 상태별로 구별하여
+	 * {@link EnumJoinStatus} 값을 참고하여 코드변환 후 조회  (뷰테이블)
+	 * 
+	 * @param courseId
+	 * @param joinStatus
+	 * @return
+	 */
+	public List<CourseMemberInfo> courseInfoList(int courseId, String joinStatus) {
+		return courseMemberMapper.courseMemberInfoListByCourseIdAndJoinStatus(courseId, EnumJoinStatus.findCode(joinStatus));
 	}
 
 	/**

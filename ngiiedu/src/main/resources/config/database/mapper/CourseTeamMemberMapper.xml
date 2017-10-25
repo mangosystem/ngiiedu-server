@@ -10,7 +10,20 @@
 		<result property="memberId" column="member_id" />
 		<result property="createDate" column="create_date" />
 	</resultMap>
-
+	
+	<resultMap type="kr.go.ngii.edu.main.courses.course.model.CourseTeamMemberInfo" id="courseTeamMemberInfoMap">
+		<id property="idx" column="idx" />
+		<result property="teamId" column="course_id" />
+		<result property="memberId" column="member_id" />
+		<result property="userId" column="user_id" />
+		<result property="joinStatus" column="join_status" />
+		<result property="userid" column="userid" />
+		<result property="userEmail" column="user_email" />
+		<result property="userName" column="user_name" />
+		<result property="teamId" column="team_id" />
+		<result property="teamNme" column="team_name" />
+		<result property="teamSeq" column="team_seq" />
+	</resultMap>
 
 	<select id="list" parameterType="map" resultMap="courseTeamMemberMap">
 		SELECT 
@@ -23,6 +36,24 @@
 		AND T1.team_id = #{teamId}
 		AND T2.course_id = #{courseId}
 		ORDER BY T1.create_date
+	</select>
+	
+	<select id="courseTeamMemberInfoList" parameterType="map" resultMap="courseTeamMemberInfoMap">
+		SELECT 
+			idx, 
+			course_id, 
+			user_id, 
+			join_status, 
+			userid, 
+			user_email, 
+			user_name,
+			team_id, 
+			team_name, 
+			team_seq
+  		FROM courses_team_member_info
+		WHERE
+			course_id = #{courseId}
+		ORDER BY idx
 	</select>
 
 	<insert id="create" parameterType="map">

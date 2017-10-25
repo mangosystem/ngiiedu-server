@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import kr.go.ngii.edu.BaseTest;
 import kr.go.ngii.edu.main.courses.course.model.CourseMember;
+import kr.go.ngii.edu.main.courses.course.model.CourseMemberInfo;
 
 public class CourseMemberServiceTest extends BaseTest {
 
@@ -55,6 +56,12 @@ public class CourseMemberServiceTest extends BaseTest {
 	@Test
 	public void testLeave() {
 		service.leave(1, 5);
+	}
+	
+	@Test
+	public void testCourseMemberInfoList() {
+		List<CourseMemberInfo> cmiList = service.courseMemberInfoList(20);
+		System.out.println(cmiList.size());
 	}
 
 }

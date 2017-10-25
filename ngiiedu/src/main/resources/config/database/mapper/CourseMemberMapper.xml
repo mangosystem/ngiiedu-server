@@ -12,7 +12,17 @@
 		<result property="createDate" column="create_date" />
 		<result property="modifyDate" column="modify_date" />
 	</resultMap>
-
+	
+	<resultMap type="kr.go.ngii.edu.main.courses.course.model.CourseMemberInfo" id="courseMemberInfoMap">
+		<id property="idx" column="idx" />
+		<result property="courseId" column="course_id" />
+		<result property="userId" column="user_id" />
+		<result property="joinStatus" column="join_status" />
+		<result property="userid" column="userid" />
+		<result property="userEmail" column="user_email" />
+		<result property="userName" column="user_name" />
+		<result property="userState" column="user_state" />
+	</resultMap>
 
 	<select id="listByCourseId" parameterType="map" resultMap="courseMemberMap">
 		SELECT
@@ -51,6 +61,36 @@
 		FROM courses_member
 		WHERE 
 			course_id = #{courseId} AND user_id = #{userId}
+	</select>
+	
+	<select id="courseInfoListByCourseId" parameterType="map" resultMap="courseMemberInfoMap">
+		SELECT 
+			idx, 
+			course_id, 
+			user_id, 
+			join_status, 
+			userid, 
+			user_email, 
+			user_name,
+			user_state
+  		FROM courses_member_infos
+		WHERE 
+			course_id = #{courseId}
+	</select>
+
+	<select id="courseInfoListByCourseIdAndJoinStatus" parameterType="map" resultMap="courseMemberInfoMap">
+		SELECT 
+			idx, 
+			course_id, 
+			user_id, 
+			join_status, 
+			userid, 
+			user_email, 
+			user_name,
+			user_state
+  		FROM courses_member_infos
+		WHERE 
+			course_id = #{courseId} AND join_status = #{joinStatus}
 	</select>
 
 	<insert id="create" parameterType="map">

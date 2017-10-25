@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import kr.go.ngii.edu.main.common.BaseService;
 import kr.go.ngii.edu.main.courses.course.mapper.CourseTeamMemberMapper;
 import kr.go.ngii.edu.main.courses.course.model.CourseTeamMember;
+import kr.go.ngii.edu.main.courses.course.model.CourseTeamMemberInfo;
 
 @Service
 public class CourseTeamMemberService extends BaseService {
@@ -19,6 +20,10 @@ public class CourseTeamMemberService extends BaseService {
 
 	public List<CourseTeamMember> list(int courseId, int teamId) {
 		return courseTeamMemberMapper.list(courseId, teamId);
+	}
+	
+	public List<CourseTeamMemberInfo> courseTeamMemberInfoList(int courseId, int teamId) {
+		return courseTeamMemberMapper.courseTeamMemberInfoList(courseId, teamId);
 	}
 
 	public CourseTeamMember create(int courseId, int teamId, int memberId) {
