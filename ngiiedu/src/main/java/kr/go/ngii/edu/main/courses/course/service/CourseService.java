@@ -26,12 +26,6 @@ public class CourseService extends BaseService {
 	@Autowired
 	private CourseAuthkeyService courseAuthkeyService;;
 
-	@Autowired
-	private CourseTeamService courseTeamService;
-
-	@Autowired
-	private CourseMemberService courseMemberService;
-
 
 	public Course create(int moduleId, List<Integer> moduleWorkIds, String courseName, String courseMetadata) throws Exception {
 
@@ -108,22 +102,43 @@ public class CourseService extends BaseService {
 		
 		return param;
 	}
-	//	public boolean delete(int courseId) {
-	//		
-	//		// 수업결과물
-	//		
-	//		// 팀, 팀원삭제
-	//		List<CourseTeam> teamList = courseTeamService.list(courseId);
-	//		for (CourseTeam team : teamList) {
-	//			courseTeamService.delete(courseId, team.getIdx());
-	//		}
-	//		
-	//		// 수업참여자
-	////		courseMemberService.delete()
-	//		
-	//		// 수업과정
-	//		
-	//		return false;
-	//	}
+	
+	public Course updateStatus(int idx, boolean status) {
+
+		Course param = new Course();
+		param.setIdx(idx);
+		param.setStatus(status);
+		param.setModifyDate(new Date());
+
+		courseMapper.modify(param);
+
+		if (param.getIdx()!=null) {
+			param = get(idx);
+		}
+		
+		return param;
+	}
+	
+	public boolean delete(int courseId) {
+		
+		// 수업결과물
+		
+		// 팀, 팀원삭제
+//			List<CourseTeam> teamList = courseTeamService.list(courseId);
+//			for (CourseTeam team : teamList) {
+//				courseTeamService.delete(courseId, team.getIdx());
+//			}
+		
+		// 수업참여자
+//		courseMemberService.delete()
+		
+		// 수업과정
+		
+		// 수업삭제
+		Course params = new Course();
+		params.setIdx(courseId);
+		boolean courseDeleteResult = courseMapper.delete(params);
+		return courseDeleteResult;
+	}
 
 }

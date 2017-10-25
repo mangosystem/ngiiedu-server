@@ -13,6 +13,19 @@
 		<result property="workTeamDivision" column="work_team_division" />
 		<result property="createDate" column="create_date" />
 		<result property="modifyDate" column="modify_date" />
+		<result property="status" column="status" />
+	</resultMap>
+	
+	<resultMap type="kr.go.ngii.edu.main.courses.work.model.CourseWorkInfo" id="courseWorkInfoMap">
+		<id property="idx" column="idx" />
+		<result property="courseId" column="course_id" />
+		<result property="moduleWorkId" column="module_work_id" />
+		<result property="workSeq" column="work_seq" />
+		<result property="workTeamDivision" column="work_team_division" />
+		<result property="moduleWorkName" column="module_work_name" />
+		<result property="moduleWorkCourseType" column="module_work_course_type" />
+		<result property="moduleWorkMetadata" column="module_work_metadata" />
+		<result property="status" column="status" />
 	</resultMap>
 	
 	<insert id="create" parameterType="map">
@@ -39,5 +52,74 @@
 			#{modifyDate}
 		)
 	</insert>
+	
+	<select id="list" parameterType="map" resultMap="courseWorkMap">
+		SELECT 
+			idx, 
+			course_id, 
+			module_work_id, 
+			work_seq, 
+			work_team_division,
+			create_date, 
+			modify_date, 
+			status
+  		FROM courses_work
+		WHERE course_id = #{course_id}
+		ORDER BY idx
+	</select>
+
+	<select id="get" parameterType="map" resultMap="courseWorkMap">
+		SELECT
+			idx, 
+			course_id,
+			module_work_data_id,
+		    status
+		FROM courses_work_data
+		WHERE idx = #{idx}
+	</select>
+	
+	<select id="listCourseWorkInfo" parameterType="map" resultMap="courseWorkInfoMap">
+		SELECT 
+			idx, 
+			course_id, 
+			module_work_id, 
+			work_seq, 
+			work_team_division, 
+			module_work_name, 
+			module_work_course_type, 
+			module_work_metadata,
+			status
+  		FROM public.courses_work_infos
+		WHERE course_id = #{courseId}
+	</select>
+	
+	<update id="modify" parameterType="map">
+		UPDATE courses_work
+		<set>
+			<if test="courseId !=null">
+				status = #{courseId},
+			</if>
+			<if test="moduleWorkId !=null">
+				module_work_id = #{moduleWorkId},
+			</if>
+			<if test="workSeq !=null">
+				work_seq = #{workSeq},
+			</if>
+			<if test="workTeamDivision !=null">
+				work_team_division = #{workTeamDivision},
+			</if>
+			<if test="status !=null">
+				status = #{status},
+			</if>
+			modify_date = #{modifyDate}
+		</set>
+		WHERE
+			idx = #{idx} 
+	</update>
+
+	<delete id="delete" parameterType="map">
+		DELETE FROM courses_work
+		WHERE courseId = #{courseId} AND idx = #{idx}
+	</delete>
 
 </mapper>

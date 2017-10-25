@@ -39,6 +39,8 @@ public class Course implements Serializable {
 	/** 수정일. */
 	private Date modifyDate;
 	
+	private boolean status;
+	
 	List<CourseWork> work;
 
 
@@ -104,6 +106,14 @@ public class Course implements Serializable {
 
 	public void setWork(List<CourseWork> work) {
 		this.work = work;
+	}
+	
+	public boolean isStatus() {
+		return status;
+	}
+
+	public void setStatus(boolean status) {
+		this.status = status;
 	}
 
 }

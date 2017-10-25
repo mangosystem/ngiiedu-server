@@ -31,5 +31,7 @@ public interface CourseMapper {
 			@Param("limit") int limit, @Param("keyword") String keyword);
 	
 	public void modify(Course course);
+	
+	public boolean delete(Course course);
 
 }

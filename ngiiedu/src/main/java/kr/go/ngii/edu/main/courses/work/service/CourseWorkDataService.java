@@ -1,4 +1,4 @@
-package kr.go.ngii.edu.main.courses.course.service;
+package kr.go.ngii.edu.main.courses.work.service;
 
 import java.util.List;
 
@@ -6,10 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.go.ngii.edu.main.common.BaseService;
-import kr.go.ngii.edu.main.courses.course.mapper.CourseWorkDataMapper;
-
-import kr.go.ngii.edu.main.courses.course.model.CourseWorkData;
-import kr.go.ngii.edu.main.courses.course.model.CourseWorkDataInfo;
+import kr.go.ngii.edu.main.courses.work.mapper.CourseWorkDataMapper;
+import kr.go.ngii.edu.main.courses.work.model.CourseWorkData;
+import kr.go.ngii.edu.main.courses.work.model.CourseWorkDataInfo;
 
 @Service
 public class CourseWorkDataService extends BaseService {

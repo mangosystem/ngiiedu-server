@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import kr.go.ngii.edu.main.common.BaseService;
 import kr.go.ngii.edu.main.courses.work.mapper.CourseWorkMapper;
 import kr.go.ngii.edu.main.courses.work.model.CourseWork;
+import kr.go.ngii.edu.main.courses.work.model.CourseWorkInfo;
 
 @Service
 public class CourseWorkService extends BaseService {
@@ -50,6 +51,39 @@ public class CourseWorkService extends BaseService {
 		}
 
 		return createResult;
+	}
+	
+	public List<CourseWork> list(CourseWork courseWork) {
+		return courseWorkMapper.list(courseWork);
+	}
+	
+	public CourseWork get(CourseWork courseWork) {
+		return courseWorkMapper.get(courseWork);
+	}
+	
+	public List<CourseWorkInfo> listCourseWorkInfo(int courseId) {
+		CourseWork params = new CourseWork();
+		params.setCourseId(courseId);
+		return courseWorkMapper.listCourseWorkInfo(params);
+	}
+	
+//	public CourseWorkInfo get(int courseId) {
+//		CourseWork params = new CourseWork();
+//		params.setCourseId(courseId);
+//		return courseWorkMapper.getCourseWorkInfo(params);
+//	}
+	
+	public CourseWork modify(int idx, boolean status) {
+		CourseWork params = new CourseWork();
+		params.setIdx(idx);
+		params.setStatus(status);
+		params.setModifyDate(new Date());
+		courseWorkMapper.modify(params);
+		return params;
+	}
+	
+	public void delete(CourseWork courseWork) {
+		courseWorkMapper.delete(courseWork);
 	}
 
 }

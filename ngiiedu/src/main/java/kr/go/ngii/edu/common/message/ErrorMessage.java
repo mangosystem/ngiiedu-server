@@ -15,8 +15,9 @@ public class ErrorMessage {
 
 	public static String COURSE_CREATE_FAILED	= "새로운 수업을 만들 수 없습니다.";
 
-
 	public static String DUPICATE_ID 		= "이미 존재하는 아이디입니다.";
+	
+	public static String PASSWORD_AUTHENTICATION_FAILED = "비밀번호 가 다릅니다.";
 
 
 }

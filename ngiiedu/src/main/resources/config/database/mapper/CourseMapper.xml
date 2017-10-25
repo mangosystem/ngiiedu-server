@@ -12,6 +12,7 @@
 		<result property="courseCreateId" column="course_create_id" />
 		<result property="createDate" column="create_date" />
 		<result property="modifyDate" column="modify_date" />
+		<result property="status" column="status" />
 	</resultMap>
 	
 	<resultMap type="kr.go.ngii.edu.main.courses.course.model.CourseInfo" id="courseInfoMap">
@@ -39,7 +40,8 @@
 			course_metadata,
 			course_create_id,
 			create_date,
-			modify_date
+			modify_date,
+			status
 		FROM courses
 		WHERE 
 			course_create_id = #{value}
@@ -57,7 +59,8 @@
 			course_metadata,
 			course_create_id,
 			create_date,
-			modify_date
+			modify_date,
+			status
 		FROM courses
 		WHERE 
 			course_create_id = #{value}
@@ -75,7 +78,8 @@
 			course_metadata,
 			course_create_id,
 			create_date,
-			modify_date
+			modify_date,
+			status
 		FROM courses
 		<if test="offset != null and limit != null">
 			OFFSET ${offset} LIMIT ${limit}
@@ -147,7 +151,8 @@
 			course_metadata,
 			course_create_id,
 			create_date,
-			modify_date
+			modify_date,
+			status
 		FROM courses
 		WHERE idx = #{idx}
 	</select>
@@ -164,7 +169,8 @@
 			course_metadata,
 			course_create_id,
 			create_date,
-			modify_date
+			modify_date,
+			status
 		) VALUES (
 			#{idx},
 			#{moduleId},
@@ -172,17 +178,31 @@
 			#{courseMetadata},
 			#{courseCreateId},
 			#{createDate},
-			#{modifyDate}
+			#{modifyDate},
+			#{status}
 		)
 	</insert>
 	
 	<update id="modify" parameterType="map">
 		UPDATE courses
-		SET
-			course_name = #{courseName}, 
-			course_metadata = #{courseMetadata}, 
+		<set>
+			<if test="courseName !=null">
+				course_name = #{courseName},
+			</if>
+			<if test="courseMetadata !=null">
+				course_metadata = #{courseMetadata},
+			</if>
+			<if test="status !=null">
+				status = #{status},
+			</if>
 			modify_date = #{modifyDate} 
+		</set>
 		WHERE idx = #{idx}
 	</update>
+	
+	<delete id="delete" parameterType="map">
+		DELETE FROM courses
+		WHERE idx = #{idx}
+	</delete>
 
 </mapper>

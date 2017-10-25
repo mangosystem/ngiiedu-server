@@ -8,11 +8,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import kr.go.ngii.edu.BaseTest;
 import kr.go.ngii.edu.common.UIDUtil;
+import kr.go.ngii.edu.main.courses.course.mapper.CourseMapper;
 import kr.go.ngii.edu.main.courses.course.model.Course;
 
 public class CourseServiceTest extends BaseTest {
 	
-	@Autowired private CourseService service;
+	@Autowired 
+	private CourseService service;
+	
+	@Autowired
+	private CourseMapper mapper;
 
 
 	@Test
@@ -48,6 +53,20 @@ public class CourseServiceTest extends BaseTest {
 		System.out.println(UIDUtil.uuid());
 		System.out.println(UIDUtil.uuid());
 		
+	}
+	
+	@Test
+	public void testDel() {
+		Course params = new Course();
+		params.setIdx(45);
+//		service.delete(45);
+		System.out.println(mapper.delete(params));
+	}
+	
+	@Test
+	public void testList() {
+		Course result = service.get(44);
+		System.out.println(result.toString());
 	}
 	
 }

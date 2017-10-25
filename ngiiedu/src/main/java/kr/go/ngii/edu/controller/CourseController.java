@@ -21,14 +21,14 @@ import kr.go.ngii.edu.main.courses.course.model.CourseInfo;
 import kr.go.ngii.edu.main.courses.course.model.CourseMember;
 import kr.go.ngii.edu.main.courses.course.model.CourseTeam;
 import kr.go.ngii.edu.main.courses.course.model.CourseTeamMember;
-import kr.go.ngii.edu.main.courses.course.model.CourseWorkData;
-import kr.go.ngii.edu.main.courses.course.model.CourseWorkDataInfo;
 import kr.go.ngii.edu.main.courses.course.service.CourseAuthkeyService;
 import kr.go.ngii.edu.main.courses.course.service.CourseMemberService;
 import kr.go.ngii.edu.main.courses.course.service.CourseService;
 import kr.go.ngii.edu.main.courses.course.service.CourseTeamMemberService;
 import kr.go.ngii.edu.main.courses.course.service.CourseTeamService;
-import kr.go.ngii.edu.main.courses.course.service.CourseWorkDataService;
+import kr.go.ngii.edu.main.courses.work.model.CourseWorkData;
+import kr.go.ngii.edu.main.courses.work.model.CourseWorkDataInfo;
+import kr.go.ngii.edu.main.courses.work.service.CourseWorkDataService;
 
 @Controller
 @RequestMapping("/api/v1/courses")
@@ -302,6 +302,25 @@ public class CourseController extends BaseController {
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
 	
+	/**
+	 * 수업내 팀 멤버 삭제
+	 * 
+	 * @param courseId
+	 * @param teamId
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/{courseId}/member", method=RequestMethod.DELETE)
+	public @ResponseBody ResponseEntity<ResponseData> memberDelete(
+			@PathVariable("courseId") Integer courseId,
+			@RequestParam(value="userid", required=false, defaultValue="") Integer userid,
+			@RequestParam(value="passsword", required=false, defaultValue="") String password,
+			HttpSession session) throws Exception {
+		
+		boolean result = courseMemberService.leave(courseId, userid, password);
+		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
+	}
 	
 	/**
 	 * 수업내 팀 목록 조회

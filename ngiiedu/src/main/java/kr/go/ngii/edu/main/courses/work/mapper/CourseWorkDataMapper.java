@@ -1,11 +1,11 @@
-package kr.go.ngii.edu.main.courses.course.mapper;
+package kr.go.ngii.edu.main.courses.work.mapper;
 
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import kr.go.ngii.edu.main.courses.course.model.CourseWorkData;
-import kr.go.ngii.edu.main.courses.course.model.CourseWorkDataInfo;
+import kr.go.ngii.edu.main.courses.work.model.CourseWorkData;
+import kr.go.ngii.edu.main.courses.work.model.CourseWorkDataInfo;
 
 @Mapper
 public interface CourseWorkDataMapper {
