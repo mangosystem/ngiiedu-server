@@ -263,11 +263,11 @@ public class CourseController extends BaseController {
 	 */
 	@RequestMapping(value="/{courseId}/work", method=RequestMethod.PUT)
 	public @ResponseBody ResponseEntity<ResponseData> workUpdate(
-			@PathVariable("courseId") Integer courseId,
+			@PathVariable("idx") Integer idx,
 			@RequestParam(value="status", required=true) Boolean status,
 			HttpSession session) throws Exception {
 
-		CourseWork list = courseWorkService.modify(courseId, status);
+		CourseWork list = courseWorkService.modify(idx, status);
 		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
 	}
 	
