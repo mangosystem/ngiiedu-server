@@ -116,6 +116,33 @@
 		WHERE
 			idx = #{idx} 
 	</update>
+	
+	
+	<update id="updateStatus" parameterType="map">
+		UPDATE courses_work
+		<set>
+			<if test="courseId !=null">
+				status = #{courseId},
+			</if>
+			<if test="moduleWorkId !=null">
+				module_work_id = #{moduleWorkId},
+			</if>
+			<if test="workSeq !=null">
+				work_seq = #{workSeq},
+			</if>
+			<if test="workTeamDivision !=null">
+				work_team_division = #{workTeamDivision},
+			</if>
+			<if test="status !=null">
+				status = #{status},
+			</if>
+			modify_date = #{modifyDate}
+		</set>
+		WHERE
+			course_id = #{courseId} AND
+			module_work_id = #{moduleWorkId}
+			
+	</update>
 
 	<delete id="delete" parameterType="map">
 		DELETE FROM courses_work

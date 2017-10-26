@@ -24,5 +24,7 @@ public interface CourseWorkMapper {
 
 	public void modify(CourseWork courseWork);
 	
+	public void updateStatus(CourseWork courseWork);
+
 	public void delete(CourseWork courseWork);
 }

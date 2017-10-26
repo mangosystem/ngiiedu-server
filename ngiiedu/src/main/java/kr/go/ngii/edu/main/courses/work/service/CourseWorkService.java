@@ -82,6 +82,16 @@ public class CourseWorkService extends BaseService {
 		return params;
 	}
 	
+	public CourseWork updateStatus(int courseId, int moduleWorkId, boolean status) {
+		CourseWork params = new CourseWork();
+		params.setCourseId(courseId);
+		params.setModuleWorkId(moduleWorkId);
+		params.setStatus(status);
+		params.setModifyDate(new Date());
+		courseWorkMapper.updateStatus(params);
+		return params;
+	}
+	
 	public void delete(CourseWork courseWork) {
 		courseWorkMapper.delete(courseWork);
 	}

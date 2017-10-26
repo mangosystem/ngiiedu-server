@@ -253,7 +253,7 @@ public class CourseController extends BaseController {
 	}
 	
 	/**
-	 * 과정 상태 업데이트 (활성화/비활성화)
+	 * 과정 상태 업데이트
 	 * 
 	 * @param courseId
 	 * @param status
@@ -268,6 +268,26 @@ public class CourseController extends BaseController {
 			HttpSession session) throws Exception {
 
 		CourseWork list = courseWorkService.modify(courseId, status);
+		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
+	}
+	
+	/**
+	 * 과정 상태 업데이트 (활성화/비활성화)
+	 * 
+	 * @param courseId
+	 * @param status
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/{courseId}/work/status", method=RequestMethod.PUT)
+	public @ResponseBody ResponseEntity<ResponseData> workStatusUpdate(
+			@PathVariable("courseId") Integer courseId,
+			@RequestParam("moduleWorkId") Integer moduleWorkId,
+			@RequestParam(value="status", required=true) Boolean status,
+			HttpSession session) throws Exception {
+
+		CourseWork list = courseWorkService.updateStatus(courseId, moduleWorkId, status);
 		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
 	}
 	
