@@ -54,28 +54,28 @@ public class CourseTeamMemberInfo implements Serializable {
 		this.idx = idx;
 	}
 
-	public Integer getCourse_id() {
+	public Integer getCourseId() {
 		return courseId;
 	}
 
-	public void setCourse_id(Integer courseId) {
+	public void setCourseId(Integer courseId) {
 		this.courseId = courseId;
 	}
 
-	public Integer getUser_id() {
+	public Integer getUserId() {
 		return userId;
 	}
 
-	public void setUser_id(Integer userId) {
+	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
 
-	public String getJoin_status() {
+	public String getJoinStatus() {
 		return joinStatus;
 	}
 
-	public void setJoin_status(String join_status) {
-		this.joinStatus = join_status;
+	public void setJoinStatus(String joinStatus) {
+		this.joinStatus = joinStatus;
 	}
 
 	public String getUserid() {
@@ -86,44 +86,46 @@ public class CourseTeamMemberInfo implements Serializable {
 		this.userid = userid;
 	}
 
-	public String getUser_email() {
+	public String getUserEmail() {
 		return userEmail;
 	}
 
-	public void setUser_email(String userEmail) {
+	public void setUserEmail(String userEmail) {
 		this.userEmail = userEmail;
 	}
 
-	public String getUser_name() {
+	public String getUserName() {
 		return userName;
 	}
 
-	public void setUser_name(String user_name) {
+	public void setUserName(String userName) {
 		this.userName = userName;
 	}
 
-	public Integer getTeam_id() {
+	public Integer getTeamId() {
 		return teamId;
 	}
 
-	public void setTeam_id(Integer teamId) {
+	public void setTeamId(Integer teamId) {
 		this.teamId = teamId;
 	}
 
-	public String getTeam_name() {
+	public String getTeamName() {
 		return teamName;
 	}
 
-	public void setTeam_name(String teamName) {
+	public void setTeamName(String teamName) {
 		this.teamName = teamName;
 	}
 
-	public Integer getTeam_seq() {
+	public Integer getTeamSeq() {
 		return teamSeq;
 	}
 
-	public void setTeam_seq(Integer teamSeq) {
+	public void setTeamSeq(Integer teamSeq) {
 		this.teamSeq = teamSeq;
 	}
+
+	
 
 }
