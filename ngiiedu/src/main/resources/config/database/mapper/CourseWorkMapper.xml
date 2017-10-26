@@ -76,6 +76,7 @@
 		    status
 		FROM courses_work_data
 		WHERE idx = #{idx}
+		ORDER BY idx
 	</select>
 	
 	<select id="listCourseWorkInfo" parameterType="map" resultMap="courseWorkInfoMap">
@@ -91,6 +92,7 @@
 			status
   		FROM public.courses_work_infos
 		WHERE course_id = #{courseId}
+		ORDER BY idx
 	</select>
 	
 	<update id="modify" parameterType="map">
