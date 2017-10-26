@@ -63,7 +63,8 @@
 			course_id = #{courseId} AND user_id = #{userId}
 	</select>
 	
-	<select id="courseInfoListByCourseId" parameterType="map" resultMap="courseMemberInfoMap">
+	
+	<select id="courseMemberInfoListByCourseId" parameterType="map" resultMap="courseMemberInfoMap">
 		SELECT 
 			idx, 
 			course_id, 

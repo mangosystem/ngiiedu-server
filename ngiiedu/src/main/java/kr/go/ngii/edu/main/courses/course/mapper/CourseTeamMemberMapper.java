@@ -13,7 +13,7 @@ public interface CourseTeamMemberMapper {
 
 	public List<CourseTeamMember> list(@Param("courseId") int courseId, @Param("teamId") int teamId);
 
-	public List<CourseTeamMemberInfo> courseTeamMemberInfoList(@Param("courseId") int courseId, @Param("teamId") int teamId);
+	public List<CourseTeamMemberInfo> courseTeamMemberInfoList(@Param("courseId") int courseId);
 
 	public void create(CourseTeamMember params);
 

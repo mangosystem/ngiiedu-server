@@ -22,8 +22,8 @@ public class CourseTeamMemberService extends BaseService {
 		return courseTeamMemberMapper.list(courseId, teamId);
 	}
 	
-	public List<CourseTeamMemberInfo> courseTeamMemberInfoList(int courseId, int teamId) {
-		return courseTeamMemberMapper.courseTeamMemberInfoList(courseId, teamId);
+	public List<CourseTeamMemberInfo> courseTeamMemberInfoList(int courseId) {
+		return courseTeamMemberMapper.courseTeamMemberInfoList(courseId);
 	}
 
 	public CourseTeamMember create(int courseId, int teamId, int memberId) {

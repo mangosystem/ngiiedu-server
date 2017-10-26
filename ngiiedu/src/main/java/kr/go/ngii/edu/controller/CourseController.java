@@ -566,13 +566,12 @@ public class CourseController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/{courseId}/team/{teamId}/memberInfos", method=RequestMethod.GET)
+	@RequestMapping(value="/{courseId}/team/memberInfos", method=RequestMethod.GET)
 	public @ResponseBody ResponseEntity<ResponseData> teamMemberInfoList(
 			@PathVariable("courseId") Integer courseId,
-			@PathVariable("teamId") Integer teamId,
 			HttpSession session) throws Exception {
 		
-		List<CourseTeamMemberInfo> list = courseTeamMemberService.courseTeamMemberInfoList(courseId, teamId);
+		List<CourseTeamMemberInfo> list = courseTeamMemberService.courseTeamMemberInfoList(courseId);
 		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
 	}
 

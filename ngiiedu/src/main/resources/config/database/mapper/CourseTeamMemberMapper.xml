@@ -13,7 +13,7 @@
 	
 	<resultMap type="kr.go.ngii.edu.main.courses.course.model.CourseTeamMemberInfo" id="courseTeamMemberInfoMap">
 		<id property="idx" column="idx" />
-		<result property="teamId" column="course_id" />
+		<result property="courseId" column="course_id" />
 		<result property="memberId" column="member_id" />
 		<result property="userId" column="user_id" />
 		<result property="joinStatus" column="join_status" />
@@ -21,7 +21,7 @@
 		<result property="userEmail" column="user_email" />
 		<result property="userName" column="user_name" />
 		<result property="teamId" column="team_id" />
-		<result property="teamNme" column="team_name" />
+		<result property="teamName" column="team_name" />
 		<result property="teamSeq" column="team_seq" />
 	</resultMap>
 

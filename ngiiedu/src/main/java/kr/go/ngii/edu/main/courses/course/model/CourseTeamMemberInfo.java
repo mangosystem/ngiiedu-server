@@ -20,31 +20,31 @@ public class CourseTeamMemberInfo implements Serializable {
 	private Integer idx;
 
 	/** 코스 테이블 참조키 */
-	private Integer course_id;
+	private Integer courseId;
 
 	/** 유저 테이블 참조키 */
-	private Integer user_id;
+	private Integer userId;
 
 	/** 참여자상태 */
-	private String join_status;
+	private String joinStatus;
 	
 	/** 사용자 ID */
 	private String userid;
 	
 	/** 사용자 e mail */
-	private String user_email;
+	private String userEmail;
 	
 	/** 사용자 이름 */
-	private String user_name;
+	private String userName;
 	
 	/** 팀 테이블 참조키 */
-	private Integer team_id;
+	private Integer teamId;
 	
 	/** 팀명 */
-	private String team_name;
+	private String teamName;
 	
 	/** 팀 순서 */
-	private Integer team_seq;
+	private Integer teamSeq;
 
 	public Integer getIdx() {
 		return idx;
@@ -55,27 +55,27 @@ public class CourseTeamMemberInfo implements Serializable {
 	}
 
 	public Integer getCourse_id() {
-		return course_id;
+		return courseId;
 	}
 
-	public void setCourse_id(Integer course_id) {
-		this.course_id = course_id;
+	public void setCourse_id(Integer courseId) {
+		this.courseId = courseId;
 	}
 
 	public Integer getUser_id() {
-		return user_id;
+		return userId;
 	}
 
-	public void setUser_id(Integer user_id) {
-		this.user_id = user_id;
+	public void setUser_id(Integer userId) {
+		this.userId = userId;
 	}
 
 	public String getJoin_status() {
-		return join_status;
+		return joinStatus;
 	}
 
 	public void setJoin_status(String join_status) {
-		this.join_status = join_status;
+		this.joinStatus = join_status;
 	}
 
 	public String getUserid() {
@@ -87,43 +87,43 @@ public class CourseTeamMemberInfo implements Serializable {
 	}
 
 	public String getUser_email() {
-		return user_email;
+		return userEmail;
 	}
 
-	public void setUser_email(String user_email) {
-		this.user_email = user_email;
+	public void setUser_email(String userEmail) {
+		this.userEmail = userEmail;
 	}
 
 	public String getUser_name() {
-		return user_name;
+		return userName;
 	}
 
 	public void setUser_name(String user_name) {
-		this.user_name = user_name;
+		this.userName = userName;
 	}
 
 	public Integer getTeam_id() {
-		return team_id;
+		return teamId;
 	}
 
-	public void setTeam_id(Integer team_id) {
-		this.team_id = team_id;
+	public void setTeam_id(Integer teamId) {
+		this.teamId = teamId;
 	}
 
 	public String getTeam_name() {
-		return team_name;
+		return teamName;
 	}
 
-	public void setTeam_name(String team_name) {
-		this.team_name = team_name;
+	public void setTeam_name(String teamName) {
+		this.teamName = teamName;
 	}
 
 	public Integer getTeam_seq() {
-		return team_seq;
+		return teamSeq;
 	}
 
-	public void setTeam_seq(Integer team_seq) {
-		this.team_seq = team_seq;
+	public void setTeam_seq(Integer teamSeq) {
+		this.teamSeq = teamSeq;
 	}
 
 }
