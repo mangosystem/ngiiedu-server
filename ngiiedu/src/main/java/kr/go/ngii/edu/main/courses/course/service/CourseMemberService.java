@@ -138,7 +138,7 @@ public class CourseMemberService {
 			statusCode = EnumJoinStatus.WAITING.code();
 
 		} else if (joinStatus.equals(EnumJoinStatus.ACTIVE.name())) {
-			joinStatus = EnumJoinStatus.ACTIVE.code();
+			statusCode = EnumJoinStatus.ACTIVE.code();
 
 		} else if (joinStatus.equals(EnumJoinStatus.DEACTIVE.name())) {
 			statusCode = EnumJoinStatus.DEACTIVE.code();
