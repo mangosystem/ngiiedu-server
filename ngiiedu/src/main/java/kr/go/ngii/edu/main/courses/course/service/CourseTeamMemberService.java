@@ -45,7 +45,7 @@ public class CourseTeamMemberService extends BaseService {
 
 	public boolean delete(int courseId, int teamId, int memberId) {
 
-		if (courseTeamMemberMapper.exists(teamId, memberId)) {
+		if (courseTeamMemberMapper.exists(courseId, teamId, memberId)) {
 			courseTeamMemberMapper.deleteByTeamIdAndMemberId(courseId, teamId, memberId);
 			return true;
 		} else {
