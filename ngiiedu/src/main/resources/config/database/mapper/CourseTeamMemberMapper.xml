@@ -92,7 +92,7 @@
 	<select id="exists" parameterType="map" resultType="boolean">
 		SELECT 
 			CASE WHEN EXISTS (
-				SELECT idx FROM courses_team_member T1, courses_team T2 
+				SELECT * FROM courses_team_member T1, courses_team T2 
 				WHERE T2.course_id = #{courseId} 
 				AND T1.team_id = #{teamId} AND T1.member_id = #{memberId} 
 			)  THEN true ELSE false END 
