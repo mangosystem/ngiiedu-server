@@ -73,7 +73,7 @@
 	</delete>
 	
 	<select id="countByCourseId" parameterType="map" resultType="int">
-		SELECT COUNT(*)+1 AS count FROM courses_team
+		SELECT Max(team_seq)+1 AS count FROM courses_team
 		WHERE course_id = #{courseId}
 	</select>
 
