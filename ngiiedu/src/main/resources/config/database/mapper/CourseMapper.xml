@@ -86,7 +86,7 @@
 		</if>
 	</select>
 	
-	<!-- 전체수업 자세한 목록 -->
+	<!-- 전체수업 목록 -->
 	<select id="courseInfoList" parameterType="map" resultMap="courseInfoMap">
 		SELECT 
 			idx, 
@@ -102,6 +102,11 @@
        		modify_date
   		FROM public.courses_infos
   		<where>
+  			<if test="keyword != '' and keyword != null">
+				module_name like #{keyword} or 
+				course_name like #{keyword} or
+				userid like #{keyword}
+			</if>
 			<if test="keyword != '' and keyword != null">
 				module_name like #{keyword} or 
 				course_name like #{keyword} or
@@ -113,8 +118,36 @@
 		</if>
 	</select>
 	
-	<!-- 사용자별 참여한 수업목록 -->
-	<select id="courseInfoListByUserId" parameterType="map" resultMap="courseInfoMap">
+	<!-- 교사(자신)가 생성한 수업목록 -->
+	<select id="courseInfoListOwn" parameterType="map" resultMap="courseInfoMap">
+		SELECT 
+			idx, 
+			module_id, 
+			module_name, 
+			module_metadata, 
+			course_name, 
+			course_metadata,
+       		course_create_id, 
+       		userid as course_create_userid, 
+       		user_division, 
+       		create_date, 
+       		modify_date
+  		FROM public.courses_infos
+  		<where>
+  			user_id = ${userId}
+			<if test="keyword != '' and keyword != null">
+				module_name like #{keyword} or 
+				course_name like #{keyword} or
+				userid like #{keyword}
+			</if>
+		</where>
+		<if test="offset != null and limit != null">
+			OFFSET ${offset} LIMIT ${limit}
+		</if>
+	</select>
+	
+	<!-- 참여한 수업목록 -->
+	<select id="courseInfoListJoin" parameterType="map" resultMap="courseInfoMap">
 		SELECT
 		    courses_infos.idx,
 		    courses_infos.module_id,
@@ -131,7 +164,7 @@
 		    courses_member.join_status as status 
 		FROM courses_infos courses_infos left join courses_member courses_member
 		    ON courses_infos.idx = courses_member.course_id
-		WHERE courses_infos.user_id = ${userId}
+		WHERE courses_member.user_id = ${userId}
 		<if test="keyword != '' and keyword != null">
 				and (
 				module_name like #{keyword} or 

@@ -202,5 +202,33 @@ public class CourseMemberService {
 			return false;
 		}
 	}
+	
+	
+	/**
+	 * 수업에서 멤버 삭제하기
+	 * 
+	 * @param courseId
+	 * @param userId
+	 * @return
+	 */
+	public boolean leave(int courseId, List<Integer> userids, String password) {
+		// 패스워드 체크필요함.
+//		
+//		
+//		if (false) {
+//			throw new RuntimeException(ErrorMessage.PASSWORD_AUTHENTICATION_FAILED);
+//		}
+//		
+//		
+//		
+//		
+//		if (courseMemberMapper.exists(courseId, userId)) {
+//			courseMemberMapper.deleteByCourseIdAndUserId(courseId, userId);
+//			return true;
+//		} else {
+//			return false;
+//		}
+		return false;
+	}
 
 }

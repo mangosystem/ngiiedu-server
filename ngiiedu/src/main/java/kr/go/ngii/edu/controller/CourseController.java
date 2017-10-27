@@ -1,6 +1,7 @@
 package kr.go.ngii.edu.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -134,7 +135,7 @@ public class CourseController extends BaseController {
 	}
 	
 	/**
-	 * userId 조건 참여된 수업  목록 조회하기
+	 * 참여된 수업  목록 조회하기
 	 * 뷰 테이블을 조회한다
 	 * 
 	 * @param userId
@@ -145,7 +146,7 @@ public class CourseController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/list/{userId}/courseInfos", method=RequestMethod.GET)
+	@RequestMapping(value="/list/{userId}/courseInfoListJoin", method=RequestMethod.GET)
 	public @ResponseBody ResponseEntity<ResponseData> courseInfoList(
 			@PathVariable("userId") Integer userId,
 			@RequestParam(value="offset", required=false, defaultValue="0") Integer offset, 
@@ -153,7 +154,31 @@ public class CourseController extends BaseController {
 			@RequestParam(value="keyword", required=false, defaultValue="") String keyword,
 			HttpSession session) throws Exception {
 
-		List<CourseInfo> list = courseService.courseDetailListByUserId(userId, offset, limit, keyword);
+		List<CourseInfo> list = courseService.courseInfoListJoin(userId, offset, limit, keyword);
+		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
+	}
+	
+	/**
+	 * 자신이 생성한 수업  목록 조회하기
+	 * 뷰 테이블을 조회한다
+	 * 
+	 * @param userId
+	 * @param offset
+	 * @param limit
+	 * @param keyword
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/list/{userId}/courseInfoListOwn", method=RequestMethod.GET)
+	public @ResponseBody ResponseEntity<ResponseData> createdCourseInfoList(
+			@PathVariable("userId") Integer userId,
+			@RequestParam(value="offset", required=false, defaultValue="0") Integer offset, 
+			@RequestParam(value="limit", required=false, defaultValue="10") Integer limit, 
+			@RequestParam(value="keyword", required=false, defaultValue="") String keyword,
+			HttpSession session) throws Exception {
+
+		List<CourseInfo> list = courseService.courseInfoListOwn(userId, offset, limit, keyword);
 		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
 	}
 	
@@ -404,6 +429,28 @@ public class CourseController extends BaseController {
 		
 		boolean result = courseMemberService.leave(courseId, userid, password);
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
+	}
+	
+	
+	/**
+	 * 수업내 팀 멤버 삭제
+	 * 
+	 * @param courseId
+	 * @param userid
+	 * @param password
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/{courseId}/members", method=RequestMethod.DELETE)
+	public @ResponseBody ResponseEntity<ResponseData> membersDelete(
+			@PathVariable("courseId") Integer courseId,
+			@RequestParam(value="userids", required=false, defaultValue="") String userids,
+			@RequestParam(value="password", required=false, defaultValue="") String password,
+			HttpSession session) throws Exception {
+		
+//		boolean result = courseMemberService.leave(courseId, userids, password);
+		return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
 	}
 	
 	// 팀 관련  --------------------------------------------------------------------

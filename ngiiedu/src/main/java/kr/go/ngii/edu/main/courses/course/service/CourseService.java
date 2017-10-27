@@ -78,12 +78,20 @@ public class CourseService extends BaseService {
 		return courseMapper.courseDetailList(offset, limit, keyword);
 	}
 
-	public List<CourseInfo> courseDetailListByUserId(int userId) {
-		return courseMapper.courseDetailListByUserId(userId);
+	public List<CourseInfo> courseInfoListByUserId(int userId) {
+		return courseMapper.courseInfoListByUserId(userId);
 	}
 
-	public List<CourseInfo> courseDetailListByUserId(int userId, int offset, int limit, String keyword) {
-		return courseMapper.courseDetailListByUserId(userId, offset, limit, keyword);
+	public List<CourseInfo> courseInfoListByUserId(int userId, int offset, int limit, String keyword) {
+		return courseMapper.courseInfoListByUserId(userId, offset, limit, keyword);
+	}
+	
+	public List<CourseInfo> courseInfoListJoin(int userId, int offset, int limit, String keyword) {
+		return courseMapper.courseInfoListJoin(userId, offset, limit, keyword);
+	}
+	
+	public List<CourseInfo> courseInfoListOwn(int userId, int offset, int limit, String keyword) {
+		return courseMapper.courseInfoListOwn(userId, offset, limit, keyword);
 	}
 	
 	public Course modify(int idx, String courseName, String courseMetadata) {

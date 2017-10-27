@@ -25,10 +25,17 @@ public interface CourseMapper {
 	public List<CourseInfo> courseDetailList(@Param("offset") int offset, @Param("limit") int limit,
 			@Param("keyword") String keyword);
 
-	public List<CourseInfo> courseDetailListByUserId(@Param("userId") int userId);
+	public List<CourseInfo> courseInfoListByUserId(@Param("userId") int userId);
 	
-	public List<CourseInfo> courseDetailListByUserId(@Param("userId") int userId, @Param("offset") int offset,
+	public List<CourseInfo> courseInfoListByUserId(@Param("userId") int userId, @Param("offset") int offset,
 			@Param("limit") int limit, @Param("keyword") String keyword);
+	
+	public List<CourseInfo> courseInfoListJoin(@Param("userId") int userId, @Param("offset") int offset,
+			@Param("limit") int limit, @Param("keyword") String keyword);
+
+	public List<CourseInfo> courseInfoListOwn(@Param("userId") int userId, @Param("offset") int offset,
+			@Param("limit") int limit, @Param("keyword") String keyword);
+	
 	
 	public void modify(Course course);
 	
