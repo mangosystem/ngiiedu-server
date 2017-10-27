@@ -21,6 +21,6 @@ public interface CourseTeamMemberMapper {
 
 	public void deleteByTeamIdAndMemberId(@Param("courseId") int courseId, @Param("teamId") int teamId, @Param("memberId") int memberId);
 
-	public Boolean exists(@Param("teamId") int teamId, @Param("memberId") int memberId);
+	public Boolean exists(@Param("courseId") int courseId,@Param("teamId") int teamId, @Param("memberId") int memberId);
 
 }

@@ -27,8 +27,8 @@ public class CourseTeamMemberService extends BaseService {
 	}
 
 	public CourseTeamMember create(int courseId, int teamId, int memberId) {
-
-		if (courseTeamMemberMapper.exists(teamId, memberId)) {
+		
+		if (courseTeamMemberMapper.exists(courseId, teamId, memberId)) {
 			return null;
 
 		} else {
