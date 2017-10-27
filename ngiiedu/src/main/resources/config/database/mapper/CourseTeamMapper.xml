@@ -73,8 +73,13 @@
 	</delete>
 	
 	<select id="countByCourseId" parameterType="map" resultType="int">
-		SELECT Max(team_seq)+1 AS count FROM courses_team
-		WHERE course_id = #{courseId}
+		
+		SELECT 
+	    	coalesce(MAX(team_seq)+1,0) as count
+		FROM 
+		    courses_team 
+		WHERE 
+		    course_id = #{courseId}
 	</select>
 
 	<select id="exists" parameterType="map" resultType="boolean">
