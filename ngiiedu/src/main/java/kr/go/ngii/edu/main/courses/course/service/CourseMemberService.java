@@ -8,13 +8,14 @@ import org.springframework.stereotype.Service;
 
 import kr.go.ngii.edu.common.enums.EnumJoinStatus;
 import kr.go.ngii.edu.common.message.ErrorMessage;
+import kr.go.ngii.edu.main.common.BaseService;
 import kr.go.ngii.edu.main.courses.course.mapper.CourseAuthkeyMapper;
 import kr.go.ngii.edu.main.courses.course.mapper.CourseMemberMapper;
 import kr.go.ngii.edu.main.courses.course.model.CourseMember;
 import kr.go.ngii.edu.main.courses.course.model.CourseMemberInfo;
 
 @Service
-public class CourseMemberService {
+public class CourseMemberService extends BaseService {
 
 	@Autowired
 	private CourseMemberMapper courseMemberMapper;
@@ -219,15 +220,24 @@ public class CourseMemberService {
 //			throw new RuntimeException(ErrorMessage.PASSWORD_AUTHENTICATION_FAILED);
 //		}
 //		
-//		
-//		
-//		
 //		if (courseMemberMapper.exists(courseId, userId)) {
 //			courseMemberMapper.deleteByCourseIdAndUserId(courseId, userId);
 //			return true;
 //		} else {
 //			return false;
 //		}
+		return false;
+	}
+	
+	
+	/**
+	 * 수업에서 멤버 삭제하기  일ㄱ
+	 * 
+	 * @param courseId
+	 * @return
+	 */
+	public boolean delete(int courseId) {
+		courseMemberMapper.deleteByCourseId(courseId);
 		return false;
 	}
 

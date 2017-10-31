@@ -65,5 +65,11 @@
 			#{createDate}
 		)
 	</insert>
+	
+	
+	<update id="delete" parameterType="int">
+		DELETE FROM courses
+		WHERE course_id = #{value}
+	</update>
 
 </mapper>

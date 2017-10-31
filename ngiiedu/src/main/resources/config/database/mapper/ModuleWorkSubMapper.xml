@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.go.ngii.edu.main.modules.course.mapper.ModuleWorkSubMapper">
+
+	<resultMap type="kr.go.ngii.edu.main.modules.course.model.ModuleWorkSub" id="moduleWorkSubMap">
+		<id property="idx" column="idx" />
+		<result property="moduleId" column="module_id" />
+		<result property="moduleWorkId" column="module_work_id" />
+		<result property="moduleWorkSubName" column="module_work_sub_name" />
+		<result property="moduleWorkSubSeq" column="module_work_sub_seq" />
+		<result property="createDate" column="create_date" />
+		<result property="modifyDate" column="modify_date" />
+	</resultMap>
+	
+	<resultMap type="kr.go.ngii.edu.main.modules.course.model.ModuleWorkAndSub" id="moduleWorkAndSubMap">
+		<id property="idx" column="idx" />
+		<result property="moduleId" column="module_id" />
+		<result property="moduleWorkName" column="module_work_name" />
+		<result property="moduleWorkSeq" column="module_work_seq" />
+		<result property="moduleWorkCourseType" column="module_work_course_type" />
+		<result property="createDate" column="create_date" />
+		<result property="modifyDate" column="modify_date" />
+		<result property="moduleWorkMetadata" column="module_work_metadata" />
+		<collection property="moduleWorkSubList" column="idx" javaType="java.util.ArrayList" 
+			ofType="kr.go.ngii.edu.main.modules.course.model.ModuleWorkSub" select="list"/>
+	</resultMap>
+
+	<select id="list" parameterType="map" resultMap="moduleWorkSubMap">
+		SELECT
+			idx, 
+			module_work_id, 
+			module_work_sub_name, 
+			module_work_sub_seq, 
+       		create_date, 
+       		modify_date
+		FROM modules_work_sub
+		WHERE module_work_id = #{moduleWorkId}
+		ORDER BY idx
+	</select>
+	
+	<select id="moduleWorkAndSubList" parameterType="map" resultMap="moduleWorkAndSubMap">
+		SELECT
+			idx,
+			module_id,
+			module_work_name,
+			module_work_seq,
+			module_work_course_type,
+			create_date,
+			modify_date,
+			module_work_metadata
+		FROM modules_work
+		WHERE module_id = #{moduleId}
+		ORDER BY idx
+	</select>
+
+	<select id="get" parameterType="map" resultMap="moduleWorkSubMap">
+		SELECT
+			idx, 
+			module_work_id, 
+			module_work_sub_name, 
+			module_work_sub_seq, 
+       		create_date, 
+       		modify_date
+		FROM modules_work_sub
+		WHERE idx = #{idx}
+	</select>
+
+	<insert id="create" parameterType="map">
+		<selectKey keyProperty="idx" resultType="int" order="BEFORE">
+			SELECT nextval('modules_work_sub_idx_seq'::regclass)
+		</selectKey>
+		INSERT INTO modules_work_sub (
+			idx, 
+			module_work_id, 
+			module_work_sub_name, 
+			module_work_sub_seq, 
+       		create_date, 
+       		modify_date
+		) VALUES (
+			#{idx}, 
+			#{moduleWorkId}, 
+			#{moduleWorkSubName}, 
+			#{moduleWorkSubSeq}
+			#{createDate}, 
+			#{modifyDate}
+		)
+	</insert>
+
+	<update id="modify" parameterType="map">
+		UPDATE modules_work_sub
+		SET
+			module_work_id = #{moduleWorkId},
+			module_work_sub_name =  #{moduleWorkSubName},
+			module_work_sub_seq = #{moduleWorkSubSeq}
+			modify_date = #{modifyDate}
+		WHERE idx = #{idx}
+	</update>
+
+	<delete id="delete" parameterType="int">
+		DELETE FROM modules_work_sub
+		WHERE idx = #{moduleWorkId}
+	</delete>
+</mapper>

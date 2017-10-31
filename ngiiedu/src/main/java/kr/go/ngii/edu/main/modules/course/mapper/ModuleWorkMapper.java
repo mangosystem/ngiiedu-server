@@ -6,6 +6,8 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import kr.go.ngii.edu.main.modules.course.model.ModuleWork;
+import kr.go.ngii.edu.main.modules.course.model.ModuleWorkAndSub;
+import kr.go.ngii.edu.main.modules.course.model.ModuleWorkSub;
 
 @Mapper
 public interface ModuleWorkMapper {
@@ -19,6 +21,5 @@ public interface ModuleWorkMapper {
 	public void modify(ModuleWork work);
 
 	public void delete(@Param("moduleId") int moduleId, @Param("moduleWorkId") int moduleWorkId);
-
 }
 

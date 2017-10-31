@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import kr.go.ngii.edu.controller.rest.BaseController;
 import kr.go.ngii.edu.controller.rest.ResponseData;
 import kr.go.ngii.edu.main.modules.course.model.ModuleWork;
+import kr.go.ngii.edu.main.modules.course.model.ModuleWorkSub;
 import kr.go.ngii.edu.main.modules.course.service.ModuleWorkService;
+import kr.go.ngii.edu.main.modules.course.service.ModuleWorkSubService;
 import kr.go.ngii.edu.main.modules.module.model.Module;
 import kr.go.ngii.edu.main.modules.module.service.ModuleService;
 
@@ -30,6 +32,9 @@ public class ModuleController extends BaseController {
 
 	@Autowired
 	private ModuleWorkService workService;
+	
+	@Autowired
+	private ModuleWorkSubService moduleWorkSubService;
 
 
 	/**
@@ -150,5 +155,24 @@ public class ModuleController extends BaseController {
 
 		return new ResponseEntity<ResponseData>(responseBody(moduleWork), HttpStatus.OK);
 	}
-
+	
+	
+	/**
+	 * 과정 아래 하위 과정 조회
+	 * 
+	 * @param moduleId
+	 * @param moduleWorkId
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/{moduleId}/moduleWork/{moduleWorkId}/subWork", method=RequestMethod.GET)
+	public @ResponseBody ResponseEntity<ResponseData> modulWorkSubList(
+			@PathVariable("moduleId") Integer moduleId,
+			@PathVariable("moduleWorkId") Integer moduleWorkId,
+			HttpSession session) throws Exception {
+		// @ moduleId ??
+		List<ModuleWorkSub> list = moduleWorkSubService.list(moduleWorkId);
+		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
+	}
 }

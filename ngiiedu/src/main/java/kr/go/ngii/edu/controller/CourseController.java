@@ -1,7 +1,6 @@
 package kr.go.ngii.edu.controller;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -35,6 +34,7 @@ import kr.go.ngii.edu.main.courses.work.model.CourseWorkDataInfo;
 import kr.go.ngii.edu.main.courses.work.model.CourseWorkInfo;
 import kr.go.ngii.edu.main.courses.work.service.CourseWorkDataService;
 import kr.go.ngii.edu.main.courses.work.service.CourseWorkService;
+import kr.go.ngii.edu.main.modules.course.service.ModuleWorkService;
 
 @Controller
 @RequestMapping("/api/v1/courses")
@@ -61,6 +61,8 @@ public class CourseController extends BaseController {
 	@Autowired
 	private CourseWorkDataService courseWorkDataService;
 	
+	@Autowired
+	private ModuleWorkService moduleWorkService;
 	
 	// 수업관련 --------------------------------------------------------------------
 	/**
@@ -146,7 +148,7 @@ public class CourseController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/list/{userId}/courseInfoListJoin", method=RequestMethod.GET)
+	@RequestMapping(value="/list/{userId}/joinCourseInfoListJoin", method=RequestMethod.GET)
 	public @ResponseBody ResponseEntity<ResponseData> courseInfoList(
 			@PathVariable("userId") Integer userId,
 			@RequestParam(value="offset", required=false, defaultValue="0") Integer offset, 
@@ -170,7 +172,7 @@ public class CourseController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/list/{userId}/courseInfoListOwn", method=RequestMethod.GET)
+	@RequestMapping(value="/list/{userId}/ownCourseInfoListOwn", method=RequestMethod.GET)
 	public @ResponseBody ResponseEntity<ResponseData> createdCourseInfoList(
 			@PathVariable("userId") Integer userId,
 			@RequestParam(value="offset", required=false, defaultValue="0") Integer offset, 
@@ -255,8 +257,8 @@ public class CourseController extends BaseController {
 			@RequestParam(value="userid", required=false, defaultValue="") Integer userid,
 			@RequestParam(value="password", required=false, defaultValue="") String password,
 			HttpSession session) throws Exception {
-		boolean result = courseService.delete(courseId, userid, password);
-		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
+		courseService.delete(courseId, userid, password);
+		return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
 	}
 	
 	// 과정 관련 --------------------------------------------------------------------
@@ -315,6 +317,44 @@ public class CourseController extends BaseController {
 		CourseWork list = courseWorkService.updateStatus(courseId, moduleWorkId, status);
 		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
 	}
+	
+	/**
+	 * 과정의 하부과정 조회 
+	 * 
+	 * @param courseId
+	 * @param workId
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/{courseId}/work/{workId}/sub", method=RequestMethod.GET)
+	public @ResponseBody ResponseEntity<ResponseData> workSubList(
+			@PathVariable("courseId") Integer courseId,
+			@PathVariable("workId") Integer workId,
+			HttpSession session) throws Exception {
+
+//		List<CourseWorkInfo> list = moduleWorkService.moduleWorkSubList(courseId);
+		return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+	}
+	
+	/**
+	 * 과정 결과물 조회
+	 * 
+	 * @param courseId
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/{courseId}/work/{workId}/output", method=RequestMethod.GET)
+	public @ResponseBody ResponseEntity<ResponseData> workOutputList(
+			@PathVariable("courseId") Integer courseId,
+			@PathVariable("workId") Integer workId,
+			HttpSession session) throws Exception {
+
+//		List<CourseWorkInfo> list = courseWorkService.outputList(courseId, workId);
+		return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+	}
+	
 	
 	// 멤버 관련  --------------------------------------------------------------------
 	/**

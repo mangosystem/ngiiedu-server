@@ -11,6 +11,7 @@ import kr.go.ngii.edu.main.common.BaseService;
 import kr.go.ngii.edu.main.courses.course.mapper.CourseMapper;
 import kr.go.ngii.edu.main.courses.course.model.Course;
 import kr.go.ngii.edu.main.courses.course.model.CourseInfo;
+import kr.go.ngii.edu.main.courses.course.model.CourseTeam;
 import kr.go.ngii.edu.main.courses.work.model.CourseWork;
 import kr.go.ngii.edu.main.courses.work.service.CourseWorkService;
 
@@ -24,8 +25,23 @@ public class CourseService extends BaseService {
 	private CourseWorkService workService;
 
 	@Autowired
-	private CourseAuthkeyService courseAuthkeyService;;
+	private CourseAuthkeyService courseAuthkeyService;
 
+	@Autowired
+	private CourseMemberService courseMemberService;
+	
+	@Autowired
+	private CourseTeamService courseTeamService;
+	
+	@Autowired
+	private CourseTeamMemberService courseTeamMemberService;
+	
+	
+	
+	
+	
+	
+	
 
 	public Course create(int moduleId, List<Integer> moduleWorkIds, String courseName, String courseMetadata) throws Exception {
 
@@ -129,46 +145,65 @@ public class CourseService extends BaseService {
 	
 	public boolean delete(int courseId) {
 		
-		// 수업결과물
+		// password 체크
+		
+		// 수업결과물 삭제? 안함 과정정보 등이 지워지므로 결과물 관리 필요함.
+		
+		// 인증키 삭제
+		courseAuthkeyService.delete(courseId);
+		LOGGER.info(" >> courseId : " + courseId + " >> 인증키삭제");
+		
+		// 과정삭제
+		CourseWork courseWorkParam = new CourseWork();
+		courseWorkParam.setCourseId(courseId);
+		workService.delete(courseWorkParam);
+		
+		// 수업 참여자,  팀원, 팀 삭제 
+		courseMemberService.delete(courseId);
+		LOGGER.info(" >> courses_member 의  courseId : " + courseId +" >> 전체  삭제");
 		
 		// 팀, 팀원삭제
-//			List<CourseTeam> teamList = courseTeamService.list(courseId);
-//			for (CourseTeam team : teamList) {
-//				courseTeamService.delete(courseId, team.getIdx());
-//			}
-		
-		// 수업참여자
-//		courseMemberService.delete()
-		
-		// 수업과정
+		List<CourseTeam> teamList = courseTeamService.list(courseId);
+		for (CourseTeam team : teamList) {
+			courseTeamService.delete(courseId, team.getIdx());
+		}
 		
 		// 수업삭제
 		Course params = new Course();
 		params.setIdx(courseId);
-		boolean courseDeleteResult = courseMapper.delete(params);
-		return courseDeleteResult;
+		boolean result = courseMapper.delete(params);
+		return result;
 	}
 	
-	public boolean delete(int courseId, int userId, String password) {
+	public void delete(int courseId, int userId, String password) {
+
+		// password 체크
 		
-		// 수업결과물
+		// 수업결과물 삭제? 안함 과정정보 등이 지워지므로 결과물 관리 필요함.
+		
+		// 인증키 삭제
+		courseAuthkeyService.delete(courseId);
+		LOGGER.info(" >> courseId : " + courseId + " >> 인증키삭제");
+		
+		// 과정삭제
+		CourseWork courseWorkParam = new CourseWork();
+		courseWorkParam.setCourseId(courseId);
+		workService.delete(courseWorkParam);
+		
+		// 수업 참여자,  팀원, 팀 삭제 
+		courseMemberService.delete(courseId);
+		LOGGER.info(" >> courses_member 의  courseId : " + courseId +" >> 전체  삭제");
 		
 		// 팀, 팀원삭제
-//			List<CourseTeam> teamList = courseTeamService.list(courseId);
-//			for (CourseTeam team : teamList) {
-//				courseTeamService.delete(courseId, team.getIdx());
-//			}
-		
-		// 수업참여자
-//		courseMemberService.delete()
-		
-		// 수업과정
+		List<CourseTeam> teamList = courseTeamService.list(courseId);
+		for (CourseTeam team : teamList) {
+			courseTeamService.delete(courseId, team.getIdx());
+		}
 		
 		// 수업삭제
 		Course params = new Course();
 		params.setIdx(courseId);
-		boolean courseDeleteResult = courseMapper.delete(params);
-		return courseDeleteResult;
+		boolean result = courseMapper.delete(params);
 	}
 
 

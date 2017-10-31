@@ -16,5 +16,6 @@ public interface CourseAuthkeyMapper {
 	public void updateDeactive(int courseId);
 	
 	public void create(CourseAuthkey courseAuthkey);
-
+	
+	public void delete(int courseId);
 }

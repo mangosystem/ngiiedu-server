@@ -98,5 +98,17 @@ public class CourseAuthkeyService extends BaseService {
 			return key;
 		}
 	}
+	
+	
+	/**
+	 * 인증코드를 수정한다.
+	 * 
+	 * @param authkey
+	 * @return
+	 */
+	public void delete(int courseId) {
+		mapper.delete(courseId);
+	}
+	
 
 }

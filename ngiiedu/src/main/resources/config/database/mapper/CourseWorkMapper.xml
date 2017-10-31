@@ -148,7 +148,14 @@
 
 	<delete id="delete" parameterType="map">
 		DELETE FROM courses_work
-		WHERE courseId = #{courseId} AND idx = #{idx}
+		<where>
+			<if test="courseId !=null">
+				courseId = #{courseId}
+			</if>
+			<if test="courseId !=null">
+				idx = #{idx}
+				</if>
+		</where>
 	</delete>
 
 </mapper>

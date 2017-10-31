@@ -85,5 +85,4 @@
 		DELETE FROM modules_work
 		WHERE module_id = #{moduleId} AND idx = #{moduleWorkId}
 	</delete>
-
 </mapper>
