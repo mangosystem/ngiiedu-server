@@ -7,7 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import kr.go.ngii.edu.BaseTest;
 
-public class PassrordTest extends BaseTest {
+public class PasswordTest extends BaseTest {
 
 	
 	@Test
