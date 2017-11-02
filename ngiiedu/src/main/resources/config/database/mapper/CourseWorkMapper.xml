@@ -152,9 +152,9 @@
 			<if test="courseId !=null">
 				courseId = #{courseId}
 			</if>
-			<if test="courseId !=null">
+			<if test="idx !=null">
 				idx = #{idx}
-				</if>
+			</if>
 		</where>
 	</delete>
 

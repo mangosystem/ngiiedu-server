@@ -148,7 +148,7 @@ public class CourseController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/list/{userId}/joinCourseInfoListJoin", method=RequestMethod.GET)
+	@RequestMapping(value="/list/{userId}/courseInfoListJoin", method=RequestMethod.GET)
 	public @ResponseBody ResponseEntity<ResponseData> courseInfoList(
 			@PathVariable("userId") Integer userId,
 			@RequestParam(value="offset", required=false, defaultValue="0") Integer offset, 
@@ -172,7 +172,7 @@ public class CourseController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/list/{userId}/ownCourseInfoListOwn", method=RequestMethod.GET)
+	@RequestMapping(value="/list/{userId}/courseInfoListOwn", method=RequestMethod.GET)
 	public @ResponseBody ResponseEntity<ResponseData> createdCourseInfoList(
 			@PathVariable("userId") Integer userId,
 			@RequestParam(value="offset", required=false, defaultValue="0") Integer offset, 
@@ -753,4 +753,6 @@ public class CourseController extends BaseController {
 		CourseWorkData result = courseWorkDataService.modify(idx, status);
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
+	
+	// 수업 결과물 관련  --------------------------------------------------------------------
 }

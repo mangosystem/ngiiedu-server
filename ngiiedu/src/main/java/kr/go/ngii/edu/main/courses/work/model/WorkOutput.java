@@ -19,8 +19,8 @@ public class WorkOutput implements Serializable {
 	/** 고유키. */
 	private Integer idx;
 
-	/** 수업과정. */
-	private CourseWork workIdworks;
+	/** 수업과정 아이디*/
+	private int workId;
 
 	/** 팀아이디. */
 	private String outputTeamId;
@@ -65,8 +65,8 @@ public class WorkOutput implements Serializable {
 	 * @param workIdworks
 	 *            수업과정
 	 */
-	public void setWorkIdworks(CourseWork workIdworks) {
-		this.workIdworks = workIdworks;
+	public void setWorkId(int workId) {
+		this.workId = workId;
 	}
 
 	/**
@@ -74,8 +74,8 @@ public class WorkOutput implements Serializable {
 	 * 
 	 * @return 수업과정
 	 */
-	public CourseWork getWorkIdworks() {
-		return this.workIdworks;
+	public int getWorkId() {
+		return this.workId;
 	}
 
 	/**
