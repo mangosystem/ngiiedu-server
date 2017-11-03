@@ -4,18 +4,18 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import kr.go.ngii.edu.main.courses.work.model.WorkOutput;
+import kr.go.ngii.edu.main.courses.work.model.CourseWorkSubOutputInfo;
 
 @Mapper
 public interface WorkOutputMapper {
 	
-	public WorkOutput get(WorkOutput workoutput);
+	public CourseWorkSubOutputInfo get(CourseWorkSubOutputInfo workoutput);
 
-	public List<WorkOutput> list(WorkOutput workoutput);
+	public List<CourseWorkSubOutputInfo> list(CourseWorkSubOutputInfo workoutput);
 
-	public int create(WorkOutput workoutput);
+	public int create(CourseWorkSubOutputInfo workoutput);
 
-	public void modify(WorkOutput workoutput);
+	public void modify(CourseWorkSubOutputInfo workoutput);
 
 	public void delete(int idx);
 	

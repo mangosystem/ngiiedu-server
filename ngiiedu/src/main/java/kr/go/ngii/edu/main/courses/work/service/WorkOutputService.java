@@ -11,7 +11,7 @@ import kr.go.ngii.edu.main.common.BaseService;
 import kr.go.ngii.edu.main.courses.work.mapper.WorkOutputMapper;
 import kr.go.ngii.edu.main.courses.work.model.CourseWork;
 import kr.go.ngii.edu.main.courses.work.model.CourseWorkInfo;
-import kr.go.ngii.edu.main.courses.work.model.WorkOutput;
+import kr.go.ngii.edu.main.courses.work.model.CourseWorkSubOutputInfo;
 
 @Service
 public class WorkOutputService extends BaseService {
@@ -28,9 +28,9 @@ public class WorkOutputService extends BaseService {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<WorkOutput> create(int workId) throws Exception {
+	public List<CourseWorkSubOutputInfo> create(int workId) throws Exception {
 
-		List<WorkOutput> createResult = new ArrayList<WorkOutput >();
+		List<CourseWorkSubOutputInfo> createResult = new ArrayList<CourseWorkSubOutputInfo >();
 
 		CourseWork param = null;
 
@@ -51,16 +51,16 @@ public class WorkOutputService extends BaseService {
 		return createResult;
 	}
 	
-	public List<WorkOutput> list(WorkOutput workOutput) {
+	public List<CourseWorkSubOutputInfo> list(CourseWorkSubOutputInfo workOutput) {
 		return workOutputMapper.list(workOutput);
 	}
 	
-	public WorkOutput get(WorkOutput workOutput) {
+	public CourseWorkSubOutputInfo get(CourseWorkSubOutputInfo workOutput) {
 		return workOutputMapper.get(workOutput);
 	}
 	
-	public WorkOutput modify(WorkOutput workOutput) {
-		WorkOutput params = new WorkOutput();
+	public CourseWorkSubOutputInfo modify(CourseWorkSubOutputInfo workOutput) {
+		CourseWorkSubOutputInfo params = new CourseWorkSubOutputInfo();
 //		params.setIdx(idx);
 //		params.setStatus(status);
 //		params.setModifyDate(new Date());
@@ -68,7 +68,7 @@ public class WorkOutputService extends BaseService {
 		return params;
 	}
 	
-	public void delete(WorkOutput workOutput) {
+	public void delete(CourseWorkSubOutputInfo workOutput) {
 		workOutputMapper.delete(1);
 	}
 }

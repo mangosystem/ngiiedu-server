@@ -36,13 +36,6 @@ public class CourseService extends BaseService {
 	@Autowired
 	private CourseTeamMemberService courseTeamMemberService;
 	
-	
-	
-	
-	
-	
-	
-
 	public Course create(int moduleId, List<Integer> moduleWorkIds, String courseName, String courseMetadata) throws Exception {
 
 		Course param = new Course();

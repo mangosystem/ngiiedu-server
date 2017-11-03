@@ -26,13 +26,14 @@ public class ModuleWorkSubServiceTest extends BaseTest {
 				for(ModuleWorkSub s : m.getModuleWorkSubList()) {
 					System.out.println(s.getModuleWorkSubName());
 				}
+				System.out.println("====================================");
 			}
+			System.out.println("");
 		}
 	}
 	
 	@Test
 	public void testList() {
-		
 		List<ModuleWorkSub> list = mapper.list(3);
 		for (ModuleWorkSub m : list) {
 			System.out.println(m.getModuleWorkSubName());

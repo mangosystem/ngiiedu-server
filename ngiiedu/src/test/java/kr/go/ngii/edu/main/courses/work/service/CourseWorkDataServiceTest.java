@@ -1,16 +1,11 @@
-package kr.go.ngii.edu.main.courses.course.service;
-
-import java.util.List;
+package kr.go.ngii.edu.main.courses.work.service;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import kr.go.ngii.edu.BaseTest;
 import kr.go.ngii.edu.common.enums.EnumCourseDataDiv;
-import kr.go.ngii.edu.main.courses.course.model.CourseMember;
 import kr.go.ngii.edu.main.courses.work.model.CourseWorkData;
-import kr.go.ngii.edu.main.courses.work.model.CourseWorkDataInfo;
-import kr.go.ngii.edu.main.courses.work.service.CourseWorkDataService;
 
 public class CourseWorkDataServiceTest extends BaseTest {
 

@@ -157,22 +157,21 @@ public class ModuleController extends BaseController {
 	}
 	
 	
-	/**
-	 * 과정 아래 하위 과정 조회
-	 * 
-	 * @param moduleId
-	 * @param moduleWorkId
-	 * @param session
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value="/{moduleId}/moduleWork/{moduleWorkId}/subWork", method=RequestMethod.GET)
-	public @ResponseBody ResponseEntity<ResponseData> modulWorkSubList(
-			@PathVariable("moduleId") Integer moduleId,
-			@PathVariable("moduleWorkId") Integer moduleWorkId,
-			HttpSession session) throws Exception {
-		// @ moduleId ??
-		List<ModuleWorkSub> list = moduleWorkSubService.list(moduleWorkId);
-		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
-	}
+//	/**
+//	 * 과정 아래 하위 과정 조회
+//	 * 
+//	 * @param moduleId
+//	 * @param moduleWorkId
+//	 * @param session
+//	 * @return
+//	 * @throws Exception
+//	 */
+//	@RequestMapping(value="/{moduleId}/moduleWork/{moduleWorkId}/subWork", method=RequestMethod.GET)
+//	public @ResponseBody ResponseEntity<ResponseData> modulWorkSubList(
+//			@PathVariable("moduleId") Integer moduleId,
+//			@PathVariable("moduleWorkId") Integer moduleWorkId,
+//			HttpSession session) throws Exception {
+//		List<ModuleWorkSub> list = moduleWorkSubService.list(moduleWorkId);
+//		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
+//	}
 }

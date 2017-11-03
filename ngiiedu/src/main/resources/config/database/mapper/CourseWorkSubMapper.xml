@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.go.ngii.edu.main.courses.work.mapper.CourseWorkSubMapper">
+
+	<resultMap type="kr.go.ngii.edu.main.courses.work.model.CourseWorkSubOutputInfo" id="courseWorkSubOutputInfoMap">
+		<id property="idx" column="idx" />
+		<result property="courseWorkId" column="course_work_id" />
+		<result property="moduleWorkSubId" column="module_work_sub_id" />
+		<result property="createDate" column="create_date" />
+		<result property="modifyDate" column="modify_date" />
+		<result property="outputDivision" column="output_division" />
+		<result property="pinogioOutputId" column="pinogio_output_id" />
+		<result property="outputTeamId" column="output_team_id" />
+		<result property="outputUserid" column="output_userid" />
+	</resultMap>
+	
+	<resultMap type="kr.go.ngii.edu.main.courses.work.model.CourseWorkSubOutputWithModuleWorkSub" id="courseWorkSubOutputWithModuleWorkSubMap">
+		<id property="idx" column="idx" />
+		<result property="moduleWorkId" column="module_work_id" />
+		<result property="moduleWorkSubName" column="module_work_sub_name" />
+		<result property="moduleWorkSubSeq" column="module_work_sub_seq" />
+		<result property="createDate" column="create_date" />
+		<result property="modifyDate" column="modify_date" />
+		<collection property="courseWorkSubOutputInfoList" column="idx" javaType="java.util.ArrayList" 
+			ofType="kr.go.ngii.edu.main.courses.work.model.CourseWorkSubOutputInfo" select="courseWorkSubOutputInfoList"/>
+	</resultMap>
+
+	<select id="list" parameterType="map" resultMap="courseWorkSubOutputWithModuleWorkSubMap">
+		SELECT
+			idx, 
+			module_work_id, 
+			module_work_sub_name, 
+			module_work_sub_seq, 
+       		create_date, 
+       		modify_date
+		FROM modules_work_sub
+		WHERE module_work_id = #{moduleWorkId}
+		ORDER BY idx
+	</select>
+	
+	<select id="courseWorkSubOutputInfoList" parameterType="map" resultMap="courseWorkSubOutputInfoMap">
+		SELECT 
+			idx, 
+			course_work_id, 
+			module_work_sub_id, 
+			create_date,
+			modify_date, 
+			output_division, 
+			pinogio_output_id, 
+			output_team_id, 
+			output_userid
+		FROM public.courses_work_sub_output_info
+		WHERE module_work_sub_id = #{moduleWorkSubId}
+		ORDER BY idx
+	</select>
+</mapper>

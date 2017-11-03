@@ -6,7 +6,7 @@
 
 	<resultMap type="kr.go.ngii.edu.main.courses.work.model.WorkOutput" id="workOutputMap">
 		<id property="idx" column="idx" />
-		<result property="workId" column="work_id" />
+		<result property="courseWorkSubId" column="course_work_sub_id" />
 		<result property="outputTeamId" column="output_team_id" />
 		<result property="outputUserid" column="output_userid" />
 		<result property="outputDivision" column="output_division" />
@@ -18,13 +18,13 @@
 			SELECT nextval('works_output_idx_seq'::regclass)
 		</selectKey>
 		INSERT INTO works_output (
-			work_id, 
+			course_work_sub_id, 
 			output_team_id, 
 			output_userid, 
 			output_division,
 			pinogio_output_id
 		) VALUES (
-			#{workId},
+			#{courseWorkSubId},
 			#{outputTeamId},
 			#{outputUserid},
 			#{outputDivision},
@@ -35,20 +35,20 @@
 	<select id="list" parameterType="map" resultMap="workOutputMap">
 		SELECT 
 			idx, 
-			work_id, 
+			course_work_sub_id, 
 			output_team_id, 
 			output_userid, 
 			output_division,
 			pinogio_output_id
   		FROM works_output
-		WHERE work_id = #{work_id}
+		WHERE course_work_sub_id = #{courseWorkSubId}
 		ORDER BY idx
 	</select>
 
 	<select id="get" parameterType="map" resultMap="workOutputMap">
 		SELECT
 			idx, 
-			work_id, 
+			course_work_sub_id, 
 			output_team_id, 
 			output_userid, 
 			output_division,
@@ -66,9 +66,9 @@
 	</update>
 	
 	<delete id="delete" parameterType="map">
-		DELETE FROM courses_work
+		DELETE FROM works_output
 		<where>
-			courseId = #{courseId}
+			course_work_sub_id = #{courseWorkSubId}
 			idx = #{idx}
 		</where>
 	</delete>

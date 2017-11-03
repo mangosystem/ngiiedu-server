@@ -13,6 +13,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "workOutput")
 public class WorkOutput implements Serializable {
 
+	
+	
 	/** serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
@@ -34,6 +36,10 @@ public class WorkOutput implements Serializable {
 	/** 피노지오결과물아이디. */
 	private String pinogioOutputId;
 
+	
+	
+	
+	
 	/**
 	 * 생성자.
 	 */

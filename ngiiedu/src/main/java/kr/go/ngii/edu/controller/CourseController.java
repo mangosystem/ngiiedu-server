@@ -32,8 +32,10 @@ import kr.go.ngii.edu.main.courses.work.model.CourseWork;
 import kr.go.ngii.edu.main.courses.work.model.CourseWorkData;
 import kr.go.ngii.edu.main.courses.work.model.CourseWorkDataInfo;
 import kr.go.ngii.edu.main.courses.work.model.CourseWorkInfo;
+import kr.go.ngii.edu.main.courses.work.model.CourseWorkSubOutputWithModuleWorkSub;
 import kr.go.ngii.edu.main.courses.work.service.CourseWorkDataService;
 import kr.go.ngii.edu.main.courses.work.service.CourseWorkService;
+import kr.go.ngii.edu.main.courses.work.service.CourseWorkSubService;
 import kr.go.ngii.edu.main.modules.course.service.ModuleWorkService;
 
 @Controller
@@ -62,7 +64,7 @@ public class CourseController extends BaseController {
 	private CourseWorkDataService courseWorkDataService;
 	
 	@Autowired
-	private ModuleWorkService moduleWorkService;
+	private CourseWorkSubService courseWorkSubService;
 	
 	// 수업관련 --------------------------------------------------------------------
 	/**
@@ -327,7 +329,7 @@ public class CourseController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/{courseId}/work/{workId}/sub", method=RequestMethod.GET)
+	@RequestMapping(value="/{courseId}/work/{workId}/subWork", method=RequestMethod.GET)
 	public @ResponseBody ResponseEntity<ResponseData> workSubList(
 			@PathVariable("courseId") Integer courseId,
 			@PathVariable("workId") Integer workId,
@@ -755,4 +757,20 @@ public class CourseController extends BaseController {
 	}
 	
 	// 수업 결과물 관련  --------------------------------------------------------------------
+	/**
+	 * 수업 과정내 하위 과정 및 결과물 조회
+	 * 
+	 * @param courseWorkId
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/{courseWorkId}/workSubData", method=RequestMethod.GET)
+	public @ResponseBody ResponseEntity<ResponseData> courseWorkSubDataList(
+			@PathVariable("courseWorkId") Integer courseWorkId,
+			HttpSession session) throws Exception {
+		
+		List<CourseWorkSubOutputWithModuleWorkSub> list = courseWorkSubService.list(courseWorkId);
+		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
+	}
 }
