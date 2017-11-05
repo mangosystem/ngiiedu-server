@@ -1,5 +1,7 @@
 package kr.go.ngii.edu.main.users.model;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
 /**
@@ -34,6 +36,10 @@ public class User implements Serializable {
 	
 	/** 로그인 활성화 여부. */
 	private boolean userState;
+	
+	/** 사용자 권한 */
+	private List<UserRole> userRole = new ArrayList<UserRole>();
+	
 
 	/**
 	 * 생성자.
@@ -163,6 +169,15 @@ public class User implements Serializable {
 	public void setUserState(boolean userState) {
 		this.userState = userState;
 	}
+	
+	public List<UserRole> getUserRole() {
+		return userRole;
+	}
+
+	public void setUserRole(List<UserRole> userRole) {
+		this.userRole = userRole;
+	}
+
 
 	/**
 	 * {@inheritDoc}

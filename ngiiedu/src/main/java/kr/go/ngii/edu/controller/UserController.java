@@ -22,7 +22,7 @@ import kr.go.ngii.edu.main.users.model.User;
 import kr.go.ngii.edu.main.users.service.UserService;
 
 @Controller
-@RequestMapping(value="api/v1/users")
+@RequestMapping(value="/api/v1/users")
 public class UserController extends BaseController {
 	
 	@Autowired

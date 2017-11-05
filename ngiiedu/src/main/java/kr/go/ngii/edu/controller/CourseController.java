@@ -85,7 +85,7 @@ public class CourseController extends BaseController {
 			@RequestParam(value="courseName", required=true) String courseName, 
 			@RequestParam(value="courseMetadata", required=false) String courseMetadata,
 			HttpSession session) throws Exception {
-
+		
 		Course result = courseService.create(moduleId, moduleWorkIds, courseName, courseMetadata);
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
@@ -104,6 +104,9 @@ public class CourseController extends BaseController {
 			@RequestParam(value="offset", required=false, defaultValue="0") Integer offset, 
 			@RequestParam(value="limit", required=false, defaultValue="20") Integer limit, 
 			HttpSession session) throws Exception {
+
+		
+		Object obj = session.getAttribute("USER_INFO");
 
 		List<Course> list = null;
 
