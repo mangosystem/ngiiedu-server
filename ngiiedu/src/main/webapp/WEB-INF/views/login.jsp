@@ -21,24 +21,19 @@
 	<body>
 		<div class="site-wrapper">
 			<div class="site-wrapper-inner">
-				<header></header>
 				<main style="padding: 0 1.5rem;">
-					<div style="width: 300px; margin: 0 auto;">
-						<h1>로그인</h1>
+					<div style="width: 500px; margin: 0 auto;">
+						<h1 class="text-center">공간정보융합활용지원시스템</h1>
+						<hr>
 						<form action="<%=request.getContextPath() + "/login_process"%>" method="POST">
 							<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-							<div class="ui stacked ">
-								<div class="field">
-									<div class="ui left icon input">
-										<i class="user icon"></i> <input type="text" class="form-control" name="username" placeholder="아이디" />
-									</div>
+								<div class="form-group">
+									<i class="user icon"></i> <input type="text" class="form-control" name="username" placeholder="아이디" />
 								</div>
-								<div class="field">
-									<div class="ui left icon input">
-										<i class="lock icon"></i> <input type="password" class="form-control" name="password" placeholder="비밀번호" />
-									</div>
+								<div class="form-group">
+									<i class="lock icon"></i> <input type="password" class="form-control" name="password" placeholder="비밀번호" />
 								</div>
-								<div class="field">
+								<div class="form-group">
 									<button class="btn btn-lg btn-primary btn-block" >
 										로그인
 									</button>
