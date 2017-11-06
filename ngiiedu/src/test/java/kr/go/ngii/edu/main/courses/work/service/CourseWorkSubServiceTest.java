@@ -258,15 +258,20 @@ public class CourseWorkSubServiceTest extends BaseTest {
 				System.out.println(ll.getPinogioOutputId());
 				System.out.println(ll.getPinogioOutputId().substring(0, 1));
 				Map<String, String> uriParams = new HashMap<String, String>();
-				if("d".equals(ll.getPinogioOutputId().substring(0, 1))) {
+				if("dataset".equals(ll.getOutput_type())) {
 					uriParams.put("dataset_id", ll.getPinogioOutputId());
 					Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.DATASET_GET, uriParams);
 					ll.setPngoData(r.get("data"));
 					System.out.println(r.get("data"));
 					
-				} else if("l".equals(ll.getPinogioOutputId().substring(0, 1))) {
+				} else if("layer".equals(ll.getOutput_type())) {
 					uriParams.put("layer_id", ll.getPinogioOutputId());
 					Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.LAYER_GET, uriParams);
+					ll.setPngoData(r.get("data"));
+					System.out.println(r.get("data"));
+				} else if("maps".equals(ll.getOutput_type())) {
+					uriParams.put("maps_id", ll.getPinogioOutputId());
+					Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.MAPS_GET, uriParams);
 					ll.setPngoData(r.get("data"));
 					System.out.println(r.get("data"));
 				}

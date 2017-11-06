@@ -42,7 +42,9 @@ public class CourseWorkSubOutputInfo implements Serializable {
 	private String outputName;
 	
 	private Object pngoData;
-
+	
+	private String output_type;
+	
 	public Integer getIdx() {
 		return idx;
 	}
@@ -117,7 +119,13 @@ public class CourseWorkSubOutputInfo implements Serializable {
 	
 	public String getOutputName() {
 //		return outputName;
-		return 	((Map<String, String>) pngoData).get("title");
+		String returnVal = "";
+		try {
+			returnVal = ((Map<String, String>) pngoData).get("title");
+		} catch (Exception e) {
+			return "";
+		}
+		return returnVal;	
 	}
 
 	public void setOutputName(String outputName) {
@@ -130,5 +138,13 @@ public class CourseWorkSubOutputInfo implements Serializable {
 
 	public void setPngoData(Object object) {
 		this.pngoData = object;
+	}
+
+	public String getOutput_type() {
+		return output_type;
+	}
+
+	public void setOutput_type(String output_type) {
+		this.output_type = output_type;
 	}
 }
