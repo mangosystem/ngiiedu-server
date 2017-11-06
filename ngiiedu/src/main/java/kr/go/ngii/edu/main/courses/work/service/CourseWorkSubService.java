@@ -2,12 +2,16 @@ package kr.go.ngii.edu.main.courses.work.service;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import kr.go.ngii.edu.common.enums.EnumRestAPIType;
 import kr.go.ngii.edu.main.common.BaseService;
+import kr.go.ngii.edu.main.common.RestAPIClient;
 import kr.go.ngii.edu.main.courses.work.mapper.CourseWorkSubMapper;
 import kr.go.ngii.edu.main.courses.work.model.CourseWork;
 import kr.go.ngii.edu.main.courses.work.model.CourseWorkInfo;
@@ -35,6 +39,24 @@ public class CourseWorkSubService extends BaseService {
 		CourseWork param = new CourseWork();
 		param.setIdx(courseWorkId);
 		param = courseWorkService.get(param);
+		List<CourseWorkSubOutputWithModuleWorkSub> qList = list(param);
+
+		for (CourseWorkSubOutputWithModuleWorkSub qItem : qList) {
+			List<CourseWorkSubOutputInfo> subList = qItem.getCourseWorkSubOutputInfoList();
+			RestAPIClient rc = new RestAPIClient();
+			for (CourseWorkSubOutputInfo subItem : subList) {
+				Map<String, String> uriParams = new HashMap<String, String>();
+				if("d".equals(subItem.getPinogioOutputId().substring(0, 1))) {
+					uriParams.put("dataset_id", subItem.getPinogioOutputId());
+					Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.DATASET_GET, uriParams);
+					subItem.setPngoData(r.get("data"));
+				} else if("l".equals(subItem.getPinogioOutputId().substring(0, 1))) {
+					uriParams.put("layer_id", subItem.getPinogioOutputId());
+					Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.LAYER_GET, uriParams);
+					subItem.setPngoData(r.get("data"));
+				}
+			}
+		}
 		return list(param);
 	}
 }

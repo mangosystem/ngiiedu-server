@@ -2,6 +2,7 @@ package kr.go.ngii.edu.main.courses.work.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Map;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -39,6 +40,8 @@ public class CourseWorkSubOutputInfo implements Serializable {
 	private String outputUserid;
 	
 	private String outputName;
+	
+	private Object pngoData;
 
 	public Integer getIdx() {
 		return idx;
@@ -114,10 +117,18 @@ public class CourseWorkSubOutputInfo implements Serializable {
 	
 	public String getOutputName() {
 //		return outputName;
-		return pinogioOutputId;
+		return 	((Map<String, String>) pngoData).get("title");
 	}
 
 	public void setOutputName(String outputName) {
 		this.outputName = outputName;
+	}
+	
+	public Object getPngoData() {
+		return pngoData;
+	}
+
+	public void setPngoData(Object object) {
+		this.pngoData = object;
 	}
 }
