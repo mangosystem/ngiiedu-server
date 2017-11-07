@@ -72,5 +72,40 @@
 			idx = #{idx}
 		</where>
 	</delete>
-
+	
+	<select id="getItemByCourseWorkId" parameterType="map" resultMap="workOutputMap">
+		SELECT 
+			idx, 
+			course_work_sub_id, 
+			output_division, 
+			pinogio_output_id,
+			output_team_id, 
+			output_userid, 
+			output_type
+		FROM 
+			works_output
+		WHERE
+			course_work_sub_id in (
+				SELECT 
+					idx 
+				FROM 
+					courses_work_sub
+				WHERE 
+					course_work_id in (
+						SELECT 
+							idx 
+						FROM 
+							courses_work
+						WHERE course_id = (
+							SELECT 
+								course_id 
+							FROM 
+								courses_work
+							WHERE idx = #{courseWorkid}
+							limit 1
+						)
+					)
+			) and output_type = 'dataset'
+		ORDER BY idx 
+	</select>
 </mapper>

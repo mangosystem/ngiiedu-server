@@ -794,5 +794,70 @@ public class CourseController extends BaseController {
 		List<CourseWorkSubOutputWithModuleWorkSub> list = courseWorkSubService.list(courseWorkId);
 		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
 	}
+	
+	/**
+	 * 수업 과정내 하위 과정 및 결과물 생성
+	 * 
+	 * @param courseWorkId
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/{courseWorkId}/workSubData", method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<ResponseData> courseWorkSubCreate(
+			@PathVariable("courseWorkId") Integer courseWorkId,
+			@RequestParam("outputType") String outputType,
+			@RequestParam("teamId") Integer teamId,
+			@RequestParam("pinogioOutputId") String pinogioOutputId, 
+			HttpSession session) throws Exception {
+		
+		// user id
+		
+		// dataset
+		
+		// layer
+		
+		// maps
+		
+		// 생성 결과 리턴
+		return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+	}
+	
+	/**
+	 * 수업 과정내 하위 과정 및 결과물 삭제
+	 * 
+	 * @param courseWorkId
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/{courseWorkId}/workSubData/{courseWorkSubId}", method=RequestMethod.DELETE)
+	public @ResponseBody ResponseEntity<ResponseData> courseWorkSubDelete(
+			@PathVariable("courseWorkId") Integer courseWorkId,
+			@PathVariable("courseWorkSubId") Integer courseWorkSubId,
+			HttpSession session) throws Exception {
+		
+		// team id, user id
+		return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+	}
+	
+	/**
+	 * 수업 과정내 하위 과정 및 결과물 수정
+	 * 
+	 * @param courseWorkId
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/{courseWorkId}/workSubData/{courseWorkSubId}", method=RequestMethod.PUT)
+	public @ResponseBody ResponseEntity<ResponseData> courseWorkSubModify(
+			@PathVariable("courseWorkId") Integer courseWorkId,
+			@PathVariable("courseWorkSubId") Integer courseWorkSubId,
+			@RequestParam("pngoDataJson") String pngoDataJson, // pngo_ 테이블 참조
+			HttpSession session) throws Exception {
+		
+		// team id, user id
+		return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+	}
 
 }

@@ -19,8 +19,8 @@ public enum EnumRestAPIType {
 	DATASET_LIST			("/datasets.json", HttpMethod.GET),
 	DATASET_GET				("/datasets/{dataset_id}.json", HttpMethod.GET),
 	DATASET_CREATE			("/datasets", HttpMethod.POST),
-	DATASET_UPDATE			("/datasets", HttpMethod.PUT),
-	DATASET_REMOVE			("/datasets", HttpMethod.DELETE),
+	DATASET_UPDATE			("/datasets/{dataset_id}.json", HttpMethod.PUT),
+	DATASET_REMOVE			("/datasets/{dataset_id}.json", HttpMethod.DELETE),
 	
 	DATASET_ROW_LIST		("/datasets/{dataset_id}/row.json", HttpMethod.GET),
 	DATASET_ROW_GET			("/datasets/{dataset_id}/row/{row_id}.json", HttpMethod.GET),
@@ -50,7 +50,7 @@ public enum EnumRestAPIType {
 	LAYER_METADAT_PROCESS_UPDATE	("/layers/{layer_id}/process.json", HttpMethod.PUT),
 
 	// 메타데이터 스타일 변경
-	LAYER_METADATA_SOURCE_STYLING	("/layers/{layer_id}/styling.json", HttpMethod.PUT),
+	LAYER_METADATA_STYLING_UPDATE	("/layers/{layer_id}/styling.json", HttpMethod.PUT),
 
 	// 레이어 상태 확인
 	LAYER_JOB_STATUS	("/layers/{layer_id}/job_status.json", HttpMethod.GET),

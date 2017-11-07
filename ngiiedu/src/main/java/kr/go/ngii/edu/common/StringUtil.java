@@ -1,12 +1,33 @@
 package kr.go.ngii.edu.common;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 public class StringUtil {
+	
+	public static Map<String, ?> stringToMap(String jsonString) {
+		try {
+			ObjectMapper mapper = new ObjectMapper();
+			return mapper.readValue(jsonString, new TypeReference<HashMap<String, ?>>(){} );
+		} catch (IOException e) {
+			return null;
+		}
+	}
+
+	public static String mapToString(Map<String, ?> map) {
+		try {
+			return new ObjectMapper().writeValueAsString(map);
+		} catch (Exception e) {
+			return null;
+		}
+	}
 
 	public static Map convertObjectToMap(Object obj) {
 		Map map = new HashMap();

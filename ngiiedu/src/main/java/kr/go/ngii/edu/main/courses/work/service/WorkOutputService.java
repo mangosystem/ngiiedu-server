@@ -12,6 +12,7 @@ import kr.go.ngii.edu.main.courses.work.mapper.WorkOutputMapper;
 import kr.go.ngii.edu.main.courses.work.model.CourseWork;
 import kr.go.ngii.edu.main.courses.work.model.CourseWorkInfo;
 import kr.go.ngii.edu.main.courses.work.model.CourseWorkSubOutputInfo;
+import kr.go.ngii.edu.main.courses.work.model.WorkOutput;
 
 @Service
 public class WorkOutputService extends BaseService {
@@ -71,4 +72,11 @@ public class WorkOutputService extends BaseService {
 	public void delete(CourseWorkSubOutputInfo workOutput) {
 		workOutputMapper.delete(1);
 	}
+	
+	public List<WorkOutput> getItemByCourseWorkId(int courseWorkId) {
+		return workOutputMapper.getItemByCourseWorkId(courseWorkId);
+	}
+	
+	
+	
 }
