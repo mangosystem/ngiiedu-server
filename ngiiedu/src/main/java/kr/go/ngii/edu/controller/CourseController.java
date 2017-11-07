@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import kr.go.ngii.edu.common.message.ErrorMessage;
 import kr.go.ngii.edu.controller.rest.BaseController;
 import kr.go.ngii.edu.controller.rest.ResponseData;
 import kr.go.ngii.edu.main.courses.course.model.Course;
@@ -36,7 +38,8 @@ import kr.go.ngii.edu.main.courses.work.model.CourseWorkSubOutputWithModuleWorkS
 import kr.go.ngii.edu.main.courses.work.service.CourseWorkDataService;
 import kr.go.ngii.edu.main.courses.work.service.CourseWorkService;
 import kr.go.ngii.edu.main.courses.work.service.CourseWorkSubService;
-import kr.go.ngii.edu.main.modules.course.service.ModuleWorkService;
+import kr.go.ngii.edu.main.users.model.User;
+import kr.go.ngii.edu.main.users.service.UserService;
 
 @Controller
 @RequestMapping("/api/v1/courses")
@@ -47,25 +50,30 @@ public class CourseController extends BaseController {
 
 	@Autowired
 	private CourseMemberService courseMemberService;
-	
+
 	@Autowired
 	private CourseTeamService courseTeamService;
-	
+
 	@Autowired
 	private CourseTeamMemberService courseTeamMemberService;
-	
+
 	@Autowired
 	private CourseAuthkeyService courseAuthkeyService;
-	
+
 	@Autowired
 	private CourseWorkService courseWorkService;
-	
+
 	@Autowired
 	private CourseWorkDataService courseWorkDataService;
-	
+
 	@Autowired
 	private CourseWorkSubService courseWorkSubService;
-	
+
+
+	@Autowired
+	private UserService userService;
+
+
 	// 수업관련 --------------------------------------------------------------------
 	/**
 	 * 교사사용자가 모듈을 선택하여 새로운 수업을 만듭니다.
@@ -85,11 +93,11 @@ public class CourseController extends BaseController {
 			@RequestParam(value="courseName", required=true) String courseName, 
 			@RequestParam(value="courseMetadata", required=false) String courseMetadata,
 			HttpSession session) throws Exception {
-		
+
 		Course result = courseService.create(moduleId, moduleWorkIds, courseName, courseMetadata);
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
-	
+
 	/**
 	 * 수업 목록 조회하기
 	 * 
@@ -105,9 +113,6 @@ public class CourseController extends BaseController {
 			@RequestParam(value="limit", required=false, defaultValue="20") Integer limit, 
 			HttpSession session) throws Exception {
 
-		
-		Object obj = session.getAttribute("USER_INFO");
-
 		List<Course> list = null;
 
 		if (offset==0 && limit==0) {
@@ -118,7 +123,7 @@ public class CourseController extends BaseController {
 		}
 		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
 	}
-	
+
 	/**
 	 * 수업 목록 조회하기 
 	 * 뷰 테이블을 조회한다.
@@ -140,7 +145,7 @@ public class CourseController extends BaseController {
 		List<CourseInfo> list = courseService.courseDetailList(offset, limit, keyword);
 		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
 	}
-	
+
 	/**
 	 * 참여된 수업  목록 조회하기
 	 * 뷰 테이블을 조회한다
@@ -153,20 +158,24 @@ public class CourseController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/list/{userId}/courseInfoListJoin", method=RequestMethod.GET)
-	public @ResponseBody ResponseEntity<ResponseData> courseInfoList(
-			@PathVariable("userId") Integer userId,
+	@RequestMapping(value="/list/courseInfoListJoin", method=RequestMethod.GET)
+	public @ResponseBody ResponseEntity<ResponseData> joinCourseInfoList(
 			@RequestParam(value="offset", required=false, defaultValue="0") Integer offset, 
 			@RequestParam(value="limit", required=false, defaultValue="10") Integer limit, 
 			@RequestParam(value="keyword", required=false, defaultValue="") String keyword,
 			HttpSession session) throws Exception {
 
-		List<CourseInfo> list = courseService.courseInfoListJoin(userId, offset, limit, keyword);
-		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
+		User user = (User)session.getAttribute("USER_INFO");
+		if (user != null) {
+			List<CourseInfo> list = courseService.courseInfoListJoin(user.getIdx(), offset, limit, keyword);
+			return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
+		} else {
+			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+		}
 	}
-	
+
 	/**
-	 * 자신이 생성한 수업  목록 조회하기
+	 * 자신이 생성한 수업 목록 조회하기
 	 * 뷰 테이블을 조회한다
 	 * 
 	 * @param userId
@@ -177,18 +186,22 @@ public class CourseController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/list/{userId}/courseInfoListOwn", method=RequestMethod.GET)
+	@RequestMapping(value="/list/courseInfoListOwn", method=RequestMethod.GET)
 	public @ResponseBody ResponseEntity<ResponseData> createdCourseInfoList(
-			@PathVariable("userId") Integer userId,
 			@RequestParam(value="offset", required=false, defaultValue="0") Integer offset, 
 			@RequestParam(value="limit", required=false, defaultValue="10") Integer limit, 
 			@RequestParam(value="keyword", required=false, defaultValue="") String keyword,
 			HttpSession session) throws Exception {
 
-		List<CourseInfo> list = courseService.courseInfoListOwn(userId, offset, limit, keyword);
-		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
+		User user = (User)session.getAttribute("USER_INFO");
+		if (user != null) {
+			List<CourseInfo> list = courseService.courseInfoListOwn(user.getIdx(), offset, limit, keyword);
+			return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
+		} else {
+			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+		}
 	}
-	
+
 	/**
 	 * 수업 조회하기
 	 * courseId 의 수업 상세정보를 조회 한다.
@@ -206,7 +219,7 @@ public class CourseController extends BaseController {
 		Course list = courseService.get(courseId);
 		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
 	}
-	
+
 	/**
 	 * 수업 정보 수정하기 (courseName, courseMetadata)
 	 * 
@@ -227,7 +240,7 @@ public class CourseController extends BaseController {
 		Course result = courseService.modify(idx, courseName, courseMetadata);
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
-	
+
 	/**
 	 * 교사사용자가 수업 상태를 변경합니다. (활성화/비활성화)
 	 * 
@@ -245,7 +258,7 @@ public class CourseController extends BaseController {
 		Course result = courseService.updateStatus(idx, status);
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
-	
+
 	/**
 	 * 교사사용자가 수업을 삭제합니다.
 	 * 
@@ -265,7 +278,7 @@ public class CourseController extends BaseController {
 		courseService.delete(courseId, userid, password);
 		return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
 	}
-	
+
 	// 과정 관련 --------------------------------------------------------------------
 	/**
 	 * 수업에 설정되어 있는 과정 목록 초회
@@ -283,7 +296,7 @@ public class CourseController extends BaseController {
 		List<CourseWorkInfo> list = courseWorkService.listCourseWorkInfo(courseId);
 		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
 	}
-	
+
 	/**
 	 * 과정 상태 업데이트
 	 * 
@@ -302,7 +315,7 @@ public class CourseController extends BaseController {
 		CourseWork list = courseWorkService.modify(idx, status);
 		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
 	}
-	
+
 	/**
 	 * 과정 상태 업데이트 (활성화/비활성화)
 	 * 
@@ -322,7 +335,7 @@ public class CourseController extends BaseController {
 		CourseWork list = courseWorkService.updateStatus(courseId, moduleWorkId, status);
 		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
 	}
-	
+
 	/**
 	 * 과정의 하부과정 조회 
 	 * 
@@ -338,10 +351,10 @@ public class CourseController extends BaseController {
 			@PathVariable("workId") Integer workId,
 			HttpSession session) throws Exception {
 
-//		List<CourseWorkInfo> list = moduleWorkService.moduleWorkSubList(courseId);
+		//		List<CourseWorkInfo> list = moduleWorkService.moduleWorkSubList(courseId);
 		return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
 	}
-	
+
 	/**
 	 * 과정 결과물 조회
 	 * 
@@ -356,11 +369,11 @@ public class CourseController extends BaseController {
 			@PathVariable("workId") Integer workId,
 			HttpSession session) throws Exception {
 
-//		List<CourseWorkInfo> list = courseWorkService.outputList(courseId, workId);
+		//		List<CourseWorkInfo> list = courseWorkService.outputList(courseId, workId);
 		return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
 	}
-	
-	
+
+
 	// 멤버 관련  --------------------------------------------------------------------
 	/**
 	 * 수업에 참여하고 있는 사용자 목록 조회
@@ -378,7 +391,7 @@ public class CourseController extends BaseController {
 		List<CourseMember> list = courseMemberService.list(courseId);
 		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
 	}
-	
+
 	/**
 	 * 수업에 참여하고 있는 사용자 목록 조회 
 	 * (뷰테이블 - 사용자 상태, 이메일, 이름, 사용자 ID 포함 정보)
@@ -409,10 +422,14 @@ public class CourseController extends BaseController {
 	@RequestMapping(value="/{courseSecurityKey}/member", method=RequestMethod.POST)
 	public @ResponseBody ResponseEntity<ResponseData> memberJoin(
 			@PathVariable("courseSecurityKey") String courseSecurityKey, 
-			@RequestParam(value="userId", required=true) Integer userId, 
 			HttpSession session) throws Exception {
 
-		CourseMember result = courseMemberService.create(courseSecurityKey, userId);
+		User user = (User)session.getAttribute("USER_INFO");
+		if (user == null) {
+			throw new RuntimeException(ErrorMessage.FOBRIDDEN);
+		}
+
+		CourseMember result = courseMemberService.create(courseSecurityKey, user.getIdx());
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
 
@@ -454,7 +471,7 @@ public class CourseController extends BaseController {
 		boolean result = courseMemberService.leave(courseId, userId);
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
-	
+
 	/**
 	 * 수업내 팀 멤버 삭제
 	 * 
@@ -471,12 +488,11 @@ public class CourseController extends BaseController {
 			@RequestParam(value="userid", required=false, defaultValue="") Integer userid,
 			@RequestParam(value="password", required=false, defaultValue="") String password,
 			HttpSession session) throws Exception {
-		
+
 		boolean result = courseMemberService.leave(courseId, userid, password);
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
-	
-	
+
 	/**
 	 * 수업내 팀 멤버 삭제
 	 * 
@@ -493,11 +509,11 @@ public class CourseController extends BaseController {
 			@RequestParam(value="userids", required=false, defaultValue="") String userids,
 			@RequestParam(value="password", required=false, defaultValue="") String password,
 			HttpSession session) throws Exception {
-		
+
 //		boolean result = courseMemberService.leave(courseId, userids, password);
 		return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
 	}
-	
+
 	// 팀 관련  --------------------------------------------------------------------
 	/**
 	 * 수업내 팀 추가
@@ -512,11 +528,11 @@ public class CourseController extends BaseController {
 			@PathVariable("courseId") Integer courseId,
 			@RequestParam(value="teamName", required=true) String teamName, 
 			HttpSession session) throws Exception {
-		
+
 		CourseTeam result = courseTeamService.create(courseId, teamName);
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
-	
+
 	/**
 	 * 수업내 팀 목록 조회
 	 * @param courseId
@@ -528,11 +544,11 @@ public class CourseController extends BaseController {
 	public @ResponseBody ResponseEntity<ResponseData> teamList(
 			@PathVariable("courseId") Integer courseId,
 			HttpSession session) throws Exception {
-		
+
 		List<CourseTeam> list = courseTeamService.list(courseId);
 		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
 	}
-	
+
 	/**
 	 * 수업내 팀 싱세 정보 조회
 	 * @param courseId
@@ -546,11 +562,11 @@ public class CourseController extends BaseController {
 			@PathVariable("courseId") Integer courseId,
 			@PathVariable("teamId") Integer teamId,
 			HttpSession session) throws Exception {
-		
+
 		CourseTeam result = courseTeamService.get(courseId, teamId);
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
-	
+
 	/**
 	 * 수업내 팀 명 변경
 	 * 
@@ -567,7 +583,7 @@ public class CourseController extends BaseController {
 			@PathVariable("teamId") Integer teamId,
 			@RequestParam(value="teamName", required=true) String teamName, 
 			HttpSession session) throws Exception {
-		
+
 		CourseTeam result = courseTeamService.modifyName(courseId, teamId, teamName);
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
@@ -587,7 +603,7 @@ public class CourseController extends BaseController {
 //			@PathVariable("teamId") Integer teamId,
 //			@RequestParam(value="seq", required=true) Integer seq, 
 //			HttpSession session) throws Exception {
-	
+
 //		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 //	}
 
@@ -611,6 +627,7 @@ public class CourseController extends BaseController {
 	}
 
 	// 팀 멥버 관련 --------------------------------------------------------------------
+
 	/**
 	 * 수업내 팀 멤버 추가
 	 * @param courseId
@@ -644,11 +661,11 @@ public class CourseController extends BaseController {
 			@PathVariable("courseId") Integer courseId,
 			@PathVariable("teamId") Integer teamId,
 			HttpSession session) throws Exception {
-		
+
 		List<CourseTeamMember> list = courseTeamMemberService.list(courseId, teamId);
 		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
 	}
-	
+
 	/**
 	 * 수업내 팀 멤버 목록 조회 (뷰테이블)
 	 * 
@@ -662,7 +679,7 @@ public class CourseController extends BaseController {
 	public @ResponseBody ResponseEntity<ResponseData> teamMemberInfoList(
 			@PathVariable("courseId") Integer courseId,
 			HttpSession session) throws Exception {
-		
+
 		List<CourseTeamMemberInfo> list = courseTeamMemberService.courseTeamMemberInfoList(courseId);
 		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
 	}
@@ -682,12 +699,13 @@ public class CourseController extends BaseController {
 			@PathVariable("teamId") Integer teamId,
 			@PathVariable("memberId") Integer memberId,
 			HttpSession session) throws Exception {
-		
+
 		boolean result = courseTeamMemberService.delete(courseId, teamId, memberId);
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
-	
+
 	// 인증키 관련  --------------------------------------------------------------------
+
 	/**
 	 * 인증키 조회
 	 * 
@@ -700,11 +718,11 @@ public class CourseController extends BaseController {
 	public @ResponseBody ResponseEntity<ResponseData> getAuthkey(
 			@PathVariable(value="courseId") Integer courseId
 			) throws Exception {
-		
+
 		String authKey = courseAuthkeyService.get(courseId);
 		return new ResponseEntity<ResponseData>(responseBody(authKey), HttpStatus.OK);
 	}
-	
+
 	/**
 	 * 인증키 재발급
 	 * 
@@ -717,11 +735,11 @@ public class CourseController extends BaseController {
 	public @ResponseBody ResponseEntity<ResponseData> modifyAuthkey(
 			@PathVariable(value="courseId") Integer courseId
 			) throws Exception {
-		
+
 		String result = courseAuthkeyService.modify(courseId);
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
-	
+
 	// 수업 관련 데이터 관련  --------------------------------------------------------------------
 	/**
 	 * 수업내 관련 데이터 조회
@@ -735,11 +753,11 @@ public class CourseController extends BaseController {
 	public @ResponseBody ResponseEntity<ResponseData> courseWorkDataList(
 			@PathVariable("courseId") Integer courseId,
 			HttpSession session) throws Exception {
-		
+
 		List<CourseWorkDataInfo> list = courseWorkDataService.list(courseId);
 		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
 	}
-	
+
 	/**
 	 * 수업내 관련 데이터 상태 수정
 	 * 
@@ -754,11 +772,11 @@ public class CourseController extends BaseController {
 			@PathVariable("idx") Integer idx,
 			@RequestParam(value="status", required=true) Boolean status,
 			HttpSession session) throws Exception {
-		
+
 		CourseWorkData result = courseWorkDataService.modify(idx, status);
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
-	
+
 	// 수업 결과물 관련  --------------------------------------------------------------------
 	/**
 	 * 수업 과정내 하위 과정 및 결과물 조회
@@ -772,8 +790,9 @@ public class CourseController extends BaseController {
 	public @ResponseBody ResponseEntity<ResponseData> courseWorkSubDataList(
 			@PathVariable("courseWorkId") Integer courseWorkId,
 			HttpSession session) throws Exception {
-		
+
 		List<CourseWorkSubOutputWithModuleWorkSub> list = courseWorkSubService.list(courseWorkId);
 		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
 	}
+
 }

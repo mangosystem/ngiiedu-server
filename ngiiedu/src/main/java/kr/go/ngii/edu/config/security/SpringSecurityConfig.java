@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -37,7 +38,6 @@ import kr.go.ngii.edu.main.users.service.UserService;
 @EnableWebSecurity
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
-	
 	@Autowired
 	CustomAuthenticationProvider authProvider;
 
@@ -46,20 +46,20 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	CustomLoginFailureHandler loginFailureHandler;
-	
+
 	@Autowired
 	CustomLogoutSuccessHandler logoutSuccessHandler;
-	
+
 	@Autowired
 	CustomAccessDeniedHandler accessDeniedHandler;
 
-	
+
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 
 		auth.authenticationProvider(authProvider);
 	}
-	
+
 	@Override
 	public AuthenticationManager authenticationManagerBean() throws Exception {
 
@@ -71,33 +71,33 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 
 		http
-			.authorizeRequests()
-				.antMatchers("/assets/**").permitAll()
-				.antMatchers("/login").permitAll()
-				.antMatchers("/join").permitAll()
-				.antMatchers("/api/v1/**").permitAll()
-				.antMatchers("/cm-admin/**").access("hasRole('ROLE_ADMIN')")
-				.antMatchers("/course/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
-				.anyRequest().authenticated()
-			.and()
-				.formLogin()
-					.loginPage("/login")
-					.loginProcessingUrl("/login_process")
-					.successHandler(loginSuccessHandler)
-					.failureHandler(loginFailureHandler)
-					.permitAll()
-			.and()
-				.logout()
-					.logoutUrl("/logout")
-					.logoutSuccessHandler(logoutSuccessHandler)
-					.invalidateHttpSession(true)
-					.permitAll()
-			.and()
-				.exceptionHandling()
-					.accessDeniedHandler(accessDeniedHandler)
-			.and()
-				.csrf()
-				.disable();
+		.authorizeRequests()
+			.antMatchers("/assets/**").permitAll()
+			.antMatchers("/login").permitAll()
+			.antMatchers("/join").permitAll()
+			.antMatchers("/api/v1/**").permitAll()
+			.antMatchers("/cm-admin/**").access("hasRole('ROLE_ADMIN')")
+			.antMatchers("/course/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
+			.anyRequest().authenticated()
+		.and()
+			.formLogin()
+			.loginPage("/login")
+			.loginProcessingUrl("/login_process")
+			.successHandler(loginSuccessHandler)
+			.failureHandler(loginFailureHandler)
+			.permitAll()
+		.and()
+			.logout()
+			.logoutUrl("/logout")
+			.logoutSuccessHandler(logoutSuccessHandler)
+			.invalidateHttpSession(true)
+			.permitAll()
+		.and()
+			.exceptionHandling()
+			.accessDeniedHandler(accessDeniedHandler)
+		.and()
+			.csrf()
+			.disable();
 	}
 
 
@@ -106,10 +106,10 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
 		@Autowired
 		private UserService userService;
-		
+
 		@Autowired
 		private UserRoleMapper roleMapper;
-		
+
 
 		@Override
 		public Authentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -142,6 +142,11 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Component
 	public class CustomLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
+
+		@Autowired
+		private UserService userService;
+
+
 		@Override
 		public void onAuthenticationSuccess(
 				HttpServletRequest request, HttpServletResponse response,
@@ -150,8 +155,15 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 			super.onAuthenticationSuccess(request, response, authentication);
 
 			setDefaultTargetUrl("/course");
+			
+			User user = userService.get(authentication.getName());
+			user.setPassword(null);
+			
+//			Cookie cookies = new Cookie("userId", user.getUserid());
+//			cookies.setMaxAge(60*60*24);
+//			response.addCookie(cookies);
 
-			request.getSession().setAttribute("USER_INFO", authentication.getPrincipal());
+			request.getSession().setAttribute("USER_INFO", user);
 			response.setStatus(HttpStatus.SC_OK);
 		}
 	}
@@ -177,7 +189,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 				throws IOException, ServletException {
 
 			request.getSession().setAttribute(WebAttributes.AUTHENTICATION_EXCEPTION, null);
-			
+
 			response.sendRedirect(request.getContextPath() + "/login");
 			response.setStatus(HttpStatus.SC_OK);
 		}

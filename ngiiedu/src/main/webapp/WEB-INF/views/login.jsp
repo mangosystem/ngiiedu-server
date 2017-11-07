@@ -18,13 +18,13 @@
 		</style>
 	</head>
 
-	<body>
+	<body style="background-color: #f0f0f0;">
 		<div class="site-wrapper">
 			<div class="site-wrapper-inner">
-				<main style="padding: 0 1.5rem;">
-					<div style="width: 500px; margin: 0 auto;">
+				<main style="width: 500px; margin: -100px auto 0; padding: 0 1.5rem;">
+					<div>
 						<h1 class="text-center">공간정보융합활용지원시스템</h1>
-						<hr>
+						<hr />
 						<form action="<%=request.getContextPath() + "/login_process"%>" method="POST">
 							<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 								<div class="form-group">
@@ -40,9 +40,34 @@
 								</div>
 							</div>
 						</form>
+						<hr />
+						<div>
+							<div style="float:left;">
+								<a href="./join">가입하기</a>
+							</div>
+							<div style="float:right;">
+								<nav>
+									<a href="#">아이디찾기</a> | 
+									<a href="#">패스워드찾기</a>
+								</nav>
+							</div>
+						</div>
 					</div>
 				</main>
-				<footer></footer>
+				<footer style="position: absolute; bottom: 0; right:0; left: 0;">
+					<div style="position:relative; margin: 0 auto; width:1024px; color: #888;">
+						<nav style="float: left;">
+							<a href="#">이용약관</a> | 
+							<a href="#">위치기반서비스이용약관</a> | 
+							<a href="#">개인정보처리방침</a> | 
+							<a href="#">오픈소스라이센스</a>
+						</nav>
+						<address style="float: right;">
+							Copyright © <a href="http://www.ngii.go.kr/" target="_blank">NGII.</a>
+							All rights reserved.
+						</address>
+					</div>
+				</footer>
 			</div>
 		</div>
 	</body>

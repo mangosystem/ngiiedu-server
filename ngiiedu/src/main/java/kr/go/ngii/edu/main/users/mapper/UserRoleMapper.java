@@ -11,4 +11,6 @@ public interface UserRoleMapper {
 	
 	public List<UserRole> list(int userIdx);
 
+	public void create(UserRole userRole);
+
 }

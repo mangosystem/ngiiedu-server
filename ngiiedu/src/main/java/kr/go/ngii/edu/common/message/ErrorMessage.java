@@ -3,6 +3,8 @@ package kr.go.ngii.edu.common.message;
 public class ErrorMessage {
 
 	public static String SERVER_ERROR = "오류가 발생하였습니다.";
+	
+	public static String FOBRIDDEN = "접근 권한이 없습니다.";
 
 
 	public static String COURSE_AUTHKEY_FAILED 	= "수업코드를 찾을 수가 없습니다. 다시 확인해 주세요.";
@@ -18,6 +20,5 @@ public class ErrorMessage {
 	public static String DUPICATE_ID 		= "이미 존재하는 아이디입니다.";
 	
 	public static String PASSWORD_AUTHENTICATION_FAILED = "비밀번호 가 다릅니다.";
-
 
 }

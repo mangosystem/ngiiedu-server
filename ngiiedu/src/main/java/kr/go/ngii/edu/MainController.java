@@ -3,6 +3,7 @@ package kr.go.ngii.edu;
 import java.security.Principal;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -12,79 +13,90 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import kr.go.ngii.edu.controller.rest.BaseController;
+import kr.go.ngii.edu.main.users.model.User;
 
 @Controller
 public class MainController extends BaseController {
 
 
-	/**
-	 * 로그인 페이지 이동
-	 * 
-	 * @param principal
-	 * @return
-	 */
 	@RequestMapping(value={"/login"}, method = RequestMethod.GET)
-	public ModelAndView getLoginPage(Principal principal) {
+	public ModelAndView getLoginPage(HttpServletRequest request, HttpServletResponse response, 
+			HttpSession session, Principal principal) {
 
 		ModelAndView view = null;
-
 		if (principal == null) {
 			view = new ModelAndView("/login");
-
-		} else {
-			RedirectView redirectView = new RedirectView("./");
-			redirectView.setExposeModelAttributes(false);
-			view = new ModelAndView(redirectView);
-		}
-
-		return view;
-	}
-
-	/**
-	 * 회원가입 페이지 이동
-	 * 
-	 * @param principal
-	 * @return
-	 */
-	@RequestMapping(value={"/join"}, method = RequestMethod.GET)
-	public ModelAndView getJoinPage(HttpServletRequest request, HttpSession session, Principal principal) {
-
-		ModelAndView view = null;
-
-		if (principal == null) {
-			view = new ModelAndView("/join");
-
 		} else {
 			RedirectView redirectView = new RedirectView(request.getContextPath() + "/");
 			redirectView.setExposeModelAttributes(false);
 			view = new ModelAndView(redirectView);
 		}
-
 		return view;
 	}
 
+	@RequestMapping(value={"/join"}, method = RequestMethod.GET)
+	public ModelAndView getJoinPage(HttpServletRequest request, HttpServletResponse response, 
+			HttpSession session, Principal principal) {
+
+		ModelAndView view = null;
+		if (principal == null) {
+			view = new ModelAndView("/index");
+		} else {
+			RedirectView redirectView = new RedirectView(request.getContextPath() + "/");
+			redirectView.setExposeModelAttributes(false);
+			view = new ModelAndView(redirectView);
+		}
+		return view;
+	}
 
 	@RequestMapping(value={"*"}, method = RequestMethod.GET)
-	public ModelAndView getViewPage(HttpServletRequest request, HttpSession session) {
+	public ModelAndView getViewPage(HttpServletRequest request, HttpServletResponse response, 
+			HttpSession session, Principal principal) {
+		
 		ModelAndView view = new ModelAndView("/index");
 		return view;
 	}
 
 	@RequestMapping(value={"/course/**"}, method = RequestMethod.GET)
-	public ModelAndView getCoursePage(HttpServletRequest request, HttpSession session) {
+	public ModelAndView getCoursePage(HttpServletRequest request, HttpServletResponse response, 
+			HttpSession session, Principal principal) {
+		
 		ModelAndView view = new ModelAndView("/index");
 		return view;
+	}
+
+	@RequestMapping(value={"/courseCreate"}, method = RequestMethod.GET)
+	public ModelAndView getCourseCreatePage(HttpServletRequest request, HttpServletResponse response, 
+			HttpSession session, Principal principal) {
+
+		ModelAndView view = new ModelAndView("/index");
+
+		User user = (User) session.getAttribute("USER_INFO");
+		if (user == null) {
+			return view;
+		} else {
+			if ("1".equals(user.getUserDivision().trim())) {
+				return view;
+			} else {
+				RedirectView redirectView = new RedirectView(request.getContextPath() + "/login");
+				redirectView.setExposeModelAttributes(false);
+				return new ModelAndView(redirectView);
+
+			}
+		}
 	}
 
 	@RequestMapping(value={"/cm-admin/**"}, method = RequestMethod.GET)
-	public ModelAndView getAdminPage(HttpServletRequest request, HttpSession session) {
+	public ModelAndView getAdminPage(HttpServletRequest request, HttpServletResponse response, 
+			HttpSession session, Principal principal) {
+		
 		ModelAndView view = new ModelAndView("/index");
 		return view;
 	}
 
-
 	@RequestMapping(value={"/errorFobridden"}, method = RequestMethod.GET)
-	public ModelAndView getErrorFobriddenPage(HttpServletRequest request, HttpSession session) {
+	public ModelAndView getErrorFobriddenPage(HttpServletRequest request, HttpServletResponse response, 
+			HttpSession session, Principal principal) {
 
 		RedirectView redirectView = new RedirectView(request.getContextPath() + "/login");
 		redirectView.setExposeModelAttributes(false);
