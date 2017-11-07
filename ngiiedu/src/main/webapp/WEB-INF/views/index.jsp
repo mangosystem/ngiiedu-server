@@ -20,9 +20,9 @@
 		<meta name="csrf-token" content="{{ csrf_token() }}">
 		
 		<script type="text/javascript">
-			var userId = <%=userId%>
-			var userName = <%=userName%>
-			var userDivision = <%=userDivision%>
+			var userId = "<%= userId %>";
+			var userName = "<%= userName %>";
+			var userDivision = <%= userDivision %>;
 			
 		</script>
 
