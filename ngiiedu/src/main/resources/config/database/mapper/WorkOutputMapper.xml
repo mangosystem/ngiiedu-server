@@ -11,6 +11,7 @@
 		<result property="outputUserid" column="output_userid" />
 		<result property="outputDivision" column="output_division" />
 		<result property="pinogioOutputId" column="pinogio_output_id" />
+		<result property="outputType" column="output_type" />
 	</resultMap>
 	
 	<insert id="create" parameterType="map">
@@ -101,7 +102,7 @@
 								course_id 
 							FROM 
 								courses_work
-							WHERE idx = #{courseWorkid}
+							WHERE idx = #{courseWorkId}
 							limit 1
 						)
 					)

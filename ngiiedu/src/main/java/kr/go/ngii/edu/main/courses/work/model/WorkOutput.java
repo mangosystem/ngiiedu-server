@@ -22,7 +22,7 @@ public class WorkOutput implements Serializable {
 	private Integer idx;
 
 	/** 수업과정 아이디*/
-	private int workId;
+	private int courseWorkSubId;
 
 	/** 팀아이디. */
 	private String outputTeamId;
@@ -36,8 +36,7 @@ public class WorkOutput implements Serializable {
 	/** 피노지오결과물아이디. */
 	private String pinogioOutputId;
 
-	
-	
+	private String outputType;
 	
 	
 	/**
@@ -65,23 +64,13 @@ public class WorkOutput implements Serializable {
 		return this.idx;
 	}
 
-	/**
-	 * 수업과정을 설정합니다..
-	 * 
-	 * @param workIdworks
-	 *            수업과정
-	 */
-	public void setWorkId(int workId) {
-		this.workId = workId;
+	
+	public int getCourseWorkSubId() {
+		return courseWorkSubId;
 	}
 
-	/**
-	 * 수업과정을 가져옵니다..
-	 * 
-	 * @return 수업과정
-	 */
-	public int getWorkId() {
-		return this.workId;
+	public void setCourseWorkSubId(int courseWorkSubId) {
+		this.courseWorkSubId = courseWorkSubId;
 	}
 
 	/**
@@ -158,6 +147,14 @@ public class WorkOutput implements Serializable {
 	 */
 	public String getPinogioOutputId() {
 		return this.pinogioOutputId;
+	}
+	
+	public String getOutputType() {
+		return outputType;
+	}
+
+	public void setOutputType(String outputType) {
+		this.outputType = outputType;
 	}
 
 	/**

@@ -40,6 +40,7 @@ import kr.go.ngii.edu.main.courses.work.model.CourseWork;
 import kr.go.ngii.edu.main.courses.work.model.CourseWorkSubOutputInfo;
 import kr.go.ngii.edu.main.courses.work.model.CourseWorkSubOutputWithModuleWorkSub;
 import kr.go.ngii.edu.main.courses.work.model.PngoProject;
+import kr.go.ngii.edu.main.courses.work.model.WorkOutput;
 
 public class CourseWorkSubServiceTest extends BaseTest {
 
@@ -48,6 +49,9 @@ public class CourseWorkSubServiceTest extends BaseTest {
 
 	@Autowired
 	private CourseWorkService courseWorkService;
+	
+	@Autowired
+	private WorkOutputService workOutputService;
 
 	@Test
 	public void testCourseWorkSubList() {
@@ -93,8 +97,7 @@ public class CourseWorkSubServiceTest extends BaseTest {
 			System.out.println("------------------------------------------");
 
 			for (CourseWorkSubOutputInfo ll : l) {
-				System.out.println(ll.getPinogioOutputId());
-				System.out.println(ll.getOutputName());
+				System.out.println(ll);
 			}
 			System.out.println("------------------------------------------");
 			System.out.println();
@@ -117,7 +120,7 @@ public class CourseWorkSubServiceTest extends BaseTest {
     }
 
 	@Test
-	public void testIndex() throws Exception {
+	public void testRestApi1() throws Exception {
 		
 		RestTemplate restTemplate = new RestTemplate();
 		java.util.Map<String, String> vars = new HashMap<String, String>();
@@ -149,10 +152,10 @@ public class CourseWorkSubServiceTest extends BaseTest {
 
 
 	@Test
-	public void testRestApi() throws Exception {  
+	public void testRestApi2() throws Exception {  
 
 		
-		String url = "http://1.234.82.19:8083/pinogio-web/api/v1/projects/{project_id}.json";
+		String url = "http://1.234.82.19:8083/pinogio-web/api/v1/datasets/{dataset_id}.json";
 		RestTemplate restTemplate = new RestTemplate();
 	    
 //	    HttpHeaders headers = new HttpHeaders();
@@ -163,12 +166,12 @@ public class CourseWorkSubServiceTest extends BaseTest {
 		
 		
 	    Map<String, String> uriParams = new HashMap<String, String>();
-	    uriParams.put("project_id", "p=pppppppp");
+	    uriParams.put("dataset_id", "d=r7oFXBrCYl");
 	    
-	    UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(url);
+	    UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(url)
 	            // Add query parameter
-//	            .queryParam("firstName", "Mark")
-//	            .queryParam("lastName", "Watney");
+	            .queryParam("description", "aa")
+	            .queryParam("metadata", "aa");
 	    
 	    
 //	    ParameterizedTypeReference<List<PngoProject>> typeRef = 
@@ -180,7 +183,7 @@ public class CourseWorkSubServiceTest extends BaseTest {
 	    HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
 //	    HttpEntity<String> entity = new HttpEntity<String>(headers);
 	    ResponseEntity<Map<String, Object>> result = 
-	    		restTemplate.exchange(builder.buildAndExpand(uriParams).toUri() , HttpMethod.GET, entity, typeRef);
+	    		restTemplate.exchange(builder.buildAndExpand(uriParams).toUri() , HttpMethod.PUT, entity, typeRef);
 
 	    Map<String, Object> r = result.getBody();
 	    
@@ -196,7 +199,7 @@ public class CourseWorkSubServiceTest extends BaseTest {
 	}
 	
 	@Test
-	public void testRestAPIClient() {
+	public void testRestApi3() {
 		System.out.println(LocalResourceBundle.PINOGIO_API_PROJECT_ID);
 		System.out.println(LocalResourceBundle.PINOGIO_API_SERVER);
 		Map<String, String> uriParams = new HashMap<String, String>();
@@ -233,8 +236,6 @@ public class CourseWorkSubServiceTest extends BaseTest {
 //		}
 	}
 	
-	
-	
 	@Test
 	public void testCourseWorkSubList3() {
 
@@ -255,15 +256,12 @@ public class CourseWorkSubServiceTest extends BaseTest {
 			RestAPIClient rc = new RestAPIClient();
 
 			for (CourseWorkSubOutputInfo ll : l) {
-				System.out.println(ll.getPinogioOutputId());
-				System.out.println(ll.getPinogioOutputId().substring(0, 1));
 				Map<String, String> uriParams = new HashMap<String, String>();
 				if("dataset".equals(ll.getOutput_type())) {
 					uriParams.put("dataset_id", ll.getPinogioOutputId());
 					Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.DATASET_GET, uriParams);
 					ll.setPngoData(r.get("data"));
 					System.out.println(r.get("data"));
-					
 				} else if("layer".equals(ll.getOutput_type())) {
 					uriParams.put("layer_id", ll.getPinogioOutputId());
 					Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.LAYER_GET, uriParams);
@@ -278,11 +276,17 @@ public class CourseWorkSubServiceTest extends BaseTest {
 			}
 			System.out.println("------------------------------------------");
 			System.out.println();
-			
-
 		}
 		System.out.println(list);
 
 	}
 	
+	
+	@Test 
+	public void createCourseWorkSub () {
+		List<WorkOutput> workOutputList = workOutputService.getItemByCourseWorkId(12);
+
+		System.out.println(workOutputList);
+	}
+
 }

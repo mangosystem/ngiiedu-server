@@ -24,9 +24,9 @@ public enum EnumRestAPIType {
 	
 	DATASET_ROW_LIST		("/datasets/{dataset_id}/row.json", HttpMethod.GET),
 	DATASET_ROW_GET			("/datasets/{dataset_id}/row/{row_id}.json", HttpMethod.GET),
-	DATASET_ROW_CREATE		("/datasets/{dataset_id}/row/{row_id}.json", HttpMethod.POST),
+	DATASET_ROW_CREATE		("/datasets/{dataset_id}/row.json", HttpMethod.POST),
 	DATASET_ROW_UPDATE		("/datasets/{dataset_id}/row/{row_id}.json", HttpMethod.PUT),
-	DATASET_ROW_REMOVE		("/datasets/{dataset_id}/row.json", HttpMethod.DELETE),
+	DATASET_ROW_REMOVE		("/datasets/{dataset_id}/row/{row_id}.json", HttpMethod.DELETE),
 	
 	DATASET_COLUMN_LIST		("/datasets/{dataset_id}/column.json", HttpMethod.GET),
 	DATASET_COLUMN_GET		("/datasets/{dataset_id}/column/{column_id}.json", HttpMethod.GET),
@@ -36,9 +36,9 @@ public enum EnumRestAPIType {
 	
 	LAYER_LIST				("/layers.json", HttpMethod.GET),
 	LAYER_GET				("/layers/{layer_id}.json", HttpMethod.GET),
-	LAYER_CREATE			("/layers", HttpMethod.POST),
-	LAYER_UPDATE			("/layers", HttpMethod.PUT),
-	LAYER_REMOVE			("/layers", HttpMethod.DELETE),
+	LAYER_CREATE			("/layers.json", HttpMethod.POST),
+	LAYER_UPDATE			("/layers.json", HttpMethod.PUT),
+	LAYER_REMOVE			("/layers.json", HttpMethod.DELETE),
 	
 	// 메타데이터 정보 변경
 	LAYER_METADATA_UPDATE	("/layers/{layer_id}/metadata.json", HttpMethod.PUT),
