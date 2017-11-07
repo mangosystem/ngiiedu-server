@@ -1,11 +1,30 @@
+<%@page import="kr.go.ngii.edu.main.users.model.User"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%String contextPath = request.getContextPath();%>
+<%
+	String contextPath = request.getContextPath();
+	User user = (User)session.getAttribute("USER_INFO");
+	String userId =user.getUserid();
+	String userEmail =user.getUserEmail();
+	String userName =user.getUserName();
+	String userDivision =user.getUserDivision();
+	
+%>
+
+
+
 <!DOCTYPE html>
 <html lang="ko">
 	<head>
 		<title>공간정보융합활용지원시스템</title>
 		<meta charset="utf-8">
 		<meta name="csrf-token" content="{{ csrf_token() }}">
+		
+		<script type="text/javascript">
+			var userId = <%=userId%>
+			var userName = <%=userName%>
+			var userDivision = <%=userDivision%>
+			
+		</script>
 
 		<!--openlayers  -->
 		<link rel="stylesheet" type="text/css" href="<%=contextPath%>/assets/cdn/openlayers/dist/ol.css" />
