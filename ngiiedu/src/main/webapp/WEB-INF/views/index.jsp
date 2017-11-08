@@ -1,17 +1,22 @@
-<%@page import="kr.go.ngii.edu.main.users.model.User"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="kr.go.ngii.edu.main.users.model.User"%>
 <%
 	String contextPath = request.getContextPath();
+
 	User user = (User)session.getAttribute("USER_INFO");
-	String userId =user.getUserid();
-	String userEmail =user.getUserEmail();
-	String userName =user.getUserName();
-	String userDivision =user.getUserDivision();
 	
+	String userId = null;
+	String userEmail = null;
+	String userName = null;
+	String userDivision = null;
+	
+	if (user != null) {
+		userId =user.getUserid();
+		userEmail =user.getUserEmail();
+		userName =user.getUserName();
+		userDivision =user.getUserDivision();
+	}
 %>
-
-
-
 <!DOCTYPE html>
 <html lang="ko">
 	<head>
@@ -23,7 +28,6 @@
 			var userId = "<%= userId %>";
 			var userName = "<%= userName %>";
 			var userDivision = <%= userDivision %>;
-			
 		</script>
 
 		<!--openlayers  -->
