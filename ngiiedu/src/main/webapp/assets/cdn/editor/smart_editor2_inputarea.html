@@ -4,5 +4,33 @@
 <meta charset="utf-8">
 <title>Smart Editor&#8482; WYSIWYG Mode</title>
 </head>
-<body class="se2_inputarea" style="height:0;-webkit-nbsp-mode:normal"></body>
+<body class="se2_inputarea" style="height:0;-webkit-nbsp-mode:normal" id="se2InputArea"></body>
+
+    <script>
+        window.addEventListener('load', function (e) {
+        
+            document.body.onpaste = function (e) {
+                var items = e.clipboardData.items;
+                for (var i = 0; i < items.length; ++i) {
+        
+                    if (items[i].kind == 'file' &&
+                        items[i].type.indexOf('image/') !== -1) {
+        
+                        var blob = items[i].getAsFile();
+                        window.URL = window.URL || window.webkitURL;
+                        var blobUrl = window.URL.createObjectURL(blob);
+        
+                        var img = document.createElement('img');
+                        img.src = blobUrl;
+        
+                        var logBox = document.getElementById('se2InputArea');
+                        logBox.appendChild(img);
+                    }
+        
+                }
+            }
+        
+        
+        });
+    </script>
 </html>
