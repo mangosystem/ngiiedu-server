@@ -34,6 +34,10 @@ public class CourseWorkSubOutputWithModuleWorkSub implements Serializable {
 	/**수정일 */
 	private Date modifyDate;
 	
+	
+	/** 자료 종류. */
+	private String outputType;
+	
 	private List<CourseWorkSubOutputInfo> courseWorkSubOutputInfoList;
 	
 	public Integer getIdx() {
@@ -91,4 +95,13 @@ public class CourseWorkSubOutputWithModuleWorkSub implements Serializable {
 	public void setCourseWorkSubOutputInfoList(List<CourseWorkSubOutputInfo> courseWorkSubOutputInfoList) {
 		this.courseWorkSubOutputInfoList = courseWorkSubOutputInfoList;
 	}
+	
+	public String getOutputType() {
+		return outputType;
+	}
+
+	public void setOutputType(String outputType) {
+		this.outputType = outputType;
+	}
+	
 }

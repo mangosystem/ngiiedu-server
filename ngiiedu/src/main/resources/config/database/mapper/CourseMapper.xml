@@ -165,6 +165,7 @@
 		FROM courses_infos courses_infos left join courses_member courses_member
 		    ON courses_infos.idx = courses_member.course_id
 		WHERE courses_member.user_id = ${userId}
+			AND courses_member.join_status = 'CJS01'
 		<if test="keyword != '' and keyword != null">
 				and (
 				module_name like #{keyword} or 

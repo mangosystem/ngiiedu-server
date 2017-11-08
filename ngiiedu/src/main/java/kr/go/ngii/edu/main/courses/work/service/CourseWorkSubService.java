@@ -45,25 +45,25 @@ public class CourseWorkSubService extends BaseService {
 		CourseWork param = new CourseWork();
 		param.setIdx(courseWorkId);
 		param = courseWorkService.get(param);
-		
+
 		List<CourseWorkSubOutputWithModuleWorkSub> qList = list(param);
 
 		for (CourseWorkSubOutputWithModuleWorkSub qItem : qList) {
-			
+
 			List<CourseWorkSubOutputInfo> subList = qItem.getCourseWorkSubOutputInfoList();
 			RestAPIClient rc = new RestAPIClient();
-			
+
 			for (CourseWorkSubOutputInfo subItem : subList) {
-				
+
 				Map<String, String> uriParams = new HashMap<String, String>();
-				
-				if("layers".equals(subItem.getOutput_type())) {
-					
+
+				if ("layers".equals(subItem.getOutput_type())) {
+
 					uriParams.put("layer_id", subItem.getPinogioOutputId());
 					Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.LAYER_GET, uriParams);
 					subItem.setPngoData(r.get("data"));
-				} else if("maps".equals(subItem.getOutput_type())) {
-					
+				} else if ("maps".equals(subItem.getOutput_type())) {
+
 					uriParams.put("maps_id", subItem.getPinogioOutputId());
 					Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.MAPS_GET, uriParams);
 					subItem.setPngoData(r.get("data"));
@@ -74,6 +74,8 @@ public class CourseWorkSubService extends BaseService {
 					subItem.setPngoData(r.get("data"));
 				}
 			}
+			
+//			qItem.setOutputType(outputType);
 		}
 		return qList;
 	}

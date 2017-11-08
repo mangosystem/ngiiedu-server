@@ -168,8 +168,8 @@ public class PngoController extends BaseController {
 	 */
 	@RequestMapping(value="/dataset/row", method=RequestMethod.DELETE)
 	public @ResponseBody ResponseEntity<ResponseData> datasetRowDelete(
-			@RequestParam("pinogioOutputId") String pinogioOutputId, 
-			@RequestParam("rowId") String rowId,
+			@RequestParam(value="pinogioOutputId", required=true) String pinogioOutputId, 
+			@RequestParam(value="rowId", required=true) String rowId, 
 			HttpSession session) throws Exception {
 		RestAPIClient rc = new RestAPIClient();
 		Map<String, String> uriParams = new HashMap<String, String>();
