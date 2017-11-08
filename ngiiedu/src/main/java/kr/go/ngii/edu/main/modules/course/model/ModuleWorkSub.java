@@ -32,6 +32,9 @@ public class ModuleWorkSub implements Serializable {
 
 	/**수정일 */
 	private Date modifyDate;
+	
+	/** 결과물 종류 */
+	private String outputType;
 
 	public Integer getIdx() {
 		return idx;
@@ -79,5 +82,13 @@ public class ModuleWorkSub implements Serializable {
 
 	public void setModifyDate(Date modifyDate) {
 		this.modifyDate = modifyDate;
+	}
+	
+	public String getOutputType() {
+		return outputType;
+	}
+
+	public void setOutputType(String outputType) {
+		this.outputType = outputType;
 	}
 }

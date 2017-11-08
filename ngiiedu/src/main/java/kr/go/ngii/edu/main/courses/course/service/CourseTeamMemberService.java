@@ -10,6 +10,7 @@ import kr.go.ngii.edu.main.common.BaseService;
 import kr.go.ngii.edu.main.courses.course.mapper.CourseTeamMemberMapper;
 import kr.go.ngii.edu.main.courses.course.model.CourseTeamMember;
 import kr.go.ngii.edu.main.courses.course.model.CourseTeamMemberInfo;
+import kr.go.ngii.edu.main.courses.work.model.CourseWork;
 
 @Service
 public class CourseTeamMemberService extends BaseService {
@@ -24,6 +25,14 @@ public class CourseTeamMemberService extends BaseService {
 	
 	public List<CourseTeamMemberInfo> courseTeamMemberInfoList(int courseId) {
 		return courseTeamMemberMapper.courseTeamMemberInfoList(courseId);
+	}
+
+	public CourseTeamMember get(CourseTeamMember courseTeamMember) {
+		return courseTeamMemberMapper.get(courseTeamMember);
+	}
+	
+	public CourseTeamMember getByCourseIdAndMemberId(int courseId, int userId) {
+		return courseTeamMemberMapper.getByCourseIdAndMemberId(courseId, userId);
 	}
 
 	public CourseTeamMember create(int courseId, int teamId, int memberId) {

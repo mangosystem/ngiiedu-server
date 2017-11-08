@@ -89,8 +89,8 @@ public class PngoController extends BaseController {
 			@RequestParam("contentJson") String contentJson, // pngo_ 테이블 참조
 			HttpSession session) throws Exception {
 		RestAPIClient rc = new RestAPIClient();
-		Map<String, String> uriParams = new HashMap<String, String>();
-		uriParams.put("dataset_id", "d=r7oFXBrCYl");
+//		Map<String, String> uriParams = new HashMap<String, String>();
+//		uriParams.put("dataset_id", pinogioOutputId);
 		Map<String, String> params = new HashMap<String, String>();
 //		params.put("content", "{\"the_geom\": \"POINT(126.588866114616 33.3103962893675)\", " + 
 //		"\"kr_np_golf\": \"testtest\", " + 
@@ -110,7 +110,8 @@ public class PngoController extends BaseController {
 //		"\"create_date: \"\"" + 
 //		"}");
 		params.put("content", contentJson);
-		Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.DATASET_ROW_CREATE, uriParams, params);
+//		Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.DATASET_ROW_CREATE, uriParams, params);
+		Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.DATASET_ROW_CREATE, "/datasets/"+pinogioOutputId+"/row.json", params);
 		return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
 	}
 	
@@ -154,7 +155,8 @@ public class PngoController extends BaseController {
 //		"\"create_mem_id\": \"\"," + 
 //		"\"create_date: \"\"" + 
 //		"}");
-		Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.DATASET_ROW_UPDATE, uriParams, params);
+//		Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.DATASET_ROW_UPDATE, uriParams, params);
+		Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.DATASET_ROW_UPDATE, "/datasets/" + pinogioOutputId+ "/row"+ rowId +".json", params);
 		return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
 	}
 	

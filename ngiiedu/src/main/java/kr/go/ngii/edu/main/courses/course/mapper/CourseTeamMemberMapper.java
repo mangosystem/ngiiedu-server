@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import kr.go.ngii.edu.main.courses.course.model.CourseTeam;
 import kr.go.ngii.edu.main.courses.course.model.CourseTeamMember;
 import kr.go.ngii.edu.main.courses.course.model.CourseTeamMemberInfo;
 
@@ -14,6 +15,10 @@ public interface CourseTeamMemberMapper {
 	public List<CourseTeamMember> list(@Param("courseId") int courseId, @Param("teamId") int teamId);
 
 	public List<CourseTeamMemberInfo> courseTeamMemberInfoList(@Param("courseId") int courseId);
+
+	public CourseTeamMember get(CourseTeamMember courseTeamMember);
+	
+	public CourseTeamMember getByCourseIdAndMemberId(@Param("courseId") int courseId, @Param("userId") int userId);
 
 	public void create(CourseTeamMember params);
 

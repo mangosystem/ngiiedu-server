@@ -4,6 +4,14 @@
 
 <mapper namespace="kr.go.ngii.edu.main.courses.work.mapper.CourseWorkSubMapper">
 
+	<resultMap type="kr.go.ngii.edu.main.courses.work.model.CourseWorkSub" id="courseWorkSubMap">
+		<id property="idx" column="idx" />
+		<result property="courseWorkId" column="course_work_id" />
+		<result property="moduleWorkSubId" column="module_work_sub_id" />
+		<result property="createDate" column="create_date" />
+		<result property="modifyDate" column="modify_date" />
+	</resultMap>
+	
 	<resultMap type="kr.go.ngii.edu.main.courses.work.model.CourseWorkSubOutputInfo" id="courseWorkSubOutputInfoMap">
 		<id property="idx" column="idx" />
 		<result property="courseWorkId" column="course_work_id" />
@@ -23,6 +31,7 @@
 		<result property="moduleWorkSubSeq" column="module_work_sub_seq" />
 		<result property="createDate" column="create_date" />
 		<result property="modifyDate" column="modify_date" />
+		<result property="outputType" column="output_type" />
 		<collection property="courseWorkSubOutputInfoList" column="idx" javaType="java.util.ArrayList" 
 			ofType="kr.go.ngii.edu.main.courses.work.model.CourseWorkSubOutputInfo" select="courseWorkSubOutputInfoList"/>
 	</resultMap>
@@ -34,7 +43,8 @@
 			module_work_sub_name, 
 			module_work_sub_seq, 
        		create_date, 
-       		modify_date
+       		modify_date,
+       		output_type
 		FROM modules_work_sub
 		WHERE module_work_id = #{moduleWorkId}
 		ORDER BY idx
@@ -56,4 +66,33 @@
 		WHERE module_work_sub_id = #{moduleWorkSubId}
 		ORDER BY idx
 	</select>
+	
+	<insert id="create" parameterType="map">
+		<selectKey keyProperty="idx" resultType="int" order="BEFORE">
+			SELECT nextval('modules_work_sub_idx_seq'::regclass)
+		</selectKey>
+		INSERT INTO courses_work_sub (
+			idx, 
+			course_work_id, 
+			module_work_sub_id,
+			create_date
+		) VALUES (
+			#{idx},
+			#{course_work_id},
+			#{module_work_sub_id},
+			#{create_date}
+		)
+	</insert>
+	
+	<select id="get" parameterType="map" resultMap="courseWorkSubMap">
+		SELECT
+			idx, 
+			module_work_id, 
+			module_work_sub_id, 
+       		create_date,
+       		modify_date
+		FROM courses_work_sub
+		WHERE idx = #{idx}
+	</select>
+	
 </mapper>

@@ -15,9 +15,9 @@ public interface WorkOutputMapper {
 
 	public List<CourseWorkSubOutputInfo> list(CourseWorkSubOutputInfo workoutput);
 
-	public int create(CourseWorkSubOutputInfo workoutput);
+	public int create(WorkOutput workoutput);
 
-	public void modify(CourseWorkSubOutputInfo workoutput);
+	public void modify(WorkOutput workoutput);
 
 	public void delete(int idx);
 	

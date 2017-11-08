@@ -3,6 +3,7 @@ package kr.go.ngii.edu.main.courses.work.service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +30,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.sun.org.apache.xerces.internal.util.URI;
 
 import kr.go.ngii.edu.BaseTest;
@@ -36,7 +38,9 @@ import kr.go.ngii.edu.common.StringUtil;
 import kr.go.ngii.edu.common.enums.EnumRestAPIType;
 import kr.go.ngii.edu.config.LocalResourceBundle;
 import kr.go.ngii.edu.main.common.RestAPIClient;
+import kr.go.ngii.edu.main.courses.work.mapper.CourseWorkSubMapper;
 import kr.go.ngii.edu.main.courses.work.model.CourseWork;
+import kr.go.ngii.edu.main.courses.work.model.CourseWorkSub;
 import kr.go.ngii.edu.main.courses.work.model.CourseWorkSubOutputInfo;
 import kr.go.ngii.edu.main.courses.work.model.CourseWorkSubOutputWithModuleWorkSub;
 import kr.go.ngii.edu.main.courses.work.model.PngoProject;
@@ -52,6 +56,9 @@ public class CourseWorkSubServiceTest extends BaseTest {
 	
 	@Autowired
 	private WorkOutputService workOutputService;
+	
+	@Autowired
+	private CourseWorkSubMapper courseWorkSubMapper;
 
 	@Test
 	public void testCourseWorkSubList() {
@@ -281,12 +288,71 @@ public class CourseWorkSubServiceTest extends BaseTest {
 
 	}
 	
+	@Test 
+	public void ttt () {
+		
+		Map<String, String> sourceParam = new HashMap<String, String>();
+		sourceParam.put("type", "dataset");
+		String aa = sourceParam.get("a");
+		System.out.println(aa);
+	}
 	
 	@Test 
 	public void createCourseWorkSub () {
-		List<WorkOutput> workOutputList = workOutputService.getItemByCourseWorkId(12);
-
+		
+		String layerTitle = "aaa";
+		int courseWorkId = 12;
+		int courseWorkSubId = 2;
+		int moduleWorkSubId = 2;
+		
+		// dataset 조회
+		List<WorkOutput> workOutputList = workOutputService.getItemByCourseWorkId(courseWorkId);
 		System.out.println(workOutputList);
+
+		int workOutputListSize = workOutputList.size();
+		String pinogioDatasetId = "";
+		if (workOutputListSize > 0) {
+			// workOutputListSize 은 dataset의 수 
+			// workOutputList 가 여러개일떄 처리 핗요함
+			pinogioDatasetId = workOutputList.get(0).getPinogioOutputId();
+		} else {
+			// dataset이 없습니다
+			System.out.println("dataset 없음!");
+		}
+		
+		System.out.println("pinogioDatasetId : " + pinogioDatasetId);
+
+		// pinogio create
+		RestAPIClient rc = new RestAPIClient();
+		Map<String, String> uriParams = new HashMap<String, String>();
+		
+		ObjectMapper mapper = new ObjectMapper();
+		Map<String, Object> contentParams = new HashMap<String, Object>();
+        Map<String, Object> sourceParam = new HashMap<String, Object>();
+        ArrayNode filterArray = mapper.createArrayNode();
+        contentParams.put("type", "dataset");
+        // pinogioDatasetId
+        contentParams.put("datasetId", "d=r7oFXBrCYl");
+        contentParams.put("filter", filterArray);
+        sourceParam.put("inputDataset", contentParams);
+        
+        Map<String, String> params = new HashMap<String, String>();
+		params.put("project_id", LocalResourceBundle.PINOGIO_API_PROJECT_ID);
+		params.put("title", layerTitle);
+		params.put("sources", StringUtil.mapToString(sourceParam));
+		
+		Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.LAYER_CREATE, uriParams, params);
+		System.out.println(r);
+		Map resultMetaStatus = (Map)r.get("meta");
+		System.out.println("resultMetaStatus : " + resultMetaStatus.get("code"));
+				
+		// work_output
+		WorkOutput workOutput = new WorkOutput();
+		workOutput.setCourseWorkSubId(courseWorkSubId);
+		workOutput.setOutputUserid(1);
+		workOutput.setOutputTeamId(1);
+		workOutput.setOutputDivision("1");
+		
 	}
 
 }

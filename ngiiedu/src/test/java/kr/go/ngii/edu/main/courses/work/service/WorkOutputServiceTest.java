@@ -1,93 +1,57 @@
 package kr.go.ngii.edu.main.courses.work.service;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 
+import kr.go.ngii.edu.BaseTest;
 import kr.go.ngii.edu.common.StringUtil;
 import kr.go.ngii.edu.common.enums.EnumRestAPIType;
 import kr.go.ngii.edu.config.LocalResourceBundle;
-import kr.go.ngii.edu.main.common.BaseService;
 import kr.go.ngii.edu.main.common.RestAPIClient;
-import kr.go.ngii.edu.main.courses.course.mapper.CourseTeamMemberMapper;
 import kr.go.ngii.edu.main.courses.course.model.CourseTeamMember;
 import kr.go.ngii.edu.main.courses.course.service.CourseTeamMemberService;
-import kr.go.ngii.edu.main.courses.work.mapper.CourseWorkMapper;
 import kr.go.ngii.edu.main.courses.work.mapper.CourseWorkSubMapper;
 import kr.go.ngii.edu.main.courses.work.mapper.WorkOutputMapper;
 import kr.go.ngii.edu.main.courses.work.model.CourseWork;
-import kr.go.ngii.edu.main.courses.work.model.CourseWorkInfo;
 import kr.go.ngii.edu.main.courses.work.model.CourseWorkSub;
-import kr.go.ngii.edu.main.courses.work.model.CourseWorkSubOutputInfo;
 import kr.go.ngii.edu.main.courses.work.model.WorkOutput;
 
-@Service
-public class WorkOutputService extends BaseService {
+
+public class WorkOutputServiceTest extends BaseTest{
 	
 	@Autowired
-	private WorkOutputMapper workOutputMapper;
-	
+	private CourseWorkSubService courseWorkSubService;
+
 	@Autowired
 	private CourseWorkService courseWorkService;
 	
 	@Autowired
-	private CourseWorkSubService courseWorkSubService;
+	private WorkOutputService workOutputService;
+	
+	@Autowired
+	private CourseWorkSubMapper courseWorkSubMapper;
 	
 	@Autowired
 	private CourseTeamMemberService courseTeamMemberService;
 	
 	@Autowired
-	private WorkOutputService workOutputService;
+	private WorkOutputMapper workOutputMapper;
 	
-//	/**
-//	 * 결과물을 등록 한다.
-//	 * 
-//	 * @param workId
-//	 * @param moduleWorkIds
-//	 * @return
-//	 * @throws Exception
-//	 */
-//	public List<CourseWorkSubOutputInfo> create(int workId) throws Exception {
-//
-//		List<CourseWorkSubOutputInfo> createResult = new ArrayList<CourseWorkSubOutputInfo >();
-//
-//		CourseWork param = null;
-//
-////		for (int i=0; i<moduleWorkIds.size(); i++) {
-////			param = new CourseWork();
-////			param.setCourseId(courseId);
-////			param.setModuleWorkId(moduleWorkIds.get(i));
-////			param.setWorkSeq(i);
-////			//param.setWorkTeamDivision(workTeamDivision);
-////			param.setCreateDate(new Date());
-////			param.setModifyDate(new Date());
-////
-////			workOutputMapper.create(param);
-////
-////			createResult.add(param);
-////		}
-//
-//		return createResult;
-//	}
-	
-	
-	/**
-	 * 결과물을 등록 한다.
-	 * 
-	 * @param workId
-	 * @param moduleWorkIds
-	 * @return
-	 * @throws Exception
-	 */
-	public String create(int courseWorkSubId, int outputUserid, String outputType, String title) {
+	public void layerCreateTest() {
+//		int courseWorkSubId, int outputUserid, String outputType, String title
+		
+		// 레이어 생성 테스트
+		
+		int courseWorkSubId = 2;
+		int outputUserid = 1;
+		String outputType = "layer";
+		String title = "create test";
 		
 		// session 에서 가져온 user id 에서 team id 조회
 		// course work id 조회
@@ -162,36 +126,5 @@ public class WorkOutputService extends BaseService {
 		woParam.setOutputType(outputType);
 		
 		workOutputMapper.create(woParam);
-		//피노지오 id 리턴.
-		return woParam.getPinogioOutputId();
 	}
-	
-	
-	public List<CourseWorkSubOutputInfo> list(CourseWorkSubOutputInfo workOutput) {
-		return workOutputMapper.list(workOutput);
-	}
-	
-	public CourseWorkSubOutputInfo get(CourseWorkSubOutputInfo workOutput) {
-		return workOutputMapper.get(workOutput);
-	}
-	
-	public CourseWorkSubOutputInfo modify(CourseWorkSubOutputInfo workOutput) {
-		CourseWorkSubOutputInfo params = new CourseWorkSubOutputInfo();
-//		params.setIdx(idx);
-//		params.setStatus(status);
-//		params.setModifyDate(new Date());
-//		workOutputMapper.modify(params);
-		return params;
-	}
-	
-	public void delete(CourseWorkSubOutputInfo workOutput) {
-		workOutputMapper.delete(1);
-	}
-	
-	public List<WorkOutput> getItemByCourseWorkId(int courseWorkId) {
-		return workOutputMapper.getItemByCourseWorkId(courseWorkId);
-	}
-	
-	
-	
 }

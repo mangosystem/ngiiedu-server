@@ -55,6 +55,33 @@
 			course_id = #{courseId}
 		ORDER BY idx
 	</select>
+	
+	<select id="get" parameterType="map" resultMap="courseTeamMemberMap">
+		SELECT
+			idx, 
+			member_id, 
+			team_id, 
+			create_date
+		FROM courses_team_member
+		WHERE member_id = #{memberId} AND team_id = #{teamId}
+	</select>
+	
+	<select id="getByCourseIdAndMemberId" parameterType="map" resultMap="courseTeamMemberMap">
+		SELECT 
+			idx, 
+			member_id, 
+			team_id, 
+			create_date
+		FROM 
+			courses_team_member
+		WHERE 
+			team_id in (
+				SELECT idx
+				FROM courses_team
+				WHERE course_id = #{courseId})
+		AND member_id = #{userId}
+	</select>
+	
 
 	<insert id="create" parameterType="map">
 		<selectKey keyProperty="idx" resultType="int" order="BEFORE">

@@ -31,6 +31,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 
+import kr.go.ngii.edu.common.StringUtil;
 import kr.go.ngii.edu.common.enums.EnumRestAPIType;
 import kr.go.ngii.edu.config.LocalResourceBundle;
 
@@ -42,6 +43,8 @@ public class RestAPIClient {
 	public RestAPIClient() {
 //		restTemplate = getRestTempalte();
 		restTemplate = new RestTemplate();
+		MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
+		restTemplate.getMessageConverters().add(converter);
 	}
 	
 	private RestTemplate getRestTempalte() {
@@ -95,6 +98,26 @@ public class RestAPIClient {
 	    	uriParam = builder.buildAndExpand(pathParam).toUri();
 	    }
 	    
+	    ParameterizedTypeReference<Map<String, Object>> typeRef = 
+				new ParameterizedTypeReference<Map<String, Object>>() {};
+		HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
+		ResponseEntity<Map<String, Object>> result = restTemplate.exchange(uriParam, EnumRestAPIType.method(), entity, 
+				typeRef);
+		Map<String, Object> body = result.getBody();
+		return body;
+	}
+
+
+	
+	public Map<String, Object> getResponseBody(EnumRestAPIType EnumRestAPIType, String pathParam, Map<String, String> param) {
+		HttpHeaders headers = new HttpHeaders();
+	    headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
+		UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(REST_BASE_URI + pathParam);
+	    for( Map.Entry<String, String> elem : param.entrySet()) {
+	    	builder.queryParam(elem.getKey(), elem.getValue());
+	    }
+	    
+	    URI uriParam = builder.build().toUri();
 	    ParameterizedTypeReference<Map<String, Object>> typeRef = 
 				new ParameterizedTypeReference<Map<String, Object>>() {};
 		HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);

@@ -25,10 +25,10 @@ public class WorkOutput implements Serializable {
 	private int courseWorkSubId;
 
 	/** 팀아이디. */
-	private String outputTeamId;
+	private int outputTeamId;
 
 	/** 사용자아이디. */
-	private String outputUserid;
+	private int outputUserid;
 
 	/** 결과물타입. */
 	private String outputDivision;
@@ -36,6 +36,7 @@ public class WorkOutput implements Serializable {
 	/** 피노지오결과물아이디. */
 	private String pinogioOutputId;
 
+	
 	private String outputType;
 	
 	
@@ -79,7 +80,7 @@ public class WorkOutput implements Serializable {
 	 * @param outputTeamId
 	 *            팀아이디
 	 */
-	public void setOutputTeamId(String outputTeamId) {
+	public void setOutputTeamId(int outputTeamId) {
 		this.outputTeamId = outputTeamId;
 	}
 
@@ -88,7 +89,7 @@ public class WorkOutput implements Serializable {
 	 * 
 	 * @return 팀아이디
 	 */
-	public String getOutputTeamId() {
+	public int getOutputTeamId() {
 		return this.outputTeamId;
 	}
 
@@ -98,7 +99,7 @@ public class WorkOutput implements Serializable {
 	 * @param outputUserid
 	 *            사용자아이디
 	 */
-	public void setOutputUserid(String outputUserid) {
+	public void setOutputUserid(int outputUserid) {
 		this.outputUserid = outputUserid;
 	}
 
@@ -107,7 +108,7 @@ public class WorkOutput implements Serializable {
 	 * 
 	 * @return 사용자아이디
 	 */
-	public String getOutputUserid() {
+	public int getOutputUserid() {
 		return this.outputUserid;
 	}
 

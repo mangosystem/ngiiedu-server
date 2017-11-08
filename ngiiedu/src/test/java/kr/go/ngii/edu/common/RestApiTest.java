@@ -130,27 +130,11 @@ public class RestApiTest extends BaseTest {
 	public void testDatasetRowCreate() {
 		RestAPIClient rc = new RestAPIClient();
 		Map<String, String> uriParams = new HashMap<String, String>();
-		uriParams.put("dataset_id", "d=r7oFXBrCYl");
+		uriParams.put("dataset_id", "d=KjCXc4dmy9");
 		Map<String, String> params = new HashMap<String, String>();
-		params.put("content", "{\"the_geom\": \"POINT(126.588866114616 33.3103962893675)\", " + 
-				"\"kr_np_golf\": \"testtest\", " + 
-				"\"cat\": \"\", " + 
-				"\"nam\": \"\", " + 
-				"\"addr\": \"testtest\", " + 
-				"\"lon\": \"\", " + 
-				"\"lat\": \"\", " + 
-				"\"udate\": \"\", " + 
-				"\"noise_value\": \"\"," + 
-				"\"noise_zone\": \"\", " + 
-				"\"noise_level\": \"\"," + 
-				"\"survey_dn\": \"\"," + 
-				"\"work_id\": \"\", " + 
-				"\"create_team_id\": \"\"," + 
-				"\"create_mem_id\": \"\"," + 
-				"\"create_date: \"\"" + 
-				"}");
+		params.put("content", "{\"noise_value\":51,\"noise_zone\":\"ASD\",\"noise_level\":2,\"survey_dn\":\"A\",\"course_id\":null,\"work_id\":null,\"create_team_id\":null,\"create_mem_id\":null,\"create_date\":\"\",\"the_geom\":\"POINT(126.97444438934404 37.396567745417215)\"}");
 //		params.put("content","{\"the_geom\": \"POINT(126.588866114616 33.3103962893675)\", \"kr_np_golf\": \"testtest\"}" );
-		Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.DATASET_ROW_CREATE, uriParams, params);
+		Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.DATASET_ROW_CREATE, "/datasets/" +"d=KjCXc4dmy9" +"/row.json", params);
 		System.out.println(r);
 	}
 	
@@ -184,9 +168,9 @@ public class RestApiTest extends BaseTest {
 		Map<String, String> uriParams = new HashMap<String, String>();
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("project_id", "p=pppppppp");
-		params.put("title", "test");
-//		params.put("sources", mapToString(jsonCreateTest()));
-		params.put("sources", "{\"inputDataset\":{\"type\":\"dataset\",\"datasetId\":\"d=r7oFXBrCYl\",\"filter\":[]}}");
+		params.put("title", "test111");
+		params.put("sources", mapToString(jsonCreateTest()));
+//		params.put("sources", "{\"inputDataset\":{\"type\":\"dataset\",\"datasetId\":\"d=r7oFXBrCYl\",\"filter\":[]}}");
 //		params.put("sources", "{inputDataset={type=dataset,datasetId=d=r7oFXBrCYl,filter=[]}}");
 //		params.put("sources", "{inputDataset:{type=dataset,datasetId:d=r7oFXBrCYl,filter=[]}}");
 		Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.LAYER_CREATE, uriParams, params);

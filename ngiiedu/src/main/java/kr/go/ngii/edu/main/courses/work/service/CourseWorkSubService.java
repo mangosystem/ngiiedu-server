@@ -16,6 +16,7 @@ import kr.go.ngii.edu.main.common.RestAPIClient;
 import kr.go.ngii.edu.main.courses.work.mapper.CourseWorkSubMapper;
 import kr.go.ngii.edu.main.courses.work.model.CourseWork;
 import kr.go.ngii.edu.main.courses.work.model.CourseWorkInfo;
+import kr.go.ngii.edu.main.courses.work.model.CourseWorkSub;
 import kr.go.ngii.edu.main.courses.work.model.CourseWorkSubOutputInfo;
 import kr.go.ngii.edu.main.courses.work.model.CourseWorkSubOutputWithModuleWorkSub;
 import kr.go.ngii.edu.main.courses.work.model.WorkOutput;
@@ -40,6 +41,11 @@ public class CourseWorkSubService extends BaseService {
 		return courseWorkSubMapper.courseWorkSubOutputInfoList(courseWork);
 	}
 	
+	public CourseWorkSub get(CourseWorkSub courseWorkSub) {
+		return courseWorkSubMapper.get(courseWorkSub);
+	}
+	
+	
 	public List<CourseWorkSubOutputWithModuleWorkSub> list(int courseWorkId) {
 		
 		CourseWork param = new CourseWork();
@@ -56,37 +62,32 @@ public class CourseWorkSubService extends BaseService {
 			for (CourseWorkSubOutputInfo subItem : subList) {
 
 				Map<String, String> uriParams = new HashMap<String, String>();
-
 				if ("layers".equals(subItem.getOutput_type())) {
-
 					uriParams.put("layer_id", subItem.getPinogioOutputId());
 					Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.LAYER_GET, uriParams);
 					subItem.setPngoData(r.get("data"));
 				} else if ("maps".equals(subItem.getOutput_type())) {
-
 					uriParams.put("maps_id", subItem.getPinogioOutputId());
 					Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.MAPS_GET, uriParams);
 					subItem.setPngoData(r.get("data"));
 				} else if("dataset".equals(subItem.getOutput_type())) {
-					
 					uriParams.put("dataset_id", subItem.getPinogioOutputId());
 					Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.DATASET_GET, uriParams);
 					subItem.setPngoData(r.get("data"));
 				}
 			}
-			
 //			qItem.setOutputType(outputType);
 		}
 		return qList;
 	}
 	
-	public WorkOutput create(int courseWorkId, int moduleWorkId, int userId, 
+	public WorkOutput create(int courseWorkId, int moduleWorkSubId, int userId, 
 			int teamId, String outputTypem, String layerTitle) {
 		
 		// dataset 조회
 		List<WorkOutput> workOutputList = workOutputService.getItemByCourseWorkId(courseWorkId);
 		
-		// dataset의 pinogio Id 가져옴 -2개 이상 있을경우 로직 추가 해야함
+		// dataset의 pinogio Id
 		String datasetPinogioId = workOutputList.get(0).getPinogioOutputId();
 		
 		// pinogio create
@@ -101,7 +102,7 @@ public class CourseWorkSubService extends BaseService {
 		
 		
 		// course_work_sub
-//		courseWorkSubMapper
+//		courseWorkSubMapper.create()
 		
 		// work_output
 		

@@ -19,17 +19,21 @@
 			SELECT nextval('works_output_idx_seq'::regclass)
 		</selectKey>
 		INSERT INTO works_output (
+			idx,
 			course_work_sub_id, 
 			output_team_id, 
 			output_userid, 
 			output_division,
-			pinogio_output_id
+			pinogio_output_id,
+			output_type,
 		) VALUES (
+			#{idx},
 			#{courseWorkSubId},
 			#{outputTeamId},
 			#{outputUserid},
 			#{outputDivision},
-			#{pinogioOutputId}
+			#{pinogioOutputId},
+			#{outputType}
 		)
 	</insert>
 	
