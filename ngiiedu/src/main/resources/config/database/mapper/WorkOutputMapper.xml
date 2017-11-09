@@ -25,7 +25,7 @@
 			output_userid, 
 			output_division,
 			pinogio_output_id,
-			output_type,
+			output_type
 		) VALUES (
 			#{idx},
 			#{courseWorkSubId},
@@ -73,7 +73,6 @@
 	<delete id="delete" parameterType="map">
 		DELETE FROM works_output
 		<where>
-			course_work_sub_id = #{courseWorkSubId}
 			idx = #{idx}
 		</where>
 	</delete>
@@ -112,5 +111,15 @@
 					)
 			) and output_type = 'dataset'
 		ORDER BY idx 
+	</select>
+	
+	<select id="exists" parameterType="map" resultType="boolean">
+		SELECT
+			CASE WHEN EXISTS (
+				SELECT
+					idx
+				FROM works_output
+				WHERE idx = #{idx}
+			)  THEN true ELSE false END
 	</select>
 </mapper>

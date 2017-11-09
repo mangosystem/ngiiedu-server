@@ -810,15 +810,6 @@ public class CourseController extends BaseController {
 			@RequestParam("pinogioOutputId") String pinogioOutputId, 
 			HttpSession session) throws Exception {
 		
-		// user id
-		
-		// dataset
-		
-		// layer
-		
-		// maps
-		
-		// 생성 결과 리턴
 		return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
 	}
 	

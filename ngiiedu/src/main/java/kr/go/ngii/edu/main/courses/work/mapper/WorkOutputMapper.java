@@ -15,7 +15,7 @@ public interface WorkOutputMapper {
 
 	public List<CourseWorkSubOutputInfo> list(CourseWorkSubOutputInfo workoutput);
 
-	public int create(WorkOutput workoutput);
+	public boolean create(WorkOutput workoutput);
 
 	public void modify(WorkOutput workoutput);
 
@@ -23,4 +23,5 @@ public interface WorkOutputMapper {
 	
 	public List<WorkOutput> getItemByCourseWorkId(@Param("courseWorkId") int courseWorkId);
 	
+	public Boolean exists(@Param("idx") int idx);
 }

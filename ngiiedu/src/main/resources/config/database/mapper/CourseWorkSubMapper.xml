@@ -87,7 +87,7 @@
 	<select id="get" parameterType="map" resultMap="courseWorkSubMap">
 		SELECT
 			idx, 
-			module_work_id, 
+			course_work_id, 
 			module_work_sub_id, 
        		create_date,
        		modify_date

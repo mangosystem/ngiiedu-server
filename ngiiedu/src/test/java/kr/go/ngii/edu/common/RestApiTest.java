@@ -132,7 +132,7 @@ public class RestApiTest extends BaseTest {
 		Map<String, String> uriParams = new HashMap<String, String>();
 		uriParams.put("dataset_id", "d=KjCXc4dmy9");
 		Map<String, String> params = new HashMap<String, String>();
-		params.put("content", "{\"noise_value\":51,\"noise_zone\":\"ASD\",\"noise_level\":2,\"survey_dn\":\"A\",\"course_id\":null,\"work_id\":null,\"create_team_id\":null,\"create_mem_id\":null,\"create_date\":\"\",\"the_geom\":\"POINT(126.97444438934404 37.396567745417215)\"}");
+		params.put("content", "{\"noise_value\":51,\"noise_zone\":\"a\",\"noise_level\":2,\"survey_dn\":\"근배바보\",\"course_id\":null,\"work_id\":null,\"create_team_id\":null,\"create_mem_id\":null,\"create_date\":\"\",\"the_geom\":\"POINT(126.97444438934404 37.396567745417215)\"}");
 //		params.put("content","{\"the_geom\": \"POINT(126.588866114616 33.3103962893675)\", \"kr_np_golf\": \"testtest\"}" );
 		Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.DATASET_ROW_CREATE, "/datasets/" +"d=KjCXc4dmy9" +"/row.json", params);
 		System.out.println(r);
@@ -150,7 +150,6 @@ public class RestApiTest extends BaseTest {
 		Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.DATASET_COLUMN_LIST, uriParams);
 		System.out.println(r);
 	}
-	
 	
 	@Test
 	public void testLayerGet() {

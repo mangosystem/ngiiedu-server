@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -22,6 +23,8 @@ import kr.go.ngii.edu.config.LocalResourceBundle;
 import kr.go.ngii.edu.controller.rest.BaseController;
 import kr.go.ngii.edu.controller.rest.ResponseData;
 import kr.go.ngii.edu.main.common.RestAPIClient;
+import kr.go.ngii.edu.main.courses.work.service.WorkOutputService;
+import kr.go.ngii.edu.main.users.model.User;
 
 @Controller
 @RequestMapping(value="/api/v1/coursesWork")
@@ -29,6 +32,9 @@ public class CourseWorkController extends BaseController {
 
 	private RestAPIClient apiClient = new RestAPIClient();
 
+	@Autowired
+	private WorkOutputService workOutputService;
+	
 	//	@RequestMapping(value="/layer", method=RequestMethod.GET)
 	//	public @ResponseBody ResponseEntity<ResponseData> listLayer(
 	//			@RequestParam(value="courseId", required=false) String courseId) throws Exception {
@@ -69,18 +75,20 @@ public class CourseWorkController extends BaseController {
 	 */
 	@RequestMapping(value="/layers", method=RequestMethod.POST)
 	public @ResponseBody ResponseEntity<ResponseData> createLayer(
-			@RequestParam(value="courseWorkSubId", required=true) String courseWorkSubId,
+			@RequestParam(value="courseWorkSubId", required=true) int courseWorkSubId,
 			@RequestParam(value="title", required=false) String title,
 			@RequestParam(value="sources", required=false) String sources,
 			HttpSession session) throws Exception {
 
+		User user = (User)session.getAttribute("USER_INFO");
 		Map<String, String> paramVals = new HashMap<String,String>();
 		paramVals.put("project_id", LocalResourceBundle.PINOGIO_API_PROJECT_ID);
 		paramVals.put("title", title);
 		paramVals.put("sources", sources);
-
 		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.LAYER_CREATE, "/layers", paramVals);
-
+		
+		workOutputService.create(courseWorkSubId, "1",  result, user.getIdx(), "layer");
+		
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
 
@@ -96,12 +104,15 @@ public class CourseWorkController extends BaseController {
 	@RequestMapping(value="/layers/{layer_id}", method=RequestMethod.DELETE)
 	public @ResponseBody ResponseEntity<ResponseData> deleteLayer(
 			@PathVariable(value="layer_id", required=false) String layerId,
+			@RequestParam(value="courseWorkSubId", required=true) int courseWorkSubId,
 			HttpSession session) throws Exception {
 
 		Map<String, String> paramVals = new HashMap<String,String>();
 
 		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.LAYER_REMOVE, "/layers/"+layerId, paramVals);
-
+		
+		workOutputService.delete(courseWorkSubId);
+		
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
 
@@ -202,9 +213,161 @@ public class CourseWorkController extends BaseController {
 	
 	
 	// --------------------------------------------------------------------------------------------------------------------------------------------
+	/**
+	 * DataSet row 목록 조회
+	 * 
+	 * @param courseWorkId
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/dataset", method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<ResponseData> datasetCreate(
+			@RequestParam(value="pinogioOutputId", required=true) String pinogioOutputId, 
+			HttpSession session) throws Exception {
+		
+		RestAPIClient rc = new RestAPIClient();
+		Map<String, String> param = new HashMap<String, String>();
+//		uriParams.put("dataset_id", "d=r7oFXBrCYl");
+		param.put("dataset_id", pinogioOutputId);
+		Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.DATASET_ROW_LIST, param);
+		return new ResponseEntity<ResponseData>(responseBody(r), HttpStatus.OK);
+	}
 	
 	
 	
+	/**
+	 * DataSet row 목록 조회
+	 * 
+	 * @param courseWorkId
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/dataset/row/list", method=RequestMethod.GET)
+	public @ResponseBody ResponseEntity<ResponseData> datasetRowList(
+			@RequestParam(value="pinogioOutputId", required=true) String pinogioOutputId, 
+			HttpSession session) throws Exception {
+		
+		RestAPIClient rc = new RestAPIClient();
+		Map<String, String> param = new HashMap<String, String>();
+//		uriParams.put("dataset_id", "d=r7oFXBrCYl");
+		param.put("dataset_id", pinogioOutputId);
+		Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.DATASET_ROW_LIST, param);
+		return new ResponseEntity<ResponseData>(responseBody(r), HttpStatus.OK);
+	}
 	
-
+	
+	/**
+	 * DataSet row 조회
+	 * 
+	 * @param courseWorkId
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/dataset/row", method=RequestMethod.GET)
+	public @ResponseBody ResponseEntity<ResponseData> datasetRowGet(
+			@RequestParam("pinogioOutputId") String pinogioOutputId, 
+			@RequestParam("rowId") String rowId, 
+			HttpSession session) throws Exception {
+		RestAPIClient rc = new RestAPIClient();
+		Map<String, String> uriParams = new HashMap<String, String>();
+		uriParams.put("dataset_id", pinogioOutputId);
+		uriParams.put("row_id", rowId);
+//		uriParams.put("dataset_id", "d=r7oFXBrCYl");
+//		uriParams.put("row_id", "12");
+		Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.DATASET_ROW_GET, uriParams);
+		System.out.println(r);
+		return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+	}
+	
+	
+	/**
+	 * DataSet row 입력
+	 * 
+	 * @param courseWorkId
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/dataset/row", method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<ResponseData> datasetRowCreate(
+			@RequestParam("pinogioOutputId") String pinogioOutputId, 
+			@RequestParam("contentJson") String contentJson, 
+			HttpSession session) throws Exception {
+		RestAPIClient rc = new RestAPIClient();
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("content", contentJson);
+		Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.DATASET_ROW_CREATE, "/datasets/"+pinogioOutputId+"/row.json", params);
+		return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+	}
+	
+	
+	/**
+	 * DataSet row 수정
+	 * 
+	 * @param courseWorkId
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/dataset/row", method=RequestMethod.PUT)
+	public @ResponseBody ResponseEntity<ResponseData> datasetRowModify(
+			@RequestParam("pinogioOutputId") String pinogioOutputId, 
+			@RequestParam("rowId") String rowId,
+			@RequestParam("contentJson") String contentJson, // pngo_ 테이블 참조
+			HttpSession session) throws Exception {
+		RestAPIClient rc = new RestAPIClient();
+		Map<String, String> uriParams = new HashMap<String, String>();
+		uriParams.put("dataset_id", pinogioOutputId);
+		uriParams.put("row_id", rowId);
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("content", contentJson);
+		Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.DATASET_ROW_UPDATE, "/datasets/" + pinogioOutputId+ "/row"+ rowId +".json", params);
+		return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+	}
+	
+	/**
+	 * DataSet row 삭제
+	 * 
+	 * @param courseWorkId
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/dataset/row", method=RequestMethod.DELETE)
+	public @ResponseBody ResponseEntity<ResponseData> datasetRowDelete(
+			@RequestParam(value="pinogioOutputId", required=true) String pinogioOutputId, 
+			@RequestParam(value="rowId", required=true) String rowId, 
+			HttpSession session) throws Exception {
+		RestAPIClient rc = new RestAPIClient();
+		Map<String, String> uriParams = new HashMap<String, String>();
+		uriParams.put("dataset_id", pinogioOutputId);
+		uriParams.put("row_id", rowId);
+		Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.DATASET_ROW_REMOVE, uriParams);
+		return new ResponseEntity<ResponseData>(responseBody(r), HttpStatus.OK);
+	}
+	
+	
+	/**
+	 * DataSet column 목록 조회
+	 * 
+	 * @param courseWorkId
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/dataset/column/list", method=RequestMethod.GET)
+	public @ResponseBody ResponseEntity<ResponseData> datasetColumnList(
+			@RequestParam(value="pinogioOutputId", required=true) String pinogioOutputId, 
+			HttpSession session) throws Exception {
+		
+		RestAPIClient rc = new RestAPIClient();
+		Map<String, String> param = new HashMap<String, String>();
+		param.put("dataset_id", pinogioOutputId);
+		Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.DATASET_COLUMN_LIST, param);
+		return new ResponseEntity<ResponseData>(responseBody(r), HttpStatus.OK);
+	}
+	
 }
