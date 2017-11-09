@@ -489,7 +489,7 @@ public class CourseWorkController extends BaseController {
 		paramVals.put("maps_type", mapsType);
 		paramVals.put("privacy", privacy);
 		paramVals.put("metadata", metadata);
-		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.MAPS_CREATE, "/maps", paramVals);
+		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.MAPS_CREATE, "/maps.json", paramVals);
 
 		// output division 추가..필요
 		workOutputService.create(courseWorkSubId, "1",  result, user.getIdx(), "maps");

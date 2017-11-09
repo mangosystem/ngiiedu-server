@@ -22,6 +22,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import kr.go.ngii.edu.BaseTest;
 import kr.go.ngii.edu.common.enums.EnumRestAPIType;
+import kr.go.ngii.edu.config.LocalResourceBundle;
 import kr.go.ngii.edu.main.common.RestAPIClient;
 
 public class RestApiTest extends BaseTest {
@@ -291,6 +292,20 @@ public class RestApiTest extends BaseTest {
 		Map<String, String> uriParams = new HashMap<String, String>();
 		uriParams.put("layer_id", "l=oBGRzS7ijB");
 		Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.LAYER_COLUMN_LIST, uriParams);
+		System.out.println(r);
+	}
+	
+	@Test
+	public void testMapsCreate() {
+		RestAPIClient rc = new RestAPIClient();
+		Map<String, String> uriParams = new HashMap<String, String>();
+		uriParams.put("project_id", LocalResourceBundle.PINOGIO_API_PROJECT_ID);
+		uriParams.put("title", "aaaabbbb");
+		uriParams.put("description", "a");
+		uriParams.put("maps_type", "SERIES");
+		uriParams.put("privacy", "PUBLIC");
+		uriParams.put("metadata", "aa");
+		Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.MAPS_CREATE, "/maps.json", uriParams);
 		System.out.println(r);
 	}
 }

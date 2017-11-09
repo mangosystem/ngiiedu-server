@@ -152,7 +152,18 @@ public class WorkOutputService extends BaseService {
 		
 		// pinogio layer id
 		Map<String, Object> resultData = (Map<String, Object>) createdPinogioResult.get("data");
-		String createdPinogioId = (String) resultData.get("layerId").toString();
+		
+		String pinogioIdColName = "";
+		
+		if ("maps".equals(outputType)) {
+			pinogioIdColName = "mapsId";
+		} else if ("layer".equals(outputType)) {
+			pinogioIdColName = "layerId";
+		} else if ("dataset".equals(outputType)) {
+			pinogioIdColName = "datasetId";
+		}
+			
+		String createdPinogioId = (String) resultData.get("mapsId").toString();
 		
 		try {
 			WorkOutput woParam = new WorkOutput();
