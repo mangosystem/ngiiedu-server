@@ -794,6 +794,7 @@ public class CourseController extends BaseController {
 		if (user != null) {
 			int userId = user.getIdx();
 			List<CourseWorkSubOutputWithModuleWorkSub> list = courseWorkSubService.list(courseWorkId, userId);
+//			List<CourseWorkSubOutputWithModuleWorkSub> list = courseWorkSubService.list(courseWorkId);
 			return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
 		} else {
 			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);

@@ -64,7 +64,6 @@
 			output_type
 		FROM courses_work_sub_output_info
 		WHERE module_work_sub_id = #{moduleWorkSubId}
-		
 		ORDER BY idx
 	</select>
 	

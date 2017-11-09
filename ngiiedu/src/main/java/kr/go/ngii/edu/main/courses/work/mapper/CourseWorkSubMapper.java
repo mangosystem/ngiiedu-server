@@ -16,8 +16,8 @@ public interface CourseWorkSubMapper {
 
 	public List<CourseWorkSubOutputWithModuleWorkSub> list(CourseWork courseWork);
 
-	public List<CourseWorkSubOutputWithModuleWorkSub> list(@Param("moduleWorkId") int moduleWorkId, 
-			@Param("moduleWorkSubId") int moduleWorkSubId, @Param("moduleWorkId") int userId);
+//	public List<CourseWorkSubOutputWithModuleWorkSub> list(@Param("moduleWorkId") int moduleWorkId, 
+//			@Param("moduleWorkSubId") int moduleWorkSubId, @Param("moduleWorkId") int userId);
 
 	public List<CourseWorkSubOutputInfo> courseWorkSubOutputInfoList(CourseWork courseWork);
 	

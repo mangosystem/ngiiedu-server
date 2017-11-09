@@ -83,6 +83,14 @@ public class WorkOutputService extends BaseService {
 		ObjectMapper mapper = new ObjectMapper();
 		
 		String createdPinogioId = "";
+		String pinogioIdColName = "";
+		if ("maps".equals(outputType)) {
+			pinogioIdColName = "mapsId";
+		} else if ("layer".equals(outputType)) {
+			pinogioIdColName = "layerId";
+		} else if ("dataset".equals(outputType)) {
+			pinogioIdColName = "datasetId";
+		}
 		if ("layer".equals(outputType.trim().toLowerCase())) {
 			// dataset 조회
 			List<WorkOutput> workOutputList = workOutputService.getItemByCourseWorkId(courseWorkId);
@@ -113,12 +121,9 @@ public class WorkOutputService extends BaseService {
 			Map<String, Object> resultData = (Map<String, Object>) r.get("data");
 			Map<String, Object> resultCode = (Map<String, Object>) r.get("meta");
 			String resultCodeStatus = (String) resultCode.get("code").toString();
-			createdPinogioId = (String) resultData.get("layerId").toString();
+			createdPinogioId = (String) resultData.get(pinogioIdColName).toString();
 		} else if ("dataset".equals(outputType.trim().toLowerCase())) {
 		} else if ("maps".equals(outputType.trim().toLowerCase())) {
-			
-			
-			
 		}
 		
 		WorkOutput woParam = new WorkOutput();
@@ -163,7 +168,7 @@ public class WorkOutputService extends BaseService {
 			pinogioIdColName = "datasetId";
 		}
 			
-		String createdPinogioId = (String) resultData.get("mapsId").toString();
+		String createdPinogioId = (String) resultData.get(pinogioIdColName).toString();
 		
 		try {
 			WorkOutput woParam = new WorkOutput();
