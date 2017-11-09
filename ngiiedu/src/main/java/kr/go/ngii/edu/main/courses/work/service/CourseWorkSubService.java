@@ -107,12 +107,13 @@ public class CourseWorkSubService extends BaseService {
 					Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.LAYER_GET, "/layers/"+subItem.getPinogioOutputId()+".json", uriParams);
 					subItem.setPngoData(r.get("data"));
 				} else if ("maps".equals(subItem.getOutputType())) {
-					uriParams.put("maps_id", subItem.getPinogioOutputId());
+//					uriParams.put("maps_id", subItem.getPinogioOutputId());
 					Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.MAPS_GET, "/maps/"+subItem.getPinogioOutputId()+".json", uriParams);
 					subItem.setPngoData(r.get("data"));
 				} else if("dataset".equals(subItem.getOutputType())) {
-					uriParams.put("dataset_id", subItem.getPinogioOutputId());
-					Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.DATASET_GET, "/dataset/"+subItem.getPinogioOutputId()+".json", uriParams);
+//					uriParams.put("dataset_id", subItem.getPinogioOutputId());
+					Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.DATASET_GET, "/datasets/"+subItem.getPinogioOutputId()+".json", uriParams);
+//					Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.DATASET_GET, uriParams);
 					subItem.setPngoData(r.get("data"));
 				}
 				wOutputList.add(subItem);
