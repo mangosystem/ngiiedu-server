@@ -318,28 +318,6 @@ public class CourseWorkController extends BaseController {
 	
 	
 	/**
-	 * DataSet row 목록 조회
-	 * 
-	 * @param courseWorkId
-	 * @param session
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value="/dataset/row/list", method=RequestMethod.GET)
-	public @ResponseBody ResponseEntity<ResponseData> datasetRowList(
-			@RequestParam(value="pinogioOutputId", required=true) String pinogioOutputId, 
-			HttpSession session) throws Exception {
-		
-		RestAPIClient rc = new RestAPIClient();
-		Map<String, String> param = new HashMap<String, String>();
-//		uriParams.put("dataset_id", "d=r7oFXBrCYl");
-		param.put("dataset_id", pinogioOutputId);
-		Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.DATASET_ROW_LIST, param);
-		return new ResponseEntity<ResponseData>(responseBody(r), HttpStatus.OK);
-	}
-	
-	
-	/**
 	 * DataSet row 조회
 	 * 
 	 * @param courseWorkId
