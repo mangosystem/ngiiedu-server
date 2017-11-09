@@ -483,9 +483,12 @@ public class CourseWorkController extends BaseController {
 
 		User user = (User)session.getAttribute("USER_INFO");
 		Map<String, String> paramVals = new HashMap<String,String>();
-		//		paramVals.put("project_id", LocalResourceBundle.PINOGIO_API_PROJECT_ID);
-		//		paramVals.put("title", title);
-		//		paramVals.put("sources", sources);
+		paramVals.put("project_id", LocalResourceBundle.PINOGIO_API_PROJECT_ID);
+		paramVals.put("title", title);
+		paramVals.put("description", description);
+		paramVals.put("maps_type", mapsType);
+		paramVals.put("privacy", privacy);
+		paramVals.put("metadata", metadata);
 		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.MAPS_CREATE, "/maps", paramVals);
 
 		// output division 추가..필요
@@ -541,11 +544,12 @@ public class CourseWorkController extends BaseController {
 			HttpSession session) throws Exception {
 
 		Map<String, String> paramVals = new HashMap<String,String>();
+		paramVals.put("project_id", LocalResourceBundle.PINOGIO_API_PROJECT_ID);
 		paramVals.put("title", title);
 		paramVals.put("description", description);
-		paramVals.put("metadata", metadata);
+		paramVals.put("maps_type", mapsType);
 		paramVals.put("privacy", privacy);
-
+		paramVals.put("metadata", metadata);
 		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.MAPS_UPDATE, "/maps/"+mapsId+".json", paramVals);
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
