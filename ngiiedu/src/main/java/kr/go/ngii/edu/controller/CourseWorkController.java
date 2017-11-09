@@ -24,6 +24,7 @@ import kr.go.ngii.edu.controller.rest.BaseController;
 import kr.go.ngii.edu.controller.rest.ResponseData;
 import kr.go.ngii.edu.main.common.RestAPIClient;
 import kr.go.ngii.edu.main.courses.work.model.WorkOutput;
+import kr.go.ngii.edu.main.courses.work.service.CourseWorkService;
 import kr.go.ngii.edu.main.courses.work.service.WorkOutputService;
 import kr.go.ngii.edu.main.users.model.User;
 
@@ -35,6 +36,9 @@ public class CourseWorkController extends BaseController {
 
 	@Autowired
 	private WorkOutputService workOutputService;
+	
+	@Autowired
+	private CourseWorkService courseWorkService;
 
 	//	@RequestMapping(value="/layer", method=RequestMethod.GET)
 	//	public @ResponseBody ResponseEntity<ResponseData> listLayer(
@@ -671,6 +675,14 @@ public class CourseWorkController extends BaseController {
 
 		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.MAPS_ITEM_REMOVE, "/maps/"+mapsId+"/item/"+ itemId +".json", paramVals);
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/{course_work_id}/getTitle", method=RequestMethod.DELETE)
+	public @ResponseBody ResponseEntity<ResponseData> getTitle(
+			@PathVariable("course_work_id") int courseWorkId,
+			HttpSession session) throws Exception {
+		String courseWorkName = courseWorkService.getCourseWorkName(courseWorkId);
+		return new ResponseEntity<ResponseData>(responseBody(courseWorkName), HttpStatus.OK);
 	}
 	
 }

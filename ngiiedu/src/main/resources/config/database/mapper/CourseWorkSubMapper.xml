@@ -38,15 +38,17 @@
 
 	<select id="list" parameterType="map" resultMap="courseWorkSubOutputWithModuleWorkSubMap">
 		SELECT
-			idx, 
-			module_work_id, 
-			module_work_sub_name, 
-			module_work_sub_seq, 
-       		create_date, 
-       		modify_date,
-       		output_type
-		FROM modules_work_sub
-		WHERE module_work_id = #{moduleWorkId}
+			T1.idx, 
+			T2.module_work_id, 
+			T2.module_work_sub_name, 
+			T2.module_work_sub_seq, 
+       		T1.create_date, 
+       		T1.modify_date,
+       		T2.output_type
+		FROM courses_work_sub T1 INNER JOIN modules_work_sub T2 
+			ON T2.idx = T1.module_work_sub_id
+		WHERE T2.module_work_id = #{moduleWorkId}
+		AND T1.course_work_id = #{idx} 
 		ORDER BY idx
 	</select>
 	

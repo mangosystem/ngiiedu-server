@@ -29,6 +29,13 @@ public class ModuleWorkService {
 		
 		return workMapper.get(module);
 	}
+	
+	public ModuleWork get(int moduleWorkId) {
+		ModuleWork module = new ModuleWork();
+		module.setIdx(moduleWorkId);
+		
+		return workMapper.get(module);
+	}
 
 	public ModuleWork create(int moduleId, String moduleWorkName, String moduleWorkCourseType, String moduleWorkMetadata) {
 		ModuleWork param = new ModuleWork();

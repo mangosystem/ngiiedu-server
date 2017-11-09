@@ -11,12 +11,17 @@ import kr.go.ngii.edu.main.common.BaseService;
 import kr.go.ngii.edu.main.courses.work.mapper.CourseWorkMapper;
 import kr.go.ngii.edu.main.courses.work.model.CourseWork;
 import kr.go.ngii.edu.main.courses.work.model.CourseWorkInfo;
+import kr.go.ngii.edu.main.modules.course.model.ModuleWork;
+import kr.go.ngii.edu.main.modules.course.service.ModuleWorkService;
 
 @Service
 public class CourseWorkService extends BaseService {
 
 	@Autowired
 	private CourseWorkMapper courseWorkMapper;
+	
+	@Autowired
+	private ModuleWorkService moduleWorkService;
 
 
 	/**
@@ -96,4 +101,14 @@ public class CourseWorkService extends BaseService {
 		courseWorkMapper.delete(courseWork);
 	}
 
+	
+	public String getCourseWorkName(int courseWorkId) {
+		
+		CourseWork param = new CourseWork();
+		param.setIdx(courseWorkId);
+		param = courseWorkMapper.get(param);
+		ModuleWork moduleWork = moduleWorkService.get(param.getModuleWorkId());
+		
+		return moduleWork.getModuleWorkName();
+	}
 }
