@@ -4,6 +4,7 @@ import javax.servlet.Filter;
 
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.filter.HiddenHttpMethodFilter;
+import org.springframework.web.filter.HttpPutFormContentFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 import kr.go.ngii.edu.config.filter.CORSFilter;
@@ -29,6 +30,8 @@ public class AppInitializer extends AbstractAnnotationConfigDispatcherServletIni
 	protected Filter[] getServletFilters() {
 		CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
 		characterEncodingFilter.setEncoding("UTF-8");
+		
+//		HttpPutFormContentFilter putFormContentFilter = new HttpPutFormContentFilter();
 
 		HiddenHttpMethodFilter hiddenHttpMethodFilter = new HiddenHttpMethodFilter();
 		hiddenHttpMethodFilter.setMethodParam("_method__");
