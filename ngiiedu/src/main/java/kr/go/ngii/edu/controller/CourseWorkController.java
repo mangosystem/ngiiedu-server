@@ -433,6 +433,8 @@ public class CourseWorkController extends BaseController {
 	// maps
 	/**
 	 * 
+	 * Maps 조회
+	 * 
 	 * @param layerId
 	 * @param session
 	 * @return
@@ -453,6 +455,14 @@ public class CourseWorkController extends BaseController {
 
 	/**
 	 * 
+	 * Maps 입력
+	 * 
+	 * title 제목
+	 * description 설명
+	 * maps_type "SERIES" || ....
+	 * privacy "PUBLIC" || "FRIEND" || ...
+	 * metadata {"type":"tabs"} || {"type":"accordion"}
+	 * 
 	 * 
 	 * @param courseWorkSubId
 	 * @param title
@@ -465,14 +475,17 @@ public class CourseWorkController extends BaseController {
 	public @ResponseBody ResponseEntity<ResponseData> creaMaps(
 			@RequestParam(value="courseWorkSubId", required=true) int courseWorkSubId,
 			@RequestParam(value="title", required=false) String title,
-			@RequestParam(value="sources", required=false) String sources,
+			@RequestParam(value="description", required=false) String description,
+			@RequestParam(value="maps_type", required=false) String mapsType,
+			@RequestParam(value="privacy", required=false) String privacy,
+			@RequestParam(value="metadata", required=false) String metadata,
 			HttpSession session) throws Exception {
 
 		User user = (User)session.getAttribute("USER_INFO");
 		Map<String, String> paramVals = new HashMap<String,String>();
-		paramVals.put("project_id", LocalResourceBundle.PINOGIO_API_PROJECT_ID);
-		paramVals.put("title", title);
-		paramVals.put("sources", sources);
+//		paramVals.put("project_id", LocalResourceBundle.PINOGIO_API_PROJECT_ID);
+//		paramVals.put("title", title);
+//		paramVals.put("sources", sources);
 		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.MAPS_CREATE, "/maps", paramVals);
 		
 		// output division 추가..필요
@@ -493,14 +506,14 @@ public class CourseWorkController extends BaseController {
 	@RequestMapping(value="/maps/{maps_id}", method=RequestMethod.DELETE)
 	public @ResponseBody ResponseEntity<ResponseData> deleteMaps(
 			@PathVariable(value="maps_id", required=false) String mapsId,
-			@RequestParam(value="courseWorkSubId", required=true) int courseWorkSubId,
+			@RequestParam(value="workOutputId", required=true) int workOutputId,
 			HttpSession session) throws Exception {
 
 		Map<String, String> paramVals = new HashMap<String,String>();
 
 		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.MAPS_REMOVE, "/maps/"+mapsId+".json", paramVals);
 		
-		workOutputService.delete(courseWorkSubId);
+		workOutputService.delete(workOutputId);
 		
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
@@ -508,7 +521,7 @@ public class CourseWorkController extends BaseController {
 	/**
 	 * 
 	 * 
-	 * @param layerId
+	 * @param maps_id
 	 * @param title
 	 * @param description
 	 * @param metadata
@@ -520,17 +533,19 @@ public class CourseWorkController extends BaseController {
 	@RequestMapping(value="/maps/{maps_id}", method=RequestMethod.PUT)
 	public @ResponseBody ResponseEntity<ResponseData> updateMaps(
 			@PathVariable("maps_id") String mapsId,
-			@RequestParam(value="title", required=false, defaultValue="제목없음") String title,
-			@RequestParam(value="description", required=false, defaultValue="") String description,
-			@RequestParam(value="metadata", required=false, defaultValue="") String metadata,
-			@RequestParam(value="privacy", required=false, defaultValue="PUBLIC") String privacy,
+			@RequestParam(value="courseWorkSubId", required=true) int courseWorkSubId,
+			@RequestParam(value="title", required=false) String title,
+			@RequestParam(value="description", required=false) String description,
+			@RequestParam(value="maps_type", required=false) String mapsType,
+			@RequestParam(value="privacy", required=false) String privacy,
+			@RequestParam(value="metadata", required=false) String metadata,
 			HttpSession session) throws Exception {
 
 		Map<String, String> paramVals = new HashMap<String,String>();
-		paramVals.put("title", title);
-		paramVals.put("description", description);
-		paramVals.put("metadata", metadata);
-		paramVals.put("privacy", privacy);
+//		paramVals.put("title", title);
+//		paramVals.put("description", description);
+//		paramVals.put("metadata", metadata);
+//		paramVals.put("privacy", privacy);
 
 		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.LAYER_METADATA_UPDATE, "/maps/"+mapsId+".json", paramVals);
 
