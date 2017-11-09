@@ -789,9 +789,15 @@ public class CourseController extends BaseController {
 	public @ResponseBody ResponseEntity<ResponseData> courseWorkSubDataList(
 			@PathVariable("courseWorkId") Integer courseWorkId,
 			HttpSession session) throws Exception {
-
-		List<CourseWorkSubOutputWithModuleWorkSub> list = courseWorkSubService.list(courseWorkId);
-		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
+		User user = (User)session.getAttribute("USER_INFO");
+		
+		if (user != null) {
+			int userId = user.getIdx();
+			List<CourseWorkSubOutputWithModuleWorkSub> list = courseWorkSubService.list(courseWorkId, userId);
+			return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
+		} else {
+			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+		}
 	}
 	
 	/**

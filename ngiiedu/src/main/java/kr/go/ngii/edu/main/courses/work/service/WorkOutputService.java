@@ -62,13 +62,13 @@ public class WorkOutputService extends BaseService {
 		// course work id 조회
 		CourseWorkSub cwsParam = new CourseWorkSub();
 		cwsParam.setIdx(courseWorkSubId);
-		courseWorkSubService.get(cwsParam);
+		cwsParam = courseWorkSubService.get(cwsParam);
 		int courseWorkId = cwsParam.getCourseWorkId();
 
 		// course id 조회
 		CourseWork cwParam = new CourseWork();
 		cwParam.setIdx(cwsParam.getCourseWorkId());
-		courseWorkService.get(cwParam);
+		cwParam = courseWorkService.get(cwParam);
 		int courseId = cwParam.getCourseId();
 		
 		// team id 조회
@@ -116,6 +116,9 @@ public class WorkOutputService extends BaseService {
 			createdPinogioId = (String) resultData.get("layerId").toString();
 		} else if ("dataset".equals(outputType.trim().toLowerCase())) {
 		} else if ("maps".equals(outputType.trim().toLowerCase())) {
+			
+			
+			
 		}
 		
 		WorkOutput woParam = new WorkOutput();
@@ -134,13 +137,13 @@ public class WorkOutputService extends BaseService {
 		
 		CourseWorkSub cwsParam = new CourseWorkSub();
 		cwsParam.setIdx(courseWorkSubId);
-		courseWorkSubService.get(cwsParam);
+		cwsParam = courseWorkSubService.get(cwsParam);
 		int courseWorkId = cwsParam.getCourseWorkId();
 
 		// course id 조회
 		CourseWork cwParam = new CourseWork();
-		cwParam.setIdx(cwsParam.getCourseWorkId());
-		courseWorkService.get(cwParam);
+		cwParam.setIdx(courseWorkId);
+		cwParam = courseWorkService.get(cwParam);
 		int courseId = cwParam.getCourseId();
 		
 		// team id 조회

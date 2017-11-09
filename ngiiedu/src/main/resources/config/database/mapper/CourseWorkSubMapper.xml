@@ -62,8 +62,9 @@
 			output_team_id, 
 			output_userid,
 			output_type
-		FROM public.courses_work_sub_output_info
+		FROM courses_work_sub_output_info
 		WHERE module_work_sub_id = #{moduleWorkSubId}
+		
 		ORDER BY idx
 	</select>
 	

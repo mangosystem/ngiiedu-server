@@ -143,7 +143,7 @@ public class RestApiTest extends BaseTest {
 	public void testDataseColumnList() {
 		RestAPIClient rc = new RestAPIClient();
 		Map<String, String> uriParams = new HashMap<String, String>();
-		uriParams.put("dataset_id", "d=r7oFXBrCYl");
+		uriParams.put("dataset_id", "l=AnyangDong");
 //		uriParams.put("row_id", "d=r7oFXBrCYl");
 //		uriParams.put("dataset_id", "d=r7oFXBrCYl");
 		Map<String, String> params = new HashMap<String, String>();
