@@ -37,8 +37,8 @@ public enum EnumRestAPIType {
 	LAYER_LIST				("/layers.json", HttpMethod.GET),
 	LAYER_GET				("/layers/{layer_id}.json", HttpMethod.GET),
 	LAYER_CREATE			("/layers.json", HttpMethod.POST),
-	LAYER_UPDATE			("/layers.json", HttpMethod.PUT),
-	LAYER_REMOVE			("/layers.json", HttpMethod.DELETE),
+	LAYER_UPDATE			("/layers/{layer_id}.json", HttpMethod.PUT),
+	LAYER_REMOVE			("/layers/{layer_id}.json", HttpMethod.DELETE),
 	
 	// 메타데이터 정보 변경
 	LAYER_METADATA_UPDATE	("/layers/{layer_id}/metadata.json", HttpMethod.PUT),
