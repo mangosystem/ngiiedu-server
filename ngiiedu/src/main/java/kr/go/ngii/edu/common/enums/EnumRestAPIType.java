@@ -73,20 +73,20 @@ public enum EnumRestAPIType {
 	// Maps 생성
 	MAPS_CREATE	("/maps.json", HttpMethod.POST),
 	// Maps 수정
-	MAPS_UPDATE	("/maps/{maps_id}.json", HttpMethod.POST),
+	MAPS_UPDATE	("/maps/{maps_id}.json", HttpMethod.PUT),
 	// Maps 삭제
 	MAPS_REMOVE	("/maps/{maps_id}.json", HttpMethod.POST),
 	
 	// Maps 아이템 목록
-	MAPS_ITEM_LIST ("/maps/{maps_id}/item.json}", HttpMethod.GET),
+	MAPS_ITEM_LIST ("/maps/{maps_id}/item.json", HttpMethod.GET),
 	// Maps 아이템 상세정보
-	MAPS_ITEM_GET ("/maps/{maps_id}/item/{item_id}.json}", HttpMethod.GET),
+	MAPS_ITEM_GET ("/maps/{maps_id}/item/{item_id}.json", HttpMethod.GET),
 	// Maps 아이템 생성
-	MAPS_ITEM_CREATE ("/maps/{maps_id}/item.json}", HttpMethod.POST),
+	MAPS_ITEM_CREATE ("/maps/{maps_id}/item.json", HttpMethod.POST),
 	// Maps 아이템 수정
-	MAPS_ITEM_UPDATE ("/maps/{maps_id}/item/{item_id}.json}", HttpMethod.PUT),
+	MAPS_ITEM_UPDATE ("/maps/{maps_id}/item/{item_id}.json", HttpMethod.PUT),
 	// Maps 아이템 삭제
-	MAPS_ITEM_REMOVE ("/maps/{maps_id}/item/{item_id}.json}", HttpMethod.DELETE);
+	MAPS_ITEM_REMOVE ("/maps/{maps_id}/item/{item_id}.json", HttpMethod.DELETE);
 
 
 	private String code;

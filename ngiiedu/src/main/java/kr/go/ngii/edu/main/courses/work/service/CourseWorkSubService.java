@@ -32,6 +32,7 @@ public class CourseWorkSubService extends BaseService {
 	
 	@Autowired
 	private WorkOutputService workOutputService;
+	
 
 	public List<CourseWorkSubOutputWithModuleWorkSub> list(CourseWork courseWork) {
 		return courseWorkSubMapper.list(courseWork);
@@ -47,36 +48,38 @@ public class CourseWorkSubService extends BaseService {
 	
 	public List<CourseWorkSubOutputWithModuleWorkSub> list(int courseWorkId) {
 		
-		CourseWork param = new CourseWork();
-		param.setIdx(courseWorkId);
-		param = courseWorkService.get(param);
-
-		List<CourseWorkSubOutputWithModuleWorkSub> qList = list(param);
-
-		for (CourseWorkSubOutputWithModuleWorkSub qItem : qList) {
-
-			List<CourseWorkSubOutputInfo> subList = qItem.getCourseWorkSubOutputInfoList();
-			RestAPIClient rc = new RestAPIClient();
-
-			for (CourseWorkSubOutputInfo subItem : subList) {
-
-				Map<String, String> uriParams = new HashMap<String, String>();
-				if ("layer".equals(subItem.getOutput_type())) {
-					uriParams.put("layer_id", subItem.getPinogioOutputId());
-					Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.LAYER_GET, uriParams);
-					subItem.setPngoData(r.get("data"));
-				} else if ("maps".equals(subItem.getOutput_type())) {
-					uriParams.put("maps_id", subItem.getPinogioOutputId());
-					Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.MAPS_GET, uriParams);
-					subItem.setPngoData(r.get("data"));
-				} else if("dataset".equals(subItem.getOutput_type())) {
-					uriParams.put("dataset_id", subItem.getPinogioOutputId());
-					Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.DATASET_GET, uriParams);
-					subItem.setPngoData(r.get("data"));
-				}
-			}
-		}
-		return qList;
+//		CourseWork param = new CourseWork();
+//		param.setIdx(courseWorkId);
+//		param = courseWorkService.get(param);
+//
+//		List<CourseWorkSubOutputWithModuleWorkSub> qList = list(param);
+//
+//		for (CourseWorkSubOutputWithModuleWorkSub qItem : qList) {
+//
+//			List<CourseWorkSubOutputInfo> subList = qItem.getCourseWorkSubOutputInfoList();
+//			RestAPIClient rc = new RestAPIClient();
+//
+//			for (CourseWorkSubOutputInfo subItem : subList) {
+//
+//				Map<String, String> uriParams = new HashMap<String, String>();
+//				if ("layer".equals(subItem.getOutput_type())) {
+//					uriParams.put("layer_id", subItem.getPinogioOutputId());
+//					Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.LAYER_GET, uriParams);
+//					subItem.setPngoData(r.get("data"));
+//				} else if ("maps".equals(subItem.getOutput_type())) {
+//					uriParams.put("maps_id", subItem.getPinogioOutputId());
+//					Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.MAPS_GET, uriParams);
+//					subItem.setPngoData(r.get("data"));
+//				} else if("dataset".equals(subItem.getOutput_type())) {
+//					uriParams.put("dataset_id", subItem.getPinogioOutputId());
+//					Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.DATASET_GET, uriParams);
+//					subItem.setPngoData(r.get("data"));
+//				}
+//			}
+//		}
+//		return qList;
+		
+		return null;
 	}
 	
 	public List<CourseWorkSubOutputWithModuleWorkSub> list(int courseWorkId, int userId) {
@@ -88,27 +91,34 @@ public class CourseWorkSubService extends BaseService {
 		List<CourseWorkSubOutputWithModuleWorkSub> qList = list(param);
 
 		for (CourseWorkSubOutputWithModuleWorkSub qItem : qList) {
-
-			List<CourseWorkSubOutputInfo> subList = qItem.getCourseWorkSubOutputInfoList();
+			
+			WorkOutput woParam = new WorkOutput();
+			woParam.setCourseWorkSubId(qItem.getIdx());
+			List<WorkOutput> woList=  workOutputService.getList(woParam);
+			
+//			List<CourseWorkSubOutputInfo> subList = qItem.getCourseWorkSubOutputInfoList();
 			RestAPIClient rc = new RestAPIClient();
-
-			for (CourseWorkSubOutputInfo subItem : subList) {
+			List<WorkOutput> wOutputList = new ArrayList<>();
+			for (WorkOutput subItem : woList ) {
 
 				Map<String, String> uriParams = new HashMap<String, String>();
-				if ("layer".equals(subItem.getOutput_type())) {
-					uriParams.put("layer_id", subItem.getPinogioOutputId());
-					Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.LAYER_GET, uriParams);
+				if ("layer".equals(subItem.getOutputType())) {
+//					uriParams.put("layer_id", subItem.getPinogioOutputId());
+					Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.LAYER_GET, "/layers/"+subItem.getPinogioOutputId()+".json", uriParams);
 					subItem.setPngoData(r.get("data"));
-				} else if ("maps".equals(subItem.getOutput_type())) {
+				} else if ("maps".equals(subItem.getOutputType())) {
 					uriParams.put("maps_id", subItem.getPinogioOutputId());
-					Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.MAPS_GET, uriParams);
+					Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.MAPS_GET, "/maps/"+subItem.getPinogioOutputId()+".json", uriParams);
 					subItem.setPngoData(r.get("data"));
-				} else if("dataset".equals(subItem.getOutput_type())) {
+				} else if("dataset".equals(subItem.getOutputType())) {
 					uriParams.put("dataset_id", subItem.getPinogioOutputId());
-					Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.DATASET_GET, uriParams);
+					Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.DATASET_GET, "/dataset/"+subItem.getPinogioOutputId()+".json", uriParams);
 					subItem.setPngoData(r.get("data"));
 				}
+				wOutputList.add(subItem);
 			}
+			qItem.setWorkOutputList(wOutputList);
+			
 		}
 		return qList;
 	}

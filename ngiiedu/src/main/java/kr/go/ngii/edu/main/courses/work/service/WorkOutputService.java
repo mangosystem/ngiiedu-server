@@ -153,7 +153,12 @@ public class WorkOutputService extends BaseService {
 		
 		// team id 조회
 		CourseTeamMember ctm = courseTeamMemberService.getByCourseIdAndMemberId(courseId, userId);
-		int temaId = ctm.getTeamId();
+		int temaId = 0;
+		try {
+			temaId = ctm.getTeamId();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 		// pinogio layer id
 		Map<String, Object> resultData = (Map<String, Object>) createdPinogioResult.get("data");
@@ -192,7 +197,15 @@ public class WorkOutputService extends BaseService {
 	}
 	
 	public CourseWorkSubOutputInfo get(CourseWorkSubOutputInfo workOutput) {
+		return workOutputMapper.getInfo(workOutput);
+	}
+	
+	public WorkOutput get(WorkOutput workOutput) {
 		return workOutputMapper.get(workOutput);
+	}
+	
+	public List<WorkOutput> getList(WorkOutput workOutput) {
+		return workOutputMapper.getList(workOutput);
 	}
 	
 	public CourseWorkSubOutputInfo modify(CourseWorkSubOutputInfo workOutput) {

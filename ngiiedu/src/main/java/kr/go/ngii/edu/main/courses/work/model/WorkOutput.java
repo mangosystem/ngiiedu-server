@@ -1,6 +1,7 @@
 package kr.go.ngii.edu.main.courses.work.model;
 
 import java.io.Serializable;
+import java.util.Map;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -39,7 +40,24 @@ public class WorkOutput implements Serializable {
 	
 	private String outputType;
 	
+	private Object pngoData;
 	
+	private String outputName;
+	
+	public String getOutputName() {
+		String returnVal = "";
+		try {
+			returnVal = ((Map<String, String>) pngoData).get("title");
+		} catch (Exception e) {
+			return "";
+		}
+		return returnVal;	
+	}
+
+	public void setOutputName(String outputName) {
+		this.outputName = outputName;
+	}
+
 	/**
 	 * 생성자.
 	 */
@@ -157,6 +175,15 @@ public class WorkOutput implements Serializable {
 	public void setOutputType(String outputType) {
 		this.outputType = outputType;
 	}
+	
+	public Object getPngoData() {
+		return pngoData;
+	}
+
+	public void setPngoData(Object pngoData) {
+		this.pngoData = pngoData;
+	}
+
 
 	/**
 	 * {@inheritDoc}

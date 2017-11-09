@@ -49,8 +49,35 @@
 		WHERE course_work_sub_id = #{courseWorkSubId}
 		ORDER BY idx
 	</select>
+	
+	<select id="getList" parameterType="map" resultMap="workOutputMap">
+		SELECT 
+			idx, 
+			course_work_sub_id, 
+			output_team_id, 
+			output_userid, 
+			output_division,
+			pinogio_output_id,
+			output_type
+  		FROM works_output
+		WHERE course_work_sub_id = #{courseWorkSubId}
+		ORDER BY idx
+	</select>
 
 	<select id="get" parameterType="map" resultMap="workOutputMap">
+		SELECT
+			idx, 
+			course_work_sub_id, 
+			output_team_id, 
+			output_userid, 
+			output_division,
+			pinogio_output_id
+		FROM works_output
+		WHERE idx = #{idx}
+		ORDER BY idx
+	</select>
+	
+	<select id="getInfo" parameterType="map" resultMap="workOutputMap">
 		SELECT
 			idx, 
 			course_work_sub_id, 

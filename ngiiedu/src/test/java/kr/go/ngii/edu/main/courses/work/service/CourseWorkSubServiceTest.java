@@ -62,54 +62,54 @@ public class CourseWorkSubServiceTest extends BaseTest {
 
 	@Test
 	public void testCourseWorkSubList() {
-		CourseWork courseWork = new CourseWork();
-		courseWork.setModuleWorkId(3);
-		List<CourseWorkSubOutputWithModuleWorkSub> list = courseWorkSubService.list(courseWork);
-
-		System.out.println("size : " + list.size());
-
-		for (CourseWorkSubOutputWithModuleWorkSub m : list) {
-			System.out.println(m.getModuleWorkSubName());
-
-			List<CourseWorkSubOutputInfo> l = m.getCourseWorkSubOutputInfoList();
-
-			System.out.println("------------------------------------------");
-
-			for (CourseWorkSubOutputInfo ll : l) {
-				System.out.println(ll.getPinogioOutputId());
-				System.out.println(ll.getOutputName());
-			}
-			System.out.println("------------------------------------------");
-			System.out.println();
-
-		}
+//		CourseWork courseWork = new CourseWork();
+//		courseWork.setModuleWorkId(3);
+//		List<CourseWorkSubOutputWithModuleWorkSub> list = courseWorkSubService.list(courseWork);
+//
+//		System.out.println("size : " + list.size());
+//
+//		for (CourseWorkSubOutputWithModuleWorkSub m : list) {
+//			System.out.println(m.getModuleWorkSubName());
+//
+//			List<CourseWorkSubOutputInfo> l = m.getCourseWorkSubOutputInfoList();
+//
+//			System.out.println("------------------------------------------");
+//
+//			for (CourseWorkSubOutputInfo ll : l) {
+//				System.out.println(ll.getPinogioOutputId());
+//				System.out.println(ll.getOutputName());
+//			}
+//			System.out.println("------------------------------------------");
+//			System.out.println();
+//
+//		}
 	}
 
 	@Test
 	public void testCourseWorkSubList2() {
 
-		CourseWork param = new CourseWork();
-		param.setIdx(12);
-		param = courseWorkService.get(param);
-
-		List<CourseWorkSubOutputWithModuleWorkSub> list = courseWorkSubService.list(12);
-
-		System.out.println("size : " + list.size());
-
-		for (CourseWorkSubOutputWithModuleWorkSub m : list) {
-			System.out.println(m.getModuleWorkSubName());
-
-			List<CourseWorkSubOutputInfo> l = m.getCourseWorkSubOutputInfoList();
-
-			System.out.println("------------------------------------------");
-
-			for (CourseWorkSubOutputInfo ll : l) {
-				System.out.println(ll);
-			}
-			System.out.println("------------------------------------------");
-			System.out.println();
-
-		}
+//		CourseWork param = new CourseWork();
+//		param.setIdx(12);
+//		param = courseWorkService.get(param);
+//
+//		List<CourseWorkSubOutputWithModuleWorkSub> list = courseWorkSubService.list(12);
+//
+//		System.out.println("size : " + list.size());
+//
+//		for (CourseWorkSubOutputWithModuleWorkSub m : list) {
+//			System.out.println(m.getModuleWorkSubName());
+//
+//			List<CourseWorkSubOutputInfo> l = m.getCourseWorkSubOutputInfoList();
+//
+//			System.out.println("------------------------------------------");
+//
+//			for (CourseWorkSubOutputInfo ll : l) {
+//				System.out.println(ll);
+//			}
+//			System.out.println("------------------------------------------");
+//			System.out.println();
+//
+//		}
 
 	}
 
@@ -246,45 +246,45 @@ public class CourseWorkSubServiceTest extends BaseTest {
 	@Test
 	public void testCourseWorkSubList3() {
 
-		CourseWork param = new CourseWork();
-		param.setIdx(12);
-		param = courseWorkService.get(param);
-
-		List<CourseWorkSubOutputWithModuleWorkSub> list = courseWorkSubService.list(12);
-
-		System.out.println("size : " + list.size());
-
-		for (CourseWorkSubOutputWithModuleWorkSub m : list) {
-			System.out.println(m.getModuleWorkSubName());
-
-			List<CourseWorkSubOutputInfo> l = m.getCourseWorkSubOutputInfoList();
-
-			System.out.println("------------------------------------------");
-			RestAPIClient rc = new RestAPIClient();
-
-			for (CourseWorkSubOutputInfo ll : l) {
-				Map<String, String> uriParams = new HashMap<String, String>();
-				if("dataset".equals(ll.getOutput_type())) {
-					uriParams.put("dataset_id", ll.getPinogioOutputId());
-					Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.DATASET_GET, uriParams);
-					ll.setPngoData(r.get("data"));
-					System.out.println(r.get("data"));
-				} else if("layer".equals(ll.getOutput_type())) {
-					uriParams.put("layer_id", ll.getPinogioOutputId());
-					Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.LAYER_GET, uriParams);
-					ll.setPngoData(r.get("data"));
-					System.out.println(r.get("data"));
-				} else if("maps".equals(ll.getOutput_type())) {
-					uriParams.put("maps_id", ll.getPinogioOutputId());
-					Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.MAPS_GET, uriParams);
-					ll.setPngoData(r.get("data"));
-					System.out.println(r.get("data"));
-				}
-			}
-			System.out.println("------------------------------------------");
-			System.out.println();
-		}
-		System.out.println(list);
+//		CourseWork param = new CourseWork();
+//		param.setIdx(12);
+//		param = courseWorkService.get(param);
+//
+//		List<CourseWorkSubOutputWithModuleWorkSub> list = courseWorkSubService.list(12);
+//
+//		System.out.println("size : " + list.size());
+//
+//		for (CourseWorkSubOutputWithModuleWorkSub m : list) {
+//			System.out.println(m.getModuleWorkSubName());
+//
+//			List<CourseWorkSubOutputInfo> l = m.getCourseWorkSubOutputInfoList();
+//
+//			System.out.println("------------------------------------------");
+//			RestAPIClient rc = new RestAPIClient();
+//
+//			for (CourseWorkSubOutputInfo ll : l) {
+//				Map<String, String> uriParams = new HashMap<String, String>();
+//				if("dataset".equals(ll.getOutput_type())) {
+//					uriParams.put("dataset_id", ll.getPinogioOutputId());
+//					Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.DATASET_GET, uriParams);
+//					ll.setPngoData(r.get("data"));
+//					System.out.println(r.get("data"));
+//				} else if("layer".equals(ll.getOutput_type())) {
+//					uriParams.put("layer_id", ll.getPinogioOutputId());
+//					Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.LAYER_GET, uriParams);
+//					ll.setPngoData(r.get("data"));
+//					System.out.println(r.get("data"));
+//				} else if("maps".equals(ll.getOutput_type())) {
+//					uriParams.put("maps_id", ll.getPinogioOutputId());
+//					Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.MAPS_GET, uriParams);
+//					ll.setPngoData(r.get("data"));
+//					System.out.println(r.get("data"));
+//				}
+//			}
+//			System.out.println("------------------------------------------");
+//			System.out.println();
+//		}
+//		System.out.println(list);
 
 	}
 	

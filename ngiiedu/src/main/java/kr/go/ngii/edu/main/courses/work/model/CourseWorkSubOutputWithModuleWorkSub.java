@@ -21,6 +21,8 @@ public class CourseWorkSubOutputWithModuleWorkSub implements Serializable {
 
 	/** 모듈 과정 id (외래키). */
 	private Integer moduleWorkId;
+	
+	private Integer moduleWorkSubId;
 
 	/** 모듈 하위 과정 이름. */
 	private String moduleWorkSubName;
@@ -34,11 +36,10 @@ public class CourseWorkSubOutputWithModuleWorkSub implements Serializable {
 	/**수정일 */
 	private Date modifyDate;
 	
-	
 	/** 자료 종류. */
 	private String outputType;
 	
-	private List<CourseWorkSubOutputInfo> courseWorkSubOutputInfoList;
+	private List<WorkOutput> workOutputList;
 	
 	public Integer getIdx() {
 		return idx;
@@ -88,13 +89,6 @@ public class CourseWorkSubOutputWithModuleWorkSub implements Serializable {
 		this.modifyDate = modifyDate;
 	}
 	
-	public List<CourseWorkSubOutputInfo> getCourseWorkSubOutputInfoList() {
-		return courseWorkSubOutputInfoList;
-	}
-
-	public void setCourseWorkSubOutputInfoList(List<CourseWorkSubOutputInfo> courseWorkSubOutputInfoList) {
-		this.courseWorkSubOutputInfoList = courseWorkSubOutputInfoList;
-	}
 	
 	public String getOutputType() {
 		return outputType;
@@ -104,4 +98,25 @@ public class CourseWorkSubOutputWithModuleWorkSub implements Serializable {
 		this.outputType = outputType;
 	}
 	
+	
+	public Integer getModuleWorkSubId() {
+		return moduleWorkSubId;
+	}
+
+	public void setModuleWorkSubId(Integer moduleWorkSubId) {
+		this.moduleWorkSubId = moduleWorkSubId;
+	}
+	
+	
+	public List<WorkOutput> getWorkOutputList() {
+		return workOutputList;
+	}
+
+	public void setWorkOutputList(List<WorkOutput> workOutputList) {
+		this.workOutputList = workOutputList;
+	}
+	
+	public List<WorkOutput> getCourseWorkSubOutputInfoList() {
+		return workOutputList;
+	}
 }

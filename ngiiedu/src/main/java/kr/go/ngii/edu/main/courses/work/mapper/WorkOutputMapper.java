@@ -11,7 +11,11 @@ import kr.go.ngii.edu.main.courses.work.model.WorkOutput;
 @Mapper
 public interface WorkOutputMapper {
 	
-	public CourseWorkSubOutputInfo get(CourseWorkSubOutputInfo workoutput);
+	public CourseWorkSubOutputInfo getInfo(CourseWorkSubOutputInfo workoutput);
+
+	public WorkOutput get(WorkOutput workOutput);
+	
+	public List<WorkOutput> getList(WorkOutput workOutput);
 
 	public List<CourseWorkSubOutputInfo> list(CourseWorkSubOutputInfo workoutput);
 

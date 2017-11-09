@@ -26,25 +26,25 @@
 	
 	<resultMap type="kr.go.ngii.edu.main.courses.work.model.CourseWorkSubOutputWithModuleWorkSub" id="courseWorkSubOutputWithModuleWorkSubMap">
 		<id property="idx" column="idx" />
+		<result property="moduleWorkSubId" column="module_work_sub_id" />
 		<result property="moduleWorkId" column="module_work_id" />
 		<result property="moduleWorkSubName" column="module_work_sub_name" />
 		<result property="moduleWorkSubSeq" column="module_work_sub_seq" />
 		<result property="createDate" column="create_date" />
 		<result property="modifyDate" column="modify_date" />
 		<result property="outputType" column="output_type" />
-		<collection property="courseWorkSubOutputInfoList" column="idx" javaType="java.util.ArrayList" 
-			ofType="kr.go.ngii.edu.main.courses.work.model.CourseWorkSubOutputInfo" select="courseWorkSubOutputInfoList"/>
 	</resultMap>
 
 	<select id="list" parameterType="map" resultMap="courseWorkSubOutputWithModuleWorkSubMap">
 		SELECT
-			T1.idx, 
-			T2.module_work_id, 
-			T2.module_work_sub_name, 
-			T2.module_work_sub_seq, 
-       		T1.create_date, 
-       		T1.modify_date,
-       		T2.output_type
+			T1.idx idx,
+			T2.idx module_work_sub_id,
+			T2.module_work_id module_work_id, 
+			T2.module_work_sub_name module_work_sub_name, 
+			T2.module_work_sub_seq module_work_sub_seq, 
+       		T1.create_date create_date, 
+       		T1.modify_date modify_date,
+       		T2.output_type output_type
 		FROM courses_work_sub T1 INNER JOIN modules_work_sub T2 
 			ON T2.idx = T1.module_work_sub_id
 		WHERE T2.module_work_id = #{moduleWorkId}
