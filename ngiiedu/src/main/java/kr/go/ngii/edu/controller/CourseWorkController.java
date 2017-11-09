@@ -105,14 +105,14 @@ public class CourseWorkController extends BaseController {
 	@RequestMapping(value="/layers/{layer_id}", method=RequestMethod.DELETE)
 	public @ResponseBody ResponseEntity<ResponseData> deleteLayer(
 			@PathVariable(value="layer_id", required=false) String layerId,
-			@RequestParam(value="courseWorkSubId", required=true) int courseWorkSubId,
+			@RequestParam(value="works_output_id", required=true) int worksOutputId,
 			HttpSession session) throws Exception {
 
 		Map<String, String> paramVals = new HashMap<String,String>();
 
 		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.LAYER_REMOVE, "/layers/"+layerId, paramVals);
 		
-		workOutputService.delete(courseWorkSubId);
+		workOutputService.delete(worksOutputId);
 		
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
@@ -281,14 +281,14 @@ public class CourseWorkController extends BaseController {
 	@RequestMapping(value="/dataset/{dataset_id}", method=RequestMethod.DELETE)
 	public @ResponseBody ResponseEntity<ResponseData> deleteDataset(
 			@PathVariable(value="layer_id", required=false) String layerId,
-			@RequestParam(value="courseWorkSubId", required=true) int courseWorkSubId,
+			@RequestParam(value="works_output_id", required=true) int worksOutputId,
 			HttpSession session) throws Exception {
 
 		Map<String, String> paramVals = new HashMap<String,String>();
 
 		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.LAYER_REMOVE, "/dataset/"+layerId, paramVals);
 		
-		workOutputService.delete(courseWorkSubId);
+		workOutputService.delete(worksOutputId);
 		
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
@@ -506,14 +506,14 @@ public class CourseWorkController extends BaseController {
 	@RequestMapping(value="/maps/{maps_id}", method=RequestMethod.DELETE)
 	public @ResponseBody ResponseEntity<ResponseData> deleteMaps(
 			@PathVariable(value="maps_id", required=false) String mapsId,
-			@RequestParam(value="workOutputId", required=true) int workOutputId,
+			@RequestParam(value="works_output_id", required=true) int worksOutputId,
 			HttpSession session) throws Exception {
 
 		Map<String, String> paramVals = new HashMap<String,String>();
 
 		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.MAPS_REMOVE, "/maps/"+mapsId+".json", paramVals);
 		
-		workOutputService.delete(workOutputId);
+		workOutputService.delete(worksOutputId);
 		
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
