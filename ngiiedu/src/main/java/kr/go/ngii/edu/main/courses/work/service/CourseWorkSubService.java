@@ -62,7 +62,7 @@ public class CourseWorkSubService extends BaseService {
 			for (CourseWorkSubOutputInfo subItem : subList) {
 
 				Map<String, String> uriParams = new HashMap<String, String>();
-				if ("layers".equals(subItem.getOutput_type())) {
+				if ("layer".equals(subItem.getOutput_type())) {
 					uriParams.put("layer_id", subItem.getPinogioOutputId());
 					Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.LAYER_GET, uriParams);
 					subItem.setPngoData(r.get("data"));
