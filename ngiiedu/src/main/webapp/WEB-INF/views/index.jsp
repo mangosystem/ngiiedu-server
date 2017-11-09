@@ -9,12 +9,16 @@
 	String userEmail = null;
 	String userName = null;
 	String userDivision = null;
+	int userIdx = -1;
+
 	
 	if (user != null) {
 		userId =user.getUserid();
 		userEmail =user.getUserEmail();
 		userName =user.getUserName();
 		userDivision =user.getUserDivision();
+		userIdx =user.getIdx();
+
 	}
 %>
 <!DOCTYPE html>
@@ -28,6 +32,8 @@
 			var userId = "<%= userId %>";
 			var userName = "<%= userName %>";
 			var userDivision = <%= userDivision %>;
+			var userIdx = <%= userIdx %>;
+
 		</script>
 
 		<!--openlayers  -->
