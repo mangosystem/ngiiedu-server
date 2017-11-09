@@ -64,6 +64,22 @@ public class MainController extends BaseController {
 		ModelAndView view = new ModelAndView("/index");
 		return view;
 	}
+	
+	@RequestMapping(value={"/storymap/**"}, method = RequestMethod.GET)
+	public ModelAndView getStorymapPage(HttpServletRequest request, HttpServletResponse response, 
+			HttpSession session, Principal principal) {
+		
+		ModelAndView view = new ModelAndView("/index");
+		return view;
+	}
+	
+	@RequestMapping(value={"/map/**"}, method = RequestMethod.GET)
+	public ModelAndView getMapPage(HttpServletRequest request, HttpServletResponse response, 
+			HttpSession session, Principal principal) {
+		
+		ModelAndView view = new ModelAndView("/index");
+		return view;
+	}
 
 	@RequestMapping(value={"/courseCreate"}, method = RequestMethod.GET)
 	public ModelAndView getCourseCreatePage(HttpServletRequest request, HttpServletResponse response, 

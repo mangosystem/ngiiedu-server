@@ -433,7 +433,6 @@ public class CourseWorkController extends BaseController {
 
 	// maps
 	/**
-	 * 
 	 * Maps 조회
 	 * 
 	 * @param layerId
@@ -455,15 +454,13 @@ public class CourseWorkController extends BaseController {
 	}
 
 	/**
-	 * 
-	 * Maps 입력
+	 * Maps 추가하기
 	 * 
 	 * title 제목
 	 * description 설명
 	 * maps_type "SERIES" || ....
 	 * privacy "PUBLIC" || "FRIEND" || ...
 	 * metadata {"type":"tabs"} || {"type":"accordion"}
-	 * 
 	 * 
 	 * @param courseWorkSubId
 	 * @param title
@@ -497,33 +494,9 @@ public class CourseWorkController extends BaseController {
 		result.put("worksOutputId", workOutputResult.getIdx());
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
-
+	
 	/**
-	 * 
-	 * 
-	 * @param maps_id
-	 * @param courseWorkSubId
-	 * @param session
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value="/maps/{maps_id}", method=RequestMethod.DELETE)
-	public @ResponseBody ResponseEntity<ResponseData> deleteMaps(
-			@PathVariable(value="maps_id", required=false) String mapsId,
-			@RequestParam(value="works_output_id", required=true) int worksOutputId,
-			HttpSession session) throws Exception {
-
-		Map<String, String> paramVals = new HashMap<String,String>();
-
-		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.MAPS_REMOVE, "/maps/"+mapsId+".json", paramVals);
-
-		workOutputService.delete(worksOutputId);
-
-		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
-	}
-
-	/**
-	 * 
+	 * 맵스 수정하기
 	 * 
 	 * @param maps_id
 	 * @param title
@@ -554,11 +527,42 @@ public class CourseWorkController extends BaseController {
 		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.MAPS_UPDATE, "/maps/"+mapsId+".json", paramVals);
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
+
+	/**
+	 * 맵스 삭제하기
+	 * 
+	 * @param maps_id
+	 * @param courseWorkSubId
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/maps/{maps_id}", method=RequestMethod.DELETE)
+	public @ResponseBody ResponseEntity<ResponseData> deleteMaps(
+			@PathVariable(value="maps_id", required=false) String mapsId,
+			@RequestParam(value="works_output_id", required=true) int worksOutputId,
+			HttpSession session) throws Exception {
+
+		Map<String, String> paramVals = new HashMap<String,String>();
+
+		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.MAPS_REMOVE, "/maps/"+mapsId+".json", paramVals);
+
+		workOutputService.delete(worksOutputId);
+
+		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
+	}
+
 	
 	
 	
-	
-	
+	/**
+	 * 맵스 아이템 목록
+	 * 
+	 * @param mapsId
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value="/maps/{maps_id}/item", method=RequestMethod.GET)
 	public @ResponseBody ResponseEntity<ResponseData> listMapsItem(
 			@PathVariable("maps_id") String mapsId,
@@ -570,6 +574,15 @@ public class CourseWorkController extends BaseController {
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
 	
+	/**
+	 * 맵스 아이템 상세정보
+	 * 
+	 * @param mapsId
+	 * @param itemId
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value="/maps/{maps_id}/item/{item_id}", method=RequestMethod.GET)
 	public @ResponseBody ResponseEntity<ResponseData> getMapsItem(
 			@PathVariable("maps_id") String mapsId,
@@ -582,6 +595,16 @@ public class CourseWorkController extends BaseController {
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
 	
+	/**
+	 * 맵스 아이템 추가하기
+	 * @param mapsId
+	 * @param title
+	 * @param description
+	 * @param metadata
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value="/maps/{maps_id}/item", method=RequestMethod.POST)
 	public @ResponseBody ResponseEntity<ResponseData> createMapsItem(
 			@PathVariable("maps_id") String mapsId,
@@ -599,6 +622,18 @@ public class CourseWorkController extends BaseController {
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
 	
+	/**
+	 * 맵스 아이템 수정하기
+	 * 
+	 * @param mapsId
+	 * @param itemId
+	 * @param title
+	 * @param description
+	 * @param metadata
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value="/maps/{maps_id}/item/{item_id}", method=RequestMethod.PUT)
 	public @ResponseBody ResponseEntity<ResponseData> updateMapsItem(
 			@PathVariable("maps_id") String mapsId,
@@ -616,7 +651,16 @@ public class CourseWorkController extends BaseController {
 		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.MAPS_ITEM_UPDATE, "/maps/"+mapsId+"/item/"+ itemId +".json", paramVals);
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
-		
+	
+	/**
+	 * 맵스 아이템 삭제하기
+	 * 
+	 * @param mapsId
+	 * @param itemId
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value="/maps/{maps_id}/item/{item_id}", method=RequestMethod.DELETE)
 	public @ResponseBody ResponseEntity<ResponseData> deleteMapsItem(
 			@PathVariable("maps_id") String mapsId,

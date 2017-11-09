@@ -43,8 +43,12 @@ public class CourseService extends BaseService {
 			param.setCourseName(courseName);
 			param.setCourseMetadata(courseMetadata);
 			param.setModuleId(moduleId);
-			//param.setCourseCreateId( getHttpSession().getAttribute("USERID").toString() );
-			param.setCourseCreateId(1);
+			
+			try {
+				param.setCourseCreateId(Integer.parseInt(getHttpSession().getAttribute("USER_IDX").toString()));
+			} catch (Exception e) {
+				throw new RuntimeException(ErrorMessage.FOBRIDDEN);
+			}
 			param.setCreateDate(new Date());
 			param.setModifyDate(new Date());
 

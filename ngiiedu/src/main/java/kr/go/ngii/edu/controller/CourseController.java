@@ -280,7 +280,7 @@ public class CourseController extends BaseController {
 
 	// 과정 관련 --------------------------------------------------------------------
 	/**
-	 * 수업에 설정되어 있는 과정 목록 초회
+	 * 수업에 설정되어 있는 과정 목록 조회
 	 * 
 	 * @param courseId
 	 * @param session

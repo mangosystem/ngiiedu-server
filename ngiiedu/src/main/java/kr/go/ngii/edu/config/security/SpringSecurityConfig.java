@@ -71,34 +71,35 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 
 		http
-		.authorizeRequests()
-			.antMatchers("/assets/**").permitAll()
-			.antMatchers("/login").permitAll()
-			.antMatchers("/join").permitAll()
-			.antMatchers("/api/v1/**").permitAll()
-			.antMatchers("/cm-admin/**").access("hasRole('ROLE_ADMIN')")
-			.antMatchers("/course/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
-			.antMatchers("/storymap/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
-			.anyRequest().authenticated()
-		.and()
-			.formLogin()
-			.loginPage("/login")
-			.loginProcessingUrl("/login_process")
-			.successHandler(loginSuccessHandler)
-			.failureHandler(loginFailureHandler)
-			.permitAll()
-		.and()
-			.logout()
-			.logoutUrl("/logout")
-			.logoutSuccessHandler(logoutSuccessHandler)
-			.invalidateHttpSession(true)
-			.permitAll()
-		.and()
-			.exceptionHandling()
-			.accessDeniedHandler(accessDeniedHandler)
-		.and()
-			.csrf()
-			.disable();
+			.authorizeRequests()
+				.antMatchers("/assets/**").permitAll()
+				.antMatchers("/login").permitAll()
+				.antMatchers("/join").permitAll()
+				.antMatchers("/api/v1/**").permitAll()
+				.antMatchers("/cm-admin/**").access("hasRole('ROLE_ADMIN')")
+				.antMatchers("/course/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
+				.antMatchers("/storymap/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
+				.antMatchers("/map/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
+				.anyRequest().authenticated()
+			.and()
+				.formLogin()
+				.loginPage("/login")
+				.loginProcessingUrl("/login_process")
+				.successHandler(loginSuccessHandler)
+				.failureHandler(loginFailureHandler)
+				.permitAll()
+			.and()
+				.logout()
+				.logoutUrl("/logout")
+				.logoutSuccessHandler(logoutSuccessHandler)
+				.invalidateHttpSession(true)
+				.permitAll()
+			.and()
+				.exceptionHandling()
+				.accessDeniedHandler(accessDeniedHandler)
+			.and()
+				.csrf()
+				.disable();
 	}
 
 
@@ -137,7 +138,6 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 		public boolean supports(Class<?> authentication) {
 			return authentication.equals(UsernamePasswordAuthenticationToken.class);
 		}
-
 	}
 
 
@@ -147,7 +147,6 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 		@Autowired
 		private UserService userService;
 
-
 		@Override
 		public void onAuthenticationSuccess(
 				HttpServletRequest request, HttpServletResponse response,
@@ -156,21 +155,21 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 			super.onAuthenticationSuccess(request, response, authentication);
 
 			setDefaultTargetUrl("/course");
-			
+
 			User user = userService.get(authentication.getName());
 			user.setPassword(null);
-			
-//			Cookie cookies = new Cookie("userId", user.getUserid());
-//			cookies.setMaxAge(60*60*24);
-//			response.addCookie(cookies);
 
 			request.getSession().setAttribute("USER_INFO", user);
+			request.getSession().setAttribute("USER_IDX", user.getIdx());
+			request.getSession().setAttribute("USER_ID", user.getUserid());
+
 			response.setStatus(HttpStatus.SC_OK);
 		}
 	}
 
 	@Component
 	public class CustomLoginFailureHandler extends SimpleUrlAuthenticationFailureHandler {
+
 		@Override
 		public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) 
 				throws IOException, ServletException {
@@ -185,6 +184,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Component
 	public class CustomLogoutSuccessHandler extends SimpleUrlLogoutSuccessHandler {
+
 		@Override
 		public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) 
 				throws IOException, ServletException {
