@@ -577,8 +577,8 @@ public class CourseWorkController extends BaseController {
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
 	
-	@RequestMapping(value="/maps/{maps_id}/item/{item_id}", method=RequestMethod.POST)
-	public @ResponseBody ResponseEntity<ResponseData> getMapsItem(
+	@RequestMapping(value="/maps/{maps_id}/item", method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<ResponseData> createMapsItem(
 			@PathVariable("maps_id") String mapsId,
 			@RequestParam(value="title", required=false) String title,
 			@RequestParam(value="description", required=false) String description,
