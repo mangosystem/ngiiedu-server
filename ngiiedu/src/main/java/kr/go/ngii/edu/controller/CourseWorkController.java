@@ -677,7 +677,7 @@ public class CourseWorkController extends BaseController {
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
 	
-	@RequestMapping(value="/{course_work_id}/getTitle", method=RequestMethod.DELETE)
+	@RequestMapping(value="/{course_work_id}/getTitle", method=RequestMethod.GET)
 	public @ResponseBody ResponseEntity<ResponseData> getTitle(
 			@PathVariable("course_work_id") int courseWorkId,
 			HttpSession session) throws Exception {
