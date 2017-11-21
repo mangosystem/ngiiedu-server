@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.go.ngii.edu.common.UIDUtil;
-import kr.go.ngii.edu.common.message.ErrorMessage;
 import kr.go.ngii.edu.main.common.BaseService;
 import kr.go.ngii.edu.main.schools.mapper.SchoolMapper;
 import kr.go.ngii.edu.main.schools.model.School;

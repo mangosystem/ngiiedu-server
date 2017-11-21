@@ -100,7 +100,6 @@ public class CourseWorkService extends BaseService {
 	public void delete(CourseWork courseWork) {
 		courseWorkMapper.delete(courseWork);
 	}
-
 	
 	public String getCourseWorkName(int courseWorkId) {
 		

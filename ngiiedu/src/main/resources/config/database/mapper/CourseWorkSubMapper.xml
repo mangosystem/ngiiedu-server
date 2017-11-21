@@ -12,61 +12,68 @@
 		<result property="modifyDate" column="modify_date" />
 	</resultMap>
 	
-	<resultMap type="kr.go.ngii.edu.main.courses.work.model.CourseWorkSubOutputInfo" id="courseWorkSubOutputInfoMap">
+	<resultMap type="kr.go.ngii.edu.main.courses.work.model.WorkOutput" id="workOutputMap">
+		<id property="idx" column="idx" />
+		<result property="courseWorkSubId" column="course_work_sub_id" />
+		<result property="outputTeamId" column="output_team_id" />
+		<result property="outputUserid" column="output_userid" />
+		<result property="outputDivision" column="output_division" />
+		<result property="pinogioOutputId" column="pinogio_output_id" />
+		<result property="outputType" column="output_type" />
+	</resultMap>
+	
+	<resultMap type="kr.go.ngii.edu.main.courses.work.model.CourseWorkSubInfo" id="courseWorkSubInfoMap">
 		<id property="idx" column="idx" />
 		<result property="courseWorkId" column="course_work_id" />
 		<result property="moduleWorkSubId" column="module_work_sub_id" />
-		<result property="createDate" column="create_date" />
-		<result property="modifyDate" column="modify_date" />
-		<result property="outputDivision" column="output_division" />
-		<result property="pinogioOutputId" column="pinogio_output_id" />
-		<result property="outputTeamId" column="output_team_id" />
-		<result property="outputUserid" column="output_userid" />
-	</resultMap>
-	
-	<resultMap type="kr.go.ngii.edu.main.courses.work.model.CourseWorkSubOutputWithModuleWorkSub" id="courseWorkSubOutputWithModuleWorkSubMap">
-		<id property="idx" column="idx" />
-		<result property="moduleWorkSubId" column="module_work_sub_id" />
-		<result property="moduleWorkId" column="module_work_id" />
 		<result property="moduleWorkSubName" column="module_work_sub_name" />
 		<result property="moduleWorkSubSeq" column="module_work_sub_seq" />
 		<result property="createDate" column="create_date" />
 		<result property="modifyDate" column="modify_date" />
 		<result property="outputType" column="output_type" />
+		<collection property="workOutputList" column="idx" ofType="workOutputMap" select="workOutputList" />
 	</resultMap>
-
-	<select id="list" parameterType="map" resultMap="courseWorkSubOutputWithModuleWorkSubMap">
+ 
+	<select id="list" parameterType="map" resultMap="courseWorkSubInfoMap">
 		SELECT
 			T1.idx idx,
-			T2.idx module_work_sub_id,
-			T2.module_work_id module_work_id, 
+			T1.course_work_id course_work_id,
+			T1.module_work_sub_id module_work_sub_id,
 			T2.module_work_sub_name module_work_sub_name, 
 			T2.module_work_sub_seq module_work_sub_seq, 
-       		T1.create_date create_date, 
-       		T1.modify_date modify_date,
-       		T2.output_type output_type
+			T1.create_date create_date, 
+			T1.modify_date modify_date,
+			T2.output_type output_type
 		FROM courses_work_sub T1 INNER JOIN modules_work_sub T2 
-			ON T2.idx = T1.module_work_sub_id
+			ON T1.module_work_sub_id = T2.idx
 		WHERE T2.module_work_id = #{moduleWorkId}
-		AND T1.course_work_id = #{idx} 
+		AND T1.course_work_id = #{idx}
 		ORDER BY idx
 	</select>
 	
-	<select id="courseWorkSubOutputInfoList" parameterType="map" resultMap="courseWorkSubOutputInfoMap">
+	<select id="workOutputList" parameterType="map" resultMap="workOutputMap">
 		SELECT 
+			idx, 
+			course_work_sub_id, 
+			output_team_id, 
+			output_userid, 
+			output_division,
+			pinogio_output_id,
+			output_type
+  		FROM works_output
+		WHERE course_work_sub_id = #{courseWorkId}
+		ORDER BY idx
+	</select>
+	
+	<select id="get" parameterType="map" resultMap="courseWorkSubMap">
+		SELECT
 			idx, 
 			course_work_id, 
 			module_work_sub_id, 
-			create_date,
-			modify_date, 
-			output_division, 
-			pinogio_output_id, 
-			output_team_id, 
-			output_userid,
-			output_type
-		FROM courses_work_sub_output_info
-		WHERE module_work_sub_id = #{moduleWorkSubId}
-		ORDER BY idx
+       		create_date,
+       		modify_date
+		FROM courses_work_sub
+		WHERE idx = #{idx}
 	</select>
 	
 	<insert id="create" parameterType="map">
@@ -86,15 +93,32 @@
 		)
 	</insert>
 	
-	<select id="get" parameterType="map" resultMap="courseWorkSubMap">
-		SELECT
-			idx, 
-			course_work_id, 
-			module_work_sub_id, 
-       		create_date,
-       		modify_date
-		FROM courses_work_sub
-		WHERE idx = #{idx}
-	</select>
+	<update id="modify" parameterType="map">
+		UPDATE courses_work_sub
+		<set>
+			<if test="courseWorkId !=null">
+				course_work_id = #{courseWorkId},
+			</if>
+			<if test="moduleWorkSubId !=null">
+				module_work_sub_id = #{moduleWorkSubId},
+			</if>
+			modify_date = #{modifyDate}
+		</set>
+		WHERE
+			idx = #{idx} 
+	</update>
+	
+	<delete id="delete" parameterType="map">
+		DELETE FROM courses_work_sub
+		<where>
+			<if test="courseId !=null">
+				course_work_id = #{courseWorkId}
+			</if>
+			<if test="idx !=null">
+				idx = #{idx}
+			</if>
+		</where>
+	</delete>
+	
 	
 </mapper>

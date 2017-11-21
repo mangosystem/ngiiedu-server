@@ -10,7 +10,6 @@ import kr.go.ngii.edu.main.common.BaseService;
 import kr.go.ngii.edu.main.courses.course.mapper.CourseTeamMemberMapper;
 import kr.go.ngii.edu.main.courses.course.model.CourseTeamMember;
 import kr.go.ngii.edu.main.courses.course.model.CourseTeamMemberInfo;
-import kr.go.ngii.edu.main.courses.work.model.CourseWork;
 
 @Service
 public class CourseTeamMemberService extends BaseService {

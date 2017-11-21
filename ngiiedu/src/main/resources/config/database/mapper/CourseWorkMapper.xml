@@ -99,6 +99,21 @@
 		ORDER BY idx
 	</select>
 	
+	<select id="getCourseWorkInfo" parameterType="map" resultMap="courseWorkInfoMap">
+		SELECT 
+			idx, 
+			course_id, 
+			module_work_id, 
+			work_seq, 
+			work_team_division, 
+			module_work_name, 
+			module_work_course_type, 
+			module_work_metadata,
+			status
+  		FROM public.courses_work_infos
+		WHERE idx = #{idx}
+	</select>
+	
 	<update id="modify" parameterType="map">
 		UPDATE courses_work
 		<set>
@@ -128,7 +143,7 @@
 		UPDATE courses_work
 		<set>
 			<if test="courseId !=null">
-				status = #{courseId},
+				status = #{status},
 			</if>
 			<if test="moduleWorkId !=null">
 				module_work_id = #{moduleWorkId},

@@ -8,7 +8,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import junit.framework.TestCase;
-
 import kr.go.ngii.edu.config.AppInitializer;
 import kr.go.ngii.edu.config.DatabaseConfig;
 import kr.go.ngii.edu.config.WebConfig;

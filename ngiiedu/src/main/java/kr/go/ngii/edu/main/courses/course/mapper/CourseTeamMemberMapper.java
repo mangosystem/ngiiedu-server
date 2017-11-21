@@ -5,7 +5,6 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import kr.go.ngii.edu.main.courses.course.model.CourseTeam;
 import kr.go.ngii.edu.main.courses.course.model.CourseTeamMember;
 import kr.go.ngii.edu.main.courses.course.model.CourseTeamMemberInfo;
 

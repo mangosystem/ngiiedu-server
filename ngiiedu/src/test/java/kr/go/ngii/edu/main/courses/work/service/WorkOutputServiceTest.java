@@ -1,8 +1,12 @@
 package kr.go.ngii.edu.main.courses.work.service;
 
+import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,7 +89,7 @@ public class WorkOutputServiceTest extends BaseTest{
 		String createdPinogioId = "";
 		if ("layer".equals(outputType.trim().toLowerCase())) {
 			// dataset 조회
-			List<WorkOutput> workOutputList = workOutputService.getItemByCourseWorkId(courseWorkId);
+			List<WorkOutput> workOutputList = workOutputService.getListByCourseWorkId(courseWorkId);
 			System.out.println(workOutputList);
 			
 			int workOutputListSize = workOutputList.size();
@@ -178,7 +182,7 @@ public class WorkOutputServiceTest extends BaseTest{
 		String createdPinogioId = "";
 		if ("layer".equals(outputType.trim().toLowerCase())) {
 			// dataset 조회
-			List<WorkOutput> workOutputList = workOutputService.getItemByCourseWorkId(courseWorkId);
+			List<WorkOutput> workOutputList = workOutputService.getListByCourseWorkId(courseWorkId);
 			System.out.println(workOutputList);
 			
 			int workOutputListSize = workOutputList.size();
@@ -229,4 +233,48 @@ public class WorkOutputServiceTest extends BaseTest{
 		System.out.println("--------------------");
 		System.out.println(woParam);
 	}
+	
+	@Test
+	public void stringFormatTest() {
+		
+		
+		Object[] params = new Object[]{"hello", "!"};
+		String msg = MessageFormat.format("{0} world {1}", params);
+		System.out.println(msg);
+		
+		
+		String format = "My name is ${b}. ${a} ${b}.";
+
+		Map<String, String> values = new HashMap<String, String>();
+//		values.put("a", "James");
+//		values.put("b", "Bond");
+
+		System.out.println(format(format, values)); 
+		
+	}
+	
+	public static String format(String format, Map<String, String> values) {
+	    StringBuilder formatter = new StringBuilder(format);
+	    List<Object> valueList = new ArrayList<Object>();
+
+	    Matcher matcher = Pattern.compile("\\$\\{(\\w+)}").matcher(format);
+
+	    while (matcher.find()) {
+	        String key = matcher.group(1);
+
+	        String formatKey = String.format("${%s}", key);
+	        int index = formatter.indexOf(formatKey);
+
+	        if (index != -1) {
+	            formatter.replace(index, index + formatKey.length(), "%s");
+	            valueList.add(values.get(key));
+	        }
+	    }
+
+	    return String.format(formatter.toString(), valueList.toArray());
+	}
+	
+	
+	
+	
 }

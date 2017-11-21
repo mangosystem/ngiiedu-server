@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import kr.go.ngii.edu.controller.rest.BaseController;
 import kr.go.ngii.edu.controller.rest.ResponseData;
 import kr.go.ngii.edu.main.modules.course.model.ModuleWork;
-import kr.go.ngii.edu.main.modules.course.model.ModuleWorkSub;
 import kr.go.ngii.edu.main.modules.course.service.ModuleWorkService;
 import kr.go.ngii.edu.main.modules.course.service.ModuleWorkSubService;
 import kr.go.ngii.edu.main.modules.module.model.Module;

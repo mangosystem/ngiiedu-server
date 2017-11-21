@@ -1,8 +1,6 @@
 package kr.go.ngii.edu.main.modules.comp.model;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 
 import javax.xml.bind.annotation.XmlRootElement;
 

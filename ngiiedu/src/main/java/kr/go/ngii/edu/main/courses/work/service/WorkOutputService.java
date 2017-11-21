@@ -1,7 +1,5 @@
 package kr.go.ngii.edu.main.courses.work.service;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,16 +16,11 @@ import kr.go.ngii.edu.common.message.ErrorMessage;
 import kr.go.ngii.edu.config.LocalResourceBundle;
 import kr.go.ngii.edu.main.common.BaseService;
 import kr.go.ngii.edu.main.common.RestAPIClient;
-import kr.go.ngii.edu.main.courses.course.mapper.CourseTeamMemberMapper;
 import kr.go.ngii.edu.main.courses.course.model.CourseTeamMember;
 import kr.go.ngii.edu.main.courses.course.service.CourseTeamMemberService;
-import kr.go.ngii.edu.main.courses.work.mapper.CourseWorkMapper;
-import kr.go.ngii.edu.main.courses.work.mapper.CourseWorkSubMapper;
 import kr.go.ngii.edu.main.courses.work.mapper.WorkOutputMapper;
 import kr.go.ngii.edu.main.courses.work.model.CourseWork;
-import kr.go.ngii.edu.main.courses.work.model.CourseWorkInfo;
 import kr.go.ngii.edu.main.courses.work.model.CourseWorkSub;
-import kr.go.ngii.edu.main.courses.work.model.CourseWorkSubOutputInfo;
 import kr.go.ngii.edu.main.courses.work.model.WorkOutput;
 
 @Service
@@ -56,87 +49,6 @@ public class WorkOutputService extends BaseService {
 	 * @return
 	 * @throws Exception
 	 */
-	public String create(int courseWorkSubId, int outputUserid, String outputType, String title) {
-		
-		// session 에서 가져온 user id 에서 team id 조회
-		// course work id 조회
-		CourseWorkSub cwsParam = new CourseWorkSub();
-		cwsParam.setIdx(courseWorkSubId);
-		cwsParam = courseWorkSubService.get(cwsParam);
-		int courseWorkId = cwsParam.getCourseWorkId();
-
-		// course id 조회
-		CourseWork cwParam = new CourseWork();
-		cwParam.setIdx(cwsParam.getCourseWorkId());
-		cwParam = courseWorkService.get(cwParam);
-		int courseId = cwParam.getCourseId();
-		
-		// team id 조회
-		CourseTeamMember ctm = courseTeamMemberService.getByCourseIdAndMemberId(courseId, outputUserid);
-		int temaId = ctm.getTeamId();
-		
-		// output division => team? 개인?
-		String outputDivision = "1";
-		
-		// pinogio id 생성
-		RestAPIClient rc = new RestAPIClient();
-		ObjectMapper mapper = new ObjectMapper();
-		
-		String createdPinogioId = "";
-		String pinogioIdColName = "";
-		if ("maps".equals(outputType)) {
-			pinogioIdColName = "mapsId";
-		} else if ("layer".equals(outputType)) {
-			pinogioIdColName = "layerId";
-		} else if ("dataset".equals(outputType)) {
-			pinogioIdColName = "datasetId";
-		}
-		if ("layer".equals(outputType.trim().toLowerCase())) {
-			// dataset 조회
-			List<WorkOutput> workOutputList = workOutputService.getItemByCourseWorkId(courseWorkId);
-			
-			int workOutputListSize = workOutputList.size();
-			String pinogioDatasetId = "";
-			if (workOutputListSize > 0) {
-				// workOutputListSize 은 dataset의 수 
-				// workOutputList 가 여러개일떄 처리 핗요함
-				pinogioDatasetId = workOutputList.get(0).getPinogioOutputId();
-			} else {
-				// dataset이 없습니다
-			}
-			
-			Map<String, String> uriParams = new HashMap<String, String>();
-			Map<String, String> params = new HashMap<String, String>();
-			params.put("project_id", LocalResourceBundle.PINOGIO_API_PROJECT_ID);
-			params.put("title", title);
-			Map<String, Object> inputDatasetParam = new HashMap<>();
-	        Map<String, Object> sourcesParam = new HashMap<>();
-	        ArrayNode filterArray = mapper.createArrayNode();
-	        inputDatasetParam.put("type", "dataset");
-	        inputDatasetParam.put("datasetId", "d=r7oFXBrCYl");
-	        inputDatasetParam.put("filter", filterArray);
-	        sourcesParam.put("inputDataset", inputDatasetParam);
-			params.put("sources", StringUtil.mapToString(sourcesParam));
-			Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.LAYER_CREATE, uriParams, params);
-			Map<String, Object> resultData = (Map<String, Object>) r.get("data");
-			Map<String, Object> resultCode = (Map<String, Object>) r.get("meta");
-			String resultCodeStatus = (String) resultCode.get("code").toString();
-			createdPinogioId = (String) resultData.get(pinogioIdColName).toString();
-		} else if ("dataset".equals(outputType.trim().toLowerCase())) {
-		} else if ("maps".equals(outputType.trim().toLowerCase())) {
-		}
-		
-		WorkOutput woParam = new WorkOutput();
-		woParam.setCourseWorkSubId(courseWorkSubId);
-		woParam.setOutputDivision(outputDivision);
-		woParam.setPinogioOutputId(createdPinogioId);
-		woParam.setOutputTeamId(temaId);
-		woParam.setOutputUserid(outputUserid);
-		woParam.setOutputType(outputType);
-		workOutputMapper.create(woParam);
-		return woParam.getPinogioOutputId();
-	}
-	
 	public WorkOutput create(int courseWorkSubId, String outputDivision, Map<String, Object> createdPinogioResult,
 			int userId, String outputType) {
 		
@@ -157,7 +69,7 @@ public class WorkOutputService extends BaseService {
 		try {
 			temaId = ctm.getTeamId();
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.debug("Team Id 없음");
 		}
 		
 		// pinogio layer id
@@ -191,15 +103,6 @@ public class WorkOutputService extends BaseService {
 		}
 	}
 	
-	
-	public List<CourseWorkSubOutputInfo> list(CourseWorkSubOutputInfo workOutput) {
-		return workOutputMapper.list(workOutput);
-	}
-	
-	public CourseWorkSubOutputInfo get(CourseWorkSubOutputInfo workOutput) {
-		return workOutputMapper.getInfo(workOutput);
-	}
-	
 	public WorkOutput get(WorkOutput workOutput) {
 		return workOutputMapper.get(workOutput);
 	}
@@ -208,12 +111,9 @@ public class WorkOutputService extends BaseService {
 		return workOutputMapper.getList(workOutput);
 	}
 	
-	public CourseWorkSubOutputInfo modify(CourseWorkSubOutputInfo workOutput) {
-		CourseWorkSubOutputInfo params = new CourseWorkSubOutputInfo();
-//		params.setIdx(idx);
-//		params.setStatus(status);
-//		params.setModifyDate(new Date());
-//		workOutputMapper.modify(params);
+	public WorkOutput modify(WorkOutput workOutput) {
+		WorkOutput params = new WorkOutput();
+		workOutputMapper.modify(params);
 		return params;
 	}
 	
@@ -226,8 +126,8 @@ public class WorkOutputService extends BaseService {
 		}
 	}
 	
-	public List<WorkOutput> getItemByCourseWorkId(int courseWorkId) {
-		return workOutputMapper.getItemByCourseWorkId(courseWorkId);
+	public List<WorkOutput> getListByCourseWorkId(int courseWorkId) {
+		return workOutputMapper.getListByCourseWorkId(courseWorkId);
 	}
 	
 }

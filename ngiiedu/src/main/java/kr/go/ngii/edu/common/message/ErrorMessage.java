@@ -6,7 +6,6 @@ public class ErrorMessage {
 	
 	public static String FOBRIDDEN = "접근 권한이 없습니다.";
 
-
 	public static String COURSE_AUTHKEY_FAILED 	= "수업코드를 찾을 수가 없습니다. 다시 확인해 주세요.";
 
 	public static String COURSE_JOIN_WAITING 	= "수업참여 대기중입니다.";

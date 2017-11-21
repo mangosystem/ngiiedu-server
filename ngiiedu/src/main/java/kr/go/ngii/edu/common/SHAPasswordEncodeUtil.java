@@ -1,6 +1,6 @@
 package kr.go.ngii.edu.common;
 
-import org.springframework.security.authentication.encoding.ShaPasswordEncoder; 
+import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 

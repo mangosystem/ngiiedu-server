@@ -75,7 +75,7 @@ public enum EnumRestAPIType {
 	// Maps 수정
 	MAPS_UPDATE	("/maps/{maps_id}.json", HttpMethod.PUT),
 	// Maps 삭제
-	MAPS_REMOVE	("/maps/{maps_id}.json", HttpMethod.POST),
+	MAPS_REMOVE	("/maps/{maps_id}.json", HttpMethod.DELETE),
 	
 	// Maps 아이템 목록
 	MAPS_ITEM_LIST ("/maps/{maps_id}/item.json", HttpMethod.GET),

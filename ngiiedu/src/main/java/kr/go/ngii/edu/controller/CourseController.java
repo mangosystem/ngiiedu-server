@@ -33,12 +33,11 @@ import kr.go.ngii.edu.main.courses.work.model.CourseWork;
 import kr.go.ngii.edu.main.courses.work.model.CourseWorkData;
 import kr.go.ngii.edu.main.courses.work.model.CourseWorkDataInfo;
 import kr.go.ngii.edu.main.courses.work.model.CourseWorkInfo;
-import kr.go.ngii.edu.main.courses.work.model.CourseWorkSubOutputWithModuleWorkSub;
+import kr.go.ngii.edu.main.courses.work.model.CourseWorkSubInfo;
 import kr.go.ngii.edu.main.courses.work.service.CourseWorkDataService;
 import kr.go.ngii.edu.main.courses.work.service.CourseWorkService;
 import kr.go.ngii.edu.main.courses.work.service.CourseWorkSubService;
 import kr.go.ngii.edu.main.users.model.User;
-import kr.go.ngii.edu.main.users.service.UserService;
 
 @Controller
 @RequestMapping("/api/v1/courses")
@@ -67,10 +66,6 @@ public class CourseController extends BaseController {
 
 	@Autowired
 	private CourseWorkSubService courseWorkSubService;
-
-
-	@Autowired
-	private UserService userService;
 
 
 	// 수업관련 --------------------------------------------------------------------
@@ -793,8 +788,7 @@ public class CourseController extends BaseController {
 		
 		if (user != null) {
 			int userId = user.getIdx();
-			List<CourseWorkSubOutputWithModuleWorkSub> list = courseWorkSubService.list(courseWorkId, userId);
-//			List<CourseWorkSubOutputWithModuleWorkSub> list = courseWorkSubService.list(courseWorkId);
+			List<CourseWorkSubInfo> list = courseWorkSubService.list(courseWorkId);
 			return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
 		} else {
 			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
@@ -816,6 +810,8 @@ public class CourseController extends BaseController {
 			@RequestParam("teamId") Integer teamId,
 			@RequestParam("pinogioOutputId") String pinogioOutputId, 
 			HttpSession session) throws Exception {
+		
+		
 		
 		return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
 	}

@@ -6,19 +6,12 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.Map.Entry;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.swing.plaf.synth.SynthSeparatorUI;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -37,10 +30,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import kr.go.ngii.edu.controller.rest.BaseController;
 import kr.go.ngii.edu.controller.rest.ResponseData;
-import kr.go.ngii.edu.main.modules.module.model.Module;
 import kr.go.ngii.edu.main.schools.model.School;
 import kr.go.ngii.edu.main.schools.service.SchoolService;
-import kr.go.ngii.edu.main.users.model.User;
 
 @Controller
 @RequestMapping("/api/v1/schools")

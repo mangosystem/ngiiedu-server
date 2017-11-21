@@ -9,7 +9,6 @@ import kr.go.ngii.edu.common.UIDUtil;
 import kr.go.ngii.edu.main.common.BaseService;
 import kr.go.ngii.edu.main.courses.course.mapper.CourseAuthkeyMapper;
 import kr.go.ngii.edu.main.courses.course.model.CourseAuthkey;
-import kr.go.ngii.edu.main.courses.work.model.CourseWorkDataInfo;
 
 @Service
 public class CourseAuthkeyService extends BaseService {

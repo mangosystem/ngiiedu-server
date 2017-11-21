@@ -1,7 +1,6 @@
 package kr.go.ngii.edu.main.courses.work.model;
 
 import java.io.Serializable;
-import java.util.Map;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -13,8 +12,6 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement(name = "workOutput")
 public class WorkOutput implements Serializable {
-
-	
 	
 	/** serialVersionUID. */
 	private static final long serialVersionUID = 1L;
@@ -45,13 +42,14 @@ public class WorkOutput implements Serializable {
 	private String outputName;
 	
 	public String getOutputName() {
-		String returnVal = "";
-		try {
-			returnVal = ((Map<String, String>) pngoData).get("title");
-		} catch (Exception e) {
-			return "";
-		}
-		return returnVal;	
+//		String returnVal = "";
+//		try {
+//			returnVal = ((LinkedHashMap<String, String>) pngoData).get("title");
+//		} catch (Exception e) {
+//			return "";
+//		}
+//		return returnVal;
+		return outputName;
 	}
 
 	public void setOutputName(String outputName) {

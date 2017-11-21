@@ -15,9 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import kr.go.ngii.edu.common.enums.EnumRestAPIType;
 import kr.go.ngii.edu.config.LocalResourceBundle;
 import kr.go.ngii.edu.controller.rest.BaseController;
@@ -39,192 +36,11 @@ public class CourseWorkController extends BaseController {
 	
 	@Autowired
 	private CourseWorkService courseWorkService;
-
-	//	@RequestMapping(value="/layer", method=RequestMethod.GET)
-	//	public @ResponseBody ResponseEntity<ResponseData> listLayer(
-	//			@RequestParam(value="courseId", required=false) String courseId) throws Exception {
-	//		return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
-	//	}
-
-	/**
-	 * localhost:8080/ngiiedu/api/v1/coursesWork/layers/l=oBGRzS7ijB.json
-	 * 
-	 * @param layerId
-	 * @param session
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value="/layers/{layer_id}", method=RequestMethod.GET)
-	public @ResponseBody ResponseEntity<ResponseData> getLayer(
-			@PathVariable(value="layer_id", required=false) String layerId,
-			HttpSession session) throws Exception {
-
-		Map<String, String> paramPath = new HashMap<String,String>();
-		paramPath.put("layer_id", layerId);
-
-		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.LAYER_GET, paramPath);
-
-		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
-	}
-
-	/**
-	 * 
-	 * localhost:8080/ngiiedu/api/v1/coursesWork/layers.json?title=제목&sources={"inputDataset":{"filter":[],"datasetId":"d=r7oFXBrCYl","type":"dataset"}}
-	 * 
-	 * @param courseWorkSubId
-	 * @param title
-	 * @param sources
-	 * @param session
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value="/layers", method=RequestMethod.POST)
-	public @ResponseBody ResponseEntity<ResponseData> createLayer(
-			@RequestParam(value="courseWorkSubId", required=true) int courseWorkSubId,
-			@RequestParam(value="title", required=false) String title,
-			@RequestParam(value="sources", required=false) String sources,
-			HttpSession session) throws Exception {
-
-		User user = (User)session.getAttribute("USER_INFO");
-		Map<String, String> paramVals = new HashMap<String,String>();
-		paramVals.put("project_id", LocalResourceBundle.PINOGIO_API_PROJECT_ID);
-		paramVals.put("title", title);
-		paramVals.put("sources", sources);
-		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.LAYER_CREATE, "/layers.json", paramVals);
-
-		// output division 추가..필요
-		WorkOutput workOutputResult = workOutputService.create(courseWorkSubId, "1",  result, user.getIdx(), "layer");
-		result.put("worksOutputId", workOutputResult.getIdx());
-		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
-	}
-
-	/**
-	 * 
-	 * localhost:8080/ngiiedu/api/v1/coursesWork/layers.json
-	 * 
-	 * @param layerId
-	 * @param session
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value="/layers/{layer_id}", method=RequestMethod.DELETE)
-	public @ResponseBody ResponseEntity<ResponseData> deleteLayer(
-			@PathVariable(value="layer_id", required=false) String layerId,
-			@RequestParam(value="works_output_id", required=true) int worksOutputId,
-			HttpSession session) throws Exception {
-
-		Map<String, String> paramVals = new HashMap<String,String>();
-
-		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.LAYER_REMOVE, "/layers/"+layerId +".json", paramVals);
-
-		workOutputService.delete(worksOutputId);
-
-		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
-	}
-
-	/**
-	 * 
-	 * localhost:8080/ngiiedu/api/v1/coursesWork/layers/l=atucjVOa0O/metadata.json?title=한글은?!&description&metadata&privacy=FRIEND
-	 * 
-	 * @param layerId
-	 * @param title
-	 * @param description
-	 * @param metadata
-	 * @param privacy
-	 * @param session
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value="/layers/{layer_id}/metadata", method=RequestMethod.PUT)
-	public @ResponseBody ResponseEntity<ResponseData> updateMetadata(
-			@PathVariable("layer_id") String layerId,
-			@RequestParam(value="title", required=false, defaultValue="제목없음") String title,
-			@RequestParam(value="description", required=false, defaultValue="") String description,
-			@RequestParam(value="metadata", required=false, defaultValue="") String metadata,
-			@RequestParam(value="privacy", required=false, defaultValue="PUBLIC") String privacy,
-			HttpSession session) throws Exception {
-
-		Map<String, String> paramVals = new HashMap<String,String>();
-		paramVals.put("title", title);
-		paramVals.put("description", description);
-		paramVals.put("metadata", metadata);
-		paramVals.put("privacy", privacy);
-
-		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.LAYER_METADATA_UPDATE, "/layers/"+layerId+"/metadata.json", paramVals);
-
-		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
-	}
-
-	/**
-	 * 
-	 * localhost:8080/ngiiedu/api/v1/coursesWork/layers/l=H6WMCoLPPj/process.json?process={"identifier":"hexagonBinning","options":{"sideLen":"5000","validGrid":"false"},"inputDataset":{"type":"dataset","datasetId":"d=r7oFXBrCYl","filter":[]}}
-	 * 
-	 * @param layerId
-	 * @param process
-	 * @param session
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value="/layers/{layer_id}/process", method=RequestMethod.PUT)
-	public @ResponseBody ResponseEntity<ResponseData> updateProcess(
-			@PathVariable("layer_id") String layerId,
-			@RequestParam(value="process", required=true) String process,
-			HttpSession session) throws Exception {
-
-		Map<String, String> paramVals = new HashMap<String,String>();
-		paramVals.put("process", process);
-		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.LAYER_METADAT_PROCESS_UPDATE, "/layers/"+layerId+"/process.json", paramVals);
-
-		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
-	}
-
-	/**
-	 * 
-	 * @param layerId
-	 * @param styling
-	 * @param session
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value="/layers/{layer_id}/styling", method=RequestMethod.PUT)
-	public @ResponseBody ResponseEntity<ResponseData> updateStyling(
-			@PathVariable("layer_id") String layerId, 
-			@RequestParam(value="styling", required=true) String styling,
-			HttpSession session) throws Exception {
-
-		Map<String, String> paramVals = new HashMap<String,String>();
-		paramVals.put("styling", styling);
-		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.LAYER_METADATA_STYLING_UPDATE, "/layers/"+layerId+"/styling.json", paramVals);
-
-		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
-	}
-
-	/**
-	 * 
-	 * @param layerId
-	 * @param session
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value="/layers/{layer_id}/column", method=RequestMethod.GET)
-	public @ResponseBody ResponseEntity<ResponseData> listColumn(
-			@PathVariable("layer_id") String layerId, 
-			HttpSession session) throws Exception {
-
-		Map<String, String> paramVals = new HashMap<String,String>();
-		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.LAYER_COLUMN_LIST, "/layers/"+layerId+"/column.json", paramVals);
-
-		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
-	}
-
-
-	// --------------------------------------------------------------------------------------------------------------------------------------------
-	//	@RequestMapping(value="/layer", method=RequestMethod.GET)
-	//	public @ResponseBody ResponseEntity<ResponseData> listLayer(
-	//			@RequestParam(value="courseId", required=false) String courseId) throws Exception {
-	//		return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
-	//	}
-
+	
+	
+	// --------------------------------------------------------------------
+	// --------- Dataset
+	// --------------------------------------------------------------------
 	/**
 	 * 
 	 * @param dataset_id
@@ -232,15 +48,20 @@ public class CourseWorkController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/dataset/{dataset_id}", method=RequestMethod.GET)
+	@RequestMapping(value="/dataset/{datasetId}", method=RequestMethod.GET)
 	public @ResponseBody ResponseEntity<ResponseData> getDataset(
-			@PathVariable(value="dataset_id", required=false) String datasetId,
+			@PathVariable(value="datasetId", required=false) String datasetId,
 			HttpSession session) throws Exception {
+		User user = (User)session.getAttribute("USER_INFO");
+		if (user == null) {
+			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+		}
+		Map<String, String> pathParamVals = new HashMap<String,String>();
+		Map<String, String> paramVals = new HashMap<String,String>();
+		pathParamVals.put("dataset_id", datasetId);
 
-		Map<String, String> paramPath = new HashMap<String,String>();
-		paramPath.put("dataset_id", datasetId);
-
-		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.DATASET_GET, paramPath);
+		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.DATASET_GET, pathParamVals, paramVals);
+//			Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.DATASET_GET, paramPath);
 
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
@@ -263,38 +84,51 @@ public class CourseWorkController extends BaseController {
 			HttpSession session) throws Exception {
 
 		User user = (User)session.getAttribute("USER_INFO");
+		if (user == null) {
+			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+		}
 		Map<String, String> paramVals = new HashMap<String,String>();
+		Map<String, String> pathParamVals = new HashMap<String,String>();
 		paramVals.put("project_id", LocalResourceBundle.PINOGIO_API_PROJECT_ID);
 		paramVals.put("title", title);
 		paramVals.put("sources", sources);
-		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.DATASET_CREATE, "/dataset.json", paramVals);
+//			Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.DATASET_CREATE, paramVals);
+//			Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.DATASET_CREATE, "/dataset.json", paramVals);
+		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.DATASET_CREATE, pathParamVals, paramVals);
 
-		workOutputService.create(courseWorkSubId, "1",  result, user.getIdx(), "layer");
-
+		// output Division 추가..
+		WorkOutput workOutputResult = workOutputService.create(courseWorkSubId, "1",  result, user.getIdx(), "dataset");
+		result.put("worksOutputId", workOutputResult.getIdx());
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
 
 	/**
 	 * 
-	 * localhost:8080/ngiiedu/api/v1/coursesWork/layers.json
 	 * 
-	 * @param layerId
+	 * @param datasetId
 	 * @param session
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/dataset/{dataset_id}", method=RequestMethod.DELETE)
+	@RequestMapping(value="/dataset/{datasetId}", method=RequestMethod.DELETE)
 	public @ResponseBody ResponseEntity<ResponseData> deleteDataset(
-			@PathVariable(value="dataset_id", required=false) String dataset_id,
-			@RequestParam(value="works_output_id", required=true) int worksOutputId,
+			@PathVariable(value="datasetId", required=false) String datasetId,
+			@RequestParam(value="worksOutputId", required=true) int worksOutputId,
 			HttpSession session) throws Exception {
 
+		User user = (User)session.getAttribute("USER_INFO");
+		if (user == null) {
+			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+		}
+		
 		Map<String, String> paramVals = new HashMap<String,String>();
+		Map<String, String> pathParamVals = new HashMap<String,String>();
+		pathParamVals.put("dataset_id", datasetId);
+		
+		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.LAYER_REMOVE, pathParamVals, paramVals);
+//		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.LAYER_REMOVE, "/dataset/"+dataset_id+".json", paramVals);
 
-		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.LAYER_REMOVE, "/dataset/"+dataset_id+".json", paramVals);
-
-		workOutputService.delete(worksOutputId);
-
+		result.put("worksOutputIsDeleted", workOutputService.delete(worksOutputId));
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
 
@@ -309,15 +143,21 @@ public class CourseWorkController extends BaseController {
 	 */
 	@RequestMapping(value="/dataset/row/list", method=RequestMethod.GET)
 	public @ResponseBody ResponseEntity<ResponseData> datasetCreate(
-			@RequestParam(value="pinogioOutputId", required=true) String pinogioOutputId, 
+			@RequestParam(value="datasetId", required=true) String datasetId, 
 			HttpSession session) throws Exception {
 
-		RestAPIClient rc = new RestAPIClient();
-		Map<String, String> param = new HashMap<String, String>();
-		//		uriParams.put("dataset_id", "d=r7oFXBrCYl");
-		param.put("dataset_id", pinogioOutputId);
-		Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.DATASET_ROW_LIST, param);
-		return new ResponseEntity<ResponseData>(responseBody(r), HttpStatus.OK);
+		User user = (User)session.getAttribute("USER_INFO");
+		if (user == null) {
+			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+		}
+		
+		Map<String, String> paramVals = new HashMap<String,String>();
+		Map<String, String> pathParamVals = new HashMap<String,String>();
+		pathParamVals.put("dataset_id", datasetId);
+		
+//			Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.DATASET_ROW_LIST, param);
+		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.DATASET_ROW_LIST, pathParamVals, paramVals);
+		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
 
 
@@ -332,18 +172,20 @@ public class CourseWorkController extends BaseController {
 	 */
 	@RequestMapping(value="/dataset/row", method=RequestMethod.GET)
 	public @ResponseBody ResponseEntity<ResponseData> datasetRowGet(
-			@RequestParam("pinogioOutputId") String pinogioOutputId, 
+			@RequestParam("datasetId") String datasetId, 
 			@RequestParam("rowId") String rowId, 
 			HttpSession session) throws Exception {
-		RestAPIClient rc = new RestAPIClient();
-		Map<String, String> uriParams = new HashMap<String, String>();
-		uriParams.put("dataset_id", pinogioOutputId);
-		uriParams.put("row_id", rowId);
-		//		uriParams.put("dataset_id", "d=r7oFXBrCYl");
-		//		uriParams.put("row_id", "12");
-		Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.DATASET_ROW_GET, uriParams);
-		System.out.println(r);
-		return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+		
+		User user = (User)session.getAttribute("USER_INFO");
+		if (user == null) {
+			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+		}
+		Map<String, String> paramVals = new HashMap<String,String>();
+		Map<String, String> pathParamVals = new HashMap<String,String>();
+		pathParamVals.put("dataset_id", datasetId);
+		pathParamVals.put("row_id", rowId);
+		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.DATASET_ROW_GET, pathParamVals, paramVals);
+		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
 
 
@@ -357,14 +199,22 @@ public class CourseWorkController extends BaseController {
 	 */
 	@RequestMapping(value="/dataset/row", method=RequestMethod.POST)
 	public @ResponseBody ResponseEntity<ResponseData> datasetRowCreate(
-			@RequestParam("pinogioOutputId") String pinogioOutputId, 
+			@RequestParam("datasetId") String datasetId, 
 			@RequestParam("contentJson") String contentJson, 
 			HttpSession session) throws Exception {
-		RestAPIClient rc = new RestAPIClient();
-		Map<String, String> params = new HashMap<String, String>();
-		params.put("content", contentJson);
-		Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.DATASET_ROW_CREATE, "/datasets/"+pinogioOutputId+"/row.json", params);
-		return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+		
+		User user = (User)session.getAttribute("USER_INFO");
+		if (user == null) {
+			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+		}
+		
+		Map<String, String> paramVals = new HashMap<String, String>();
+		paramVals.put("content", contentJson);
+		Map<String, String> pathParamVals = new HashMap<String, String>();
+		pathParamVals.put("content", contentJson);
+		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.DATASET_ROW_CREATE, pathParamVals, paramVals);
+//			Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.DATASET_ROW_CREATE, "/datasets/"+pinogioOutputId+"/row.json", params);
+		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
 
 
@@ -378,18 +228,23 @@ public class CourseWorkController extends BaseController {
 	 */
 	@RequestMapping(value="/dataset/row", method=RequestMethod.PUT)
 	public @ResponseBody ResponseEntity<ResponseData> datasetRowModify(
-			@RequestParam("pinogioOutputId") String pinogioOutputId, 
+			@RequestParam("datasetId") String datasetId, 
 			@RequestParam("rowId") String rowId,
 			@RequestParam("contentJson") String contentJson, // pngo_ 테이블 참조
 			HttpSession session) throws Exception {
-		RestAPIClient rc = new RestAPIClient();
-		Map<String, String> uriParams = new HashMap<String, String>();
-		uriParams.put("dataset_id", pinogioOutputId);
-		uriParams.put("row_id", rowId);
-		Map<String, String> params = new HashMap<String, String>();
-		params.put("content", contentJson);
-		Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.DATASET_ROW_UPDATE, "/datasets/" + pinogioOutputId+ "/row"+ rowId +".json", params);
-		return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+		User user = (User)session.getAttribute("USER_INFO");
+		if (user == null) {
+			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+		}
+		
+		Map<String, String> paramVals = new HashMap<String, String>();
+		paramVals.put("content", contentJson);
+		Map<String, String> pathParamVals = new HashMap<String, String>();
+		pathParamVals.put("dataset_id", datasetId);
+		pathParamVals.put("row_id", rowId);
+		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.DATASET_ROW_UPDATE, pathParamVals, paramVals);
+//		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.DATASET_ROW_UPDATE, "/datasets/" + datasetId+ "/row"+ rowId +".json", params);
+		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
 
 	/**
@@ -402,15 +257,21 @@ public class CourseWorkController extends BaseController {
 	 */
 	@RequestMapping(value="/dataset/row", method=RequestMethod.DELETE)
 	public @ResponseBody ResponseEntity<ResponseData> datasetRowDelete(
-			@RequestParam(value="pinogioOutputId", required=true) String pinogioOutputId, 
+			@RequestParam(value="datasetId", required=true) String datasetId, 
 			@RequestParam(value="rowId", required=true) String rowId, 
 			HttpSession session) throws Exception {
-		RestAPIClient rc = new RestAPIClient();
-		Map<String, String> uriParams = new HashMap<String, String>();
-		uriParams.put("dataset_id", pinogioOutputId);
-		uriParams.put("row_id", rowId);
-		Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.DATASET_ROW_REMOVE, uriParams);
-		return new ResponseEntity<ResponseData>(responseBody(r), HttpStatus.OK);
+		User user = (User)session.getAttribute("USER_INFO");
+		if (user == null) {
+			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+		}
+		
+		Map<String, String> paramVals = new HashMap<String, String>();
+		Map<String, String> pathParamVals = new HashMap<String, String>();
+		pathParamVals.put("dataset_id", datasetId);
+		pathParamVals.put("row_id", rowId);
+		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.DATASET_ROW_REMOVE, pathParamVals, paramVals);
+//		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.DATASET_ROW_REMOVE, uriParams);
+		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
 
 
@@ -424,18 +285,255 @@ public class CourseWorkController extends BaseController {
 	 */
 	@RequestMapping(value="/dataset/column/list", method=RequestMethod.GET)
 	public @ResponseBody ResponseEntity<ResponseData> datasetColumnList(
-			@RequestParam(value="pinogioOutputId", required=true) String pinogioOutputId, 
+			@RequestParam(value="datasetId", required=true) String datasetId, 
 			HttpSession session) throws Exception {
-
-		RestAPIClient rc = new RestAPIClient();
-		Map<String, String> param = new HashMap<String, String>();
-		param.put("dataset_id", pinogioOutputId);
-		Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.DATASET_COLUMN_LIST, param);
-		return new ResponseEntity<ResponseData>(responseBody(r), HttpStatus.OK);
+		
+		User user = (User)session.getAttribute("USER_INFO");
+		if (user == null) {
+			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+		}
+		Map<String, String> paramVals = new HashMap<String, String>();
+		Map<String, String> pathParamVals = new HashMap<String, String>();
+		pathParamVals.put("dataset_id", datasetId);
+		
+		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.DATASET_COLUMN_LIST, pathParamVals, paramVals);
+//		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.DATASET_COLUMN_LIST, param);
+		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
 
+	
+	// --------------------------------------------------------------------
+	// --------- Layers
+	// --------------------------------------------------------------------
 
-	// maps
+	//	@RequestMapping(value="/layer", method=RequestMethod.GET)
+	//	public @ResponseBody ResponseEntity<ResponseData> listLayer(
+	//			@RequestParam(value="courseId", required=false) String courseId) throws Exception {
+	//		return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+	//	}
+
+	/**
+	 * localhost:8080/ngiiedu/api/v1/coursesWork/layers/l=oBGRzS7ijB.json
+	 * 
+	 * @param layerId
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/layers/{layerId}", method=RequestMethod.GET)
+	public @ResponseBody ResponseEntity<ResponseData> getLayer(
+			@PathVariable(value="layerId", required=false) String layerId,
+			HttpSession session) throws Exception {
+		
+		User user = (User)session.getAttribute("USER_INFO");
+		if (user == null) {
+			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+		}
+
+		Map<String, String> paramVals = new HashMap<String, String>();
+		Map<String, String> pathParamVals = new HashMap<String, String>();
+		pathParamVals.put("layer_id", layerId);
+		
+		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.LAYER_GET, pathParamVals, paramVals);
+//		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.LAYER_GET, paramPath);
+
+		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
+	}
+
+	/**
+	 * localhost:8080/ngiiedu/api/v1/coursesWork/layers.json?title=제목&sources={"inputDataset":{"filter":[],"datasetId":"d=r7oFXBrCYl","type":"dataset"}}
+	 * 
+	 * @param courseWorkSubId
+	 * @param title
+	 * @param sources
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/layers", method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<ResponseData> createLayer(
+			@RequestParam(value="courseWorkSubId", required=true) int courseWorkSubId,
+			@RequestParam(value="title", required=false) String title,
+			@RequestParam(value="sources", required=false) String sources,
+			HttpSession session) throws Exception {
+
+		User user = (User)session.getAttribute("USER_INFO");
+		if (user == null) {
+			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+		}
+		
+		Map<String, String> paramVals = new HashMap<String,String>();
+		Map<String, String> pathParamVals = new HashMap<String,String>();
+		paramVals.put("project_id", LocalResourceBundle.PINOGIO_API_PROJECT_ID);
+		paramVals.put("title", title);
+		paramVals.put("sources", sources);
+//		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.LAYER_CREATE, "/layers.json", paramVals);
+		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.LAYER_CREATE, pathParamVals, paramVals);
+
+		// output division 추가..필요
+		WorkOutput workOutputResult = workOutputService.create(courseWorkSubId, "1",  result, user.getIdx(), "layer");
+		result.put("worksOutputId", workOutputResult.getIdx());
+		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
+	}
+
+	/**
+	 * 
+	 * localhost:8080/ngiiedu/api/v1/coursesWork/layers.json
+	 * 
+	 * @param layerId
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/layers/{layerId}", method=RequestMethod.DELETE)
+	public @ResponseBody ResponseEntity<ResponseData> deleteLayer(
+			@PathVariable(value="layerId", required=false) String layerId,
+			@RequestParam(value="worksOutputId", required=true) int worksOutputId,
+			HttpSession session) throws Exception {
+		User user = (User)session.getAttribute("USER_INFO");
+		if (user == null) {
+			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+		}
+		
+		Map<String, String> paramVals = new HashMap<String,String>();
+		Map<String, String> pathParamVals = new HashMap<String,String>();
+		pathParamVals.put("layer_id", layerId);
+		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.LAYER_REMOVE, pathParamVals, paramVals);
+//		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.LAYER_REMOVE, paramVals);
+		result.put("worksOutputIsDelete", workOutputService.delete(worksOutputId));
+		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
+	}
+
+	/**
+	 * 
+	 * localhost:8080/ngiiedu/api/v1/coursesWork/layers/l=atucjVOa0O/metadata.json?title=한글은?!&description&metadata&privacy=FRIEND
+	 * 
+	 * @param layerId
+	 * @param title
+	 * @param description
+	 * @param metadata
+	 * @param privacy
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/layers/{layerId}/metadata", method=RequestMethod.PUT)
+	public @ResponseBody ResponseEntity<ResponseData> updateMetadata(
+			@PathVariable("layerId") String layerId,
+			@RequestParam(value="title", required=false, defaultValue="제목없음") String title,
+			@RequestParam(value="description", required=false, defaultValue="") String description,
+			@RequestParam(value="metadata", required=false, defaultValue="") String metadata,
+			@RequestParam(value="privacy", required=false, defaultValue="PUBLIC") String privacy,
+			HttpSession session) throws Exception {
+		User user = (User)session.getAttribute("USER_INFO");
+		if (user == null) {
+			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+		}
+		
+		Map<String, String> paramVals = new HashMap<String,String>();
+		paramVals.put("title", title);
+		paramVals.put("description", description);
+		paramVals.put("metadata", metadata);
+		paramVals.put("privacy", privacy);
+		Map<String, String> pathParamVals = new HashMap<String,String>();
+		pathParamVals.put("layer_id", layerId);
+
+		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.LAYER_METADATA_UPDATE, pathParamVals, paramVals);
+//		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.LAYER_METADATA_UPDATE, "/layers/"+layerId+"/metadata.json", paramVals);
+
+		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
+	}
+
+	/**
+	 * 
+	 * localhost:8080/ngiiedu/api/v1/coursesWork/layers/l=H6WMCoLPPj/process.json?process={"identifier":"hexagonBinning","options":{"sideLen":"5000","validGrid":"false"},"inputDataset":{"type":"dataset","datasetId":"d=r7oFXBrCYl","filter":[]}}
+	 * 
+	 * @param layerId
+	 * @param process
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/layers/{layerId}/process", method=RequestMethod.PUT)
+	public @ResponseBody ResponseEntity<ResponseData> updateProcess(
+			@PathVariable("layerId") String layerId,
+			@RequestParam(value="process", required=true) String process,
+			HttpSession session) throws Exception {
+
+		User user = (User)session.getAttribute("USER_INFO");
+		if (user == null) {
+			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+		}
+		
+		Map<String, String> paramVals = new HashMap<String,String>();
+		paramVals.put("process", process);
+		Map<String, String> pathParamVals = new HashMap<String,String>();
+		pathParamVals.put("layer_id", layerId);
+		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.LAYER_METADAT_PROCESS_UPDATE, pathParamVals, paramVals);
+//		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.LAYER_METADAT_PROCESS_UPDATE, "/layers/"+layerId+"/process.json", paramVals);
+
+		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
+	}
+
+	/**
+	 * 
+	 * @param layerId
+	 * @param styling
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/layers/{layerId}/styling", method=RequestMethod.PUT)
+	public @ResponseBody ResponseEntity<ResponseData> updateStyling(
+			@PathVariable("layerId") String layerId, 
+			@RequestParam(value="styling", required=true) String styling,
+			HttpSession session) throws Exception {
+
+		User user = (User)session.getAttribute("USER_INFO");
+		if (user == null) {
+			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+		}
+		
+		Map<String, String> paramVals = new HashMap<String,String>();
+		paramVals.put("styling", styling);
+		Map<String, String> pathParamVals = new HashMap<String,String>();
+		pathParamVals.put("layer_id", layerId);
+//		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.LAYER_METADATA_STYLING_UPDATE, "/layers/"+layerId+"/styling.json", paramVals);
+		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.LAYER_METADATA_STYLING_UPDATE, pathParamVals, paramVals);
+
+		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
+	}
+
+	/**
+	 * 
+	 * @param layerId
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/layers/{layerId}/column", method=RequestMethod.GET)
+	public @ResponseBody ResponseEntity<ResponseData> listColumn(
+			@PathVariable("layerId") String layerId, 
+			HttpSession session) throws Exception {
+		User user = (User)session.getAttribute("USER_INFO");
+		if (user == null) {
+			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+		}
+		Map<String, String> paramVals = new HashMap<String,String>();
+		Map<String, String> pathParamVals = new HashMap<String,String>();
+		pathParamVals.put("layer_id", layerId);
+//		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.LAYER_COLUMN_LIST, "/layers/"+layerId+"/column.json", paramVals);
+		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.LAYER_COLUMN_LIST, pathParamVals, paramVals);
+		
+		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
+	}
+
+	
+	// --------------------------------------------------------------------
+	// --------- Maps
+	// --------------------------------------------------------------------
+
+	
 	/**
 	 * Maps 조회
 	 * 
@@ -444,16 +542,21 @@ public class CourseWorkController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/maps/{maps_id}", method=RequestMethod.GET)
+	@RequestMapping(value="/maps/{mapsId}", method=RequestMethod.GET)
 	public @ResponseBody ResponseEntity<ResponseData> getMaps(
-			@PathVariable(value="maps_id", required=false) String mapsId,
+			@PathVariable(value="mapsId", required=false) String mapsId,
 			HttpSession session) throws Exception {
 
-		Map<String, String> paramPath = new HashMap<String,String>();
-		paramPath.put("maps_id", mapsId);
-
-		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.MAPS_GET, paramPath);
-
+		User user = (User)session.getAttribute("USER_INFO");
+		if (user == null) {
+			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+		}
+		
+		Map<String, String> paramVals = new HashMap<String,String>();
+		Map<String, String> pathParamVals = new HashMap<String,String>();
+		pathParamVals.put("maps_id", mapsId);
+		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.MAPS_GET, pathParamVals, paramVals);
+//		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.LAYER_COLUMN_LIST, "/layers/"+layerId+"/column.json", paramVals);
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
 
@@ -478,12 +581,17 @@ public class CourseWorkController extends BaseController {
 			@RequestParam(value="courseWorkSubId", required=true) int courseWorkSubId,
 			@RequestParam(value="title", required=false) String title,
 			@RequestParam(value="description", required=false) String description,
-			@RequestParam(value="maps_type", required=false) String mapsType,
+			@RequestParam(value="mapsType", required=false) String mapsType,
 			@RequestParam(value="privacy", required=false) String privacy,
 			@RequestParam(value="metadata", required=false) String metadata,
 			HttpSession session) throws Exception {
 
 		User user = (User)session.getAttribute("USER_INFO");
+		if (user == null) {
+			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+		}
+		
+		Map<String, String> pathParamVals = new HashMap<String,String>();
 		Map<String, String> paramVals = new HashMap<String,String>();
 		paramVals.put("project_id", LocalResourceBundle.PINOGIO_API_PROJECT_ID);
 		paramVals.put("title", title);
@@ -491,10 +599,14 @@ public class CourseWorkController extends BaseController {
 		paramVals.put("maps_type", mapsType);
 		paramVals.put("privacy", privacy);
 		paramVals.put("metadata", metadata);
-		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.MAPS_CREATE, "/maps.json", paramVals);
-
-		// output division 추가..필요
-		WorkOutput workOutputResult = workOutputService.create(courseWorkSubId, "1",  result, user.getIdx(), "maps");
+		
+		int userId = user.getIdx();
+//		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.MAPS_CREATE, paramVals);
+//		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.MAPS_CREATE, "/maps.json", paramVals);
+		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.MAPS_CREATE, pathParamVals, paramVals);
+		
+		// output division?
+		WorkOutput workOutputResult = workOutputService.create(courseWorkSubId, "1",  result, userId, "maps");
 		result.put("worksOutputId", workOutputResult.getIdx());
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
@@ -511,16 +623,23 @@ public class CourseWorkController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/maps/{maps_id}", method=RequestMethod.PUT)
+	@RequestMapping(value="/maps/{mapsId}", method=RequestMethod.PUT)
 	public @ResponseBody ResponseEntity<ResponseData> updateMaps(
-			@PathVariable("maps_id") String mapsId,
+			@PathVariable("mapsId") String mapsId,
 			@RequestParam(value="title", required=false) String title,
 			@RequestParam(value="description", required=false) String description,
-			@RequestParam(value="maps_type", required=false) String mapsType,
+			@RequestParam(value="mapsType", required=false) String mapsType,
 			@RequestParam(value="privacy", required=false) String privacy,
 			@RequestParam(value="metadata", required=false) String metadata,
 			HttpSession session) throws Exception {
 
+		User user = (User)session.getAttribute("USER_INFO");
+		if (user == null) {
+			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+		}
+		
+		Map<String, String> pathParamVals = new HashMap<String,String>();
+		pathParamVals.put("maps_id", mapsId);
 		Map<String, String> paramVals = new HashMap<String,String>();
 		paramVals.put("project_id", LocalResourceBundle.PINOGIO_API_PROJECT_ID);
 		paramVals.put("title", title);
@@ -528,7 +647,8 @@ public class CourseWorkController extends BaseController {
 		paramVals.put("maps_type", mapsType);
 		paramVals.put("privacy", privacy);
 		paramVals.put("metadata", metadata);
-		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.MAPS_UPDATE, "/maps/"+mapsId+".json", paramVals);
+		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.MAPS_UPDATE, pathParamVals, paramVals);
+//		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.MAPS_UPDATE, "/maps/"+mapsId+".json", paramVals);
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
 
@@ -541,23 +661,28 @@ public class CourseWorkController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/maps/{maps_id}", method=RequestMethod.DELETE)
+	@RequestMapping(value="/maps/{mapsId}", method=RequestMethod.DELETE)
 	public @ResponseBody ResponseEntity<ResponseData> deleteMaps(
-			@PathVariable(value="maps_id", required=false) String mapsId,
-			@RequestParam(value="works_output_id", required=true) int worksOutputId,
+			@PathVariable(value="mapsId", required=false) String mapsId,
+			@RequestParam(value="worksOutputId", required=true) int worksOutputId,
 			HttpSession session) throws Exception {
 
+		User user = (User)session.getAttribute("USER_INFO");
+		if (user == null) {
+			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+		}
+		
+		Map<String, String> pathParamVals = new HashMap<String,String>();
+		pathParamVals.put("maps_id", mapsId);
 		Map<String, String> paramVals = new HashMap<String,String>();
 
-		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.MAPS_REMOVE, "/maps/"+mapsId+".json", paramVals);
-
-		workOutputService.delete(worksOutputId);
-
+		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.MAPS_REMOVE, pathParamVals, paramVals);
+//		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.MAPS_REMOVE, "/maps/"+mapsId+".json", paramVals);
+		
+		result.put("worksOutputIsDelete", workOutputService.delete(worksOutputId));
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
 
-	
-	
 	
 	/**
 	 * 맵스 아이템 목록
@@ -567,14 +692,22 @@ public class CourseWorkController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/maps/{maps_id}/item", method=RequestMethod.GET)
+	@RequestMapping(value="/maps/{mapsId}/item", method=RequestMethod.GET)
 	public @ResponseBody ResponseEntity<ResponseData> listMapsItem(
-			@PathVariable("maps_id") String mapsId,
+			@PathVariable("mapsId") String mapsId,
 			HttpSession session) throws Exception {
 		
+		User user = (User)session.getAttribute("USER_INFO");
+		if (user == null) {
+			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+		}
+		
+		Map<String, String> pathParamVals = new HashMap<String,String>();
+		pathParamVals.put("maps_id", mapsId);
 		Map<String, String> paramVals = new HashMap<String,String>();
 
-		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.MAPS_ITEM_LIST, "/maps/"+mapsId+"/item.json", paramVals);
+		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.MAPS_ITEM_LIST, pathParamVals, paramVals);
+//		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.MAPS_ITEM_LIST, "/maps/"+mapsId+"/item.json", paramVals);
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
 	
@@ -587,15 +720,24 @@ public class CourseWorkController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/maps/{maps_id}/item/{item_id}", method=RequestMethod.GET)
+	@RequestMapping(value="/maps/{mapsId}/item/{itemId}", method=RequestMethod.GET)
 	public @ResponseBody ResponseEntity<ResponseData> getMapsItem(
-			@PathVariable("maps_id") String mapsId,
-			@PathVariable("item_id") String itemId,
+			@PathVariable("mapsId") String mapsId,
+			@PathVariable("itemId") String itemId,
 			HttpSession session) throws Exception {
 		
+		User user = (User)session.getAttribute("USER_INFO");
+		if (user == null) {
+			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+		}
+		
+		Map<String, String> pathParamVals = new HashMap<String,String>();
+		pathParamVals.put("maps_id", mapsId);
+		pathParamVals.put("item_id", itemId);
 		Map<String, String> paramVals = new HashMap<String,String>();
 
-		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.MAPS_ITEM_GET, "/maps/"+mapsId+"/item/"+ itemId +".json", paramVals);
+		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.MAPS_ITEM_GET, pathParamVals, paramVals);
+//		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.MAPS_ITEM_GET, "/maps/"+mapsId+"/item/"+ itemId +".json", paramVals);
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
 	
@@ -609,20 +751,28 @@ public class CourseWorkController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/maps/{maps_id}/item", method=RequestMethod.POST)
+	@RequestMapping(value="/maps/{mapsId}/item", method=RequestMethod.POST)
 	public @ResponseBody ResponseEntity<ResponseData> createMapsItem(
-			@PathVariable("maps_id") String mapsId,
+			@PathVariable("mapsId") String mapsId,
 			@RequestParam(value="title", required=false) String title,
 			@RequestParam(value="description", required=false) String description,
 			@RequestParam(value="metadata", required=false) String metadata,
 			HttpSession session) throws Exception {
+		
+		User user = (User)session.getAttribute("USER_INFO");
+		if (user == null) {
+			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+		}
 		
 		Map<String, String> paramVals = new HashMap<String,String>();
 		paramVals.put("title", title);
 		paramVals.put("description", description);
 		paramVals.put("metadata", metadata);
 		
-		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.MAPS_ITEM_CREATE, "/maps/"+mapsId+"/item.json", paramVals);
+		Map<String, String> pathParamVals = new HashMap<String,String>();
+		pathParamVals.put("maps_id", mapsId);
+		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.MAPS_ITEM_CREATE, pathParamVals, paramVals);
+//		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.MAPS_ITEM_CREATE, "/maps/"+mapsId+"/item.json", paramVals);
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
 	
@@ -638,21 +788,32 @@ public class CourseWorkController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/maps/{maps_id}/item/{item_id}", method=RequestMethod.PUT)
+	@RequestMapping(value="/maps/{mapsId}/item/{itemId}", method=RequestMethod.PUT)
 	public @ResponseBody ResponseEntity<ResponseData> updateMapsItem(
-			@PathVariable("maps_id") String mapsId,
-			@PathVariable("item_id") String itemId,
+			@PathVariable("mapsId") String mapsId,
+			@PathVariable("itemId") String itemId,
 			@RequestParam(value="title", required=false) String title,
 			@RequestParam(value="description", required=false) String description,
 			@RequestParam(value="metadata", required=false) String metadata,
 			HttpSession session) throws Exception {
+		
+		User user = (User)session.getAttribute("USER_INFO");
+		if (user == null) {
+			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+		}
+		
+		Map<String, String> pathParamVals = new HashMap<String,String>();
+		pathParamVals.put("maps_id", mapsId);
+		pathParamVals.put("item_id", itemId);
 		
 		Map<String, String> paramVals = new HashMap<String,String>();
 		paramVals.put("title", title);
 		paramVals.put("description", description);
 		paramVals.put("metadata", metadata);
 
-		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.MAPS_ITEM_UPDATE, "/maps/"+mapsId+"/item/"+ itemId +".json", paramVals);
+		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.MAPS_ITEM_UPDATE, pathParamVals, paramVals);
+//		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.MAPS_ITEM_UPDATE, "/maps/"+mapsId+"/item/"+ itemId +".json", paramVals);
+
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
 	
@@ -665,22 +826,46 @@ public class CourseWorkController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/maps/{maps_id}/item/{item_id}", method=RequestMethod.DELETE)
+	@RequestMapping(value="/maps/{mapsId}/item/{itemId}", method=RequestMethod.DELETE)
 	public @ResponseBody ResponseEntity<ResponseData> deleteMapsItem(
-			@PathVariable("maps_id") String mapsId,
-			@PathVariable("item_id") String itemId,
+			@PathVariable("mapsId") String mapsId,
+			@PathVariable("itemId") String itemId,
 			HttpSession session) throws Exception {
 		
+		User user = (User)session.getAttribute("USER_INFO");
+		if (user == null) {
+			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+		}
+		
+		Map<String, String> pathParamVals = new HashMap<String,String>();
+		pathParamVals.put("maps_id", mapsId);
+		pathParamVals.put("item_id", itemId);
 		Map<String, String> paramVals = new HashMap<String,String>();
 
-		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.MAPS_ITEM_REMOVE, "/maps/"+mapsId+"/item/"+ itemId +".json", paramVals);
+		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.MAPS_ITEM_REMOVE, pathParamVals, paramVals);
+//		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.MAPS_ITEM_REMOVE, "/maps/"+mapsId+"/item/"+ itemId +".json", paramVals);
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
 	
-	@RequestMapping(value="/{course_work_id}/getTitle", method=RequestMethod.GET)
+	
+	
+	/**
+	 * course_work_id로 Course Work Name 가져오기
+	 * 
+	 * @param courseWorkId
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/{courseWorkId}/getTitle", method=RequestMethod.GET)
 	public @ResponseBody ResponseEntity<ResponseData> getTitle(
-			@PathVariable("course_work_id") int courseWorkId,
+			@PathVariable("courseWorkId") int courseWorkId,
 			HttpSession session) throws Exception {
+		User user = (User)session.getAttribute("USER_INFO");
+		if (user == null) {
+			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+		}
+		
 		String courseWorkName = courseWorkService.getCourseWorkName(courseWorkId);
 		return new ResponseEntity<ResponseData>(responseBody(courseWorkName), HttpStatus.OK);
 	}

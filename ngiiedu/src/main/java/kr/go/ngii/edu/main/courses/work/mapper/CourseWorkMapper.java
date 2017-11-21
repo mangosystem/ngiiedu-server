@@ -5,8 +5,6 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import kr.go.ngii.edu.main.courses.work.model.CourseWork;
-import kr.go.ngii.edu.main.courses.work.model.CourseWorkData;
-import kr.go.ngii.edu.main.courses.work.model.CourseWorkDataInfo;
 import kr.go.ngii.edu.main.courses.work.model.CourseWorkInfo;
 
 @Mapper
@@ -20,7 +18,7 @@ public interface CourseWorkMapper {
 	
 	public List<CourseWorkInfo> listCourseWorkInfo(CourseWork courseWork);
 	
-//	public CourseWorkInfo getCourseWorkInfo(CourseWork courseWork);
+	public CourseWorkInfo getCourseWorkInfo(CourseWork courseWork);
 
 	public void modify(CourseWork courseWork);
 	

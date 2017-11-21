@@ -8,8 +8,6 @@ import org.springframework.stereotype.Service;
 
 import kr.go.ngii.edu.main.modules.course.mapper.ModuleWorkMapper;
 import kr.go.ngii.edu.main.modules.course.model.ModuleWork;
-import kr.go.ngii.edu.main.modules.course.model.ModuleWorkAndSub;
-import kr.go.ngii.edu.main.modules.course.model.ModuleWorkSub;
 
 @Service
 public class ModuleWorkService {

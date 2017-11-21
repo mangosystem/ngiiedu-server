@@ -1,7 +1,6 @@
 package kr.go.ngii.edu.main.courses.work.model;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.xml.bind.annotation.XmlRootElement;
 

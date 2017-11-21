@@ -10,8 +10,8 @@ import javax.xml.bind.annotation.XmlRootElement;
  * 모듈과정 모델 클래스.
  * 
  */
-@XmlRootElement(name = "courseWorkSubOutputWithModuleWorkSub")
-public class CourseWorkSubOutputWithModuleWorkSub implements Serializable {
+@XmlRootElement(name = "courseWorkSubInfo")
+public class CourseWorkSubInfo implements Serializable {
 
 	/** serialVersionUID. */
 	private static final long serialVersionUID = 1L;
@@ -19,15 +19,16 @@ public class CourseWorkSubOutputWithModuleWorkSub implements Serializable {
 	/** 고유키. */
 	private Integer idx;
 
-	/** 모듈 과정 id (외래키). */
-	private Integer moduleWorkId;
+	/** 과정 id */
+	private Integer courseWorkId;
 	
+	/** 모듈 sub과정 id */
 	private Integer moduleWorkSubId;
 
-	/** 모듈 하위 과정 이름. */
+	/** 모듈 sub과정명 */
 	private String moduleWorkSubName;
 
-	/** 모듈 하위 과정 순서 */
+	/**  모듈 sub과정 순서  */
 	private Integer moduleWorkSubSeq;
 
 	/** 생성일 */
@@ -40,7 +41,7 @@ public class CourseWorkSubOutputWithModuleWorkSub implements Serializable {
 	private String outputType;
 	
 	private List<WorkOutput> workOutputList;
-	
+
 	public Integer getIdx() {
 		return idx;
 	}
@@ -49,12 +50,20 @@ public class CourseWorkSubOutputWithModuleWorkSub implements Serializable {
 		this.idx = idx;
 	}
 
-	public Integer getModuleWorkId() {
-		return moduleWorkId;
+	public Integer getCourseWorkId() {
+		return courseWorkId;
 	}
 
-	public void setModuleWorkId(Integer moduleWorkId) {
-		this.moduleWorkId = moduleWorkId;
+	public void setCourseWorkId(Integer courseWorkId) {
+		this.courseWorkId = courseWorkId;
+	}
+
+	public Integer getModuleWorkSubId() {
+		return moduleWorkSubId;
+	}
+
+	public void setModuleWorkSubId(Integer moduleWorkSubId) {
+		this.moduleWorkSubId = moduleWorkSubId;
 	}
 
 	public String getModuleWorkSubName() {
@@ -88,8 +97,7 @@ public class CourseWorkSubOutputWithModuleWorkSub implements Serializable {
 	public void setModifyDate(Date modifyDate) {
 		this.modifyDate = modifyDate;
 	}
-	
-	
+
 	public String getOutputType() {
 		return outputType;
 	}
@@ -97,26 +105,12 @@ public class CourseWorkSubOutputWithModuleWorkSub implements Serializable {
 	public void setOutputType(String outputType) {
 		this.outputType = outputType;
 	}
-	
-	
-	public Integer getModuleWorkSubId() {
-		return moduleWorkSubId;
-	}
 
-	public void setModuleWorkSubId(Integer moduleWorkSubId) {
-		this.moduleWorkSubId = moduleWorkSubId;
-	}
-	
-	
 	public List<WorkOutput> getWorkOutputList() {
 		return workOutputList;
 	}
 
 	public void setWorkOutputList(List<WorkOutput> workOutputList) {
 		this.workOutputList = workOutputList;
-	}
-	
-	public List<WorkOutput> getCourseWorkSubOutputInfoList() {
-		return workOutputList;
 	}
 }
