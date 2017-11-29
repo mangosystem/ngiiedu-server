@@ -49,6 +49,9 @@
 		<!-- smart-editor -->
 		<script type="text/javascript" src="<%=contextPath%>/assets/cdn/editor/js/service/HuskyEZCreator.js" charset="utf-8"></script>
 		
+		<!-- CKEditor4 -->
+		<script type="text/javascript" src="<%=contextPath%>/assets/cdn/ckeditor/ckeditor.js"></script>
+		
 		<link rel="stylesheet" type="text/css" href="<%=contextPath%>/assets/dist/index.css" />
 		<script type="text/javascript" src="<%=contextPath%>/assets/dist/request.js"></script>
 	</head>
