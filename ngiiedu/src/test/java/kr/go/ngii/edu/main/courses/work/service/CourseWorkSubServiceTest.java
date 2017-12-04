@@ -338,9 +338,7 @@ public class CourseWorkSubServiceTest extends BaseTest {
 		workOutput.setOutputUserid(1);
 		workOutput.setOutputTeamId(1);
 		workOutput.setOutputDivision("1");
-		
 	}
-	
 	
 	@Test
 	public void workCourseSubListTest() {

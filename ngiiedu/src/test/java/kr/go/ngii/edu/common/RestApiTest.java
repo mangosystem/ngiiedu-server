@@ -2,6 +2,7 @@ package kr.go.ngii.edu.common;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.codec.EncoderException;
@@ -291,15 +292,36 @@ public class RestApiTest extends BaseTest {
 	}
 	
 	@Test
+	public void testMapsGet() {
+		RestAPIClient rc = new RestAPIClient();
+		Map<String, String> uriParams = new HashMap<String, String>();
+		uriParams.put("maps_id", "m=u9M0cvgzYB");
+		Map<String, String> params = new HashMap<String, String>();
+		Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.MAPS_GET, uriParams);
+		
+		Map<String, Object> r2 = (Map<String, Object>) r.get("data");
+		System.out.println(r2);
+		System.out.println((int) r2.get("id"));
+		System.out.println((String) r2.get("projectId"));
+		System.out.println((String) r2.get("mapsId"));
+		System.out.println((String) r2.get("title"));
+		System.out.println((String) r2.get("description"));
+		System.out.println((String) r2.get("metadata"));
+		System.out.println((String) r2.get("typeKind"));
+		System.out.println((String) r2.get("privacy"));
+	}
+	
+	@Test
 	public void testMapsCreate() {
 		RestAPIClient rc = new RestAPIClient();
 		Map<String, String> uriParams = new HashMap<String, String>();
 		uriParams.put("project_id", LocalResourceBundle.PINOGIO_API_PROJECT_ID);
-		uriParams.put("title", "aaaabbbb");
+		uriParams.put("title", "aaa");
 		uriParams.put("description", "a");
-		uriParams.put("maps_type", "SERIES");
+		uriParams.put("maps_type", "STORY");
 		uriParams.put("privacy", "PUBLIC");
-		uriParams.put("metadata", "aa");
+		uriParams.put("metadata", "null");
+		uriParams.put("type_kind", "TAB");
 		Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.MAPS_CREATE, "/maps.json", uriParams);
 		System.out.println(r);
 	}

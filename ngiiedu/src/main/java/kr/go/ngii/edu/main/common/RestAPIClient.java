@@ -78,10 +78,12 @@ public class RestAPIClient {
 		    ParameterizedTypeReference<Map<String, Object>> typeRef = 
 					new ParameterizedTypeReference<Map<String, Object>>() {};
 			HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
+			System.out.println("uriParam : " + uriParam);
+			System.out.println("method : " + method);
 			ResponseEntity<Map<String, Object>> result = restTemplate.exchange(uriParam, method, entity, typeRef);
 			Map<String, Object> body = result.getBody();
 			return body;
-		} catch (Exception e) {
+		} catch (Exception e) {         
 			e.printStackTrace();
 		}
 		return null;
