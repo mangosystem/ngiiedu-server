@@ -35,6 +35,17 @@ public class RestApiTest extends BaseTest {
 		System.out.println(r);
 	}
 	
+	@Test
+	public void testDatasetCreate() {
+		RestAPIClient rc = new RestAPIClient();
+		Map<String, String> uriParams = new HashMap<String, String>();
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("project_id", "p=pppppppp");
+		params.put("ufile", "p=pppppppp");
+		Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.DATASET_CREATE, uriParams, params);
+		System.out.println(r);
+	}
+	
 	
 	@Test
 	public void testDatasetUpdate() {

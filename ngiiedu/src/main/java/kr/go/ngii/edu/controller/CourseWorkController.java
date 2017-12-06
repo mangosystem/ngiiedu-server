@@ -801,9 +801,12 @@ public class CourseWorkController extends BaseController {
 	@RequestMapping(value="/maps/{mapsId}/item", method=RequestMethod.POST)
 	public @ResponseBody ResponseEntity<ResponseData> mapsItemCreate(
 			@PathVariable("mapsId") String mapsId,
-			@RequestParam(value="title", required=false) String title,
-			@RequestParam(value="description", required=false) String description,
-			@RequestParam(value="metadata", required=false) String metadata,
+			@RequestParam(value="title", required=false, defaultValue="untitled") String title,
+			@RequestParam(value="description", required=false, defaultValue="") String description,
+			@RequestParam(value="metadata", required=false, defaultValue="") String metadata,
+			@RequestParam(value="baseLayer	", required=false, defaultValue="") String baseLayer,
+			@RequestParam(value="pinoLayer", required=false, defaultValue="") String pinoLayer,
+			@RequestParam(value="mapOptions", required=false, defaultValue="") String mapOptions,
 			HttpSession session) throws Exception {
 		
 		User user = (User)session.getAttribute("USER_INFO");
@@ -815,6 +818,9 @@ public class CourseWorkController extends BaseController {
 		paramVals.put("title", title);
 		paramVals.put("description", description);
 		paramVals.put("metadata", metadata);
+		paramVals.put("base_layer", baseLayer);
+		paramVals.put("pino_layer", pinoLayer);
+		paramVals.put("map_options", mapOptions);
 		
 		Map<String, String> pathParamVals = new HashMap<String,String>();
 		pathParamVals.put("maps_id", mapsId);
@@ -839,9 +845,12 @@ public class CourseWorkController extends BaseController {
 	public @ResponseBody ResponseEntity<ResponseData> mapsItemModify(
 			@PathVariable("mapsId") String mapsId,
 			@PathVariable("itemId") String itemId,
-			@RequestParam(value="title", required=false) String title,
-			@RequestParam(value="description", required=false) String description,
-			@RequestParam(value="metadata", required=false) String metadata,
+			@RequestParam(value="title", required=false, defaultValue="") String title,
+			@RequestParam(value="description", required=false, defaultValue="") String description,
+			@RequestParam(value="metadata", required=false, defaultValue="") String metadata,
+			@RequestParam(value="baseLayer	", required=false, defaultValue="") String baseLayer,
+			@RequestParam(value="pinoLayer", required=false, defaultValue="") String pinoLayer,
+			@RequestParam(value="mapOptions", required=false, defaultValue="") String mapOptions,
 			HttpSession session) throws Exception {
 		
 		User user = (User)session.getAttribute("USER_INFO");
@@ -857,6 +866,9 @@ public class CourseWorkController extends BaseController {
 		paramVals.put("title", title);
 		paramVals.put("description", description.replaceAll("/", "%2F"));
 		paramVals.put("metadata", metadata);
+		paramVals.put("base_layer", baseLayer);
+		paramVals.put("pino_layer", pinoLayer);
+		paramVals.put("map_options", mapOptions);
 
 		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.MAPS_ITEM_UPDATE, pathParamVals, paramVals);
 //		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.MAPS_ITEM_UPDATE, "/maps/"+mapsId+"/item/"+ itemId +".json", paramVals);
