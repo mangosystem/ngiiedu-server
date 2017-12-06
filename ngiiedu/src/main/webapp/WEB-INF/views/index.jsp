@@ -46,14 +46,18 @@
 		<!-- font-awesome -->
 		<link rel="stylesheet" type="text/css" href="<%=contextPath%>/assets/cdn/font-awesome/css/font-awesome.min.css" />
 
-		<!-- smart-editor -->
-		<script type="text/javascript" src="<%=contextPath%>/assets/cdn/editor/js/service/HuskyEZCreator.js" charset="utf-8"></script>
-		
 		<!-- CKEditor4 -->
 		<script type="text/javascript" src="<%=contextPath%>/assets/cdn/ckeditor/ckeditor.js"></script>
 		
 		<link rel="stylesheet" type="text/css" href="<%=contextPath%>/assets/dist/index.css" />
 		<script type="text/javascript" src="<%=contextPath%>/assets/dist/request.js"></script>
+		
+		<!--Google API-->
+		<script type="text/javascript" src="<%=contextPath%>/assets/dist/googleAPI.js"></script>
+		<script async defer src="https://apis.google.com/js/api.js"
+			onload="this.onload=function(){};handleClientLoad()"
+			onreadystatechange="if (this.readyState === 'complete') this.onload()">
+		</script>			
 	</head>
 
 	<body>
