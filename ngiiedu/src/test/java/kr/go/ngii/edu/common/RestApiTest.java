@@ -325,4 +325,34 @@ public class RestApiTest extends BaseTest {
 		Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.MAPS_CREATE, "/maps.json", uriParams);
 		System.out.println(r);
 	}
+	
+	@Test
+	public void testMapsUpdate() {
+		RestAPIClient rc = new RestAPIClient();
+		Map<String, String> uriParams = new HashMap<String, String>();
+		uriParams.put("maps_id", "m=Al4uSj6hAh");
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("project_id", LocalResourceBundle.PINOGIO_API_PROJECT_ID);
+		params.put("title", "asd");
+		params.put("description", "a");
+		params.put("maps_type", "STORY");
+		params.put("privacy", "PUBLIC");
+		params.put("metadata", "null");
+		params.put("type_kind", "TAB");
+		Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.MAPS_UPDATE, uriParams, params);
+		System.out.println(r);
+		Map<String, Object> r2 = (Map<String, Object>) r.get("data");
+		System.out.println(r2);
+		
+		
+		
+//		System.out.println((int) r2.get("id"));
+//		System.out.println((String) r2.get("projectId"));
+//		System.out.println((String) r2.get("mapsId"));
+//		System.out.println((String) r2.get("title"));
+//		System.out.println((String) r2.get("description"));
+//		System.out.println((String) r2.get("metadata"));
+//		System.out.println((String) r2.get("typeKind"));
+//		System.out.println((String) r2.get("privacy"));
+	}
 }

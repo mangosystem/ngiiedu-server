@@ -3,13 +3,23 @@ package kr.go.ngii.edu.main.courses.work.service;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.servlet.http.HttpSession;
+
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -17,7 +27,9 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import kr.go.ngii.edu.BaseTest;
 import kr.go.ngii.edu.common.StringUtil;
 import kr.go.ngii.edu.common.enums.EnumRestAPIType;
+import kr.go.ngii.edu.common.enums.EnumWorkOutputType;
 import kr.go.ngii.edu.config.LocalResourceBundle;
+import kr.go.ngii.edu.controller.rest.ResponseData;
 import kr.go.ngii.edu.main.common.RestAPIClient;
 import kr.go.ngii.edu.main.courses.course.model.CourseTeamMember;
 import kr.go.ngii.edu.main.courses.course.service.CourseTeamMemberService;
@@ -26,6 +38,7 @@ import kr.go.ngii.edu.main.courses.work.mapper.WorkOutputMapper;
 import kr.go.ngii.edu.main.courses.work.model.CourseWork;
 import kr.go.ngii.edu.main.courses.work.model.CourseWorkSub;
 import kr.go.ngii.edu.main.courses.work.model.WorkOutput;
+import kr.go.ngii.edu.main.users.model.User;
 
 
 public class WorkOutputServiceTest extends BaseTest{
@@ -274,7 +287,51 @@ public class WorkOutputServiceTest extends BaseTest{
 	    return String.format(formatter.toString(), valueList.toArray());
 	}
 	
+	@Test
+	public void workOutputGetTest() {
+		String mapsId = "m=Al4uSj6hAh";
+		
+		WorkOutput param = new WorkOutput();
+		param.setIdx(95);
+		param = workOutputService.get(param);
+		System.out.println(param.getPinogioOutputId());
+		Object pngoData = this.requestPngoData(param.getPinogioOutputId(), param.getOutputType());
+		param.setPngoData(pngoData);
+		String outputName = 
+				((LinkedHashMap<String, String>) pngoData).get("title");
+		param.setOutputName(outputName);
+		System.out.println(param);
+		
+	}
+	 
 	
+	private Object requestPngoData(String pngoId, String outputType) {
+		if ("layer".equals(outputType)) {
+			Map<String, Object> r;
+			RestAPIClient rc = new RestAPIClient();
+			Map<String, String> uriParams = new HashMap<String, String>();
+			uriParams.put(EnumWorkOutputType.LAYER.idField(), pngoId);
+			r = rc.getResponseBody(EnumRestAPIType.LAYER_GET, uriParams);
+			return r.get("data");
+		} else if ("maps".equals(outputType)) {
+			Map<String, Object> r;
+			RestAPIClient rc = new RestAPIClient();
+			Map<String, String> uriParams = new HashMap<String, String>();
+			uriParams.put(EnumWorkOutputType.MAPS.idField(), pngoId);
+			r = rc.getResponseBody(EnumRestAPIType.MAPS_GET, uriParams);
+			return r.get("data");
+		} else if ("dataset".equals(outputType)) {
+			Map<String, Object> r;
+			RestAPIClient rc = new RestAPIClient();
+			Map<String, String> uriParams = new HashMap<String, String>();
+			uriParams.put(EnumWorkOutputType.DATASET.idField(), pngoId);
+			r = rc.getResponseBody(EnumRestAPIType.DATASET_GET, uriParams);
+			return r.get("data");
+		}
+		return null;
+	}
+	
+
 	
 	
 }

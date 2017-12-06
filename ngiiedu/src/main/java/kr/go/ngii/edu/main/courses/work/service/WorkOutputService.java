@@ -1,6 +1,7 @@
 package kr.go.ngii.edu.main.courses.work.service;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +13,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 
 import kr.go.ngii.edu.common.StringUtil;
 import kr.go.ngii.edu.common.enums.EnumRestAPIType;
+import kr.go.ngii.edu.common.enums.EnumWorkOutputType;
 import kr.go.ngii.edu.common.message.ErrorMessage;
 import kr.go.ngii.edu.config.LocalResourceBundle;
 import kr.go.ngii.edu.main.common.BaseService;
@@ -104,7 +106,18 @@ public class WorkOutputService extends BaseService {
 	}
 	
 	public WorkOutput get(WorkOutput workOutput) {
-		return workOutputMapper.get(workOutput);
+		workOutput =  workOutputMapper.get(workOutput);
+		Object pngoData = this.requestPngoData(workOutput.getPinogioOutputId(), workOutput.getOutputType());
+		workOutput.setPngoData(pngoData);
+		String outputName = ((LinkedHashMap<String, String>) pngoData).get("title");
+		workOutput.setOutputName(outputName);
+		return workOutput;
+	}
+	
+	public WorkOutput get(int idx) {
+		WorkOutput param = new WorkOutput();
+		param.setIdx(idx);
+		return get(param);
 	}
 	
 	public List<WorkOutput> getList(WorkOutput workOutput) {
@@ -130,4 +143,29 @@ public class WorkOutputService extends BaseService {
 		return workOutputMapper.getListByCourseWorkId(courseWorkId);
 	}
 	
+	private Object requestPngoData(String pngoId, String outputType) {
+		if ("layer".equals(outputType)) {
+			Map<String, Object> r;
+			RestAPIClient rc = new RestAPIClient();
+			Map<String, String> uriParams = new HashMap<String, String>();
+			uriParams.put(EnumWorkOutputType.LAYER.idField(), pngoId);
+			r = rc.getResponseBody(EnumRestAPIType.LAYER_GET, uriParams);
+			return r.get("data");
+		} else if ("maps".equals(outputType)) {
+			Map<String, Object> r;
+			RestAPIClient rc = new RestAPIClient();
+			Map<String, String> uriParams = new HashMap<String, String>();
+			uriParams.put(EnumWorkOutputType.MAPS.idField(), pngoId);
+			r = rc.getResponseBody(EnumRestAPIType.MAPS_GET, uriParams);
+			return r.get("data");
+		} else if ("dataset".equals(outputType)) {
+			Map<String, Object> r;
+			RestAPIClient rc = new RestAPIClient();
+			Map<String, String> uriParams = new HashMap<String, String>();
+			uriParams.put(EnumWorkOutputType.DATASET.idField(), pngoId);
+			r = rc.getResponseBody(EnumRestAPIType.DATASET_GET, uriParams);
+			return r.get("data");
+		}
+		return null;
+	}
 }

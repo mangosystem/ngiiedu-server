@@ -362,6 +362,12 @@ public class CourseWorkSubServiceTest extends BaseTest {
 		System.out.println(list);
 	}
 	
+	@Test
+	public void workCourseSubListTest2() {
+		List<CourseWorkSubInfo> list = courseWorkSubService.list(28);
+		System.out.println(list);
+	}
+	
 	private Object requestPngoData(String pngoId, String outputType) {
 		if ("layer".equals(outputType)) {
 			Map<String, Object> r;

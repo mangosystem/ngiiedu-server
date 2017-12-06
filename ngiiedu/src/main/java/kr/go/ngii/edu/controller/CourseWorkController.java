@@ -110,8 +110,8 @@ public class CourseWorkController extends BaseController {
 	@RequestMapping(value="/dataset", method=RequestMethod.POST)
 	public @ResponseBody ResponseEntity<ResponseData> datasetCreate(
 			@RequestParam(value="courseWorkSubId", required=true) int courseWorkSubId,
-			@RequestParam(value="title", required=false) String title,
-			@RequestParam(value="sources", required=false) String sources,
+			@RequestParam(value="title", required=false, defaultValue="untitled") String title,
+			@RequestParam(value="sources", required=false, defaultValue="") String sources,
 			HttpSession session) throws Exception {
 
 		User user = (User)session.getAttribute("USER_INFO");
@@ -634,11 +634,11 @@ public class CourseWorkController extends BaseController {
 		paramVals.put("privacy", privacy);
 		paramVals.put("type_kind", typeKind);
 		
-		int userId = user.getIdx();
+//		int userId = user.getIdx();
 		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.MAPS_CREATE, pathParamVals, paramVals);
 		
 		// output division?
-		WorkOutput workOutputResult = workOutputService.create(courseWorkSubId, "1",  result, 40, "maps");
+		WorkOutput workOutputResult = workOutputService.create(courseWorkSubId, "1",  result, user.getIdx(), "maps");
 		result.put("worksOutputId", workOutputResult.getIdx());
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
@@ -658,6 +658,7 @@ public class CourseWorkController extends BaseController {
 	@RequestMapping(value="/maps/{mapsId}", method=RequestMethod.PUT)
 	public @ResponseBody ResponseEntity<ResponseData> mapsUpdate(
 			@PathVariable("mapsId") String mapsId,
+			@RequestParam(value="workOutputId", required=true) int workOutputId,
 			@RequestParam(value="title", required=false, defaultValue="") String title,
 			@RequestParam(value="description", required=false, defaultValue="") String description,
 			@RequestParam(value="mapsType", required=false, defaultValue="") String mapsType,
@@ -677,15 +678,12 @@ public class CourseWorkController extends BaseController {
 		Map<String, Object> mapsGetResult = apiClient.getResponseBody(EnumRestAPIType.MAPS_GET, pathParamVals);
 		Map<String, Object> mapsGetResultData = (Map<String, Object>) mapsGetResult.get("data");
 		
-		try {
-			title = "".equals(title) ? (String) mapsGetResultData.get("title") : title;
-			description = "".equals(description) ? (String) mapsGetResultData.get("description") : description;
-			mapsType = "".equals(mapsType) ? (String) mapsGetResultData.get("maps_type") : mapsType;
-			metadata = "".equals(metadata) ? (String) mapsGetResultData.get("metadata") : metadata;
-			privacy = "".equals(privacy) ? (String) mapsGetResultData.get("privacy") : privacy;
-			typeKind = "".equals(typeKind) ? (String) mapsGetResultData.get("type_kind") : typeKind;
-		} catch (NullPointerException e) {
-		}
+		title = "".equals(title) ? (String) mapsGetResultData.get("title") : title;
+		description = "".equals(description) ? (String) mapsGetResultData.get("description") : description;
+		mapsType = "".equals(mapsType) ? (String) mapsGetResultData.get("maps_type") : mapsType;
+		metadata = "".equals(metadata) ? (String) mapsGetResultData.get("metadata") : metadata;
+		privacy = "".equals(privacy) ? (String) mapsGetResultData.get("privacy") : privacy;
+		typeKind = "".equals(typeKind) ? (String) mapsGetResultData.get("type_kind") : typeKind;
 		
 		Map<String, String> paramVals = new HashMap<String,String>();
 		paramVals.put("project_id", LocalResourceBundle.PINOGIO_API_PROJECT_ID);
@@ -697,7 +695,7 @@ public class CourseWorkController extends BaseController {
 		paramVals.put("type_kind", typeKind);
 		
 		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.MAPS_UPDATE, pathParamVals, paramVals);
-//		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.MAPS_UPDATE, "/maps/"+mapsId+".json", paramVals);
+		result.put("result", workOutputService.get(workOutputId));
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
 
