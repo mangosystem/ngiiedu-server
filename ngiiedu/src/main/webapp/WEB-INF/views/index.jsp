@@ -46,9 +46,6 @@
 		<!-- font-awesome -->
 		<link rel="stylesheet" type="text/css" href="<%=contextPath%>/assets/cdn/font-awesome/css/font-awesome.min.css" />
 
-		<!-- smart-editor -->
-		<script type="text/javascript" src="<%=contextPath%>/assets/cdn/editor/js/service/HuskyEZCreator.js" charset="utf-8"></script>
-		
 		<!-- CKEditor4 -->
 		<script type="text/javascript" src="<%=contextPath%>/assets/cdn/ckeditor/ckeditor.js"></script>
 		
