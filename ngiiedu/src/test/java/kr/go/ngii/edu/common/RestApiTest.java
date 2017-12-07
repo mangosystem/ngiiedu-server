@@ -8,6 +8,7 @@ import java.util.Map;
 import org.apache.commons.codec.EncoderException;
 import org.apache.commons.codec.net.URLCodec;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -20,10 +21,13 @@ import kr.go.ngii.edu.BaseTest;
 import kr.go.ngii.edu.common.enums.EnumRestAPIType;
 import kr.go.ngii.edu.config.LocalResourceBundle;
 import kr.go.ngii.edu.main.common.RestAPIClient;
+import kr.go.ngii.edu.main.courses.work.model.WorkOutput;
+import kr.go.ngii.edu.main.courses.work.service.WorkOutputService;
 
 public class RestApiTest extends BaseTest {
 
-	
+	@Autowired
+	private WorkOutputService workOutputService;
 	
 	@Test
 	public void testDatasetGet() {
@@ -335,6 +339,8 @@ public class RestApiTest extends BaseTest {
 		uriParams.put("type_kind", "TAB");
 		Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.MAPS_CREATE, "/maps.json", uriParams);
 		System.out.println(r);
+		WorkOutput workOutputResult = workOutputService.create(25, "1",  r, 40, "maps");
+		System.out.println(workOutputResult);
 	}
 	
 	@Test

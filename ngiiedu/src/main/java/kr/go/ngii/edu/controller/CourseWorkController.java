@@ -639,7 +639,7 @@ public class CourseWorkController extends BaseController {
 		
 		// output division?
 		WorkOutput workOutputResult = workOutputService.create(courseWorkSubId, "1",  result, user.getIdx(), "maps");
-		result.put("worksOutputId", workOutputResult.getIdx());
+		result.put("result", workOutputResult);
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
 	

@@ -86,10 +86,10 @@ public class WorkOutputService extends BaseService {
 		} else if ("dataset".equals(outputType)) {
 			pinogioIdColName = "datasetId";
 		}
-			
-		String createdPinogioId = (String) resultData.get(pinogioIdColName).toString();
 		
 		try {
+			String createdPinogioId = (String) resultData.get(pinogioIdColName).toString();
+			String createdTitle = (String) resultData.get("title").toString();
 			WorkOutput woParam = new WorkOutput();
 			woParam.setCourseWorkSubId(courseWorkSubId);
 			woParam.setOutputDivision(outputDivision);
@@ -97,8 +97,10 @@ public class WorkOutputService extends BaseService {
 			woParam.setOutputTeamId(temaId);
 			woParam.setOutputUserid(userId);
 			woParam.setOutputType(outputType);
+			woParam.setPngoData(resultData);
+			woParam.setOutputName(createdTitle);
 			workOutputMapper.create(woParam);
-			woParam.getPinogioOutputId();
+//			woParam.getPinogioOutputId();
 			return woParam;
 		} catch (Exception e) {
 			throw new RuntimeException(ErrorMessage.SERVER_ERROR);
