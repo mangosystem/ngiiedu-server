@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import kr.go.ngii.edu.common.enums.EnumRestAPIType;
 import kr.go.ngii.edu.config.LocalResourceBundle;
@@ -111,7 +112,8 @@ public class CourseWorkController extends BaseController {
 	public @ResponseBody ResponseEntity<ResponseData> datasetCreate(
 			@RequestParam(value="courseWorkSubId", required=true) int courseWorkSubId,
 			@RequestParam(value="title", required=false, defaultValue="untitled") String title,
-			@RequestParam(value="sources", required=false, defaultValue="") String sources,
+//			@RequestParam(value="sources", required=false, defaultValue="") String sources,
+			MultipartHttpServletRequest request,
 			HttpSession session) throws Exception {
 
 		User user = (User)session.getAttribute("USER_INFO");
@@ -122,13 +124,13 @@ public class CourseWorkController extends BaseController {
 		Map<String, String> pathParamVals = new HashMap<String,String>();
 		paramVals.put("project_id", LocalResourceBundle.PINOGIO_API_PROJECT_ID);
 		paramVals.put("title", title);
-		paramVals.put("sources", sources);
+//		paramVals.put("sources", sources);
 //			Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.DATASET_CREATE, paramVals);
 //			Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.DATASET_CREATE, "/dataset.json", paramVals);
 		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.DATASET_CREATE, pathParamVals, paramVals);
 
-		// output Division 추가..
-		WorkOutput workOutputResult = workOutputService.create(courseWorkSubId, "1",  result, user.getIdx(), "dataset");
+		// output Division 
+		WorkOutput workOutputResult = workOutputService.create(courseWorkSubId, "1",  result, 40, "dataset");
 		result.put("worksOutputId", workOutputResult.getIdx());
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
@@ -263,7 +265,7 @@ public class CourseWorkController extends BaseController {
 	public @ResponseBody ResponseEntity<ResponseData> datasetRowModify(
 			@RequestParam("datasetId") String datasetId, 
 			@RequestParam("rowId") String rowId,
-			@RequestParam("contentJson") String contentJson, // pngo_ 테이블 참조
+			@RequestParam("contentJson") String contentJson, 
 			HttpSession session) throws Exception {
 		User user = (User)session.getAttribute("USER_INFO");
 		if (user == null) {
@@ -403,7 +405,7 @@ public class CourseWorkController extends BaseController {
 //		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.LAYER_CREATE, "/layers.json", paramVals);
 		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.LAYER_CREATE, pathParamVals, paramVals);
 
-		// output division 추가..필요
+		// output division
 		WorkOutput workOutputResult = workOutputService.create(courseWorkSubId, "1",  result, user.getIdx(), "layer");
 		result.put("worksOutputId", workOutputResult.getIdx());
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
@@ -453,7 +455,7 @@ public class CourseWorkController extends BaseController {
 	@RequestMapping(value="/layers/{layerId}/metadata", method=RequestMethod.PUT)
 	public @ResponseBody ResponseEntity<ResponseData> layerMetadataModify(
 			@PathVariable("layerId") String layerId,
-			@RequestParam(value="title", required=false, defaultValue="제목없음") String title,
+			@RequestParam(value="title", required=false, defaultValue="untitled") String title,
 			@RequestParam(value="description", required=false, defaultValue="") String description,
 			@RequestParam(value="metadata", required=false, defaultValue="") String metadata,
 			@RequestParam(value="privacy", required=false, defaultValue="PUBLIC") String privacy,
@@ -680,10 +682,10 @@ public class CourseWorkController extends BaseController {
 		
 		title = "".equals(title) ? (String) mapsGetResultData.get("title") : title;
 		description = "".equals(description) ? (String) mapsGetResultData.get("description") : description;
-		mapsType = "".equals(mapsType) ? (String) mapsGetResultData.get("maps_type") : mapsType;
+		mapsType = "".equals(mapsType) ? (String) mapsGetResultData.get("mapsType") : mapsType;
 		metadata = "".equals(metadata) ? (String) mapsGetResultData.get("metadata") : metadata;
 		privacy = "".equals(privacy) ? (String) mapsGetResultData.get("privacy") : privacy;
-		typeKind = "".equals(typeKind) ? (String) mapsGetResultData.get("type_kind") : typeKind;
+		typeKind = "".equals(typeKind) ? (String) mapsGetResultData.get("typeKind") : typeKind;
 		
 		Map<String, String> paramVals = new HashMap<String,String>();
 		paramVals.put("project_id", LocalResourceBundle.PINOGIO_API_PROJECT_ID);
