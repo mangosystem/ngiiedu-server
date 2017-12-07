@@ -35,7 +35,9 @@
 			var userIdx = <%= userIdx %>;
 
 		</script>
-
+		<!-- CKEditor4 -->
+		<script type="text/javascript" src="<%=contextPath%>/assets/cdn/ckeditor/ckeditor.js"></script>
+		
 		<!--openlayers  -->
 		<link rel="stylesheet" type="text/css" href="<%=contextPath%>/assets/cdn/openlayers/dist/ol.css" />
 		<script type="text/javascript" src="<%=contextPath%>/assets/cdn/openlayers/dist/ol-debug.js"></script>
@@ -46,9 +48,6 @@
 		<!-- font-awesome -->
 		<link rel="stylesheet" type="text/css" href="<%=contextPath%>/assets/cdn/font-awesome/css/font-awesome.min.css" />
 
-		<!-- CKEditor4 -->
-		<script type="text/javascript" src="<%=contextPath%>/assets/cdn/ckeditor/ckeditor.js"></script>
-		
 		<link rel="stylesheet" type="text/css" href="<%=contextPath%>/assets/dist/index.css" />
 		<script type="text/javascript" src="<%=contextPath%>/assets/dist/request.js"></script>
 		

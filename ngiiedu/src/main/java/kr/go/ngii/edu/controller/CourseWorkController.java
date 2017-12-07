@@ -680,10 +680,10 @@ public class CourseWorkController extends BaseController {
 		
 		title = "".equals(title) ? (String) mapsGetResultData.get("title") : title;
 		description = "".equals(description) ? (String) mapsGetResultData.get("description") : description;
-		mapsType = "".equals(mapsType) ? (String) mapsGetResultData.get("maps_type") : mapsType;
+		mapsType = "".equals(mapsType) ? (String) mapsGetResultData.get("mapsType") : mapsType;
 		metadata = "".equals(metadata) ? (String) mapsGetResultData.get("metadata") : metadata;
 		privacy = "".equals(privacy) ? (String) mapsGetResultData.get("privacy") : privacy;
-		typeKind = "".equals(typeKind) ? (String) mapsGetResultData.get("type_kind") : typeKind;
+		typeKind = "".equals(typeKind) ? (String) mapsGetResultData.get("typeKind") : typeKind;
 		
 		Map<String, String> paramVals = new HashMap<String,String>();
 		paramVals.put("project_id", LocalResourceBundle.PINOGIO_API_PROJECT_ID);
