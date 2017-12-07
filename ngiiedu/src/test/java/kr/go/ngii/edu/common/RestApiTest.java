@@ -5,10 +5,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.commons.codec.EncoderException;
 import org.apache.commons.codec.net.URLCodec;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -20,9 +29,11 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import kr.go.ngii.edu.BaseTest;
 import kr.go.ngii.edu.common.enums.EnumRestAPIType;
 import kr.go.ngii.edu.config.LocalResourceBundle;
+import kr.go.ngii.edu.controller.rest.ResponseData;
 import kr.go.ngii.edu.main.common.RestAPIClient;
 import kr.go.ngii.edu.main.courses.work.model.WorkOutput;
 import kr.go.ngii.edu.main.courses.work.service.WorkOutputService;
+import kr.go.ngii.edu.main.users.model.User;
 
 public class RestApiTest extends BaseTest {
 
@@ -57,7 +68,7 @@ public class RestApiTest extends BaseTest {
 		Map<String, String> uriParams = new HashMap<String, String>();
 		uriParams.put("dataset_id", "d=r7oFXBrCYl");
 		Map<String, String> params = new HashMap<String, String>();
-//		params.put("title", "학교주변 소음지도 데이터 수집");
+//		params.put("title", "�븰援먯＜蹂� �냼�쓬吏��룄 �뜲�씠�꽣 �닔吏�");
 		params.put("description", "cc");
 		params.put("metadata", "aa");
 //		params.put("privacy", "private");
@@ -110,7 +121,7 @@ public class RestApiTest extends BaseTest {
 		uriParams.put("dataset_id", "d=r7oFXBrCYl");
 		uriParams.put("row_id","278" );
 		Map<String, String> params = new HashMap<String, String>();
-		String content = "{\"kr_np_golf\":{\"type\":\"LONG\",\"value\":2},\"cat\":{\"type\":\"STRING\",\"value\":\"종로구`````\"},\"nam\":{\"type\":\"STRING\",\"value\":\"종로구`````\"},\"addr\":{\"type\":\"STRING\",\"value\":\"종로구`````\"},\"lon\":{\"type\":\"DOUBLE\",\"value\":126},\"lat\":{\"type\":\"DOUBLE\",\"value\":34},\"udate\":{\"type\":\"STRING\",\"value\":\"STRING\"},\"noise_value\":{\"type\":\"INTEGER\",\"value\":1},\"noise_zone\":{\"type\":\"STRING\",\"value\":\"STRING\"},\"noise_level\":{\"type\":\"INTEGER\",\"value\":1},\"survey_dn\":{\"type\":\"STRING\",\"value\":\"STRING\"},\"work_id\":{\"type\":\"INTEGER\",\"value\":1},\"create_team_id\":{\"type\":\"INTEGER\",\"value\":1},\"create_mem_id\":{\"type\":\"INTEGER\",\"value\":1},\"create_date\":{\"type\":\"TIMESTAMP\",\"value\":null}}";
+		String content = "{\"kr_np_golf\":{\"type\":\"LONG\",\"value\":2},\"cat\":{\"type\":\"STRING\",\"value\":\"醫낅줈援�`````\"},\"nam\":{\"type\":\"STRING\",\"value\":\"醫낅줈援�`````\"},\"addr\":{\"type\":\"STRING\",\"value\":\"醫낅줈援�`````\"},\"lon\":{\"type\":\"DOUBLE\",\"value\":126},\"lat\":{\"type\":\"DOUBLE\",\"value\":34},\"udate\":{\"type\":\"STRING\",\"value\":\"STRING\"},\"noise_value\":{\"type\":\"INTEGER\",\"value\":1},\"noise_zone\":{\"type\":\"STRING\",\"value\":\"STRING\"},\"noise_level\":{\"type\":\"INTEGER\",\"value\":1},\"survey_dn\":{\"type\":\"STRING\",\"value\":\"STRING\"},\"work_id\":{\"type\":\"INTEGER\",\"value\":1},\"create_team_id\":{\"type\":\"INTEGER\",\"value\":1},\"create_mem_id\":{\"type\":\"INTEGER\",\"value\":1},\"create_date\":{\"type\":\"TIMESTAMP\",\"value\":null}}";
 		URLCodec codec = new URLCodec();
 		try {
 			params.put("content", codec.encode(content));
@@ -119,9 +130,9 @@ public class RestApiTest extends BaseTest {
 			e.printStackTrace();
 		}
 //		params.put("content", "{\"kr_np_golf\":{\"type\":\"LONG\",\"value\":5}," + 
-//				"\"cat\":{\"type\":\"STRING\",\"value\":\"종로구`````\"}," + 
-//				"\"nam\":{\"type\":\"STRING\",\"value\":\"종로구`````\"}," + 
-//				"\"addr\":{\"type\":\"STRING\",\"value\":\"종로구`````\"}," + 
+//				"\"cat\":{\"type\":\"STRING\",\"value\":\"醫낅줈援�`````\"}," + 
+//				"\"nam\":{\"type\":\"STRING\",\"value\":\"醫낅줈援�`````\"}," + 
+//				"\"addr\":{\"type\":\"STRING\",\"value\":\"醫낅줈援�`````\"}," + 
 //				"\"lon\":{\"type\":\"DOUBLE\",\"value\":126}," + 
 //				"\"lat\":{\"type\":\"DOUBLE\",\"value\":\"36\"}," + 
 //				"\"udate\":{\"type\":\"STRING\",\"value\":null}," + 
@@ -144,7 +155,7 @@ public class RestApiTest extends BaseTest {
 		Map<String, String> uriParams = new HashMap<String, String>();
 		uriParams.put("dataset_id", "d=KjCXc4dmy9");
 		Map<String, String> params = new HashMap<String, String>();
-		params.put("content", "{\"noise_value\":51,\"noise_zone\":\"a\",\"noise_level\":2,\"survey_dn\":\"근배바보\",\"course_id\":null,\"work_id\":null,\"create_team_id\":null,\"create_mem_id\":null,\"create_date\":\"\",\"the_geom\":\"POINT(126.97444438934404 37.396567745417215)\"}");
+		params.put("content", "{\"noise_value\":51,\"noise_zone\":\"a\",\"noise_level\":2,\"survey_dn\":\"洹쇰같諛붾낫\",\"course_id\":null,\"work_id\":null,\"create_team_id\":null,\"create_mem_id\":null,\"create_date\":\"\",\"the_geom\":\"POINT(126.97444438934404 37.396567745417215)\"}");
 //		params.put("content","{\"the_geom\": \"POINT(126.588866114616 33.3103962893675)\", \"kr_np_golf\": \"testtest\"}" );
 		Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.DATASET_ROW_CREATE, "/datasets/" +"d=KjCXc4dmy9" +"/row.json", params);
 		System.out.println(r);
@@ -358,10 +369,11 @@ public class RestApiTest extends BaseTest {
 		params.put("type_kind", "TAB");
 		Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.MAPS_UPDATE, uriParams, params);
 		System.out.println(r);
-		Map<String, Object> r2 = (Map<String, Object>) r.get("data");
-		System.out.println(r2);
+		Map<String, String> metaData = (Map<String, String>) r.get("meta");
 		
+		String metaDataMessage = metaData.get("message");
 		
+		System.out.println(metaDataMessage);
 		
 //		System.out.println((int) r2.get("id"));
 //		System.out.println((String) r2.get("projectId"));
@@ -372,4 +384,59 @@ public class RestApiTest extends BaseTest {
 //		System.out.println((String) r2.get("typeKind"));
 //		System.out.println((String) r2.get("privacy"));
 	}
+	
+	
+	
+	@Test
+	public void testMapsItemUpdate() {
+		RestAPIClient rc = new RestAPIClient();
+		
+		String mapsId = "m=XAjbWilXu0";
+		String itemId = "21";
+		String title = "ttt";
+		String description = "";
+		String metadata = "";
+		String baseLayer = "";
+		String pinoLayer = "";
+		String mapOptions = "";
+		
+		
+		
+		Map<String, String> pathParamVals = new HashMap<String,String>();
+		pathParamVals.put("maps_id", mapsId);
+		pathParamVals.put("item_id", itemId);
+		
+		Map<String, String> paramVals = new HashMap<String,String>();
+
+		Map<String, Object> mapsItemGetResult = rc.getResponseBody(EnumRestAPIType.MAPS_ITEM_GET, pathParamVals, paramVals);
+		Map<String, Object> mapsItemGetResultData = (Map<String, Object>) mapsItemGetResult.get("data");
+		
+		title = "".equals(title) ? (String) mapsItemGetResultData.get("title") : title;
+		description = "".equals(description) ? (String) mapsItemGetResultData.get("description") : description;
+		metadata = "".equals(metadata) ? (String) mapsItemGetResultData.get("metadata") : metadata;
+		baseLayer = "".equals(baseLayer) ? (String) mapsItemGetResultData.get("baseLayer") : baseLayer;
+		pinoLayer = "".equals(pinoLayer) ? (String) mapsItemGetResultData.get("pinoLayer") : pinoLayer;
+		mapOptions = "".equals(mapOptions) ? (String) mapsItemGetResultData.get("mapOptions") : mapOptions;
+		
+		paramVals.put("title", title);
+		paramVals.put("description", description);
+//		paramVals.put("description", description.replaceAll("/", "%2F"));
+		paramVals.put("metadata", metadata);
+		paramVals.put("base_layer", baseLayer);
+		paramVals.put("pino_layer", pinoLayer);
+		paramVals.put("map_options", mapOptions);
+
+		Map<String, Object> updateResult = rc.getResponseBody(EnumRestAPIType.MAPS_ITEM_UPDATE, pathParamVals, paramVals);
+//		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.MAPS_ITEM_UPDATE, "/maps/"+mapsId+"/item/"+ itemId +".json", paramVals);
+		Map<String, String> metaData = (Map<String, String>) updateResult.get("meta");
+		String metaDataMessage = metaData.get("message");
+		if ("Updated".equalsIgnoreCase(metaDataMessage)) {
+			Map<String, Object> result = rc.getResponseBody(EnumRestAPIType.MAPS_ITEM_GET, pathParamVals, null);
+			System.out.println(result);
+		} else {
+		}
+	}
+	
+	
+	
 }

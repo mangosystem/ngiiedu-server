@@ -41,11 +41,11 @@ public class RestAPIClient {
 	
 	public Map<String, Object> getResponseBody(EnumRestAPIType enumType, Map<String, String> pathParam, Map<String, String> param) {
 		try {
-			if (pathParam.isEmpty() || pathParam == null) {
+			if (pathParam == null || pathParam.isEmpty()) {
 				return getResponseBody(enumType, enumType.code(), param);
 			}
 			UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(REST_BASE_URI + format(enumType.code(), pathParam));
-			if (!param.isEmpty() && param != null ) {
+			if (param != null && !param.isEmpty()) {
 				for( Map.Entry<String, String> elem : param.entrySet()) {
 					builder.queryParam(elem.getKey(), elem.getValue());
 				}
@@ -57,12 +57,28 @@ public class RestAPIClient {
 		return null;
 	}
 	
+	
 	public Map<String, Object> getResponseBody(EnumRestAPIType enumType, String pathParam, Map<String, String> param) {
 		try {
 		    UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(REST_BASE_URI + pathParam);
 		    for( Map.Entry<String, String> elem : param.entrySet()) {
 		    	builder.queryParam(elem.getKey(), elem.getValue());
 		    }
+		    return getResponseExchange(builder, enumType.method());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public Map<String, Object> getResponseBodyWithFiles(EnumRestAPIType enumType, Map<String, String> pathParam, Map<String, Object> param) {
+		try {
+			UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(REST_BASE_URI + format(enumType.code(), pathParam));
+			if (param != null && !param.isEmpty()) {
+				for( Map.Entry<String, Object> elem : param.entrySet()) {
+					builder.queryParam(elem.getKey(), elem.getValue());
+				}
+			}
 		    return getResponseExchange(builder, enumType.method());
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -78,8 +94,6 @@ public class RestAPIClient {
 		    ParameterizedTypeReference<Map<String, Object>> typeRef = 
 					new ParameterizedTypeReference<Map<String, Object>>() {};
 			HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
-			System.out.println("uriParam : " + uriParam);
-			System.out.println("method : " + method);
 			ResponseEntity<Map<String, Object>> result = restTemplate.exchange(uriParam, method, entity, typeRef);
 			Map<String, Object> body = result.getBody();
 			return body;

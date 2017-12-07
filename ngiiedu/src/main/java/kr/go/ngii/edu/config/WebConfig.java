@@ -9,6 +9,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.web.accept.ContentNegotiationManager;
+import org.springframework.web.multipart.MultipartResolver;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
@@ -64,6 +66,10 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 		return new JsonViewResolver();
 	}
 
+	@Bean
+	public MultipartResolver multipartResolver() { 
+		return new CommonsMultipartResolver(); 
+	}
 
 	public class JsonViewResolver implements ViewResolver {
 

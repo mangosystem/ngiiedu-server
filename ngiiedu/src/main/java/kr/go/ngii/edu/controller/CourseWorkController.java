@@ -1,5 +1,6 @@
 package kr.go.ngii.edu.controller;
 
+import java.io.File;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
@@ -112,6 +113,7 @@ public class CourseWorkController extends BaseController {
 	public @ResponseBody ResponseEntity<ResponseData> datasetCreate(
 			@RequestParam(value="courseWorkSubId", required=true) int courseWorkSubId,
 			@RequestParam(value="title", required=false, defaultValue="untitled") String title,
+			@RequestParam(value="uFile", required=false) File uFile,
 //			@RequestParam(value="sources", required=false, defaultValue="") String sources,
 			MultipartHttpServletRequest request,
 			HttpSession session) throws Exception {
@@ -120,19 +122,75 @@ public class CourseWorkController extends BaseController {
 		if (user == null) {
 			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
 		}
-		Map<String, String> paramVals = new HashMap<String,String>();
-		Map<String, String> pathParamVals = new HashMap<String,String>();
+		Map<String, Object> paramVals = new HashMap<String, Object>();
+		Map<String, String> pathParamVals = new HashMap<String, String>();
 		paramVals.put("project_id", LocalResourceBundle.PINOGIO_API_PROJECT_ID);
 		paramVals.put("title", title);
+		paramVals.put("ufile", uFile);
+		
 //		paramVals.put("sources", sources);
-//			Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.DATASET_CREATE, paramVals);
 //			Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.DATASET_CREATE, "/dataset.json", paramVals);
-		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.DATASET_CREATE, pathParamVals, paramVals);
+		Map<String, Object> result = apiClient.getResponseBodyWithFiles(EnumRestAPIType.DATASET_CREATE, pathParamVals, paramVals);
 
 		// output Division 
-		WorkOutput workOutputResult = workOutputService.create(courseWorkSubId, "1",  result, 40, "dataset");
+		WorkOutput workOutputResult = workOutputService.create(courseWorkSubId, "1",  result, user.getIdx(), "dataset");
 		result.put("worksOutputId", workOutputResult.getIdx());
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
+	}
+	
+	
+	/**
+	 * 
+	 * Dataset 수정
+	 * 
+	 * @param courseWorkSubId
+	 * @param title
+	 * @param sources
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/dataset", method=RequestMethod.PUT)
+	public @ResponseBody ResponseEntity<ResponseData> datasetModify(
+			@PathVariable(value="datasetId", required=false) String datasetId,
+			@RequestParam(value="title", required=false, defaultValue="") String title,
+			@RequestParam(value="description", required=false, defaultValue="") String description,
+			@RequestParam(value="metadata", required=false, defaultValue="") String metadata,
+			@RequestParam(value="privacy", required=false, defaultValue="") String privacy,
+			HttpSession session) throws Exception {
+
+		User user = (User)session.getAttribute("USER_INFO");
+		if (user == null) {
+			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+		}
+		Map<String, String> pathParamVals = new HashMap<String, String>();
+		pathParamVals.put("dataset_id", datasetId);
+		Map<String, String> paramVals = new HashMap<String, String>();
+		
+		Map<String, Object> datasetGetResult = apiClient.getResponseBody(EnumRestAPIType.DATASET_GET, pathParamVals, paramVals);
+		Map<String, Object> datasetGetResultdata = (Map<String, Object>) datasetGetResult.get("data");
+				
+		title = "".equals(title) ? (String) datasetGetResultdata.get("title") : title;
+		description = "".equals(description) ? (String) datasetGetResultdata.get("description") : description;
+		metadata = "".equals(metadata) ? (String) datasetGetResultdata.get("metadata") : metadata;
+		privacy = "".equals(privacy) ? (String) datasetGetResultdata.get("privacy") : privacy;
+		
+		paramVals.put("title", title);
+		paramVals.put("description", description);
+		paramVals.put("metadata", metadata);
+		paramVals.put("privacy", privacy);
+		
+//		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.DATASET_CREATE, "/dataset.json", paramVals);
+		Map<String, Object> updateResult = apiClient.getResponseBody(EnumRestAPIType.DATASET_UPDATE, pathParamVals, paramVals);
+		Map<String, String> metaData = (Map<String, String>) updateResult.get("meta");
+		String metaDataMessage = metaData.get("message");
+		
+		if ("Updated".equalsIgnoreCase(metaDataMessage)) {
+			Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.DATASET_GET, pathParamVals, null);
+			return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
+		} else {
+			return new ResponseEntity<ResponseData>(responseBody("failed"), HttpStatus.OK);
+		}
 	}
 
 	/**
@@ -388,8 +446,8 @@ public class CourseWorkController extends BaseController {
 	@RequestMapping(value="/layers", method=RequestMethod.POST)
 	public @ResponseBody ResponseEntity<ResponseData> layerCreate(
 			@RequestParam(value="courseWorkSubId", required=true) int courseWorkSubId,
-			@RequestParam(value="title", required=false) String title,
-			@RequestParam(value="sources", required=false) String sources,
+			@RequestParam(value="title", required=false, defaultValue="untitled") String title,
+			@RequestParam(value="sources", required=false, defaultValue="null") String sources,
 			HttpSession session) throws Exception {
 
 		User user = (User)session.getAttribute("USER_INFO");
@@ -865,17 +923,36 @@ public class CourseWorkController extends BaseController {
 		pathParamVals.put("item_id", itemId);
 		
 		Map<String, String> paramVals = new HashMap<String,String>();
+
+		Map<String, Object> mapsItemGetResult = apiClient.getResponseBody(EnumRestAPIType.MAPS_ITEM_GET, pathParamVals, paramVals);
+		Map<String, Object> mapsItemGetResultData = (Map<String, Object>) mapsItemGetResult.get("data");
+		
+		title = "".equals(title) ? (String) mapsItemGetResultData.get("title") : title;
+		description = "".equals(description) ? (String) mapsItemGetResultData.get("description") : description;
+		metadata = "".equals(metadata) ? (String) mapsItemGetResultData.get("metadata") : metadata;
+		baseLayer = "".equals(baseLayer) ? (String) mapsItemGetResultData.get("baseLayer") : baseLayer;
+		pinoLayer = "".equals(pinoLayer) ? (String) mapsItemGetResultData.get("pinoLayer") : pinoLayer;
+		mapOptions = "".equals(mapOptions) ? (String) mapsItemGetResultData.get("mapOptions") : mapOptions;
+		
 		paramVals.put("title", title);
-		paramVals.put("description", description.replaceAll("/", "%2F"));
+		paramVals.put("description", description);
+//		paramVals.put("description", description.replaceAll("/", "%2F"));
 		paramVals.put("metadata", metadata);
 		paramVals.put("base_layer", baseLayer);
 		paramVals.put("pino_layer", pinoLayer);
 		paramVals.put("map_options", mapOptions);
 
-		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.MAPS_ITEM_UPDATE, pathParamVals, paramVals);
+		Map<String, Object> updateResult = apiClient.getResponseBody(EnumRestAPIType.MAPS_ITEM_UPDATE, pathParamVals, paramVals);
 //		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.MAPS_ITEM_UPDATE, "/maps/"+mapsId+"/item/"+ itemId +".json", paramVals);
-
-		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
+		Map<String, String> metaData = (Map<String, String>) updateResult.get("meta");
+		String metaDataMessage = metaData.get("message");
+		if ("Updated".equalsIgnoreCase(metaDataMessage)) {
+			Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.MAPS_ITEM_GET, pathParamVals, null);
+			return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
+		} else {
+			return new ResponseEntity<ResponseData>(responseBody("failed"), HttpStatus.OK);
+		}
+		
 	}
 	
 	/**

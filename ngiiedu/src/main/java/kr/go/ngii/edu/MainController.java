@@ -118,5 +118,14 @@ public class MainController extends BaseController {
 		redirectView.setExposeModelAttributes(false);
 		return new ModelAndView(redirectView);
 	}
+	
+	
+	@RequestMapping(value={"/filetest"}, method = RequestMethod.GET)
+	public ModelAndView getFileTestPage(HttpServletRequest request, HttpServletResponse response, 
+			HttpSession session, Principal principal) {
+
+		ModelAndView view = new ModelAndView("/filetest");
+		return view;
+	}
 
 }

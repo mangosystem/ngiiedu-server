@@ -101,7 +101,7 @@ public class CourseWorkSubServiceTest extends BaseTest {
 
 	private RestTemplate getRestTempalte() {
 		HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory();
-		factory.setReadTimeout(1000 * 60 * 5); // 5분
+		factory.setReadTimeout(1000 * 60 * 5); // 
 		factory.setConnectTimeout(5000);
 		RestTemplate restTemplate = new RestTemplate(factory);
 		return restTemplate;
@@ -291,19 +291,19 @@ public class CourseWorkSubServiceTest extends BaseTest {
 		int courseWorkSubId = 2;
 		int moduleWorkSubId = 2;
 		
-		// dataset 조회
+		// dataset 議고쉶
 		List<WorkOutput> workOutputList = workOutputService.getListByCourseWorkId(courseWorkId);
 		System.out.println(workOutputList);
 
 		int workOutputListSize = workOutputList.size();
 		String pinogioDatasetId = "";
 		if (workOutputListSize > 0) {
-			// workOutputListSize 은 dataset의 수 
-			// workOutputList 가 여러개일떄 처리 핗요함
+			// workOutputListSize �� dataset�쓽 �닔 
+			// workOutputList 媛� �뿬�윭媛쒖씪�뻹 泥섎━ �븮�슂�븿
 			pinogioDatasetId = workOutputList.get(0).getPinogioOutputId();
 		} else {
-			// dataset이 없습니다
-			System.out.println("dataset 없음!");
+			// dataset�씠 �뾾�뒿�땲�떎
+			System.out.println("dataset �뾾�쓬!");
 		}
 		
 		System.out.println("pinogioDatasetId : " + pinogioDatasetId);
@@ -339,6 +339,7 @@ public class CourseWorkSubServiceTest extends BaseTest {
 		workOutput.setOutputTeamId(1);
 		workOutput.setOutputDivision("1");
 	}
+	
 	
 	@Test
 	public void workCourseSubListTest() {
