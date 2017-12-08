@@ -122,6 +122,12 @@ public class WorkOutputService extends BaseService {
 		return get(param);
 	}
 	
+	public WorkOutput getByPinogioOutputId(String pinogioOutputId) {
+		WorkOutput param = new WorkOutput();
+		param.setPinogioOutputId(pinogioOutputId);
+		return get(param);
+	}
+	
 	public List<WorkOutput> getList(WorkOutput workOutput) {
 		return workOutputMapper.getList(workOutput);
 	}

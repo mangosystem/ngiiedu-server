@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import kr.go.ngii.edu.common.enums.EnumRestAPIType;
@@ -113,28 +114,30 @@ public class CourseWorkController extends BaseController {
 	public @ResponseBody ResponseEntity<ResponseData> datasetCreate(
 			@RequestParam(value="courseWorkSubId", required=true) int courseWorkSubId,
 			@RequestParam(value="title", required=false, defaultValue="untitled") String title,
-			@RequestParam(value="uFile", required=false) File uFile,
+			@RequestParam(value="uFile", required=false) MultipartFile uFile,
 //			@RequestParam(value="sources", required=false, defaultValue="") String sources,
 			MultipartHttpServletRequest request,
 			HttpSession session) throws Exception {
-
-		User user = (User)session.getAttribute("USER_INFO");
-		if (user == null) {
-			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
-		}
+//
+//		User user = (User)session.getAttribute("USER_INFO");
+//		if (user == null) {
+//			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+//		}
 		Map<String, Object> paramVals = new HashMap<String, Object>();
 		Map<String, String> pathParamVals = new HashMap<String, String>();
 		paramVals.put("project_id", LocalResourceBundle.PINOGIO_API_PROJECT_ID);
 		paramVals.put("title", title);
-		paramVals.put("ufile", uFile);
+//		paramVals.put("ufile", uFile);
+		paramVals.put("options", "{\"charset\":\"x-windows-949\",  \"srid\":3857 }");
 		
 //		paramVals.put("sources", sources);
 //			Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.DATASET_CREATE, "/dataset.json", paramVals);
-		Map<String, Object> result = apiClient.getResponseBodyWithFiles(EnumRestAPIType.DATASET_CREATE, pathParamVals, paramVals);
+		String result = apiClient.getResponseBodyWithFiles(EnumRestAPIType.DATASET_CREATE, pathParamVals, paramVals, uFile);
 
 		// output Division 
-		WorkOutput workOutputResult = workOutputService.create(courseWorkSubId, "1",  result, user.getIdx(), "dataset");
-		result.put("worksOutputId", workOutputResult.getIdx());
+//		WorkOutput workOutputResult = workOutputService.create(courseWorkSubId, "1",  result, 40, "dataset");
+//		WorkOutput workOutputResult = workOutputService.create(courseWorkSubId, "1",  result, user.getIdx(), "dataset");
+//		result.put("worksOutputId", workOutputResult.getIdx());
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
 	
@@ -644,11 +647,8 @@ public class CourseWorkController extends BaseController {
 			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
 		}
 		
-		Map<String, String> paramVals = new HashMap<String,String>();
-		Map<String, String> pathParamVals = new HashMap<String,String>();
-		pathParamVals.put("maps_id", mapsId);
-		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.MAPS_GET, pathParamVals, paramVals);
-//		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.LAYER_COLUMN_LIST, "/layers/"+layerId+"/column.json", paramVals);
+		Map<String, Object> result = new HashMap<>();
+		result.put("data", workOutputService.getByPinogioOutputId(mapsId));
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
 
@@ -718,7 +718,6 @@ public class CourseWorkController extends BaseController {
 	@RequestMapping(value="/maps/{mapsId}", method=RequestMethod.PUT)
 	public @ResponseBody ResponseEntity<ResponseData> mapsUpdate(
 			@PathVariable("mapsId") String mapsId,
-			@RequestParam(value="workOutputId", required=true) int workOutputId,
 			@RequestParam(value="title", required=false, defaultValue="") String title,
 			@RequestParam(value="description", required=false, defaultValue="") String description,
 			@RequestParam(value="mapsType", required=false, defaultValue="") String mapsType,
@@ -755,7 +754,7 @@ public class CourseWorkController extends BaseController {
 		paramVals.put("type_kind", typeKind);
 		
 		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.MAPS_UPDATE, pathParamVals, paramVals);
-		result.put("result", workOutputService.get(workOutputId));
+		result.put("result", workOutputService.getByPinogioOutputId(mapsId));
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
 

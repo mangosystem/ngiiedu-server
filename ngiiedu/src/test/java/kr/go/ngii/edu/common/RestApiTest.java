@@ -321,10 +321,11 @@ public class RestApiTest extends BaseTest {
 	public void testMapsGet() {
 		RestAPIClient rc = new RestAPIClient();
 		Map<String, String> uriParams = new HashMap<String, String>();
-		uriParams.put("maps_id", "m=u9M0cvgzYB");
+		uriParams.put("maps_id", "m=XAjbWilXu0");
 		Map<String, String> params = new HashMap<String, String>();
 		Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.MAPS_GET, uriParams);
 		
+		System.out.println(r);
 		Map<String, Object> r2 = (Map<String, Object>) r.get("data");
 		System.out.println(r2);
 		System.out.println((int) r2.get("id"));

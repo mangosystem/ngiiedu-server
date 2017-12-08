@@ -331,6 +331,12 @@ public class WorkOutputServiceTest extends BaseTest{
 		return null;
 	}
 	
+	@Test
+	public void getWorkoutputByPinogioOutputId() {
+		WorkOutput wo =  workOutputService.getByPinogioOutputId("m=XAjbWilXu0");
+		System.out.println(wo);
+	}
+	
 
 	
 	

@@ -8,12 +8,16 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import kr.go.ngii.edu.common.enums.EnumRestAPIType;
@@ -71,15 +75,29 @@ public class RestAPIClient {
 		return null;
 	}
 	
-	public Map<String, Object> getResponseBodyWithFiles(EnumRestAPIType enumType, Map<String, String> pathParam, Map<String, Object> param) {
+	public String getResponseBodyWithFiles(EnumRestAPIType enumType, Map<String, String> pathParam, Map<String, Object> param, MultipartFile file) {
 		try {
-			UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(REST_BASE_URI + format(enumType.code(), pathParam));
+			UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(REST_BASE_URI + "/datasets.json");
+			
+			MultiValueMap<String, Object> multiValueMap = new LinkedMultiValueMap<>();
+			
 			if (param != null && !param.isEmpty()) {
 				for( Map.Entry<String, Object> elem : param.entrySet()) {
-					builder.queryParam(elem.getKey(), elem.getValue());
+					multiValueMap.add(elem.getKey(), elem.getValue());
 				}
 			}
-		    return getResponseExchange(builder, enumType.method());
+			
+			ByteArrayResource resource = new ByteArrayResource(file.getBytes()){
+				@Override
+				public String getFilename() throws IllegalStateException {
+					return file.getOriginalFilename();
+				}
+			};
+			multiValueMap.add("ufile", resource);
+			URI uriParam = builder.build().encode("UTF-8").toUri();
+			return restTemplate.postForObject(uriParam, multiValueMap, String.class);
+			
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

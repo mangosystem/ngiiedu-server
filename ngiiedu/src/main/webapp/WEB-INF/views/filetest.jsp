@@ -19,6 +19,7 @@
 		            var form = new FormData(document.getElementById('uploadForm')); 
 		            form.append("title", "test");
 		            form.append("courseWorkSubId", 25);
+		            console.log(form);
 
 
 		            $.ajax({
@@ -43,7 +44,7 @@
 	</head>
 		<div>
 			<form id="uploadForm" enctype="multipart/form-data"> 
-				<input type="file" id="fileId" name="file-data"/> 
+				<input type="file" id="fileId" name="uFile"/> 
 			</form> 
 			<button id="btn-upload">file upload</button>
 		</div>
