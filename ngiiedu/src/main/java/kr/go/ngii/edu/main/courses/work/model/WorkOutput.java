@@ -34,12 +34,15 @@ public class WorkOutput implements Serializable {
 	/** 피노지오결과물아이디. */
 	private String pinogioOutputId;
 
-	
 	private String outputType;
 	
 	private Object pngoData;
 	
 	private String outputName;
+	
+	private boolean isShared;
+	
+	private boolean isDone;
 	
 	public String getOutputName() {
 //		String returnVal = "";
@@ -181,7 +184,30 @@ public class WorkOutput implements Serializable {
 	public void setPngoData(Object pngoData) {
 		this.pngoData = pngoData;
 	}
+	
+	public boolean isShared() {
+		return isShared;
+	}
 
+	public void setShared(boolean isShared) {
+		this.isShared = isShared;
+	}
+
+	public boolean isDone() {
+		return isDone;
+	}
+
+	public void setDone(boolean isDone) {
+		this.isDone = isDone;
+	}
+
+	@Override
+	public String toString() {
+		return "WorkOutput [idx=" + idx + ", courseWorkSubId=" + courseWorkSubId + ", outputTeamId=" + outputTeamId
+				+ ", outputUserid=" + outputUserid + ", outputDivision=" + outputDivision + ", pinogioOutputId="
+				+ pinogioOutputId + ", outputType=" + outputType + ", pngoData=" + pngoData + ", outputName="
+				+ outputName + ", isShared=" + isShared + ", isDone=" + isDone + "]";
+	}
 
 	/**
 	 * {@inheritDoc}

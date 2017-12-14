@@ -12,6 +12,8 @@
 		<result property="outputDivision" column="output_division" />
 		<result property="pinogioOutputId" column="pinogio_output_id" />
 		<result property="outputType" column="output_type" />
+		<result property="isShared" column="is_shared" />
+		<result property="isDone" column="isDone" />
 	</resultMap>
 	
 	<insert id="create" parameterType="map">
@@ -25,7 +27,9 @@
 			output_userid, 
 			output_division,
 			pinogio_output_id,
-			output_type
+			output_type,
+			is_shared,
+			is_done
 		) VALUES (
 			#{idx},
 			#{courseWorkSubId},
@@ -34,6 +38,8 @@
 			#{outputDivision},
 			#{pinogioOutputId},
 			#{outputType}
+			#{isShared}
+			#{isDone}
 		)
 	</insert>
 	
@@ -44,7 +50,10 @@
 			output_team_id, 
 			output_userid, 
 			output_division,
-			pinogio_output_id
+			pinogio_output_id,
+			output_type,
+			is_shared,
+			is_done
   		FROM works_output
 		WHERE course_work_sub_id = #{courseWorkSubId}
 		ORDER BY idx
@@ -58,7 +67,9 @@
 			output_userid, 
 			output_division,
 			pinogio_output_id,
-			output_type
+			output_type,
+			is_shared,
+			is_done
   		FROM works_output
 		WHERE course_work_sub_id = #{courseWorkSubId}
 		ORDER BY idx
@@ -72,7 +83,9 @@
 			output_userid, 
 			output_division,
 			pinogio_output_id,
-			output_type
+			output_type,
+			is_shared,
+			is_done
 		FROM works_output
 		<where>
 			<if test="idx != null">
@@ -93,7 +106,9 @@
 			output_userid, 
 			output_division,
 			pinogio_output_id,
-			output_type
+			output_type,
+			is_shared,
+			is_done
 		FROM works_output
 		WHERE idx = #{idx}
 		ORDER BY idx
@@ -121,7 +136,9 @@
 			pinogio_output_id,
 			output_team_id, 
 			output_userid, 
-			output_type
+			output_type,
+			is_shared,
+			is_done
 		FROM 
 			works_output
 		WHERE
@@ -145,7 +162,8 @@
 							limit 1
 						)
 					)
-			) and output_type = 'dataset'
+			) 
+			--and output_type = 'dataset'
 		ORDER BY idx 
 	</select>
 	

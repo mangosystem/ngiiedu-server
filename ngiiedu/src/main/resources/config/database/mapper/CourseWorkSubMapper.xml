@@ -20,6 +20,8 @@
 		<result property="outputDivision" column="output_division" />
 		<result property="pinogioOutputId" column="pinogio_output_id" />
 		<result property="outputType" column="output_type" />
+		<result property="isShared" column="is_shared" />
+		<result property="isDone" column="is_done" />
 	</resultMap>
 	
 	<resultMap type="kr.go.ngii.edu.main.courses.work.model.CourseWorkSubInfo" id="courseWorkSubInfoMap">
@@ -59,7 +61,9 @@
 			output_userid, 
 			output_division,
 			pinogio_output_id,
-			output_type
+			output_type,
+			is_shared,
+			is_done
   		FROM works_output
 		WHERE course_work_sub_id = #{courseWorkId}
 		ORDER BY idx

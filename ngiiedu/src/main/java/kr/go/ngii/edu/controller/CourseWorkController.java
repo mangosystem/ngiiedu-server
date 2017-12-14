@@ -724,6 +724,8 @@ public class CourseWorkController extends BaseController {
 			@RequestParam(value="metadata", required=false, defaultValue="") String metadata,
 			@RequestParam(value="privacy", required=false, defaultValue="") String privacy,
 			@RequestParam(value="typeKind", required=false, defaultValue="") String typeKind,
+			@RequestParam(value="isShared", required=false, defaultValue="true") boolean isShared,
+			@RequestParam(value="isDone", required=false, defaultValue="false") boolean isDone,
 			HttpSession session) throws Exception {
 
 		User user = (User)session.getAttribute("USER_INFO");
@@ -908,7 +910,7 @@ public class CourseWorkController extends BaseController {
 			@RequestParam(value="description", required=false, defaultValue="") String description,
 			@RequestParam(value="metadata", required=false, defaultValue="") String metadata,
 			@RequestParam(value="baseLayer	", required=false, defaultValue="") String baseLayer,
-			@RequestParam(value="pinoLayer", required=false, defaultValue="") String pinoLayer,
+			@RequestParam(value="pinoLayer", required=true) String pinoLayer,
 			@RequestParam(value="mapOptions", required=false, defaultValue="") String mapOptions,
 			HttpSession session) throws Exception {
 		
@@ -930,7 +932,7 @@ public class CourseWorkController extends BaseController {
 		description = "".equals(description) ? (String) mapsItemGetResultData.get("description") : description;
 		metadata = "".equals(metadata) ? (String) mapsItemGetResultData.get("metadata") : metadata;
 		baseLayer = "".equals(baseLayer) ? (String) mapsItemGetResultData.get("baseLayer") : baseLayer;
-		pinoLayer = "".equals(pinoLayer) ? (String) mapsItemGetResultData.get("pinoLayer") : pinoLayer;
+//		pinoLayer = "".equals(pinoLayer) ? (String) mapsItemGetResultData.get("pinoLayer") : pinoLayer;
 		mapOptions = "".equals(mapOptions) ? (String) mapsItemGetResultData.get("mapOptions") : mapOptions;
 		
 		paramVals.put("title", title);
