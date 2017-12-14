@@ -307,6 +307,7 @@ public class CourseWorkController extends BaseController {
 		Map<String, String> paramVals = new HashMap<String, String>();
 		paramVals.put("content", contentJson);
 		Map<String, String> pathParamVals = new HashMap<String, String>();
+		pathParamVals.put("dataset_id", datasetId);
 		pathParamVals.put("content", contentJson);
 		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.DATASET_ROW_CREATE, pathParamVals, paramVals);
 //			Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.DATASET_ROW_CREATE, "/datasets/"+pinogioOutputId+"/row.json", params);
