@@ -129,7 +129,7 @@ public class CourseWorkController extends BaseController {
 		paramVals.put("title", title);
 //		paramVals.put("ufile", uFile);
 		paramVals.put("options", "{\"charset\":\"x-windows-949\",  \"srid\":3857 }");
-		
+		           
 //		paramVals.put("sources", sources);
 //			Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.DATASET_CREATE, "/dataset.json", paramVals);
 		String result = apiClient.getResponseBodyWithFiles(EnumRestAPIType.DATASET_CREATE, pathParamVals, paramVals, uFile);
@@ -339,7 +339,8 @@ public class CourseWorkController extends BaseController {
 		Map<String, String> pathParamVals = new HashMap<String, String>();
 		pathParamVals.put("dataset_id", datasetId);
 		pathParamVals.put("row_id", rowId);
-		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.DATASET_ROW_UPDATE, pathParamVals, paramVals);
+		String result = apiClient.getResponseBodyForObject(EnumRestAPIType.DATASET_ROW_UPDATE, pathParamVals, paramVals);
+//		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.DATASET_ROW_UPDATE, pathParamVals, paramVals);
 //		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.DATASET_ROW_UPDATE, "/datasets/" + datasetId+ "/row"+ rowId +".json", params);
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
@@ -452,6 +453,8 @@ public class CourseWorkController extends BaseController {
 			@RequestParam(value="courseWorkSubId", required=true) int courseWorkSubId,
 			@RequestParam(value="title", required=false, defaultValue="untitled") String title,
 			@RequestParam(value="sources", required=false, defaultValue="null") String sources,
+			@RequestParam(value="isShared", required=false, defaultValue="true") String isShared,
+			@RequestParam(value="isDone", required=false, defaultValue="false") String isDone,
 			HttpSession session) throws Exception {
 
 		User user = (User)session.getAttribute("USER_INFO");
@@ -468,7 +471,7 @@ public class CourseWorkController extends BaseController {
 		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.LAYER_CREATE, pathParamVals, paramVals);
 
 		// output division
-		WorkOutput workOutputResult = workOutputService.create(courseWorkSubId, "1",  result, user.getIdx(), "layer");
+		WorkOutput workOutputResult = workOutputService.create(courseWorkSubId, "1",  result, user.getIdx(), "layer", isShared, isDone);
 		result.put("worksOutputId", workOutputResult.getIdx());
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
@@ -678,6 +681,8 @@ public class CourseWorkController extends BaseController {
 			@RequestParam(value="metadata", required=false, defaultValue="null") String metadata,
 			@RequestParam(value="privacy", required=false, defaultValue="PUBLIC") String privacy,
 			@RequestParam(value="typeKind", required=false, defaultValue="TAB") String typeKind,
+			@RequestParam(value="isShared", required=false, defaultValue="true") String isShared,
+			@RequestParam(value="isDone", required=false, defaultValue="false") String isDone,
 			HttpSession session) throws Exception {
 
 		User user = (User)session.getAttribute("USER_INFO");
@@ -699,7 +704,7 @@ public class CourseWorkController extends BaseController {
 		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.MAPS_CREATE, pathParamVals, paramVals);
 		
 		// output division?
-		WorkOutput workOutputResult = workOutputService.create(courseWorkSubId, "1",  result, user.getIdx(), "maps");
+		WorkOutput workOutputResult = workOutputService.create(courseWorkSubId, "1",  result, user.getIdx(), "maps", isShared, isDone);
 		result.put("result", workOutputResult);
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}

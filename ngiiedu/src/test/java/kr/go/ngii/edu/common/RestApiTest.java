@@ -224,7 +224,7 @@ public class RestApiTest extends BaseTest {
         Map<String, Object> mParam = new HashMap<>();
         ArrayNode filterArray = mapper.createArrayNode();
         param.put("type", "dataset");
-        param.put("datasetId", "d=r7oFXBrCYl");
+        param.put("datasetId", "d=AnyangDong");
         param.put("filter", filterArray);
         mParam.put("inputDataset", param);
 //        System.out.println(mapToString(param));
@@ -241,7 +241,7 @@ public class RestApiTest extends BaseTest {
         ObjectNode inputDatasetNode = mapper.createObjectNode();
         ArrayNode filterArray = mapper.createArrayNode();
         inputDatasetNode.put("type", "dataset");
-        inputDatasetNode.put("datasetId", "d=r7oFXBrCYl");
+        inputDatasetNode.put("datasetId", "d=AnyangDong");
         inputDatasetNode.put("filter", filterArray);
         sourceNode.put("inputDataset", inputDatasetNode);
  
@@ -351,7 +351,7 @@ public class RestApiTest extends BaseTest {
 		uriParams.put("type_kind", "TAB");
 		Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.MAPS_CREATE, "/maps.json", uriParams);
 		System.out.println(r);
-		WorkOutput workOutputResult = workOutputService.create(25, "1",  r, 40, "maps");
+		WorkOutput workOutputResult = workOutputService.create(25, "1",  r, 40, "maps", "true", "false");
 		System.out.println(workOutputResult);
 	}
 	

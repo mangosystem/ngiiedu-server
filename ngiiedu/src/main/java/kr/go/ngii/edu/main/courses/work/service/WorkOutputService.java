@@ -52,7 +52,7 @@ public class WorkOutputService extends BaseService {
 	 * @throws Exception
 	 */
 	public WorkOutput create(int courseWorkSubId, String outputDivision, Map<String, Object> createdPinogioResult,
-			int userId, String outputType) {
+			int userId, String outputType, String isShared, String isDone) {
 		
 		CourseWorkSub cwsParam = new CourseWorkSub();
 		cwsParam.setIdx(courseWorkSubId);
@@ -71,7 +71,6 @@ public class WorkOutputService extends BaseService {
 		try {
 			temaId = ctm.getTeamId();
 		} catch (Exception e) {
-			LOGGER.debug("Team Id 없음");
 		}
 		
 		// pinogio layer id
@@ -99,6 +98,8 @@ public class WorkOutputService extends BaseService {
 			woParam.setOutputType(outputType);
 			woParam.setPngoData(resultData);
 			woParam.setOutputName(createdTitle);
+			woParam.setShared("true".equals(isShared));
+			woParam.setDone("true".equals(isDone));
 			workOutputMapper.create(woParam);
 //			woParam.getPinogioOutputId();
 			return woParam;

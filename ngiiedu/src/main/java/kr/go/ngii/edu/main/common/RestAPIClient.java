@@ -77,7 +77,7 @@ public class RestAPIClient {
 	
 	public String getResponseBodyWithFiles(EnumRestAPIType enumType, Map<String, String> pathParam, Map<String, Object> param, MultipartFile file) {
 		try {
-			UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(REST_BASE_URI + "/datasets.json");
+			UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(REST_BASE_URI + enumType.code());
 			
 			MultiValueMap<String, Object> multiValueMap = new LinkedMultiValueMap<>();
 			
@@ -98,6 +98,25 @@ public class RestAPIClient {
 			return restTemplate.postForObject(uriParam, multiValueMap, String.class);
 			
 			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public String getResponseBodyForObject(EnumRestAPIType enumType, Map<String, String> pathParam, Map<String, String> param) {
+		try {
+			UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(REST_BASE_URI + enumType.code());
+			
+			MultiValueMap<String, String> multiValueMap = new LinkedMultiValueMap<>();
+			
+			if (param != null && !param.isEmpty()) {
+				for( Map.Entry<String, String> elem : param.entrySet()) {
+					multiValueMap.add(elem.getKey(), elem.getValue());
+				}
+			}
+			URI uriParam = builder.build().encode("UTF-8").toUri();
+			return restTemplate.postForObject(uriParam, multiValueMap, String.class);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

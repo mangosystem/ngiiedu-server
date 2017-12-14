@@ -37,8 +37,8 @@
 			#{outputUserid},
 			#{outputDivision},
 			#{pinogioOutputId},
-			#{outputType}
-			#{isShared}
+			#{outputType},
+			#{isShared},
 			#{isDone}
 		)
 	</insert>
