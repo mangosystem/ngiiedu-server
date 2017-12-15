@@ -782,7 +782,7 @@ public class CourseController extends BaseController {
 	 */
 	@RequestMapping(value="/{courseWorkId}/workSubData", method=RequestMethod.GET)
 	public @ResponseBody ResponseEntity<ResponseData> courseWorkSubDataList(
-			@PathVariable("courseWorkId") Integer courseWorkId,
+			@PathVariable(value="courseWorkId") Integer courseWorkId,
 			HttpSession session) throws Exception {
 		User user = (User)session.getAttribute("USER_INFO");
 		
@@ -796,61 +796,26 @@ public class CourseController extends BaseController {
 	}
 	
 	/**
-	 * 수업 과정내 하위 과정 및 결과물 생성
+	 * 수업 과정내 하위 과정 및 결과물 조회
 	 * 
 	 * @param courseWorkId
 	 * @param session
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/{courseWorkId}/workSubData", method=RequestMethod.POST)
-	public @ResponseBody ResponseEntity<ResponseData> courseWorkSubCreate(
-			@PathVariable("courseWorkId") Integer courseWorkId,
-			@RequestParam("outputType") String outputType,
-			@RequestParam("teamId") Integer teamId,
-			@RequestParam("pinogioOutputId") String pinogioOutputId, 
+	@RequestMapping(value="/{courseId}/workSubData", method=RequestMethod.GET)
+	public @ResponseBody ResponseEntity<ResponseData> coueseWorkSubDataListByCourseId(
+			@PathVariable(value="courseId") Integer courseId,
+			@RequestParam(value="outputType", required=false, defaultValue="all") String outputType,
 			HttpSession session) throws Exception {
-		
-		
-		
-		return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
-	}
-	
-	/**
-	 * 수업 과정내 하위 과정 및 결과물 삭제
-	 * 
-	 * @param courseWorkId
-	 * @param session
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value="/{courseWorkId}/workSubData/{courseWorkSubId}", method=RequestMethod.DELETE)
-	public @ResponseBody ResponseEntity<ResponseData> courseWorkSubDelete(
-			@PathVariable("courseWorkId") Integer courseWorkId,
-			@PathVariable("courseWorkSubId") Integer courseWorkSubId,
-			HttpSession session) throws Exception {
-		
-		// team id, user id
-		return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
-	}
-	
-	/**
-	 * 수업 과정내 하위 과정 및 결과물 수정
-	 * 
-	 * @param courseWorkId
-	 * @param session
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value="/{courseWorkId}/workSubData/{courseWorkSubId}", method=RequestMethod.PUT)
-	public @ResponseBody ResponseEntity<ResponseData> courseWorkSubModify(
-			@PathVariable("courseWorkId") Integer courseWorkId,
-			@PathVariable("courseWorkSubId") Integer courseWorkSubId,
-			@RequestParam("pngoDataJson") String pngoDataJson, // pngo_ 테이블 참조
-			HttpSession session) throws Exception {
-		
-		// team id, user id
-		return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+		User user = (User)session.getAttribute("USER_INFO");
+		if (user != null) {
+			int userId = user.getIdx();
+			List<CourseWorkSubInfo> list = courseWorkSubService.listByCourseWorkIdAndOutputType(courseId, outputType);
+			return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
+		} else {
+			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+		}
 	}
 
 }

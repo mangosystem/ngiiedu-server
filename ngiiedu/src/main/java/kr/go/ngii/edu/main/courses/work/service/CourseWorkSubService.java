@@ -1,5 +1,6 @@
 package kr.go.ngii.edu.main.courses.work.service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -43,8 +44,12 @@ public class CourseWorkSubService extends BaseService {
 		param.setIdx(courseWorkId);
 		param = courseWorkService.get(param);
 		
-		// CourseWorkSubInfo 목록 조회
-		List<CourseWorkSubInfo> list = courseWorkSubMapper.list(param);
+		return this.list(param);
+	}
+	
+	public List<CourseWorkSubInfo> list(CourseWork courseWork) {
+		
+		List<CourseWorkSubInfo> list = courseWorkSubMapper.list(courseWork);
 		
 		for (CourseWorkSubInfo cwsi : list) {
 			List<WorkOutput> workOutputList = cwsi.getWorkOutputList();
@@ -58,6 +63,52 @@ public class CourseWorkSubService extends BaseService {
 				} catch (NullPointerException e) {
 					e.printStackTrace();
 				}
+			}
+		}
+		return list;
+		
+	}
+	
+	/**
+	 * 
+	 * 
+	 * @param courseId
+	 * @param outputType
+	 * @return
+	 */
+	public List<CourseWorkSubInfo> listByCourseWorkIdAndOutputType(int courseId, String outputType) {
+		
+		CourseWork param = new CourseWork();
+		param.setCourseId(courseId);
+		List<CourseWork> courseWorkList = courseWorkService.list(param);
+		
+		List<CourseWorkSubInfo> list = new ArrayList<>();
+		for (CourseWork cwParam : courseWorkList) {
+			List<CourseWorkSubInfo> cwsList;
+			if ("all".equals(outputType)) {
+				cwsList = courseWorkSubMapper.list(cwParam);
+			} else {
+				cwsList = courseWorkSubMapper.listByCourseWorkIdAndOutputType(cwParam.getIdx(),
+						cwParam.getModuleWorkId(), outputType);
+			}
+			
+			for (CourseWorkSubInfo cwsi : cwsList) {
+				List<WorkOutput> workOutputList = cwsi.getWorkOutputList();
+				for (WorkOutput wo : workOutputList) {
+					Object pngoData = this.requestPngoData(wo.getPinogioOutputId(), wo.getOutputType());
+					wo.setPngoData(pngoData);
+					try {
+						String outputName = 
+								((LinkedHashMap<String, String>) pngoData).get("title");
+						wo.setOutputName(outputName);
+					} catch (NullPointerException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+			if (cwsList != null && !cwsList.isEmpty()) {
+				
+				list.addAll(cwsList);
 			}
 		}
 		return list;

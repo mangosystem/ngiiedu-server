@@ -64,7 +64,7 @@
 			modify_date, 
 			status
   		FROM courses_work
-		WHERE course_id = #{course_id}
+		WHERE course_id = #{courseId}
 		ORDER BY idx
 	</select>
 

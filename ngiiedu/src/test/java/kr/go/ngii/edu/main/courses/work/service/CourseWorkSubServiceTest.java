@@ -365,7 +365,8 @@ public class CourseWorkSubServiceTest extends BaseTest {
 	
 	@Test
 	public void workCourseSubListTest2() {
-		List<CourseWorkSubInfo> list = courseWorkSubService.list(28);
+//		List<CourseWorkSubInfo> list = courseWorkSubService.list(28);
+		List<CourseWorkSubInfo> list = courseWorkSubService.listByCourseWorkIdAndOutputType(65, "layer");
 		System.out.println(list);
 	}
 	

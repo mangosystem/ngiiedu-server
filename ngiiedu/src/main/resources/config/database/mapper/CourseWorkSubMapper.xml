@@ -48,8 +48,30 @@
 			T2.output_type output_type
 		FROM courses_work_sub T1 INNER JOIN modules_work_sub T2 
 			ON T1.module_work_sub_id = T2.idx
-		WHERE T2.module_work_id = #{moduleWorkId}
-		AND T1.course_work_id = #{idx}
+		WHERE 
+			T2.module_work_id = #{moduleWorkId}
+			AND T1.course_work_id = #{idx}
+		ORDER BY idx
+	</select>
+	
+	<select id="listByCourseWorkIdAndOutputType" parameterType="map" resultMap="courseWorkSubInfoMap">
+		SELECT
+			T1.idx idx,
+			T1.course_work_id course_work_id,
+			T1.module_work_sub_id module_work_sub_id,
+			T2.module_work_sub_name module_work_sub_name, 
+			T2.module_work_sub_seq module_work_sub_seq, 
+			T1.create_date create_date, 
+			T1.modify_date modify_date,
+			T2.output_type output_type
+		FROM courses_work_sub T1 INNER JOIN modules_work_sub T2 
+			ON T1.module_work_sub_id = T2.idx
+		WHERE 
+			T2.module_work_id = #{moduleWorkId}
+			AND T1.course_work_id = #{courseWorkId}
+			<if test="outputType !=null">
+				AND T2.output_type = #{outputType}
+			</if>
 		ORDER BY idx
 	</select>
 	
