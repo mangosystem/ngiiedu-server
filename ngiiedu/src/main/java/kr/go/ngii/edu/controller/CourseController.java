@@ -803,7 +803,7 @@ public class CourseController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/{courseWorkId}/workSubDataByCourse", method=RequestMethod.GET)
+	@RequestMapping(value="/{courseId}/workSubDataByCourse", method=RequestMethod.GET)
 	public @ResponseBody ResponseEntity<ResponseData> coueseWorkSubDataListByCourseId(
 			@PathVariable(value="courseId") Integer courseId,
 			@RequestParam(value="outputType", required=false, defaultValue="all") String outputType,
