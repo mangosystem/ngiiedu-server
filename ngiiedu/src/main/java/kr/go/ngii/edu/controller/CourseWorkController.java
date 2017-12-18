@@ -329,18 +329,18 @@ public class CourseWorkController extends BaseController {
 			@RequestParam("rowId") String rowId,
 			@RequestParam("contentJson") String contentJson, 
 			HttpSession session) throws Exception {
-		User user = (User)session.getAttribute("USER_INFO");
-		if (user == null) {
-			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
-		}
-		
+//		User user = (User)session.getAttribute("USER_INFO");
+//		if (user == null) {
+//			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+//		}
+//		
 		Map<String, String> paramVals = new HashMap<String, String>();
 		paramVals.put("content", contentJson);
 		Map<String, String> pathParamVals = new HashMap<String, String>();
 		pathParamVals.put("dataset_id", datasetId);
 		pathParamVals.put("row_id", rowId);
-		String result = apiClient.getResponseBodyForObject(EnumRestAPIType.DATASET_ROW_UPDATE, pathParamVals, paramVals);
-//		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.DATASET_ROW_UPDATE, pathParamVals, paramVals);
+//		String result = apiClient.getResponseBodyForObject(EnumRestAPIType.DATASET_ROW_UPDATE, pathParamVals, paramVals);
+		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.DATASET_ROW_UPDATE, pathParamVals, paramVals);
 //		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.DATASET_ROW_UPDATE, "/datasets/" + datasetId+ "/row"+ rowId +".json", params);
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
@@ -730,8 +730,8 @@ public class CourseWorkController extends BaseController {
 			@RequestParam(value="metadata", required=false, defaultValue="") String metadata,
 			@RequestParam(value="privacy", required=false, defaultValue="") String privacy,
 			@RequestParam(value="typeKind", required=false, defaultValue="") String typeKind,
-			@RequestParam(value="isShared", required=false, defaultValue="true") boolean isShared,
-			@RequestParam(value="isDone", required=false, defaultValue="false") boolean isDone,
+			@RequestParam(value="isShared", required=false, defaultValue="true") String isShared,
+			@RequestParam(value="isDone", required=false, defaultValue="false") String isDone,
 			HttpSession session) throws Exception {
 
 		User user = (User)session.getAttribute("USER_INFO");
