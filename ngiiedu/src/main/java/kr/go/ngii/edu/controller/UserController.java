@@ -96,46 +96,47 @@ public class UserController extends BaseController {
 	}
 	
 	
-	/**
-	 * 사용자 로그인
-	 * 수정필요!!
-	 * 
-	 * @param userid
-	 * @param password
-	 * @param session
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value="/login", method=RequestMethod.POST)
-	public @ResponseBody ResponseEntity<ResponseData> get(
-			@RequestParam(value="userid", required=true) String userid,
-			@RequestParam(value="password", required=true) String password, 
-			HttpSession session) throws Exception {
-		
-		User user = null;
-		if (isEmail(userid)) {			
-			user = userService.getByEmail(userid);
-		} else {
-			user = userService.get(userid);
-		}
-		
-		HashMap<String, String> result = new HashMap<>();
-		
-		if (user == null) {
-			result.put("msg", "일치하는 아이디가 없습니다.");
-			result.put("check", "fail");
-		} else if ( !user.getPassword().equals(password) ) {
-			result.put("msg", "비밀번호가 일치하지 않습니다.");
-			result.put("check", "fail");
-		} else if ( user.getPassword().equals(password) ) {
-			result.put("msg", "로그인 성공");
-			result.put("check", "OK");
-			
-			session.setAttribute("userid", userid);
-		}
-		
-		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
-	}
+//	/**
+//	 * 사용자 로그인
+//	 * 수정필요!! -> 사용안함
+//	 * 
+//	 * @param userid
+//	 * @param password
+//	 * @param session
+//	 * @return
+//	 * @throws Exception
+//	 */
+//	@RequestMapping(value="/login", method=RequestMethod.POST)
+//	public @ResponseBody ResponseEntity<ResponseData> get(
+//			@RequestParam(value="userid", required=true) String userid,
+//			@RequestParam(value="password", required=true) String password, 
+//			HttpSession session) throws Exception {
+//		
+//		User user = null;
+//		if (isEmail(userid)) {			
+//			user = userService.getByEmail(userid);
+//		} else {
+//			user = userService.get(userid);
+//		}
+//		
+//		HashMap<String, String> result = new HashMap<>();
+//		
+//		if (user == null) {
+//			result.put("msg", "일치하는 아이디가 없습니다.");
+//			result.put("check", "fail");
+//		} else if ( !user.getPassword().equals(password) ) {
+//			System.out.println(user.getPassword());
+//			result.put("msg", "비밀번호가 일치하지 않습니다.");
+//			result.put("check", "fail");
+//		} else if ( user.getPassword().equals(password) ) {
+//			result.put("msg", "로그인 성공");
+//			result.put("check", "OK");
+//			
+//			session.setAttribute("userid", userid);
+//		}
+//		
+//		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
+//	}
 	
 	/**
 	 * 회원가입

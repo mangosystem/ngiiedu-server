@@ -1,0 +1,622 @@
+@charset "utf-8";
+/* RESET CSS */
+* { margin:0; padding:0; outline:0; vertical-align:top; }
+article, aside, details, figcaption, figure, footer, header, hgroup, menu nav, section { display:block; }
+ul, ol, dl { list-style:none; }
+img, video { max-width:100%; border:0; vertical-align:top; }
+a {vertical-align:top; text-decoration:none; color:#000; }
+table { border-collapse:collapse; border-spacing:0; }
+input, select { vertical-align:middle; }
+html, body { margin:0; padding:0; height:100%; }
+body, th, td, input, select, textarea { color:#444; font-family:'Malgun Gothic','돋움',dotum, sans-serif; font-size:13px; line-height:1.5em;}
+button { cursor:pointer; font-family:'Malgun Gothic','돋움'; }
+
+
+/* ////////// LAYOUT ////////// */
+.edu {
+border-top: 8px solid #19c9b7;
+background-color: #f9f9f9;
+}
+#headerWrap {
+padding-bottom: 15px;
+background-color: #fff;
+width: 100%;
+min-width:1040px
+}
+#headerWrap .header {
+position: relative;
+width: 1040px;
+height: 105px;
+margin: 0 auto;
+}
+#contentsWrap {
+width: 1040px;
+margin: 10px auto 70px;
+}
+#contentsWrap .contents {
+min-height: 500px;
+padding: 30px 30px 50px 30px;
+border: 1px solid #cecece;
+background-color: #fff;
+box-shadow: 0px 0px 5px 1px #ddd;
+}
+#footerWrap {
+border-bottom: 67px solid #fee900;
+background-color: #fff;
+width: 100%;
+min-width:1040px
+}
+
+
+/* ////////// HEADER ////////// */
+h1 {
+width: 320px;
+height: 85px;
+margin: 0px auto;
+text-indent: -999em;
+}
+h1.edge{
+  background: url(/ngiiedu/assets/images/logo.png) no-repeat 0 25px;
+}
+.gnb {
+position: absolute;
+top: 40px;
+right: 0;
+}
+.gnb li {
+display: inline-block;
+margin-left: 5px;
+padding-left: 20px;
+cursor: pointer;
+background: url(/ngiiedu/assets/images/bullet.png) no-repeat 2px -295px;
+}
+.gnb li:first-child {
+background: none;
+}
+.gnb li:hover {
+color: #000;
+}
+.gnb > span {
+display: inline-block;
+height: 19px;
+}
+.gnb > span.teacher {
+padding-left: 40px;
+background: url(/ngiiedu/assets/images/ico.png) no-repeat left 0;
+}
+.gnb > span.student {
+padding-left: 40px;
+background: url(/ngiiedu/assets/images/ico.png) no-repeat left -50px;
+}
+.gnb > button {
+padding: 2px 5px;
+color: #43444c;
+font-size: 8pt;
+border: 1px solid #43444c;
+background-color: #fff;
+}
+.gnb > button:hover {
+color: #fff;
+background-color: #43444c;
+}
+.gnb * {
+vertical-align: middle;
+}
+.lnbWrap {
+height: 60px;
+border-top: 1px solid #e7e7e7;
+}
+.lnb {
+width: 1040px;
+margin: 0 auto;
+text-align: center;
+}
+.lnb li {
+display: inline-block;
+margin: 9px 10px 0;
+padding: 10px 30px;
+font-size: 12pt;
+cursor: pointer;
+color: #43444c;
+}
+.lnb li.on {
+background: url(/ngiiedu/assets/images/lnb_deco.png) repeat-x 0 50%;
+}
+.lnb li:hover {
+background: url(/ngiiedu/assets/images/lnb_deco.png) repeat-x 0 50%;
+}
+#headerWrap .snbWrap {
+height:100px; 
+}
+#headerWrap .snbWrap.navy {
+background-color: #43444c;
+}
+#headerWrap .snbWrap.brown {
+background-color: #6e564c;
+}
+#headerWrap .snb {
+position: relative;
+width: 1040px;
+height: 100px;
+margin: 0 auto;
+}
+h2 {
+float: left;
+padding: 35px 0 0 0;
+font-size: 25pt;
+color: #fff;
+font-weight: normal;
+}
+#headerWrap .snb > ul {
+float: right;
+margin-top: 30px;
+}
+#headerWrap .snb ul li {
+display: inline-block;
+margin-left: 40px;
+padding: 10px 0;
+color: #fff;
+font-size: 14pt;
+cursor: pointer;
+}
+#headerWrap .snb ul li.on {
+color: #fee900;
+}
+#headerWrap .snb ul li:hover {
+color: #fee900;
+}
+
+
+/* ////////// FOOTER ////////// */
+#footerWrap .footer {
+position: relative;
+width: 1040px;
+height: 130px;
+margin: 0 auto;
+background: url(/ngiiedu/assets/images/logo_sub.png) no-repeat  center 30px;
+}
+#footerWrap .footer > ul {
+padding-top: 80px;
+text-align: center;
+}
+#footerWrap .footer > ul li {
+display: inline-block;
+margin: 0 0 0 10px;
+padding: 0px;
+cursor: pointer;
+padding-left: 20px;
+background: url(/ngiiedu/assets/images/bullet.png) no-repeat 2px -295px;
+}
+#footerWrap .footer > ul li:first-child {
+background: none;
+}
+.footer p.copyright {
+position: absolute;
+left: 0;
+bottom: -40px;
+color: #000;
+z-index: 100;
+}
+
+
+/* ////////// COMMON ////////// */
+/* BUTTON */
+.btnRight {
+margin: 20px 0;
+text-align: right;
+}
+button.right {
+float: right;
+}
+.btnBoth {
+position: relative;
+margin: 20px 0;
+}
+.btnCenter {
+margin: 20px 0;
+text-align: center;
+}
+button.default {
+padding: 12px 35px;
+color: #43444c;
+border: 1px solid #43444c;
+background-color: #fff;
+}
+button.default:hover {
+color: #fff;
+border: 1px solid #43444c;
+background-color: #43444c;
+}
+button.point{
+padding: 12px 35px;
+color: #fff;
+border: 1px solid #43444c;
+background-color: #43444c;
+}
+button.point:hover {
+color: #43444c;
+border: 1px solid #43444c;
+background-color: #fff;
+}
+
+button.point2 {
+padding: 15px;
+border: none;
+border-radius: 3px;
+text-align: center;
+color: #fff;
+background-color: #3e81f6;
+}
+button.point2:hover {
+background-color: #2f70e2;
+}
+button.default2 {
+padding: 15px;
+border: none;
+border-radius: 3px;
+text-align: center;
+color: #fff;
+background-color: #787980;
+}
+button.default2:hover {
+background-color: #67686b;
+}
+
+
+
+/* PAGINATION */
+.pagination {
+position: relative;
+margin: 20px 0;
+text-align: center;
+}
+.pagination li {
+display: inline-block;
+margin: 0;
+padding: 0;
+font-size: 10pt;
+padding: 4px 8px;
+cursor: pointer;
+}
+.pagination li * {
+vertical-align: middle;
+}
+.pagination li.on {
+font-weight: bold;
+text-decoration: underline;
+}
+.pagination .ico {
+padding: 5px 7px;
+text-indent: -999em;
+background-image: url(/ngiiedu/assets/images/ico.png);
+background-repeat: no-repeat;
+}
+.pagination .first {
+background-position: 0px -150px;
+}
+.pagination .forward {
+background-position: -30px -150px;
+}
+.pagination .back {
+background-position: -60px -150px;
+}
+.pagination .end {
+background-position: -90px -150px;
+}
+
+/* ////////// CONTENTS ////////// */
+.location {
+margin-bottom: 10px;
+text-align: right;
+}
+.location li {
+display: inline-block;
+padding-left: 20px;
+background: url(/ngiiedu/assets/images/bullet.png) no-repeat 5px -345px;
+}
+.location li:first-child {
+background: none;
+}
+h3 {
+display: inline-block;
+margin-bottom: 50px;
+padding: 15px 15px 0 0;
+font-size: 20pt;
+font-weight: normal;
+}
+
+h3.edge{
+  background: url(/ngiiedu/assets/images/bullet.png) no-repeat right 0;
+}
+
+/* ////////// 수업활동갤러리 ////////// */
+.galleryList {
+margin-left: -20px;
+}
+.galleryList li {
+position: relative;
+display: inline-block;
+width: 300px;
+height: 230px;
+margin: 0 0 30px 25px;
+cursor: pointer;
+border: 1px solid #c0c0c0;
+}
+.galleryList li:hover div {
+position: absolute;
+display: block;
+width: 100%;
+height: 100%;
+opacity: 0.7;
+background-color: #222;
+background-image: url(/ngiiedu/assets/images/bullet.png);
+background-repeat: no-repeat;
+background-position: center -360px;
+}
+
+/* ////////// 사용지원 ////////// */
+/* 검색 */
+.searchWrap {
+float: right;
+width: 300px;
+margin-top: 40px;
+margin-bottom: 7px;
+border-bottom: 1px solid #43444c;
+}
+.searchWrap > input {
+width: 210px;
+padding: 7px;
+border: none;
+}
+.searchWrap > label {
+color: #999;
+}
+.searchWrap > button {
+width: 30px;
+height: 30px;
+text-indent: -999em;
+border: none;
+background: url(/ngiiedu/assets/images/ico.png) no-repeat 5px -95px;
+}
+.searchWrap * {
+vertical-align: middle;
+}
+
+/* 게시판 / 목록 */
+div.boardList {
+position: relative;
+}
+div.boardList > table {
+width: 100%;
+}
+div.boardList > table thead th {
+padding: 15px;	
+border-top: 2px solid #43444c;
+border-bottom: 2px solid #43444c;
+}
+div.boardList > table tbody tr:hover {
+cursor: pointer;
+background-color: #f9f9f9;
+}
+div.boardList > table tr td {
+padding: 20px;
+border-bottom: 1px solid #bcbdc7;
+font-size: 12pt;
+}
+div.boardList > table tr td:nth-child(2) {
+font-size: 10pt;
+text-align: center;
+}
+div.boardList > table tr td:last-child {
+font-size: 10pt;
+text-align: center;
+}
+div.boardList > table td span.comment {
+display: inline-block;
+margin-left: 10px;
+padding-left: 18px;
+color:#3e81f6;
+font-size: 10pt;
+background: url(/ngiiedu/assets/images/ico.png) no-repeat 0 -193px;
+}
+div.boardList > button.new {
+position: absolute;
+bottom: -7px;
+right: 0;
+padding: 12px 35px;
+margin-left: 4px;
+color: #fff;
+border: 1px solid #43444c;
+background-color: #43444c;
+}
+div.boardList > button.new:hover {
+color: #43444c;
+border: 1px solid #43444c;
+background-color: #fff;
+}
+
+
+/* 게시판 / 상세 */
+.boardView {
+border-bottom: 1px solid #bcbdc7;
+}
+.boardView ul.title {
+border-top: 2px solid #43444c;
+border-bottom: 2px solid #43444c;
+}
+.boardView ul.title li {
+display: inline-block;
+padding: 15px;	
+}
+.boardView ul.title li:first-child {
+width: 670px;
+padding-left: 70px;
+font-size: 13.5pt;
+line-height:22pt;
+font-weight: normal;
+}
+.boardView div.script {
+min-height: 400px;
+padding: 20px 70px;
+font-size: 11pt;
+line-height: 25pt;
+}
+/* 게시판 / 댓글 */
+.commentWrap {
+padding: 10px 70px 60px;
+border-top: 1px solid #e5e5e5;
+background-color: #f9f9f9;
+}
+.commentWrap ul {
+padding: 15px 0;
+border-top: 1px dotted #ccc;
+}
+.commentWrap ul li {
+margin-bottom: 7px;
+}
+.commentWrap ul:first-child  {
+border-top: none;
+}
+.commentWrap ul li span.writer {
+display: inline-block;
+width: 120px;
+height: 25px;
+padding-left: 30px;
+font-weight: bold;
+background: url(/ngiiedu/assets/images/ico.png) no-repeat -127px -200px;
+}
+.commentWrap > ul li span.date {
+color: #999;
+}
+textarea.comment {
+width: 815px;
+margin: 10px 0 5px;
+padding: 10px;
+}
+button.subbtn {
+float: right;
+padding: 7px 10px;
+font-size: 10pt;
+color: #43444c;
+border: 1px solid #43444c;
+background-color: #fff;
+}
+
+/* 게시판 / 새글 */
+.boardNew {
+border-bottom: 1px solid #bcbdc7;
+}
+.boardNew li.title {
+padding: 15px;
+border-top: 2px solid #43444c;
+border-bottom: 2px solid #43444c;
+}
+.boardNew li.title label {
+color: #999;
+}
+.boardNew li.title > input {
+width: 800px;
+padding: 5px;
+border: none;
+font-size: 13pt;
+}
+.boardNew li.title * {
+vertical-align: middle;
+}
+.boardNew  li.script {
+width: 100%;
+min-height: 400px;
+padding: 20px 70px;
+font-size: 13pt;
+line-height: 25pt;
+}
+
+
+/* 자주묻는질문 */
+ul.faqWrap li {
+margin: 10px 0;
+}
+ul.faqWrap li > p {
+cursor: pointer;
+padding: 20px 20px 20px 100px;
+font-size: 10.7pt;
+border: 1px solid #d6d6d6;
+background: url(/ngiiedu/assets/images/bullet.png) no-repeat  50px -655px;
+}
+ul.faqWrap li > p:hover {
+border: 1px solid #3e81f6;
+}
+ul.faqWrap li.on > p {
+color: #3e81f6;
+border: 1px solid #3e81f6;
+}
+ul.faqWrap li.on > div {
+display: block;
+padding: 20px 20px 20px 100px;
+line-height: 22px;
+background-color: #f9f9f9;
+background-image: url(/ngiiedu/assets/images/bullet.png);
+background-repeat: no-repeat;
+background-position: 50px -750px;
+}
+ul.faqWrap li > div {
+display: none;
+}
+
+/* 로그인 */
+.layerWrap {
+position: fixed;
+top:0;right:0;bottom:0;left:0;
+min-width: 1040px;
+width:100%;
+height:100%;
+/* opacity: 0.8; */
+background-color: rgba(34, 34, 34, 0.8);
+z-index: 100;
+}
+.loginWrap {
+width: 415px;
+height: 485px;
+/* margin: 225px auto; */
+margin: 100px auto;
+padding:0; 
+border-radius: 7px;
+background-color: #fff;
+background-image: url(/ngiiedu/assets/images/logo_sub.png);
+background-position: center 70px;
+background-repeat: no-repeat;
+z-index:101;
+}
+.loginWrap > h4 {
+width: 50px;
+margin: 0 auto;
+padding-top: 10px;
+border-top: 5px solid #19c9b7;
+color: #19c9b7;
+font-weight: normal;
+text-align: center;
+}
+.loginWrap > ul {
+margin: 100px auto;
+width: 315px;
+}
+.loginWrap > ul li {
+margin-bottom: 10px;
+}
+.loginWrap > ul li a {
+text-decoration: underline;
+}
+.loginWrap > ul li input {
+width: 295px;
+padding: 10px;
+font-size: 12pt;
+border-radius: 3px;
+border: 1px solid #d0d0d0;
+}
+.loginWrap > ul li button {
+width: 100%;
+font-size: 11pt;
+}
+.loginWrap > ul li:nth-child(4) {
+margin-bottom: 60px;
+}

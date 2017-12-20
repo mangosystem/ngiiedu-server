@@ -25,7 +25,7 @@ public class MainController extends BaseController {
 
 		ModelAndView view = null;
 		if (principal == null) {
-			view = new ModelAndView("/login");
+			view = new ModelAndView("/index");
 		} else {
 			RedirectView redirectView = new RedirectView(request.getContextPath() + "/");
 			redirectView.setExposeModelAttributes(false);
