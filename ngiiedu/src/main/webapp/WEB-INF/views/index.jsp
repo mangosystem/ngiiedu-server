@@ -41,6 +41,10 @@
 		<!--openlayers  -->
 		<link rel="stylesheet" type="text/css" href="<%=contextPath%>/assets/cdn/openlayers/dist/ol.css" />
 		<script type="text/javascript" src="<%=contextPath%>/assets/cdn/openlayers/dist/ol-debug.js"></script>
+		
+		<!--openlayers control -->
+		<link rel="stylesheet" type="text/css" href="<%=contextPath%>/assets/cdn/openlayers/control/swipecontrol.css" />
+		<script type="text/javascript" src="<%=contextPath%>/assets/cdn/openlayers/control/swipecontrol.js"></script>
 
 		<!--jquery  -->
 		<script type="text/javascript" src="<%=contextPath%>/assets/cdn/jquery/jquery-3.2.1.min.js"></script>
