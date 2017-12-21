@@ -1,6 +1,7 @@
 package kr.go.ngii.edu.main.courses.work.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -41,7 +42,8 @@ public class CourseWorkInfo implements Serializable {
 	
 	/** 과정 활성화상태 */
 	private boolean status;
-
+	
+	private List<CourseWorkSubInfo> courseWorkSubInfos;
 
 	public Integer getIdx() {
 		return idx;
@@ -114,5 +116,15 @@ public class CourseWorkInfo implements Serializable {
 	public void setStatus(boolean status) {
 		this.status = status;
 	}
+
+	public List<CourseWorkSubInfo> getCourseWorkSubInfos() {
+		return courseWorkSubInfos;
+	}
+
+	public void setCourseWorkSubInfos(List<CourseWorkSubInfo> courseWorkSubInfos) {
+		this.courseWorkSubInfos = courseWorkSubInfos;
+	}
+	
+	
 
 }

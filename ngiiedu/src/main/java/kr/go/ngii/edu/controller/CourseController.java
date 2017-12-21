@@ -291,6 +291,24 @@ public class CourseController extends BaseController {
 		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
 	}
 
+	
+	/**
+	 * 수업에 설정되어 있는 과정 목록 조회
+	 * 
+	 * @param courseId
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/{courseId}/workAndSubWork", method=RequestMethod.GET)
+	public @ResponseBody ResponseEntity<ResponseData> workAndSubWork(
+			@PathVariable("courseId") Integer courseId,
+			HttpSession session) throws Exception {
+
+		List<CourseWorkInfo> list = courseWorkService.listCourseWorkInfoAndSubWork(courseId);
+		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
+	}
+	
 	/**
 	 * 과정 상태 업데이트
 	 * 
@@ -803,7 +821,7 @@ public class CourseController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/{courseId}/workSubDataByCourse", method=RequestMethod.GET)
+	@RequestMapping(value="/{courseId}/workSubDataByCourseId", method=RequestMethod.GET)
 	public @ResponseBody ResponseEntity<ResponseData> coueseWorkSubDataListByCourseId(
 			@PathVariable(value="courseId") Integer courseId,
 			@RequestParam(value="outputType", required=false, defaultValue="all") String outputType,
@@ -817,5 +835,7 @@ public class CourseController extends BaseController {
 			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
 		}
 	}
+	
+
 
 }

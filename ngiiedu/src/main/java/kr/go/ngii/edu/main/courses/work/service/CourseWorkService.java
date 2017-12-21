@@ -21,6 +21,9 @@ public class CourseWorkService extends BaseService {
 	private CourseWorkMapper courseWorkMapper;
 	
 	@Autowired
+	private CourseWorkSubService courseWorkSubService;
+
+	@Autowired
 	private ModuleWorkService moduleWorkService;
 
 
@@ -70,6 +73,18 @@ public class CourseWorkService extends BaseService {
 		CourseWork params = new CourseWork();
 		params.setCourseId(courseId);
 		return courseWorkMapper.listCourseWorkInfo(params);
+	}
+	
+	
+	public List<CourseWorkInfo> listCourseWorkInfoAndSubWork(int courseId) {
+		List<CourseWorkInfo> resultList;
+		CourseWork params = new CourseWork();
+		params.setCourseId(courseId);
+		resultList = courseWorkMapper.listCourseWorkInfo(params);
+		for(CourseWorkInfo cwinfo : resultList) {
+			cwinfo.setCourseWorkSubInfos(courseWorkSubService.list(cwinfo.getIdx()));
+		}
+		return resultList;
 	}
 	
 //	public CourseWorkInfo get(int courseId) {

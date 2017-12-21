@@ -69,7 +69,6 @@ public class CourseWorkController extends BaseController {
 //
 //		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.DATASET_GET, pathParamVals, paramVals);
 ////			Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.DATASET_GET, paramPath);
-
 		return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
 	}
 	/**
@@ -339,9 +338,7 @@ public class CourseWorkController extends BaseController {
 		Map<String, String> pathParamVals = new HashMap<String, String>();
 		pathParamVals.put("dataset_id", datasetId);
 		pathParamVals.put("row_id", rowId);
-//		String result = apiClient.getResponseBodyForObject(EnumRestAPIType.DATASET_ROW_UPDATE, pathParamVals, paramVals);
 		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.DATASET_ROW_UPDATE, pathParamVals, paramVals);
-//		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.DATASET_ROW_UPDATE, "/datasets/" + datasetId+ "/row"+ rowId +".json", params);
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
 
@@ -722,7 +719,7 @@ public class CourseWorkController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value="/maps/{mapsId}", method=RequestMethod.PUT)
-	public @ResponseBody ResponseEntity<ResponseData> mapsUpdate(
+	public @ResponseBody ResponseEntity<ResponseData> mapsModify(
 			@PathVariable("mapsId") String mapsId,
 			@RequestParam(value="title", required=false, defaultValue="") String title,
 			@RequestParam(value="description", required=false, defaultValue="") String description,
@@ -916,7 +913,7 @@ public class CourseWorkController extends BaseController {
 			@RequestParam(value="description", required=false, defaultValue="") String description,
 			@RequestParam(value="metadata", required=false, defaultValue="") String metadata,
 			@RequestParam(value="baseLayer	", required=false, defaultValue="") String baseLayer,
-			@RequestParam(value="pinoLayer", required=true) String pinoLayer,
+			@RequestParam(value="pinoLayer", required=true, defaultValue="") String pinoLayer,
 			@RequestParam(value="mapOptions", required=false, defaultValue="") String mapOptions,
 			HttpSession session) throws Exception {
 		

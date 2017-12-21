@@ -2,6 +2,8 @@ package kr.go.ngii.edu.main.common;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -14,6 +16,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.FormHttpMessageConverter;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
@@ -116,7 +121,40 @@ public class RestAPIClient {
 				}
 			}
 			URI uriParam = builder.build().encode("UTF-8").toUri();
+//			return restTemplate.postForObject(uriParam, multiValueMap, String.class);
 			return restTemplate.postForObject(uriParam, multiValueMap, String.class);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	
+	public Map<String, Object> getResponseBodyForObject2(EnumRestAPIType enumType, Map<String, String> pathParam, Map<String, String> param) {
+		try {
+			UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(REST_BASE_URI + enumType.code());
+			
+			MultiValueMap<String, String> multiValueMap = new LinkedMultiValueMap<String, String>();
+			
+			if (param != null && !param.isEmpty()) {
+				for( Map.Entry<String, String> elem : param.entrySet()) {
+					multiValueMap.set(elem.getKey(), elem.getValue());
+				}
+			}
+			HttpHeaders headers = new HttpHeaders();
+			headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+			HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(multiValueMap, headers);
+	    	ParameterizedTypeReference<Map<String, Object>> typeRef = new ParameterizedTypeReference<Map<String, Object>>() {};
+			URI uriParam = builder.build().encode("UTF-8").toUri();
+			
+			 List<HttpMessageConverter<?>> messageConverters = new ArrayList<HttpMessageConverter<?>>();
+	        messageConverters.add(new MappingJackson2HttpMessageConverter());
+	        messageConverters.add(new FormHttpMessageConverter());
+	        restTemplate.getMessageConverters().addAll(messageConverters);
+		        
+			ResponseEntity<Map<String, Object>> result = restTemplate.exchange(uriParam, enumType.method(), requestEntity, typeRef);
+			Map<String, Object> body = result.getBody();
+			return body;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

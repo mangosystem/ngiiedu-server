@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.go.ngii.edu.main.board.mapper.BoardMapper">
+
+	<resultMap type="kr.go.ngii.edu.main.board.model.BbsNotice" id="bbsNotice">
+		<id property="idx" column="idx" />
+		<result property="title" column="title" />
+		<result property="description" column="description" />
+		<result property="createDate" column="create_date" />
+		<result property="modifyDate" column="modify_date" />
+	</resultMap>
+	
+	<resultMap type="kr.go.ngii.edu.main.board.model.BbsQuestion" id="bbsQuestion">
+		<id property="idx" column="idx" />
+		<result property="title" column="title" />
+		<result property="description" column="description" />
+		<result property="writer" column="writer" />
+		<result property="createDate" column="create_date" />
+		<result property="modifyDate" column="modify_date" />
+		<result property="attach" column="attach" />
+	</resultMap>
+	
+	<resultMap type="kr.go.ngii.edu.main.board.model.BbsReply" id="bbsReply">
+		<id property="idx" column="idx" />
+		<result property="qnaId" column="qna_id" />
+		<result property="description" column="description" />
+		<result property="writer" column="writer" />
+		<result property="createDate" column="create_date" />
+		<result property="modifyDate" column="modify_date" />
+	</resultMap>
+	
+
+	<select id="getNoticeList"  parameterType="map" resultMap="bbsNotice">
+		SELECT
+			idx,
+			title,
+			create_date
+		FROM bbs_notice
+		<if test="offset != null and limit != null">
+			OFFSET ${offset} LIMIT ${limit}
+		</if>
+	</select>
+	
+	<select id="getNoticeListbyId" resultMap="bbsNotice">
+		SELECT
+			idx,
+			title,
+			create_date
+		FROM bbs_notice
+		WHERE idx = #{idx}
+	</select>
+	
+	<!-- <insert id="insertNotice">
+		INSERT INTO bbs_notice (title, content, create_date) VALUES(#{title}, #{content}, now())
+		RETURNING fid
+		
+	</insert> -->
+	
+	<insert id="insertNotice" parameterType="map">
+		<selectKey keyProperty="idx" resultType="int" order="BEFORE">
+			SELECT nextval('bbs_notice_idx_seq'::regclass)
+		</selectKey>
+		INSERT INTO bbs_notice(
+			title, 
+			description, 
+			create_date,  
+			modify_date 
+		) VALUES (
+			#{title}, 
+			#{description}, 
+			now(), 
+			now()
+		)
+	</insert>
+
+	<update id="modifyNotice" parameterType="map">
+		UPDATE bbs_notice SET 
+			title = #{title}, 
+			description = #{description}, 
+			modify_date = now() 
+		WHERE idx = #{idx}
+	</update>
+	
+	<delete id="deleteNotice" parameterType="int">
+		DELETE FROM bbs_notice
+		WHERE idx = #{bbsNoticeId}
+	</delete>
+	
+	
+	<select id="getQnaList" parameterType="map" resultMap="bbsQuestion">
+		SELECT
+			idx,
+			title,
+			writer,
+			attach,
+			create_date
+		FROM bbs_qna
+		<if test="offset != null and limit != null">
+			OFFSET ${offset} LIMIT ${limit}
+		</if>
+	</select>
+	
+	<select id="getQnaListbyId" resultMap="bbsQuestion">
+		SELECT
+			idx,
+			title,
+			writer,
+			attach,
+			create_date
+		FROM bba_qna
+		WHERE idx = #{idx}
+	</select>
+	
+	<!-- <insert id="insertNotice">
+		INSERT INTO tb_kins_sys_notice (title, content, create_date) VALUES(#{title}, #{content}, now())
+		RETURNING fid
+		
+	</insert> -->
+	
+	<insert id="insertQna" parameterType="map">
+		<selectKey keyProperty="idx" resultType="int" order="BEFORE">
+			SELECT nextval('bbs_qna_idx_seq'::regclass)
+		</selectKey>
+		INSERT INTO bbs_qna(
+			title, 
+			description, 
+			writer,
+			attach,
+			create_date,
+			modify_date 
+		) VALUES (
+			#{title}, 
+			#{description}, 
+			#{writer}, 
+			#{attach}, 
+			now(), 
+			now()
+		)
+	</insert>
+
+	<update id="modifyQna" parameterType="map">
+		UPDATE bbs_qna SET 
+			title = #{title}, 
+			description = #{description}, 
+			attach = #{attach}, 
+			modify_date = now() 
+		WHERE idx = #{idx}
+	</update>
+	
+	<delete id="deleteQna" parameterType="int">
+		DELETE FROM bbs_qna
+		WHERE idx = #{qnaId}
+	</delete>
+	
+	
+	<select id="getReListbyIdx" resultMap="bbsReply">
+		SELECT
+			idx,
+			qna_id,
+			description,
+			writer,
+			create_date
+		FROM bbs_qna_re
+		WHERE qna_id = #{qnaId}
+	</select>
+	
+	<select id="getRebyIdx" resultMap="bbsReply">
+		SELECT
+			idx,
+			writer
+		FROM bbs_qna_re
+		WHERE idx = #{idx}
+	</select>
+	
+	<insert id="insertRe" parameterType="map">
+		<selectKey keyProperty="idx" resultType="int" order="BEFORE">
+			SELECT nextval('bbs_qna_re_idx_seq'::regclass)
+		</selectKey>
+		INSERT INTO bbs_qna_re(
+			qna_id, 
+			description, 
+			writer,
+			create_date,
+			modify_date 
+		) VALUES (
+			#{qnaId}, 
+			#{description}, 
+			#{writer}, 
+			now(), 
+			now()
+		)
+	</insert>
+	
+	<update id="modifyRe" parameterType="map">
+		UPDATE bbs_qna_re SET 
+			description = #{description}, 
+			modify_date = now() 
+		WHERE idx = #{idx}
+	</update>
+	
+	<delete id="deleteRe" parameterType="int">
+		DELETE FROM bbs_qna_re
+		WHERE idx = #{idx}
+	</delete>
+	
+</mapper>
