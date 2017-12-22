@@ -45,5 +45,12 @@ a { color: rgba(0, 0, 0, 0.87); text-decoration: none; }
 
 
 /*active/unactive Menu Left*/
-.aml { background-color: #ddd !important; border-left: 5px solid #05BCD3 !important; }
+.aml { background-color: #3e81f6 !important; fill:#fff !important; color:#fff !important;}
+
 .uml { padding-left: 5px !important; }
+
+
+/* hover */
+.mouseOverBlue:hover{
+  border:1px solid #3e81f6;
+}
