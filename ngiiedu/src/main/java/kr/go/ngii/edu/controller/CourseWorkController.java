@@ -152,7 +152,7 @@ public class CourseWorkController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/dataset", method=RequestMethod.PUT)
+	@RequestMapping(value="/dataset/{datasetId}", method=RequestMethod.PUT)
 	public @ResponseBody ResponseEntity<ResponseData> datasetModify(
 			@PathVariable(value="datasetId", required=false) String datasetId,
 			@RequestParam(value="title", required=false, defaultValue="") String title,
