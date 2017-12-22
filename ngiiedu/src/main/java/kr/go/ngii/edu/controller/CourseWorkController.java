@@ -965,6 +965,7 @@ public class CourseWorkController extends BaseController {
 			@RequestParam(value="baseLayer	", required=false, defaultValue="") String baseLayer,
 			@RequestParam(value="pinoLayer", required=true, defaultValue="") String pinoLayer,
 			@RequestParam(value="mapOptions", required=false, defaultValue="") String mapOptions,
+			MultipartHttpServletRequest request,
 			HttpSession session) throws Exception {
 		
 //		User user = (User)session.getAttribute("USER_INFO");
@@ -989,8 +990,8 @@ public class CourseWorkController extends BaseController {
 		mapOptions = "".equals(mapOptions) ? (String) mapsItemGetResultData.get("mapOptions") : mapOptions;
 		
 		paramVals.put("title", title);
-		paramVals.put("description", description);
-//		paramVals.put("description", description.replaceAll("/", "%2F"));
+//		paramVals.put("description", description);
+		paramVals.put("description", description.replaceAll("/", "%2F"));
 		paramVals.put("metadata", metadata);
 		paramVals.put("base_layer", baseLayer);
 		paramVals.put("pino_layer", pinoLayer);
