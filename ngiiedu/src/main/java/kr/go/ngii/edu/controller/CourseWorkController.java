@@ -370,7 +370,7 @@ public class CourseWorkController extends BaseController {
 		pathParamVals.put("dataset_id", datasetId);
 		 pathParamVals.put("row_id", rowId);
 		
-		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.DATASET_ROWUNUQUE_GET, pathParamVals, paramVals);
+		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.DATASET_ROW_REMOVE, pathParamVals, paramVals);
 //		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.DATASET_ROW_REMOVE, uriParams);
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
@@ -411,7 +411,7 @@ public class CourseWorkController extends BaseController {
 			paramVals.put("size", size);
 		}
 
-		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.DATASET_ROWUNUQUE_GET, pathParamVals, paramVals);
+		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.DATASET_ROWUNIQUE_GET, pathParamVals, paramVals);
 //		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.DATASET_ROW_REMOVE, uriParams);
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
@@ -1018,7 +1018,7 @@ public class CourseWorkController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value="/maps/{mapsId}/item/{itemId}", method=RequestMethod.DELETE)
-	public @ResponseBody ResponseEntity<ResponseData> deleteMapsItem(
+	public @ResponseBody ResponseEntity<ResponseData> mapsItemDelete(
 			@PathVariable("mapsId") String mapsId,
 			@PathVariable("itemId") String itemId,
 			HttpSession session) throws Exception {
@@ -1037,6 +1037,40 @@ public class CourseWorkController extends BaseController {
 //		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.MAPS_ITEM_REMOVE, "/maps/"+mapsId+"/item/"+ itemId +".json", paramVals);
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
+	
+	
+	/**
+	 * 맵스 아이템 순서 수정하기
+	 * priority : [{“itemId”:“9", “priority”:“4"}, {“itemId”:“10", “priority”:“2"}, {“itemId”:“11", “priority”:“10"}, {“itemId”:“12", “priority”:“3"}]
+	 * 
+	 * 
+	 * @param mapsId
+	 * @param priority
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/maps/{mapsId}/itemOrder", method=RequestMethod.PUT)
+	public @ResponseBody ResponseEntity<ResponseData> ma(
+			@PathVariable("mapsId") String mapsId,
+			@RequestParam(value="priority", required=false, defaultValue="") String priority,
+			HttpSession session) throws Exception {
+		
+		User user = (User)session.getAttribute("USER_INFO");
+		if (user == null) {
+			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+		}
+		
+		Map<String, String> pathParamVals = new HashMap<String,String>();
+		pathParamVals.put("maps_id", mapsId);
+		
+		Map<String, String> paramVals = new HashMap<String,String>();
+		paramVals.put("priority", priority);
+
+		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.MAPS_ITEMORDER_UPDATE, pathParamVals, paramVals);
+		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
+	}
+	
 	
 	
 	
