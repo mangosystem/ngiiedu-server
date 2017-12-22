@@ -1,7 +1,5 @@
 package kr.go.ngii.edu.controller;
 
-import java.io.File;
-import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
