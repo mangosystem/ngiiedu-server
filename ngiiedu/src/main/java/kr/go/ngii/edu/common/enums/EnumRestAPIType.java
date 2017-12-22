@@ -28,6 +28,8 @@ public enum EnumRestAPIType {
 	DATASET_ROW_UPDATE		("/datasets/{dataset_id}/row/{row_id}.json", HttpMethod.PUT),
 	DATASET_ROW_REMOVE		("/datasets/{dataset_id}/row/{row_id}.json", HttpMethod.DELETE),
 	
+	DATASET_ROWUNUQUE_GET		("/datasets/{dataset_id}/rowUnique.json", HttpMethod.GET),
+
 	DATASET_COLUMN_LIST		("/datasets/{dataset_id}/column.json", HttpMethod.GET),
 	DATASET_COLUMN_GET		("/datasets/{dataset_id}/column/{column_id}.json", HttpMethod.GET),
 	DATASET_COLUMN_CREATE	("/datasets/{dataset_id}/column/{column_id}.json", HttpMethod.POST),

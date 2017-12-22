@@ -132,7 +132,14 @@ public class CourseWorkController extends BaseController {
 //		paramVals.put("sources", sources);
 //			Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.DATASET_CREATE, "/dataset.json", paramVals);
 		String result = apiClient.getResponseBodyWithFiles(EnumRestAPIType.DATASET_CREATE, pathParamVals, paramVals, uFile);
+// options : shape, csv, excel
+// charset, srid(숫자만)
 
+		
+		// shape => 곹통
+		// csv 
+		
+		
 		// output Division 
 //		WorkOutput workOutputResult = workOutputService.create(courseWorkSubId, "1",  result, 40, "dataset");
 //		WorkOutput workOutputResult = workOutputService.create(courseWorkSubId, "1",  result, user.getIdx(), "dataset");
@@ -363,11 +370,54 @@ public class CourseWorkController extends BaseController {
 		Map<String, String> paramVals = new HashMap<String, String>();
 		Map<String, String> pathParamVals = new HashMap<String, String>();
 		pathParamVals.put("dataset_id", datasetId);
-		pathParamVals.put("row_id", rowId);
-		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.DATASET_ROW_REMOVE, pathParamVals, paramVals);
+		 pathParamVals.put("row_id", rowId);
+		
+		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.DATASET_ROWUNUQUE_GET, pathParamVals, paramVals);
 //		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.DATASET_ROW_REMOVE, uriParams);
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
+	
+	
+	/**
+	 * DataSet unique row 조회
+	 * 
+	 * @param courseWorkId
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/dataset/{datasetId}/rowUnique", method=RequestMethod.GET)
+	public @ResponseBody ResponseEntity<ResponseData> datasetRowUniqueValue(
+			@PathVariable(value="datasetId", required=true) String datasetId,
+			@RequestParam(value="columnName", required=true) String columnName, 
+			@RequestParam(value="page", required=false, defaultValue="") String page, 
+			@RequestParam(value="size", required=false, defaultValue="") String size, 
+			HttpSession session) throws Exception {
+//		User user = (User)session.getAttribute("USER_INFO");
+//		if (user == null) {
+//			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+//		}
+		
+		Map<String, String> paramVals = new HashMap<String, String>();
+		Map<String, String> pathParamVals = new HashMap<String, String>();
+		
+		pathParamVals.put("dataset_id", datasetId);
+		
+		paramVals.put("columnName", columnName);
+		
+		if(!"".equals(page)) {
+			paramVals.put("page", page);
+		}
+		
+		if(!"".equals(size)) {
+			paramVals.put("size", size);
+		}
+
+		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.DATASET_ROWUNUQUE_GET, pathParamVals, paramVals);
+//		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.DATASET_ROW_REMOVE, uriParams);
+		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
+	}
+
 
 
 	/**
@@ -917,10 +967,10 @@ public class CourseWorkController extends BaseController {
 			@RequestParam(value="mapOptions", required=false, defaultValue="") String mapOptions,
 			HttpSession session) throws Exception {
 		
-		User user = (User)session.getAttribute("USER_INFO");
-		if (user == null) {
-			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
-		}
+//		User user = (User)session.getAttribute("USER_INFO");
+//		if (user == null) {
+//			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+//		}
 		
 		Map<String, String> pathParamVals = new HashMap<String,String>();
 		pathParamVals.put("maps_id", mapsId);
