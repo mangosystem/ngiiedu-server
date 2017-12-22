@@ -965,7 +965,7 @@ public class CourseWorkController extends BaseController {
 			@RequestParam(value="baseLayer	", required=false, defaultValue="") String baseLayer,
 			@RequestParam(value="pinoLayer", required=true, defaultValue="") String pinoLayer,
 			@RequestParam(value="mapOptions", required=false, defaultValue="") String mapOptions,
-			MultipartHttpServletRequest request,
+//			MultipartHttpServletRequest request,
 			HttpSession session) throws Exception {
 		
 //		User user = (User)session.getAttribute("USER_INFO");
