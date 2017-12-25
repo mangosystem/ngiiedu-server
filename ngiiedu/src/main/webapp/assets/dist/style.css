@@ -1067,49 +1067,49 @@ ul.tip li {
 
 .introduceList>#item1 {
 	background: url(/ngiiedu/assets/images/class_noise.png) no-repeat;
-	background-size: 50%;
+	background-size: auto;
 	background-position: 50% 30%;
 }
 
 .introduceList>#item2 {
 	background: url(/ngiiedu/assets/images/class_gps.png) no-repeat;
-	background-size: 50%;
+	background-size: auto;
 	background-position: 50% 30%;
 }
 
 .introduceList>#item3 {
 	background: url(/ngiiedu/assets/images/class_population.png) no-repeat;
-	background-size: 50%;
+	background-size: auto;
 	background-position: 50% 30%;
 }
 
 .introduceList>#item4 {
 	background: url(/ngiiedu/assets/images/class_territory.png) no-repeat;
-	background-size: 50%;
+	background-size: auto;
 	background-position: 50% 30%;
 }
 
 .introduceList>#item5 {
 	background: url(/ngiiedu/assets/images/class_school.png) no-repeat;
-	background-size: 50%;
+	background-size: auto;
 	background-position: 50% 30%;
 }
 
 .introduceList>#item6 {
 	background: url(/ngiiedu/assets/images/class_map.png) no-repeat;
-	background-size: 50%;
+	background-size: auto;
 	background-position: 50% 30%;
 }
 
 .introduceList>#item7 {
 	background: url(/ngiiedu/assets/images/class_dokdo.png) no-repeat;
-	background-size: 50%;
+	background-size: auto;
 	background-position: 50% 30%;
 }
 
 .introduceList>#item1:hover {
 	background: url(/ngiiedu/assets/images/class_noise_on.png) no-repeat;
-	background-size: 50%;
+	background-size: auto;
 	background-position: 50% 30%;
 	color: #fff;
 	background-color: #3e81f6;
@@ -1117,7 +1117,7 @@ ul.tip li {
 
 .introduceList>#item2:hover {
 	background: url(/ngiiedu/assets/images/class_gps_on.png) no-repeat;
-	background-size: 50%;
+	background-size: auto;
 	background-position: 50% 30%;
 	color: #fff;
 	background-color: #3e81f6;
@@ -1126,7 +1126,7 @@ ul.tip li {
 .introduceList>#item3:hover {
 	background: url(/ngiiedu/assets/images/class_population_on.png)
 		no-repeat;
-	background-size: 50%;
+	background-size: auto;
 	background-position: 50% 30%;
 	color: #fff;
 	background-color: #3e81f6;
@@ -1134,7 +1134,7 @@ ul.tip li {
 
 .introduceList>#item4:hover {
 	background: url(/ngiiedu/assets/images/class_territory_on.png) no-repeat;
-	background-size: 50%;
+	background-size: auto;
 	background-position: 50% 30%;
 	color: #fff;
 	background-color: #3e81f6;
@@ -1142,7 +1142,7 @@ ul.tip li {
 
 .introduceList>#item5:hover {
 	background: url(/ngiiedu/assets/images/class_school_on.png) no-repeat;
-	background-size: 50%;
+	background-size: auto;
 	background-position: 50% 30%;
 	color: #fff;
 	background-color: #3e81f6;
@@ -1150,7 +1150,7 @@ ul.tip li {
 
 .introduceList>#item6:hover {
 	background: url(/ngiiedu/assets/images/class_map_on.png) no-repeat;
-	background-size: 50%;
+	background-size: auto;
 	background-position: 50% 30%;
 	color: #fff;
 	background-color: #3e81f6;
@@ -1158,7 +1158,7 @@ ul.tip li {
 
 .introduceList>#item7:hover {
 	background: url(/ngiiedu/assets/images/class_dokdo_on.png) no-repeat;
-	background-size: 50%;
+	background-size: auto;
 	background-position: 50% 30%;
 	color: #fff;
 	background-color: #3e81f6;
