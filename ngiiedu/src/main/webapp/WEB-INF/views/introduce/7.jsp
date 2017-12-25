@@ -47,7 +47,7 @@
 				<li><a href="<%=contextPath%>/introduce/7" class="sub-menu-item">독도의 중요성</a></li>
 			</ul>
 		</button>
-		<ul class="object school"><!-- 이미지변경 CSS명 noise gps population territory school map dokdo -->
+		<ul class="object dokdo"><!-- 이미지변경 CSS명 noise gps population territory school map dokdo -->
 			<li>
 				<span>주제</span>
 				독도의 다양한 표기법과 지점간 거리를 측정해 보는 활동을 진행합니다.

@@ -47,7 +47,7 @@
 				<li><a href="<%=contextPath%>/introduce/7" class="sub-menu-item">독도의 중요성</a></li>
 			</ul>
 		</button>
-		<ul class="object school"><!-- 이미지변경 CSS명 noise gps population territory school map dokdo -->
+		<ul class="object noise"><!-- 이미지변경 CSS명 noise gps population territory school map dokdo -->
 			<li>
 				<span>주제</span>
 				스마트폰 어플을 사용하여 학교주변의 소음을 측정하고, 각 반별로 소음지도를 작성하여 소음원인, 체감소음정도를 확인하고 저감대책을 토의해봅니다.			
@@ -56,7 +56,7 @@
 				#야외수업 #스마트폰 #소음측정앱 #스토리맵
 			</li>
 		</ul>
-		
+		 
 		<h4>1. 학습개요</h4>
 		<p class="text">
 			학교 운동장은 학생들이 학교생활을 하면서 가장 많은 시간을 보내는 공간 중 하나이다. 최근 기후변화가 전 지구적인 스케일에서 주요한 이슈로 떠오르면서 숲가꾸기의 중요성이 강조되고 있다. 학교운동장 주변 “학교숲”은 우리 생활 주변에서 가장 손쉽게 식물을 탐구할 수 있는 장소이다. 이 수업을 통해 학생들은 생물다양성에 대한 올바른 인식을 갖고, 학교 숲 생태와 환경의 가치, 지속가능한 삶을 생각해 볼 수 있다.

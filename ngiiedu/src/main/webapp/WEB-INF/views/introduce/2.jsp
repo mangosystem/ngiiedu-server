@@ -48,7 +48,7 @@
 				<li><a href="<%=contextPath%>/introduce/7" class="sub-menu-item">독도의 중요성</a></li>
 			</ul>
 		</button>
-		<ul class="object school"><!-- 이미지변경 CSS명 noise gps population territory school map dokdo -->
+		<ul class="object gps"><!-- 이미지변경 CSS명 noise gps population territory school map dokdo -->
 			<li>
 				<span>주제</span>
 				운동장에서 스마트폰의 위치측정 어플을 이용하여 경위도 값을 측정하고, 경위도의 변화를 탐구해 봅니다.

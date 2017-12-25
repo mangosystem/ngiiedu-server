@@ -47,7 +47,7 @@
 				<li><a href="<%=contextPath%>/introduce/7" class="sub-menu-item">독도의 중요성</a></li>
 			</ul>
 		</button>
-		<ul class="object school"><!-- 이미지변경 CSS명 noise gps population territory school map dokdo -->
+		<ul class="object territory"><!-- 이미지변경 CSS명 noise gps population territory school map dokdo -->
 			<li>
 				<span>주제</span>
 				우리나라 4극의 위치를 탐색하고, 학교주변의 불편사항을 스마트폰을 활용하여 신고해보는 활동을 진행합니다.

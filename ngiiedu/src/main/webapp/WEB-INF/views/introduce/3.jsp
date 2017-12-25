@@ -46,7 +46,8 @@
 				<li><a href="<%=contextPath%>/introduce/6" class="sub-menu-item">지도 정확성</a></li>
 				<li><a href="<%=contextPath%>/introduce/7" class="sub-menu-item">독도의 중요성</a></li>
 			</ul>
-		</button>		<ul class="object school"><!-- 이미지변경 CSS명 noise gps population territory school map dokdo -->
+		</button>		
+		<ul class="object population"><!-- 이미지변경 CSS명 noise gps population territory school map dokdo -->
 			<li>
 				<span>주제</span>
 				우리나라 시군구별 1인가구, 노인인구, 청소년인구, 외국인 인구등의 변화를 시계열적으로 지도화하고, 변화의 특성을 분석합니다.

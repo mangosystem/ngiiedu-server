@@ -47,7 +47,7 @@
 				<li><a href="<%=contextPath%>/introduce/7" class="sub-menu-item">독도의 중요성</a></li>
 			</ul>
 		</button>
-		<ul class="object school"><!-- 이미지변경 CSS명 noise gps population territory school map dokdo -->
+		<ul class="object map"><!-- 이미지변경 CSS명 noise gps population territory school map dokdo -->
 			<li>
 				<span>주제</span>
 				우리나라의 포털 사이트 지도, 다른 나라의 포털 사이트 지도에 지명이 어떻게 다양하게 표현되는지 탐구해봅니다.

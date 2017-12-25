@@ -71,7 +71,7 @@
 <body class="edu">
 	<div id="headerWrap">
 		<div class="header">
-			<h1 class="edge">공간정보융합 활용지원정보</h1>
+			<h1 class="edge" style="cursor: pointer;" onclick="document.location = '<%=contextPath %>/introduce'">공간정보융합 활용지원정보</h1>
 			
 			<%if((userDivision+"").equals("1")){  //교사 %>
 				<div class="gnb" style="display: none;">
