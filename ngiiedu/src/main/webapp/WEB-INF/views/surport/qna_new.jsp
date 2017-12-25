@@ -1,0 +1,61 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%
+	String contextPath = request.getContextPath();
+%>
+	
+	
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<!--[if lt IE 9]>
+	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<!--[if lt IE 10]>
+	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<meta content="IE=edge" http-equiv="X-UA-Compatible">
+<title>지리원/공간정보융합 활용지원정보</title>
+</head>
+
+<body class="edu">
+	
+	<jsp:include page ="../common/header.jsp" flush="false">
+		<jsp:param value="surport" name="mainHeader"/>
+		<jsp:param value="notice" name="subHeader"/>
+	</jsp:include>
+
+
+
+
+<div id="contentsWrap">
+	<ul class="location">
+		<li>홈</li>
+		<li>사용지원</li>
+		<li>묻고 답하기</li>
+	</ul>
+	<div class="contents">
+		<h3>묻고 답하기</h3>
+		<ul class="boardNew">
+			<li class="title">
+				<label for="">제목</label>
+				<input type="text">
+			</li>
+			<li class="script">
+				<textarea name="" id="" cols="30" rows="20" class="comment"></textarea>	
+			</li>
+		</ul>
+		<div class="btnCenter">
+			<button type="button" title="작성" class="point">작성</button>
+			<button type="button" title="취소" class="default" onclick="document.location = '<%=contextPath %>/surport/qna'">취소</button>
+		</div>
+		<!-- END QNA NEW -->
+	</div>
+	<!-- CONTENTS -->
+</div>
+<!-- END CONTENTSWRAP -->
+	<jsp:include page ="../common/footer.jsp"></jsp:include>
+<!-- END FOOTER -->
+</body>
+</html>

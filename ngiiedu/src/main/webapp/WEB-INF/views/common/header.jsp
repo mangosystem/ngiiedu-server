@@ -91,7 +91,6 @@
 			<%}else{ %>
 				<ul class="gnb">
 					<li>로그인</li>
-					<li><%=userDivision %></li>
 					<li>회원가입</li>
 				</ul>
 			<%} %>
@@ -117,7 +116,7 @@
 				<ul>
 					<li id="notice"><a href="<%=contextPath%>/surport/notice">공지사항</a></li>
 					<li id="faq"><a href="<%=contextPath%>/surport/faq">자주 묻는 질문</a></li>
-					<li id="qna"><a href="<%=contextPath%>/surport/qna">문고답하기</a></li>
+					<li id="qna"><a href="<%=contextPath%>/surport/qna">묻고 답하기</a></li>
 					<li id="download"><a href="<%=contextPath%>/surport/download">자료실</a></li>
 				</ul>
 			<%} else if (mainHeader.equals("course")){ %>			

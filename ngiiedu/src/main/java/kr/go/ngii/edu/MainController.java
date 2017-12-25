@@ -143,11 +143,22 @@ public class MainController extends BaseController {
 		return view;
 	}
 	
+	//notice page
 	@RequestMapping(value={"/surport/notice"}, method = RequestMethod.GET)
 	public ModelAndView getNoticePage(HttpServletRequest request, HttpServletResponse response, 
 			HttpSession session, Principal principal) {
 
 		ModelAndView view = new ModelAndView("/surport/notice");
+		return view;
+	}
+	
+	//notice view page
+	@RequestMapping(value={"/surport/noticeView/{noticeId}"}, method = RequestMethod.GET)
+	public ModelAndView getNoticeViewPage(HttpServletRequest request, HttpServletResponse response, 
+			HttpSession session, Principal principal,
+			@PathVariable String noticeId) {
+		System.out.println(noticeId);
+		ModelAndView view = new ModelAndView("/surport/notice_view");
 		return view;
 	}
 	
@@ -159,6 +170,7 @@ public class MainController extends BaseController {
 		return view;
 	}
 	
+	//qna
 	@RequestMapping(value={"/surport/qna"}, method = RequestMethod.GET)
 	public ModelAndView getQnaPage(HttpServletRequest request, HttpServletResponse response, 
 			HttpSession session, Principal principal) {
@@ -167,11 +179,38 @@ public class MainController extends BaseController {
 		return view;
 	}
 	
+	//qna view page
+	@RequestMapping(value={"/surport/qnaView/{qnaId}"}, method = RequestMethod.GET)
+	public ModelAndView getQnaViewPage(HttpServletRequest request, HttpServletResponse response, 
+			HttpSession session, Principal principal,
+			@PathVariable String qnaId) {
+		System.out.println(qnaId);
+		ModelAndView view = new ModelAndView("/surport/qna_view");
+		return view;
+	}
+	
+	//qna new page
+	@RequestMapping(value={"/surport/qnaNew"}, method = RequestMethod.GET)
+	public ModelAndView getQnaNewPage(HttpServletRequest request, HttpServletResponse response, 
+			HttpSession session, Principal principal) {
+
+		ModelAndView view = new ModelAndView("/surport/qna_new");
+		return view;
+	}
+	
 	@RequestMapping(value={"/surport/download"}, method = RequestMethod.GET)
 	public ModelAndView getDownloadPage(HttpServletRequest request, HttpServletResponse response, 
 			HttpSession session, Principal principal) {
 
 		ModelAndView view = new ModelAndView("/surport/download");
+		return view;
+	}
+	
+	@RequestMapping(value={"/surport/downloadView/{download}"}, method = RequestMethod.GET)
+	public ModelAndView getDownloadViewPage(HttpServletRequest request, HttpServletResponse response, 
+			HttpSession session, Principal principal,
+			@PathVariable String download) {
+		ModelAndView view = new ModelAndView("/surport/download_view");
 		return view;
 	}
 	

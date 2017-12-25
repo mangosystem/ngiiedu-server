@@ -106,8 +106,7 @@
 <div id="contentsWrap">
 	<ul class="location">
 		<li>홈</li>
-		<li>메뉴</li>
-		<li>페이지제목</li>
+		<li>수업소개</li>
 	</ul>
 	<div class="contents">
 		<h3 class="edge">수업소개</h3>

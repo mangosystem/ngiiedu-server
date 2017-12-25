@@ -17,8 +17,6 @@
 <![endif]-->
 <meta content="IE=edge" http-equiv="X-UA-Compatible">
 <title>지리원/공간정보융합 활용지원정보</title>
-<link rel="stylesheet" type="text/css"
-	href="<%=contextPath%>/assets/dist/style.css" />
 </head>
 
 <body class="edu">
@@ -33,8 +31,8 @@
 <div id="contentsWrap">
 	<ul class="location">
 		<li>홈</li>
-		<li>메뉴</li>
-		<li>페이지제목</li>
+		<li>사용지원</li>
+		<li>묻고답하기</li>
 	</ul>
 	<div class="contents">
 		<h3 class="edge">묻고 답하기</h3>
@@ -47,7 +45,7 @@
 					<th>등록일</th>
 				</thead>
 				<tbody>
-					<tr>
+					<tr onclick="document.location = '<%=contextPath %>/surport/qnaView/1'">
 						<td>
 							한은 "대출금리 올라도 가계 끄떡없다"…금리인상 포석
 							<span class="comment">3</span>
@@ -126,7 +124,7 @@
 				<li class="ico back" title="뒤로">뒤로</li>
 				<li class="ico end" title="맨뒤로">마지막</li>
 			</ul>
-			<button class="new">새글</button>
+			<button class="new"  onclick="document.location = '<%=contextPath %>/surport/qnaNew'">새글</button>
 		</div>
 		<!-- END QNALIST -->
 	</div>

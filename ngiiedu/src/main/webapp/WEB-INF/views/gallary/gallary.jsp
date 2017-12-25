@@ -17,8 +17,6 @@
 <![endif]-->
 <meta content="IE=edge" http-equiv="X-UA-Compatible">
 <title>지리원/공간정보융합 활용지원정보</title>
-<link rel="stylesheet" type="text/css"
-	href="<%=contextPath%>/assets/dist/style.css" />
 </head>
 
 <body class="edu">
@@ -32,8 +30,7 @@
 <div id="contentsWrap">
 	<ul class="location">
 		<li>홈</li>
-		<li>메뉴</li>
-		<li>페이지제목</li>
+		<li>수업활동갤러리</li>
 	</ul>
 	<div class="contents">
 		<h3 class="edge">수업활동갤러리</h3>

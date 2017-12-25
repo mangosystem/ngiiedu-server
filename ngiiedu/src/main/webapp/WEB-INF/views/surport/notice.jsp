@@ -17,8 +17,6 @@
 <![endif]-->
 <meta content="IE=edge" http-equiv="X-UA-Compatible">
 <title>지리원/공간정보융합 활용지원정보</title>
-<link rel="stylesheet" type="text/css"
-	href="<%=contextPath%>/assets/dist/style.css" />
 </head>
 
 <body class="edu">
@@ -32,8 +30,8 @@
 <div id="contentsWrap">
 	<ul class="location">
 		<li>홈</li>
-		<li>메뉴</li>
-		<li>페이지제목</li>
+		<li>사용지원</li>
+		<li>공지사항</li>
 	</ul>
 	<div class="contents">
 		<h3 class="edge">공지사항</h3>
@@ -44,20 +42,20 @@
 					<th>내용</th>
 					<th>등록일</th>
 				</thead>
-				<tbody>
-					<tr>
+				<tbody>				
+					<tr onclick="document.location = '<%=contextPath %>/surport/noticeView/1'">
 						<td>한은 "대출금리 올라도 가계 끄떡없다"…금리인상 포석</td>
 						<td>2017-12-01</td>
 					</tr>
-					<tr>
+					<tr onclick="document.location = '<%=contextPath %>/surport/noticeView/2'">
 						<td>'국정농단 시작과 끝' 최순실 재판 휴정…구형은 오후에</td>
 						<td>2017-12-01</td>
 					</tr>
-					<tr>
+					<tr onclick="document.location = '<%=contextPath %>/surport/noticeView/3'">
 						<td>우병우 세번째 영장심사 출석…사찰 의혹에 "통상업무"</td>
 						<td>2017-12-01</td>
 					</tr>
-					<tr>
+					<tr onclick="document.location = '<%=contextPath %>/surport/noticeView/4'">
 						<td>빛바랜 美틸러슨 '대화 초청장'…北 탐색기 길어질듯</td>
 						<td>2017-12-01</td>
 					</tr>

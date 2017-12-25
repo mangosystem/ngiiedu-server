@@ -17,8 +17,6 @@
 <![endif]-->
 <meta content="IE=edge" http-equiv="X-UA-Compatible">
 <title>지리원/공간정보융합 활용지원정보</title>
-<link rel="stylesheet" type="text/css"
-	href="<%=contextPath%>/assets/dist/style.css" />
 </head>
 
 <body class="edu">
@@ -32,8 +30,8 @@
 <div id="contentsWrap">
 	<ul class="location">
 		<li>홈</li>
-		<li>메뉴</li>
-		<li>페이지제목</li>
+		<li>사용지원</li>
+		<li>자료실</li>
 	</ul>
 	<div class="contents">
 		<h3 class="edge">자료실</h3>
@@ -45,7 +43,7 @@
 					<th>등록일</th>
 				</thead>
 				<tbody>
-					<tr>
+					<tr onclick="document.location = '<%=contextPath %>/surport/downloadView/1'">
 						<td>한은 "대출금리 올라도 가계 끄떡없다"…금리인상 포석</td>
 						<td>2017-12-01</td>
 					</tr>
