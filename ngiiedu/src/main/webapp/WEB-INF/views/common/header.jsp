@@ -27,8 +27,6 @@
 	String subHeader= request.getParameter("subHeader");
 %>
 	
-
-	
 <html lang="ko">
 <head>
 <meta charset="utf-8">
@@ -55,15 +53,6 @@
 			$('#'+subHeader).addClass("on");	
 		}
 	});
-	console.log(<%=userDivision%>)
-	console.log("<%=userDivision.equals(new String("1"))%> ")
-	console.log("<%=(userDivision).equals("1")%> ")
-	console.log("<%=userDivision=="1"%>")
-	console.log("<%=userDivision.getClass()%>")
-	console.log("<%=userDivision.getClass().getName()%>")
-	
-	
-	console.log("<%="1".equals(userDivision)%>")
 </script>
 
 </head>
@@ -72,28 +61,38 @@
 	<div id="headerWrap">
 		<div class="header">
 			<h1 class="edge" style="cursor: pointer;" onclick="document.location = '<%=contextPath %>/introduce'">공간정보융합 활용지원정보</h1>
-			
-			<%if((userDivision+"").equals("1")){  //교사 %>
-				<div class="gnb" style="display: none;">
-					<span class="student"><%=userName %></span>님, 로그인하셨습니다.
-					<button type="button" title="로그아웃">로그아웃</button>
-				</div>
-			<%}else if(userDivision.equals("2")){ //학생 %>
-				<div class="gnb" style="display: none;">
-					<span class="student"><%=userName %></span>님, 로그인하셨습니다.
-					<button type="button" title="로그아웃">로그아웃</button>
-				</div>
-			<%}else if(userDivision.equals("3")){  //관리자 %>
-				<div class="gnb" style="display: none;">
+
+			<%
+				if (userDivision.trim().equals("1")) {  //교사 
+			%>
+				<div class="gnb">
 					<span class="teacher"><%=userName %></span>님, 로그인하셨습니다.
-					<button type="button" title="로그아웃">로그아웃</button>
+					<button type="button" title="로그아웃" onClick="location.href='<%=contextPath%>/logout'">로그아웃</button>
 				</div>
-			<%}else{ %>
+			<%
+				} else if(userDivision.trim().equals("2")) {  //학생
+			%>
+				<div class="gnb">
+					<span class="student"><%=userName %></span>님, 로그인하셨습니다.
+					<button type="button" title="로그아웃" onClick="location.href='<%=contextPath%>/logout'">로그아웃</button>
+				</div>
+			<%
+				} else if(userDivision.trim().equals("3")) {  //관리자 
+			%>
+				<div class="gnb">
+					<span class="admin"><%=userName %></span>님, 로그인하셨습니다.
+					<button type="button" title="로그아웃" onClick="location.href='<%=contextPath%>/logout'">로그아웃</button>
+				</div>
+			<%
+				}else{ 
+			%>
 				<ul class="gnb">
-					<li>로그인</li>
-					<li>회원가입</li>
+					<li ><a href="<%=contextPath%>/login">로그인</a></li>
+					<li><a href="<%=contextPath%>/join">회원가입</a></li>
 				</ul>
-			<%} %>
+			<%
+				}
+			%>
 		</div>
 		<div class="lnbWrap">
 			<ul class="lnb">
