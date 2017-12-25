@@ -39,7 +39,7 @@
 		<ul class="object school"><!-- 이미지변경 CSS명 noise gps population territory school map dokdo -->
 			<li>
 				<span>주제</span>
-				스마트폰을 이용하여 학교 운동장의 식물사진을 찍고, 지도화한 뒤, 식물이 환경에 미치는 영향을 분석해 봅니다.
+				스마트폰을 이용하여 학교 운동장의 식물사진을 찍고, 지도화한 뒤, 식물이 환경에 미치는 영향을 분석해 봅니다.	
 			</li>
 			<li>
 				#생태지도 #시각화 #식물조사앱 #스마트폰 #운동장
@@ -84,18 +84,18 @@
 		<h4>3. 관련교과단원</h4>
 		<table class="subject">
 			<thead>
-				<th><span class="first">초등학교</span></th>
 				<th><span class="middle">중학교</span></th>
+				<th></th>
 				<th><span class="high">고등학교</span></th>
 			</thead>
 			<tbody>
 				<tr>
 					<td>
-						<!-- 초등교과단원 -->
+						<!-- 중등교과단원 -->
 						<ul>
 							<li>
-								<span>3학년 사회</span>
-								I. 제목샘플
+								<span>사회 2</span>
+								V. 환경 문제와 지속 가능한 환경
 							</li>
 						</ul>
 					</td>
@@ -103,11 +103,7 @@
 						<!-- 중등교과단원 -->
 						<ul>
 							<li>
-								<span>사회2</span>
-								V. 환경 문제와 지속 가능한 환경
-							</li>
-							<li>
-								<span>사회2</span>
+								<span>사회 2</span>
 								XIV . 현대사회와 사회문제
 							</li>
 						</ul>
@@ -130,8 +126,8 @@
 		<table class="lesson">
 			<thead>
 				<tr>
-					<th>1차시 <span>교실수업</span></th>
-					<th>2~3차시<span>학교운동장</span></th>
+					<th>1차시 <span>교실 내 수업</span></th>
+					<th>2~3차시<span>학교 운동장</span></th>
 					<th>4~5차시<span>컴퓨터실</span></th>
 					<th>6차시<span>교실 내 수업</span></th>
 				</tr>
@@ -139,8 +135,7 @@
 			<tbody>
 				<tr>
 					<td>나무의 탄소저감효과 이해하고 계산하기</td>
-					<td>스마트 기
-					기를 이용하여 우리학교 운동장 생물종 조사하기</td>
+					<td>스마트 기기를 이용하여 우리학교 운동장 생물종 조사하기</td>
 					<td>웹 GIS툴을 이용하여 우리학교 운동장 생태지도 그리기</td>
 					<td>학교 운동장의 생물다양성과 지속가능한 삶에대해 토의</td>
 				</tr>
@@ -151,7 +146,7 @@
 		<h4>5. 적용사례</h4>
 		<div class="case">
 			<figure>
-				<img src="<%=contextPath %>/assets/images/school_case.jpg" alt="">
+				<img src="<%=contextPath %>/assets/images/school_case_5_1.jpg" alt="">
 				<figcaption>강원 경포고등학교 (2017.03.29)</figcaption>
 			</figure>
 		</div>

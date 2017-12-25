@@ -30,7 +30,7 @@
 	<ul class="location">
 		<li>홈</li>
 		<li>수업소개</li>
-		<li>우리학교 운동장 생태지도 만들기</li>
+		<li>우리지역 소음지도 만들기</li>
 	</ul>
 	
 	<div class="contents">
@@ -69,11 +69,12 @@
 					<td>
 						<ul>
 							<li>우리 동네에 대한 소음에 대한 의식을 갖는다.</li>
+							<li>우리 동네에 대한 지속적인 관심을 갖는다.</li>
 						</ul>
 					</td>
 					<td>
 						<ul>
-							<li>우리 동네에 대한 지속적인 관심을 갖는다.</li>
+							<li>우리 지역에 관한 정보를 공간정보기술을 활용하여 지도로 표현할 수 있다.</li>
 						</ul>
 					</td>
 				</tr>
@@ -87,6 +88,7 @@
 				<th><span class="first">초등학교</span></th>
 				<th><span class="middle">중학교</span></th>
 				<th><span class="high">고등학교</span></th>
+				<th></th>
 			</thead>
 			<tbody>
 				<tr>
@@ -95,7 +97,7 @@
 						<ul>
 							<li>
 								<span>3학년 사회</span>
-								I. 제목샘플
+								Ⅰ. 우리가 살아가는 곳
 							</li>
 						</ul>
 					</td>
@@ -103,12 +105,8 @@
 						<!-- 중등교과단원 -->
 						<ul>
 							<li>
-								<span>사회2</span>
-								V. 환경 문제와 지속 가능한 환경
-							</li>
-							<li>
-								<span>사회2</span>
-								XIV . 현대사회와 사회문제
+								<span>사회</span>
+								Ⅵ. 도시 발달과 도시 문제
 							</li>
 						</ul>
 					</td>
@@ -116,8 +114,18 @@
 						<!-- 고등교과단원 -->
 						<ul>
 							<li>
-								<span>사회</span>
-								IV. 환경변화와 인간
+								<span>1학년 사회</span>
+								IV. 환경변화와 인간<br/>
+								2. 공간정보기술의 변화와 일상생활
+							</li>
+						</ul>
+					</td>
+					<td>
+						<ul>
+							<li>
+								<span>한국지리</span>
+								Ⅵ. 지역 조사와 지리 정보 처리<br/>
+								2. 지리 정보와 지역조사
 							</li>
 						</ul>
 					</td>
@@ -130,19 +138,19 @@
 		<table class="lesson">
 			<thead>
 				<tr>
-					<th>1차시 <span>교실수업</span></th>
-					<th>2~3차시<span>학교운동장</span></th>
+					<th>1차시 <span>교실 내 수업</span></th>
+					<th>2~3차시<span>야외수업</span></th>
 					<th>4~5차시<span>컴퓨터실</span></th>
 					<th>6차시<span>교실 내 수업</span></th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr>
-					<td>나무의 탄소저감효과 이해하고 계산하기</td>
-					<td>스마트 기
-					기를 이용하여 우리학교 운동장 생물종 조사하기</td>
-					<td>웹 GIS툴을 이용하여 우리학교 운동장 생태지도 그리기</td>
-					<td>학교 운동장의 생물다양성과 지속가능한 삶에대해 토의</td>
+					<td>소음 및 소음지도 개념을 논의하고 
+					우리동네 소음원에 대해 토의</td>
+					<td>모바일 기기를 활용한 우리 지역 소음원 현장 조사</td>
+					<td>컴퓨터를 이용한 주제지도 및 스토리맵 작성하기</td>
+					<td>팀별 소음지도 및 소음저감대책 등 발표</td>
 				</tr>
 			</tbody>
 		</table>
@@ -151,8 +159,12 @@
 		<h4>5. 적용사례</h4>
 		<div class="case">
 			<figure>
-				<img src="<%=contextPath %>/assets/images/school_case.jpg" alt="">
-				<figcaption>강원 경포고등학교 (2017.03.29)</figcaption>
+				<img src="<%=contextPath %>/assets/images/school_case_1_1.jpg" alt="">
+				<figcaption>서울 명일여고(2017.03.27)</figcaption>
+			</figure>
+			<figure>
+				<img src="<%=contextPath %>/assets/images/school_case_1_2.jpg" alt="">
+				<figcaption>세종과학예술영재고등학교 (2017.05.19)</figcaption>
 			</figure>
 		</div>
 		
@@ -161,7 +173,8 @@
 		
 		<h5 class="tip">활용TIP</h5>
 		<ul class="tip">
-			<li>조별과제로 제출하고, 수행평가 시 활용할 수 있습니다!</li>
+			<li>스마트폰을 이용하여 소음측정 및 지점별 소음값 입력등이 이뤄지므로 팀별로 조사하도록 하는 것이 좋습니다.</li>
+			<li>현장조사시 일정한 간격으로 소음을 측정하도록 하고, 값의 변화가 작아도 입력하도록 합니다.</li>
 		</ul>
 		
 		<!-- END 우리지역 소음지도 만들기 -->
