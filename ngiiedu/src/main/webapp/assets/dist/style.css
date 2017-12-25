@@ -34,6 +34,7 @@ width: 1040px;
 margin: 10px auto 70px;
 }
 #contentsWrap .contents {
+position: relative;
 min-height: 500px;
 padding: 30px 30px 50px 30px;
 border: 1px solid #cecece;
@@ -166,6 +167,13 @@ color: #fee900;
 color: #fee900;
 }
 
+
+#headerWrap .snb ul li a{
+color: #fff;
+}
+#headerWrap .snb ul li.on a{
+color: #fee900;
+}
 
 /* ////////// FOOTER ////////// */
 #footerWrap .footer {
@@ -619,4 +627,203 @@ font-size: 11pt;
 }
 .loginWrap > ul li:nth-child(4) {
 margin-bottom: 60px;
+}
+
+
+
+/*20171223*/
+/* ////////// 수업소개 ////////// */
+button.goList {
+position: absolute;
+top: 40px;	
+right: 30px;
+width: 38px;
+height: 38px;
+text-indent: -999em;
+border: none;
+background: url(/ngiiedu/assets/images/ico.png) no-repeat 10px -290px;
+}
+
+ul.object {
+margin-bottom: 30px;
+padding: 10px 10px 10px 140px;
+border: 2px solid #43444c;
+}
+.object li {
+padding: 15px 10px;
+font-size: 11pt;
+line-height: 18pt;
+}
+.object li > span {
+float: left;
+display: inline-block;
+margin-right: 10px;
+padding: 1px 5px;
+border-radius: 4px;
+font-size: 9pt;
+color: #fff;
+background-color: #3e81f6;
+}
+.object li:last-child {
+padding: 5px;
+color: #999;
+font-size: 10pt;
+border-top: 1px dotted #999;
+}
+ul.noise {
+background: url(/ngiiedu/assets/images/class_noise.png) no-repeat 30px 50%;
+}
+ul.gps {
+background: url(/ngiiedu/assets/images/class_gps.png) no-repeat 30px 50%;
+}
+ul.population {
+background: url(/ngiiedu/assets/images/class_population.png) no-repeat 30px 50%;
+}
+ul.territory {
+background: url(/ngiiedu/assets/images/class_territory.png) no-repeat 30px 50%;
+}
+ul.school {
+background: url(/ngiiedu/assets/images/class_school.png) no-repeat 30px 50%;
+}
+ul.map {
+background: url(/ngiiedu/assets/images/class_map.png) no-repeat 30px 50%;
+}
+ul.dokdo {
+background: url(/ngiiedu/assets/images/class_dokdo.png) no-repeat 30px 50%;
+}
+.contents > h4 {
+margin-bottom: 20px;
+padding: 8px 10px;
+border-top: 1px solid #e6e6e6;
+border-bottom: 1px solid #e6e6e6;
+background-color: #f9f9f9;
+}
+/* 수업소개 / 학습개요 */
+.contents p.text {
+margin-bottom: 50px;
+}
+/* 수업소개 / 학습목표 */
+.contents table.aim {
+width: 100%;
+margin-bottom: 50px;
+border-collapse:collapse;
+}
+.contents table.aim th {
+width: 33%;
+padding: 3px;
+color: #fff;
+font-size: 10pt;
+font-weight: normal;
+border: 2px solid #fff;
+background-color: #3e81f6;
+}
+.contents table.aim td {
+border-right: 1px solid #e6e6e6;
+}
+.contents table.aim tbody td:last-child {
+border-right: none;
+}
+.contents table.aim ul {
+padding: 10px 20px 7px;
+}
+.contents table.aim ul li {
+margin-bottom: 10px;
+padding-left: 10px;
+background: url(/ngiiedu/assets/images/bullet.png) no-repeat 0 -55px;
+}
+/* 수업소개 / 관련교과단원 */
+.contents .subject {
+margin-bottom: 50px;
+}
+.contents .subject th {
+text-align: left;
+}
+.contents .subject th > span {
+display: inline-block;
+margin-bottom: 0px;
+padding: 7px 20px;
+border-radius: 16px;
+}
+.contents .subject span.first {	
+background-color: #fee900;
+}
+.contents .subject span.middle {	
+background-color: #19c9b7;
+}
+.contents .subject span.high {	
+color: #fff;
+background-color: #6e564c;
+}
+.contents .subject ul {
+margin:7px 50px 0 0;
+}
+.contents .subject ul li {
+padding-bottom: 25px;
+}
+.contents .subject ul li > span {
+display: block;
+margin-bottom: 5px;
+padding: 0px 10px 0 20px;
+font-size: 9pt;
+border-radius: 9px;
+background-color: #eaeaea;
+}
+
+/* 수업소개 / 수업과정 */
+.contents table.lesson {
+width: 100%;
+margin-bottom: 50px;
+border-collapse:collapse;
+}
+.contents table.lesson th {
+padding: 5px 7px;
+color: #FFF;
+border: 2px solid #fff;;
+background-color: #43444c;
+background-image: url(/ngiiedu/assets/images/lesson_arrow.png);
+background-repeat: no-repeat;
+background-position: right center;
+}
+.contents table.lesson th > span {
+display: block;
+margin: 0 30px;
+font-weight: normal;
+border-top: 1px dotted #8e909b;
+}
+.contents table.lesson tbody td {
+padding: 10px 15px;
+border-right: 1px solid #e6e6e6;
+}
+.contents table.lesson tbody td:last-child {
+border-right: none;
+}
+/* 수업소개 / 적용사례 */
+.contents div.case {
+margin-bottom: 50px;
+}
+.contents div.case figure {
+display: inline-block;
+max-width: 486px;
+margin-bottom: 20px;
+}
+.contents div.case figure figcaption {
+padding: 5px;
+font-size: 9pt;
+color: #666;
+text-align: center;
+}
+/* 수업소개 / 활용팁 */
+h5.tip {
+width: 200px;
+margin-bottom: 10px;
+padding: 5px 0 5px 30px;
+font-size: 10pt;
+background: url(/ngiiedu/assets/images/bullet.png) no-repeat -28px -248px;
+}
+ul.tip {
+margin-bottom: 50px;
+}
+ul.tip li {
+padding-left: 25px;
+background: url(/ngiiedu/assets/images/bullet.png) no-repeat 10px -55px;
 }
