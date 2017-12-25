@@ -1,5 +1,6 @@
 package kr.go.ngii.edu.controller;
 
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -110,7 +111,10 @@ public class CourseWorkController extends BaseController {
 	@RequestMapping(value="/dataset", method=RequestMethod.POST)
 	public @ResponseBody ResponseEntity<ResponseData> datasetCreate(
 			@RequestParam(value="courseWorkSubId", required=true) int courseWorkSubId,
-			@RequestParam(value="title", required=false, defaultValue="untitled") String title,
+//			@RequestParam(value="title", required=false, defaultValue="untitled") String title,
+			@RequestParam(value="options", required=false, defaultValue="") String options,
+			@RequestParam(value="metadata", required=false, defaultValue="") String metadata,
+			@RequestParam(value="privacy", required=false, defaultValue="PUBLIC") String privacy,
 			@RequestParam(value="uFile", required=false) MultipartFile uFile,
 //			@RequestParam(value="sources", required=false, defaultValue="") String sources,
 			MultipartHttpServletRequest request,
@@ -120,23 +124,38 @@ public class CourseWorkController extends BaseController {
 //		if (user == null) {
 //			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
 //		}
+		
 		Map<String, Object> paramVals = new HashMap<String, Object>();
 		Map<String, String> pathParamVals = new HashMap<String, String>();
 		paramVals.put("project_id", LocalResourceBundle.PINOGIO_API_PROJECT_ID);
-		paramVals.put("title", title);
-//		paramVals.put("ufile", uFile);
-		paramVals.put("options", "{\"charset\":\"x-windows-949\",  \"srid\":3857 }");
-		           
+//		paramVals.put("title", title);
+		paramVals.put("ufile", uFile);
+		paramVals.put("metadata", metadata);
+		paramVals.put("privacy", privacy);
+		
+		String uFileType = "";
+		try {
+			String uFileName = uFile.getOriginalFilename();
+			uFileType = uFileName.substring(uFileName.lastIndexOf(".") + 1);
+		} catch (NullPointerException ne) {
+		} catch (IndexOutOfBoundsException ie) {
+		} catch (Exception e) {
+		}
+		
+		// example 
+		if ("shape".equals(uFileType)) {
+			options = "{\"charset\":\"x-windows-949\",  \"srid\":3857 }";
+		} else if ("csv".equals(uFileType)) {
+			options = "{\"lon\":\"x\",  \"lat\":\"y\", \"delimiter\":\",\" , \"headerLine\":1}";
+		} else if ("excel".equals(uFileType)) {
+			options = "{\"lon\":\"x\",  \"lat\":\"y\"}";
+		}
+		
+		paramVals.put("options", options);
+		
 //		paramVals.put("sources", sources);
 //			Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.DATASET_CREATE, "/dataset.json", paramVals);
-		String result = apiClient.getResponseBodyWithFiles(EnumRestAPIType.DATASET_CREATE, pathParamVals, paramVals, uFile);
-// options : shape, csv, excel
-// charset, srid(숫자만)
-
-		
-		// shape => 곹통
-		// csv 
-		
+		String result = apiClient.getResponseBodyWithFiles(EnumRestAPIType.DATASET_UPLOAD_CREATE, pathParamVals, paramVals, uFile);
 		
 		// output Division 
 //		WorkOutput workOutputResult = workOutputService.create(courseWorkSubId, "1",  result, 40, "dataset");
@@ -953,14 +972,14 @@ public class CourseWorkController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/maps/{mapsId}/item/{itemId}", method=RequestMethod.PUT)
+	@RequestMapping(value="/maps/{mapsId}/item/{itemId}", method=RequestMethod.POST)
 	public @ResponseBody ResponseEntity<ResponseData> mapsItemModify(
 			@PathVariable("mapsId") String mapsId,
 			@PathVariable("itemId") String itemId,
 			@RequestParam(value="title", required=false, defaultValue="") String title,
 			@RequestParam(value="description", required=false, defaultValue="") String description,
 			@RequestParam(value="metadata", required=false, defaultValue="") String metadata,
-			@RequestParam(value="baseLayer	", required=false, defaultValue="") String baseLayer,
+			@RequestParam(value="baseLayer", required=false, defaultValue="") String baseLayer,
 			@RequestParam(value="pinoLayer", required=true, defaultValue="") String pinoLayer,
 			@RequestParam(value="mapOptions", required=false, defaultValue="") String mapOptions,
 //			MultipartHttpServletRequest request,
@@ -970,6 +989,7 @@ public class CourseWorkController extends BaseController {
 //		if (user == null) {
 //			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
 //		}
+		
 		
 		Map<String, String> pathParamVals = new HashMap<String,String>();
 		pathParamVals.put("maps_id", mapsId);
@@ -988,15 +1008,19 @@ public class CourseWorkController extends BaseController {
 		mapOptions = "".equals(mapOptions) ? (String) mapsItemGetResultData.get("mapOptions") : mapOptions;
 		
 		paramVals.put("title", title);
-//		paramVals.put("description", description);
-		paramVals.put("description", description.replaceAll("/", "%2F"));
+		paramVals.put("description", description);
+		
+		
+		
+		//baseLayer.paramVals.put("description", description.replaceAll("/", "%2F"));
 		paramVals.put("metadata", metadata);
 		paramVals.put("base_layer", baseLayer);
 		paramVals.put("pino_layer", pinoLayer);
 		paramVals.put("map_options", mapOptions);
 
-		Map<String, Object> updateResult = apiClient.getResponseBody(EnumRestAPIType.MAPS_ITEM_UPDATE, pathParamVals, paramVals);
+		Map<String, Object>  updateResult = apiClient.getResponseBodyWithLinkedMap(EnumRestAPIType.MAPS_ITEM_UPDATE, pathParamVals, paramVals);
 //		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.MAPS_ITEM_UPDATE, "/maps/"+mapsId+"/item/"+ itemId +".json", paramVals);
+		
 		Map<String, String> metaData = (Map<String, String>) updateResult.get("meta");
 		String metaDataMessage = metaData.get("message");
 		if ("Updated".equalsIgnoreCase(metaDataMessage)) {
@@ -1005,7 +1029,6 @@ public class CourseWorkController extends BaseController {
 		} else {
 			return new ResponseEntity<ResponseData>(responseBody("failed"), HttpStatus.OK);
 		}
-		
 	}
 	
 	/**

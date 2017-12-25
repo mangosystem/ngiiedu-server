@@ -111,7 +111,8 @@ public class RestAPIClient {
 	
 	public String getResponseBodyForObject(EnumRestAPIType enumType, Map<String, String> pathParam, Map<String, String> param) {
 		try {
-			UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(REST_BASE_URI + enumType.code());
+//			UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(REST_BASE_URI + enumType.code());
+			UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(REST_BASE_URI + format(enumType.code(), pathParam));
 			
 			MultiValueMap<String, String> multiValueMap = new LinkedMultiValueMap<>();
 			
@@ -130,9 +131,10 @@ public class RestAPIClient {
 	}
 	
 	
-	public Map<String, Object> getResponseBodyForObject2(EnumRestAPIType enumType, Map<String, String> pathParam, Map<String, String> param) {
+	public Map<String, Object> getResponseBodyWithLinkedMap(EnumRestAPIType enumType, Map<String, String> pathParam, Map<String, String> param) {
 		try {
-			UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(REST_BASE_URI + enumType.code());
+//			UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(REST_BASE_URI + enumType.code());
+			UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(REST_BASE_URI +format(enumType.code(), pathParam));
 			
 			MultiValueMap<String, String> multiValueMap = new LinkedMultiValueMap<String, String>();
 			
