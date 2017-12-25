@@ -17,7 +17,7 @@
 <![endif]-->
 <meta content="IE=edge" http-equiv="X-UA-Compatible">
 <title>지리원/공간정보융합 활용지원정보</title>
-
+</head>
 <body class="edu">
 	
 	<jsp:include page ="../common/header.jsp" flush="false">
@@ -35,8 +35,18 @@
 	
 	<div class="contents">
 		<h3 class="edge">할머니는 백살, 고모는 골드미스, 나는 외동딸! (우리지역 인구지도 만들기)</h3>
-		<button type="button" class="goList" title="수업목록">목록</button>
-		<ul class="object school"><!-- 이미지변경 CSS명 noise gps population territory school map dokdo -->
+		<button type="button" class="goList classList" title="수업목록">
+			목록
+			<ul class="sub-menu">
+				<li><a href="<%=contextPath%>/introduce/1" class="sub-menu-item">우리지역 소음지도 만들기</a></li>
+				<li><a href="<%=contextPath%>/introduce/2" class="sub-menu-item">GPS를 이용한 위치학습기</a></li>
+				<li><a href="<%=contextPath%>/introduce/3" class="sub-menu-item">우리지역 인구지도 만들기</a></li>
+				<li><a href="<%=contextPath%>/introduce/4" class="sub-menu-item">통합적 영토교육</a></li>
+				<li><a href="<%=contextPath%>/introduce/5" class="sub-menu-item">우리학교 운동장 생태지도 만들기</a></li>
+				<li><a href="<%=contextPath%>/introduce/6" class="sub-menu-item">지도 정확성</a></li>
+				<li><a href="<%=contextPath%>/introduce/7" class="sub-menu-item">독도의 중요성</a></li>
+			</ul>
+		</button>		<ul class="object school"><!-- 이미지변경 CSS명 noise gps population territory school map dokdo -->
 			<li>
 				<span>주제</span>
 				우리나라 시군구별 1인가구, 노인인구, 청소년인구, 외국인 인구등의 변화를 시계열적으로 지도화하고, 변화의 특성을 분석합니다.
