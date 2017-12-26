@@ -5,8 +5,8 @@ import java.sql.Date;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name = "bbsQuestion")
-public class BbsQuestion implements Serializable {
+@XmlRootElement(name = "bbsFAQuestion")
+public class BbsFAQuestion implements Serializable {
 	
 	/** serialVersionUID. */
 	private static final long serialVersionUID = 1L;
@@ -61,5 +61,7 @@ public class BbsQuestion implements Serializable {
 	public void setModifyDate(Date modifyDate) {
 		this.modifyDate = modifyDate;
 	}
+
+
 
 }

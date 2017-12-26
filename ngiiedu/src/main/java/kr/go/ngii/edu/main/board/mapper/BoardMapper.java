@@ -5,7 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-
+import kr.go.ngii.edu.main.board.model.BbsFAQuestion;
 import kr.go.ngii.edu.main.board.model.BbsNotice;
 import kr.go.ngii.edu.main.board.model.BbsQuestion;
 import kr.go.ngii.edu.main.board.model.BbsReply;
@@ -35,13 +35,27 @@ public interface BoardMapper {
 
 	public BbsQuestion getQnaListbyId(BbsQuestion question);
 
-	//public Boolean insertNotice(String title, String content);
-
 	public void insertQna(BbsQuestion question);
 	
 	public void modifyQna(BbsQuestion question);
 
 	public void deleteQna(@Param("qnaId") int qnaId);
+
+	public int getQnaCnt();
+	
+	public List<BbsFAQuestion> getFaqList();
+	
+	public List<BbsFAQuestion> getFaqList(@Param("offset") int offset, @Param("limit") int limit);
+
+	public BbsFAQuestion getFaqListbyId(BbsFAQuestion question);
+
+	public void insertFaq(BbsFAQuestion question);
+	
+	public void modifyFaq(BbsFAQuestion question);
+
+	public void deleteFaq(@Param("faqId") int faqId);
+
+	public int getFaqCnt();
 
 	public List<BbsReply> getReListbyIdx(BbsReply reply);
 

@@ -1079,10 +1079,10 @@ public class CourseWorkController extends BaseController {
 			@RequestParam(value="priority", required=false, defaultValue="") String priority,
 			HttpSession session) throws Exception {
 		
-		User user = (User)session.getAttribute("USER_INFO");
-		if (user == null) {
-			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
-		}
+//		User user = (User)session.getAttribute("USER_INFO");
+//		if (user == null) {
+//			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+//		}
 		Map<String, String> pathParamVals = new HashMap<String,String>();
 		pathParamVals.put("maps_id", mapsId);
 		

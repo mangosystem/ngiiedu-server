@@ -16,4 +16,14 @@ public class LocalResourceBundle {
 	
 	public static final String PINOGIO_API_SERVER = resource.getString("PINOGIO_API_SERVER");
 	public static final String PINOGIO_API_PROJECT_ID = resource.getString("PINOGIO_API_PROJECT_ID");
+	
+	public static final int BBS_NOTICE_POSTS_SIZE = Integer.parseInt(resource.getString("BBS_NOTICE_POSTS_SIZE"));
+	public static final int BBS_FAQ_POSTS_SIZE = Integer.parseInt(resource.getString("BBS_FAQ_POSTS_SIZE"));
+	public static final int BBS_QNA_POSTS_SIZE = Integer.parseInt(resource.getString("BBS_QNA_POSTS_SIZE"));
+	public static final int BBS_PDS_POSTS_SIZE = Integer.parseInt(resource.getString("BBS_PDS_POSTS_SIZE"));
+
+	public static final int BBS_NOTICE_LIST_SIZE = Integer.parseInt(resource.getString("BBS_NOTICE_LIST_SIZE"));
+	public static final int BBS_FAQ_LIST_SIZE = Integer.parseInt(resource.getString("BBS_FAQ_LIST_SIZE"));
+	public static final int BBS_QNA_LIST_SIZE = Integer.parseInt(resource.getString("BBS_QNA_LIST_SIZE"));
+	public static final int BBS_PDS_LIST_SIZE = Integer.parseInt(resource.getString("BBS_PDS_LIST_SIZE"));
 }

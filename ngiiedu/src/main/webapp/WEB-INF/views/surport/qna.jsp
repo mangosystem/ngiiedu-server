@@ -1,8 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%
 	String contextPath = request.getContextPath();
 %>
+
 	
 	
 <!DOCTYPE html>
@@ -26,8 +29,6 @@
 		<jsp:param value="qna" name="subHeader"/>
 	</jsp:include>
 
-
-
 <div id="contentsWrap">
 	<ul class="location">
 		<li>홈</li>
@@ -45,7 +46,17 @@
 					<th>등록일</th>
 				</thead>
 				<tbody>
-					<tr onclick="document.location = '<%=contextPath %>/surport/qnaView/1'">
+					<c:forEach var="bbsQuestion" items="${items}"> 
+						<tr>
+							<td><a href="qnaView/${bbsQuestion.idx}">${bbsQuestion.title}</a> 
+								<span class="comment">3</span>
+							</td> 
+							<td>${bbsQuestion.writer}</td>
+							<td><fmt:formatDate value="${bbsQuestion.createDate}" pattern="YYYY-MM-dd" /></td>
+						</tr>
+					</c:forEach>
+					<!-- 
+					<tr onclick="document.location = 'qnaView/1'">
 						<td>
 							한은 "대출금리 올라도 가계 끄떡없다"…금리인상 포석
 							<span class="comment">3</span>
@@ -110,8 +121,33 @@
 						<td>공효상</td>
 						<td>2017-12-01</td>
 					</tr>
+					 -->
 				</tbody>
 			</table>
+
+			<c:choose>
+				<c:when test="${criteria.recordsNum ne NULL and criteria.recordsNum ne '' and criteria.recordsNum ne 0}">				
+					<ul class="pagination">
+						<c:if test="${criteria.currentPage gt 10}">  										
+						</c:if>
+							<li class="ico forward" title="앞으로"  onclick="location.href='qna?page=${criteria.currentPage - 1}'">앞으로</li>
+							<c:forEach var="i" begin="${criteria.startPage}" end="${criteria.endPage}" step="1">
+				            <c:choose>
+				                <c:when test="${i eq criteria.currentPage}"> 
+				                      <li class="active"><a href="qna?page=${i}">${i}</a></li>
+				                </c:when>
+				                	<c:otherwise>
+				                    <li><a href="qna?page=${i}">${i}</a></li> 
+									</c:otherwise>
+								</c:choose>
+							</c:forEach>
+						<c:if test="${criteria.currentPage < criteria.finalPage}"> 
+							<li class="ico back" title="뒤로" onclick="location.href='qna?page=${criteria.currentPage + 1}'">뒤로</li>
+						</c:if> 
+					</ul>
+				</c:when>
+			</c:choose>
+			<!-- 
 			<ul class="pagination">
 				<li class="ico first" title="맨앞으로">처음</li>
 				<li class="ico forward" title="앞으로">앞으로</li>
@@ -124,6 +160,8 @@
 				<li class="ico back" title="뒤로">뒤로</li>
 				<li class="ico end" title="맨뒤로">마지막</li>
 			</ul>
+			 -->
+			 
 			<button class="new"  onclick="document.location = '<%=contextPath %>/surport/qnaNew'">새글</button>
 		</div>
 		<!-- END QNALIST -->
@@ -131,7 +169,7 @@
 	<!-- CONTENTS -->
 </div>
 <!-- END CONTENTSWRAP -->
-
+</script>
 	<jsp:include page ="../common/footer.jsp"></jsp:include>
 <!-- END FOOTER -->
 </body>

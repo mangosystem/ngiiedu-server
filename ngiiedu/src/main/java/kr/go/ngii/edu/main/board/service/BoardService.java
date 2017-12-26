@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.Module;
 
 import kr.go.ngii.edu.main.board.mapper.BoardMapper;
+import kr.go.ngii.edu.main.board.model.BbsFAQuestion;
 import kr.go.ngii.edu.main.board.model.BbsNotice;
 import kr.go.ngii.edu.main.board.model.BbsQuestion;
 import kr.go.ngii.edu.main.board.model.BbsReply;
@@ -100,11 +101,11 @@ public class BoardService {
 		return boardMapper.getQnaListbyId(question);
 	}
 
-	public BbsQuestion insertQna(String title, String content, String writer, String attach) {
+	public BbsQuestion insertQna(String title, String description, String writer, String attach) {
 		
 		BbsQuestion param = new BbsQuestion();
 		param.setTitle(title);
-		param.setContent(content);
+		param.setDescription(description);
 		param.setWriter(writer);
 		param.setAttach(attach);
 		//param.setCreateDate(new Date());
@@ -116,11 +117,11 @@ public class BoardService {
 
 	}
 	
-	public BbsQuestion modifyQna(int idx, String title, String content, String attach) {
+	public BbsQuestion modifyQna(int idx, String title, String description, String attach) {
 		BbsQuestion param = new BbsQuestion();
 		param.setIdx(idx);
 		param.setTitle(title);
-		param.setContent(content);
+		param.setDescription(description);
 		param.setAttach(attach);
 		//param.setModiDate(new Date());
 		
@@ -132,7 +133,7 @@ public class BoardService {
 
 		return param;
 	}
-
+	
 	public boolean deleteQna(int qnaId) {
 		if (getQnaListbyId(qnaId)!=null) {
 			boardMapper.deleteQna(qnaId);
@@ -141,6 +142,79 @@ public class BoardService {
 			return false;
 		}
 	}
+	
+	public int getQnaCnt() {
+		return boardMapper.getQnaCnt();
+	}
+
+	
+	public List<BbsFAQuestion> getFaqList() {
+		List<BbsFAQuestion> result = null;
+		try{
+			result = boardMapper.getFaqList();
+			
+		}catch(Exception e) {
+			
+		}
+		return result;
+	}
+	
+	public List<BbsFAQuestion> getFaqList(int offset, int limit) {
+		return boardMapper.getFaqList(offset, limit);
+	}
+
+	public BbsFAQuestion getFaqListbyId(int idx) {
+		BbsFAQuestion question = new BbsFAQuestion();
+		question.setIdx(idx);
+		return boardMapper.getFaqListbyId(question);
+	}
+
+	public BbsFAQuestion insertFaq(String title, String description, String writer, String attach) {
+		
+		BbsFAQuestion param = new BbsFAQuestion();
+		param.setTitle(title);
+		param.setDescription(description);
+		param.setWriter(writer);
+		param.setAttach(attach);
+		//param.setCreateDate(new Date());
+		//param.setModifyDate(new Date());
+		boardMapper.insertFaq(param);
+
+		return param;
+		//Module result = false;
+
+	}
+	
+	public BbsFAQuestion modifyFaq(int idx, String title, String description, String attach) {
+		BbsFAQuestion param = new BbsFAQuestion();
+		param.setIdx(idx);
+		param.setTitle(title);
+		param.setDescription(description);
+		param.setAttach(attach);
+		//param.setModiDate(new Date());
+		
+		boardMapper.modifyFaq(param);
+
+		if (param.getIdx()!=null) {
+			param = getFaqListbyId(idx);
+		}
+
+		return param;
+	}
+	
+	public boolean deleteFaq(int faqId) {
+		if (getFaqListbyId(faqId)!=null) {
+			boardMapper.deleteFaq(faqId);
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public int getFaqCnt() {
+		return boardMapper.getFaqCnt();
+	}
+
 	
 	public List<BbsReply> getReListbyId(int qnaId) {
 		BbsReply reply = new BbsReply();
