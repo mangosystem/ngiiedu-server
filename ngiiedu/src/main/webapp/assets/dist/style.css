@@ -97,7 +97,7 @@ button {
 }
 
 /* ////////// HEADER ////////// */
-h1 {
+h1.edge {
 	width: 320px;
 	height: 85px;
 	margin: 0px auto;
@@ -209,7 +209,7 @@ h1.edge {
 	margin: 0 auto;
 }
 
-h2 {
+.snbWrap h2{
 	float: left;
 	padding: 35px 0 0 0;
 	font-size: 25pt;
