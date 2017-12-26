@@ -99,7 +99,7 @@
 				<li id="introduce"><a href="<%=contextPath%>/introduce">수업소개</a></li>
 				<li id="gallary"><a href="<%=contextPath %>/gallary">수업활동갤러리</a></li>
 				<li id="surport"><a href="<%=contextPath %>/surport/notice">사용지원</a></li>
-				<li id="course" ><a href="<%=contextPath %>">수업</a></li>
+				<li id="course" ><a href="<%=contextPath %>/course">나의수업</a></li>
 			</ul>
 		</div>
 		<div class="snbWrap navy">
