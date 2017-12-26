@@ -420,7 +420,7 @@ button.default2:hover {
 	background: none;
 }
 
-h3 {
+h3.edge {
 	display: inline-block;
 	margin-bottom: 50px;
 	padding: 15px 15px 0 0;
