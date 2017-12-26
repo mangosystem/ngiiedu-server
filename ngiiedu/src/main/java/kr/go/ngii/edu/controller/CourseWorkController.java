@@ -1010,8 +1010,6 @@ public class CourseWorkController extends BaseController {
 		paramVals.put("title", title);
 		paramVals.put("description", description);
 		
-		
-		
 		//baseLayer.paramVals.put("description", description.replaceAll("/", "%2F"));
 		paramVals.put("metadata", metadata);
 		paramVals.put("base_layer", baseLayer);
@@ -1074,15 +1072,15 @@ public class CourseWorkController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value="/maps/{mapsId}/itemOrder", method=RequestMethod.PUT)
-	public @ResponseBody ResponseEntity<ResponseData> ma(
+	public @ResponseBody ResponseEntity<ResponseData> mapsItemOrderModify(
 			@PathVariable("mapsId") String mapsId,
 			@RequestParam(value="priority", required=false, defaultValue="") String priority,
 			HttpSession session) throws Exception {
 		
-		User user = (User)session.getAttribute("USER_INFO");
-		if (user == null) {
-			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
-		}
+//		User user = (User)session.getAttribute("USER_INFO");
+//		if (user == null) {
+//			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+//		}
 		
 		Map<String, String> pathParamVals = new HashMap<String,String>();
 		pathParamVals.put("maps_id", mapsId);
