@@ -13,15 +13,22 @@ public class BbsNotice implements Serializable{
 	
 	private Integer idx;
 	private String title;
-	private String content;
+	private String description;
+	private String writer;
 	private Date createDate;
 	private Date modifyDate;
-
+	
 	public Integer getIdx() {
 		return idx;
 	}
 	public void setIdx(Integer idx) {
 		this.idx = idx;
+	}
+	public String getWriter() {
+		return writer;
+	}
+	public void setWriter(String writer) {
+		this.writer = writer;
 	}
 	public String getTitle() {
 		return title;
@@ -29,11 +36,11 @@ public class BbsNotice implements Serializable{
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	public String getContent() {
-		return content;
+	public String getDescription() {
+		return description;
 	}
-	public void setContent(String content) {
-		this.content = content;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	public Date getCreateDate() {
 		return createDate;
@@ -47,7 +54,5 @@ public class BbsNotice implements Serializable{
 	public void setModifyDate(Date modifyDate) {
 		this.modifyDate = modifyDate;
 	}
-
-
 
 }

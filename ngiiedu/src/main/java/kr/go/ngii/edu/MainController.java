@@ -23,6 +23,7 @@ import kr.go.ngii.edu.config.LocalResourceBundle;
 import kr.go.ngii.edu.controller.rest.BaseController;
 import kr.go.ngii.edu.controller.rest.ResponseData;
 import kr.go.ngii.edu.main.board.model.BbsFAQuestion;
+import kr.go.ngii.edu.main.board.model.BbsNotice;
 import kr.go.ngii.edu.main.board.model.BbsPageCriteria;
 import kr.go.ngii.edu.main.board.model.BbsQuestion;
 import kr.go.ngii.edu.main.board.service.BoardService;
@@ -156,9 +157,26 @@ public class MainController extends BaseController {
 	//notice page
 	@RequestMapping(value={"/surport/notice"}, method = RequestMethod.GET)
 	public ModelAndView getNoticePage(HttpServletRequest request, HttpServletResponse response, 
+			@RequestParam(value="page", required=false, defaultValue="1") Integer page,
+			@RequestParam(value="limit", required=false, defaultValue="0") Integer limit,
 			HttpSession session, Principal principal) {
 
 		ModelAndView view = new ModelAndView("/surport/notice");
+		
+		limit = limit == 0 ? LocalResourceBundle.BBS_NOTICE_POSTS_SIZE : limit;
+		
+		if (page == 0) {
+			page = 1;
+		}
+
+		int offset = (page -1) * limit;
+		
+		BbsPageCriteria bbsPageCriteria = new BbsPageCriteria(page, LocalResourceBundle.BBS_NOTICE_LIST_SIZE, limit);
+		List<BbsNotice> bbsNoticeList = boardService.getNoticeList(offset, limit); 
+		bbsPageCriteria.setRecordsNum(boardService.getNoticeCnt());
+		view.getModelMap().addAttribute("items", bbsNoticeList);
+		view.getModelMap().addAttribute("criteria", bbsPageCriteria);
+		
 		return view;
 	}
 	
@@ -179,7 +197,7 @@ public class MainController extends BaseController {
 			HttpSession session, Principal principal) {
 		ModelAndView view = new ModelAndView("/surport/faq");
 		
-		limit = limit == 0 ? LocalResourceBundle.BBS_FAQ_LIST_SIZE : limit;
+		limit = limit == 0 ? LocalResourceBundle.BBS_FAQ_POSTS_SIZE : limit;
 		
 		if (page == 0) {
 			page = 1;
@@ -188,9 +206,9 @@ public class MainController extends BaseController {
 		int offset = (page -1) * limit;
 		
 		BbsPageCriteria bbsPageCriteria = new BbsPageCriteria(page, LocalResourceBundle.BBS_FAQ_LIST_SIZE, limit);
-		List<BbsFAQuestion> bbsQuestionList = boardService.getFaqList(offset, limit); 
+		List<BbsFAQuestion> bbsFAQuestionList = boardService.getFaqList(offset, limit); 
 		bbsPageCriteria.setRecordsNum(boardService.getFaqCnt());
-		view.getModelMap().addAttribute("items", bbsQuestionList);
+		view.getModelMap().addAttribute("items", bbsFAQuestionList);
 		view.getModelMap().addAttribute("criteria", bbsPageCriteria);
 		return view;
 	}
@@ -203,7 +221,7 @@ public class MainController extends BaseController {
 			HttpSession session, Principal principal) {
 		ModelAndView view = new ModelAndView("/surport/qna");
 		
-		limit = limit == 0 ? LocalResourceBundle.BBS_QNA_LIST_SIZE : limit;
+		limit = limit == 0 ? LocalResourceBundle.BBS_QNA_POSTS_SIZE : limit;
 		
 		if (page == 0) {
 			page = 1;

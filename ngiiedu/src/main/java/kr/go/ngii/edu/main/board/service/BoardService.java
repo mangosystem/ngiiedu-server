@@ -1,6 +1,6 @@
 package kr.go.ngii.edu.main.board.service;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -41,13 +41,13 @@ public class BoardService {
 		return boardMapper.getNoticeListbyId(notice);
 	}
 
-	public BbsNotice insertNotice(String title, String content) {
+	public BbsNotice insertNotice(String title, String description) {
 		
 		BbsNotice param = new BbsNotice();
 		param.setTitle(title);
-		param.setContent(content);
-		//param.setCreateDate(new Date());
-		//param.setModifyDate(new Date());
+		param.setDescription(description);;
+//		param.setCreateDate(new Date());
+//		param.setModifyDate(new Date());
 		boardMapper.insertNotice(param);
 
 		return param;
@@ -55,13 +55,12 @@ public class BoardService {
 
 	}
 	
-	public BbsNotice modifyNotice(int idx, String title, String content) {
+	public BbsNotice modifyNotice(int idx, String title, String description) {
 		BbsNotice param = new BbsNotice();
 		param.setIdx(idx);
 		param.setTitle(title);
-		param.setContent(content);
-		//param.setModiDate(new Date());
-		
+		param.setDescription(description);
+//		param.setModifyDate(new Date());
 		boardMapper.modifyNotice(param);
 
 		if (param.getIdx()!=null) {
@@ -79,6 +78,11 @@ public class BoardService {
 			return false;
 		}
 	}
+	
+	public int getNoticeCnt() {
+		return boardMapper.getNoticeCnt();
+	}
+	
 	
 	public List<BbsQuestion> getQnaList() {
 		List<BbsQuestion> result = null;

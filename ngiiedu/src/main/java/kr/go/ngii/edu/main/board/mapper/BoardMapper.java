@@ -29,6 +29,8 @@ public interface BoardMapper {
 
 	public void deleteNotice(@Param("noticeId") int noticeId);
 	
+	public int getNoticeCnt();
+	
 	public List<BbsQuestion> getQnaList();
 	
 	public List<BbsQuestion> getQnaList(@Param("offset") int offset, @Param("limit") int limit);

@@ -5,8 +5,6 @@
 <%
 	String contextPath = request.getContextPath();
 %>
-
-	
 	
 <!DOCTYPE html>
 <html lang="ko">
@@ -130,7 +128,9 @@
 					<ul class="pagination">
 						<c:if test="${criteria.currentPage gt 10}">  										
 						</c:if>
+						<c:if test="${criteria.currentPage gt 1}">  
 							<li class="ico forward" title="앞으로"  onclick="location.href='qna?page=${criteria.currentPage - 1}'">앞으로</li>
+						</c:if>
 							<c:forEach var="i" begin="${criteria.startPage}" end="${criteria.endPage}" step="1">
 				            <c:choose>
 				                <c:when test="${i eq criteria.currentPage}"> 
