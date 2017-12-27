@@ -1,9 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%
 	String contextPath = request.getContextPath();
 %>
-	
 	
 <!DOCTYPE html>
 <html lang="ko">
@@ -38,7 +39,15 @@
 		<h3 class="edge">자주 묻는 질문</h3>
 	
 		<ul class="faqWrap">
+		
+			<c:forEach var="bbsFAQuestion" items="${items}"> 
+				<li class="qTitle">
+					<p>${bbsFAQuestion.title}</p>
+					<div>${bbsFAQuestion.description}</div>
+				</li>
+			</c:forEach>
 			<!-- 작업자 메모 / li class="on"일때 내용인 div가 보여짐 -->
+			<!--  
 			<li class="qTitle">
 				<p>쇼핑몰, 상품정보 오류를 신고하려면 어떻게 해야 하나요?</p>
 				<div>
@@ -109,6 +118,8 @@
 					내용
 				</div>
 			</li>
+			
+			-->
 		</ul>
 	<!-- 	<ul class="pagination">
 			<li class="ico first" title="맨앞으로">처음</li>
