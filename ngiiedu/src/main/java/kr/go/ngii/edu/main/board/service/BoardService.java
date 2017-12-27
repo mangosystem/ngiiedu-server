@@ -233,11 +233,11 @@ public class BoardService {
 		return boardMapper.getRebyIdx(reply);
 	}
 	
-	public BbsReply insertRe(int qnaId, String description, String writer) {
+	public BbsReply insertRe(int qnaId, String description, int userId) {
 		BbsReply param = new BbsReply();
 		param.setQnaId(qnaId);
 		param.setDescription(description);
-		param.setWriter(writer);
+		param.setUserId(userId);
 		//param.setCreateDate(new Date());
 		//param.setModifyDate(new Date());
 		boardMapper.insertRe(param);

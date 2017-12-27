@@ -266,14 +266,19 @@ public class BoardController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/qa/re", method=RequestMethod.POST)
+	@RequestMapping(value="/qna/re", method=RequestMethod.POST)
 	public @ResponseBody ResponseEntity<ResponseData> insertReply(
-			@RequestParam(value="qaId", required=true, defaultValue="") int qaId,
-			@RequestParam(value="content", required=true, defaultValue="") String content, 
-			@RequestParam(value="writer", required=true, defaultValue="") String writer, 
+			@RequestParam(value="qnaId", required=true, defaultValue="") int qnaId,
+			@RequestParam(value="description", required=true, defaultValue="") String description, 
+//			@RequestParam(value="writer", required=true, defaultValue="") String writer, 
 			HttpSession session) throws Exception {
 		
-		BbsReply result = boardService.insertRe(qaId, content, writer);
+		User user = (User)session.getAttribute("USER_INFO");
+		if (user == null) {
+			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+		}
+		
+		BbsReply result = boardService.insertRe(qnaId, description, user.getIdx());
 		//String result = null;
 		//result = boardService.insertNotice(title, content);
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);

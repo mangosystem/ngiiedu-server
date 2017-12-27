@@ -18,6 +18,10 @@
 	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 <![endif]-->
 <meta content="IE=edge" http-equiv="X-UA-Compatible">
+<!--jquery  -->
+<script type="text/javascript" src="<%=contextPath%>/assets/cdn/jquery/jquery-3.2.1.min.js"></script>
+<script src="<%=contextPath%>/assets/cdn/jquery-ui-1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet" href="<%=contextPath%>/assets/cdn/jquery-ui-1.12.1/jquery-ui.css">
 
 <script type="text/javascript" src="<%=contextPath%>/assets/dist/request.js"></script>
 
@@ -106,8 +110,8 @@
 			-->
 			
 			<c:if test="${'ADM' eq bbsrole}">
-				<textarea name="" id="" cols="30" rows="5" class="comment"></textarea>
-				<button type="button" title="이전" class="subbtn">댓글입력</button>
+				<textarea name="" id="qDescription" cols="30" rows="5" class="comment"></textarea>
+				<button type="button" title="이전" class="subbtn" onclick="submitQnaRePost(${postItem.idx})">댓글입력</button>
 			</c:if>
 			</div>
 		</div>
@@ -121,11 +125,11 @@
 			</button>
 			
 			<c:if test="${'ADM' eq bbsrole}">
-				<button type="button" title="수정" class="point left" onclick="submitUpdate(${postItem.idx})">
+				<button type="button" title="수정" class="point left" onclick="location.href='<%=contextPath %>/surport/qnaModify/'+${postItem.idx}" >
 					수정
 				</button>
-
-				<button type="button" title="삭제" class="point left" onclick="location.href='<%=contextPath %>/surport/qnaModify/'${postItem.idx})">
+			
+				<button type="button" title="삭제" class="point left" onclick="submitDelete(${postItem.idx})">
 					삭제
 				</button>
 			</c:if>
@@ -140,7 +144,7 @@
 <!-- END FOOTER -->
 
 <script>
-	function submitDelete(idx) {
+	function submitQnaDelete(idx) {
 		ajaxJson(
 			['DELETE', apiSvr + '/board/qna/' +idx+'.json'], 
 			null, 
@@ -152,8 +156,19 @@
 	    });
 	}
 	
-	function submitUpdate(idx) {
-		location.href="<%=contextPath %>/surport/qnaModify/"+idx;
+	function submitQnaRePost(qnaId) {
+		ajaxJson(
+			['POST', apiSvr + '/board/qna/re.json'], 
+			{
+	     		"qnaId" : qnaId,
+				"description" : $('#qDescription').val()
+	        }, 
+	        function (res) {
+	        	var data = res.response.data;
+	        	console.log(res);
+	        	console.log(data);
+	        	location.href="<%=contextPath %>/surport/qnaView/"+qnaId;
+	    });
 	}
 </script>
 

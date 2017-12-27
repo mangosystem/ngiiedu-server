@@ -48,7 +48,7 @@
 					<c:forEach var="bbsQuestion" items="${items}"> 
 						<tr>
 							<td><a href="qnaView/${bbsQuestion.idx}">${bbsQuestion.title}</a> 
-								<span class="comment">3</span>
+								<span class="comment">${bbsQuestion.commentCount}</span>
 							</td> 
 							<td>${bbsQuestion.writer}</td>
 							<td><fmt:formatDate value="${bbsQuestion.createDate}" pattern="YYYY-MM-dd" /></td>

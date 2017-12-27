@@ -19,6 +19,10 @@
 	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 <![endif]-->
 <meta content="IE=edge" http-equiv="X-UA-Compatible">
+<!--jquery  -->
+<script type="text/javascript" src="<%=contextPath%>/assets/cdn/jquery/jquery-3.2.1.min.js"></script>
+<script src="<%=contextPath%>/assets/cdn/jquery-ui-1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet" href="<%=contextPath%>/assets/cdn/jquery-ui-1.12.1/jquery-ui.css">
 
 <script type="text/javascript" src="<%=contextPath%>/assets/dist/request.js"></script>
 

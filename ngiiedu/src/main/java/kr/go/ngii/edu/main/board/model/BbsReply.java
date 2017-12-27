@@ -16,6 +16,7 @@ public class BbsReply  implements Serializable {
 	private String writer;
 	private Date createDate;
 	private Date modifyDate;
+	private int userId;
 
 	public Integer getIdx() {
 		return idx;
@@ -53,4 +54,12 @@ public class BbsReply  implements Serializable {
 	public void setModifyDate(Date modifyDate) {
 		this.modifyDate = modifyDate;
 	}
+	public int getUserId() {
+		return userId;
+	}
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+	
+	
 }

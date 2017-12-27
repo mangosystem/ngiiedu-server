@@ -22,6 +22,7 @@
 		<result property="createDate" column="create_date" />
 		<result property="modifyDate" column="modify_date" />
 		<result property="attach" column="attach" />
+		<result property="commentCount" column="comment_count" />
 	</resultMap>
 	
 	<resultMap type="kr.go.ngii.edu.main.board.model.BbsFAQuestion" id="bbsFAQuestion">
@@ -39,6 +40,7 @@
 		<result property="qnaId" column="qna_id" />
 		<result property="description" column="description" />
 		<result property="writer" column="writer" />
+		<result property="userId" column="user_id" />
 		<result property="createDate" column="create_date" />
 		<result property="modifyDate" column="modify_date" />
 	</resultMap>
@@ -108,12 +110,23 @@
 	
 	<select id="getQnaList" parameterType="map" resultMap="bbsQuestion">
 		SELECT
-			idx,
-			title,
-			writer,
-			create_date
-		FROM bbs_qna
-		ORDER BY idx
+			T1.idx,
+			T1.title,
+			T1.user_id,
+			T2.user_name as writer,
+			T1.create_date,
+			(
+				SELECT 
+					COUNT(idx) 
+				FROM 
+					bbs_qna_re 
+				WHERE 
+					qna_id = T1.idx
+			) as comment_count
+		FROM bbs_qna T1, users T2
+		WHERE
+			T1.user_id = T2.idx
+		ORDER BY T1.idx
 		<if test="offset != null and limit != null">
 			OFFSET ${offset} LIMIT ${limit}
 		</if>
@@ -253,13 +266,15 @@
 	
 	<select id="getReListbyQnaId" resultMap="bbsReply">
 		SELECT
-			idx,
-			qna_id,
-			description,
-			writer,
-			create_date
-		FROM bbs_qna_re
-		WHERE qna_id = #{qnaId}
+			T1.idx,
+			T1.qna_id,
+			T1.description,
+			T2.user_name as writer,
+			T1.create_date
+		FROM bbs_qna_re T1, users T2
+		WHERE 
+			T1.qna_id = #{qnaId}
+			AND T1.user_id = T2.idx
 		ORDER BY idx
 	</select>
 	
@@ -279,13 +294,13 @@
 		INSERT INTO bbs_qna_re(
 			qna_id, 
 			description, 
-			writer,
+			user_id,
 			create_date,
 			modify_date 
 		) VALUES (
 			#{qnaId}, 
 			#{description}, 
-			#{writer}, 
+			#{userId}, 
 			now(), 
 			now()
 		)
