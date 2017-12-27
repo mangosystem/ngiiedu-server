@@ -164,6 +164,8 @@ public class MainController extends BaseController {
 
 		ModelAndView view = new ModelAndView("/surport/notice");
 		
+		User user = (User)session.getAttribute("USER_INFO");
+		
 		limit = limit == 0 ? LocalResourceBundle.BBS_NOTICE_POSTS_SIZE : limit;
 		
 		if (page == 0) {
@@ -175,9 +177,33 @@ public class MainController extends BaseController {
 		BbsPageCriteria bbsPageCriteria = new BbsPageCriteria(page, LocalResourceBundle.BBS_NOTICE_LIST_SIZE, limit);
 		List<BbsNotice> bbsNoticeList = boardService.getNoticeList(offset, limit); 
 		bbsPageCriteria.setRecordsNum(boardService.getNoticeCnt());
+		
+		String bbsrole = "1".equals(user.getUserDivision().trim()) ? "ADM" : "USR";
+		view.getModelMap().addAttribute("bbsrole", bbsrole);
 		view.getModelMap().addAttribute("items", bbsNoticeList);
 		view.getModelMap().addAttribute("criteria", bbsPageCriteria);
 		
+		return view;
+	}
+	
+	@RequestMapping(value={"/surport/noticeNew"}, method = RequestMethod.GET)
+	public ModelAndView getNoticeNewPage(HttpServletRequest request, HttpServletResponse response, 
+			HttpSession session, Principal principal) {
+		ModelAndView view = new ModelAndView("/surport/notice_new");
+		return view;
+	}
+	
+	@RequestMapping(value={"/surport/noticeModify/{noticeId}"}, method = RequestMethod.GET)
+	public ModelAndView getNoticeModifyPage(HttpServletRequest request, HttpServletResponse response,
+			@PathVariable Integer noticeId,
+			HttpSession session, Principal principal) {
+		ModelAndView view = new ModelAndView("/surport/notice_mod");
+		
+		User user = (User)session.getAttribute("USER_INFO");
+		
+		BbsNotice bbsNotice = boardService.getNoticeListbyId(noticeId);
+		
+		view.getModelMap().addAttribute("postItem", bbsNotice);
 		return view;
 	}
 	
@@ -185,9 +211,16 @@ public class MainController extends BaseController {
 	@RequestMapping(value={"/surport/noticeView/{noticeId}"}, method = RequestMethod.GET)
 	public ModelAndView getNoticeViewPage(HttpServletRequest request, HttpServletResponse response, 
 			HttpSession session, Principal principal,
-			@PathVariable String noticeId) {
-		System.out.println(noticeId);
+			@PathVariable Integer noticeId) {
 		ModelAndView view = new ModelAndView("/surport/notice_view");
+		
+		BbsNotice bbsNotice = boardService.getNoticeListbyId(noticeId);
+		
+		User user = (User)session.getAttribute("USER_INFO");
+		
+		String bbsrole = "1".equals(user.getUserDivision().trim()) ? "ADM" : "USR";
+		view.getModelMap().addAttribute("bbsrole", bbsrole);
+		view.getModelMap().addAttribute("postItem", bbsNotice);
 		return view;
 	}
 	
@@ -197,6 +230,8 @@ public class MainController extends BaseController {
 			@RequestParam(value="limit", required=false, defaultValue="0") Integer limit,
 			HttpSession session, Principal principal) {
 		ModelAndView view = new ModelAndView("/surport/faq");
+		
+		User user = (User)session.getAttribute("USER_INFO");
 		
 		limit = limit == 0 ? LocalResourceBundle.BBS_FAQ_POSTS_SIZE : limit;
 		
@@ -209,10 +244,21 @@ public class MainController extends BaseController {
 		BbsPageCriteria bbsPageCriteria = new BbsPageCriteria(page, LocalResourceBundle.BBS_FAQ_LIST_SIZE, limit);
 		List<BbsFAQuestion> bbsFAQuestionList = boardService.getFaqList(offset, limit); 
 		bbsPageCriteria.setRecordsNum(boardService.getFaqCnt());
+		
+		String bbsrole = "1".equals(user.getUserDivision().trim()) ? "ADM" : "USR";
+		view.getModelMap().addAttribute("bbsrole", bbsrole);
 		view.getModelMap().addAttribute("items", bbsFAQuestionList);
 		view.getModelMap().addAttribute("criteria", bbsPageCriteria);
 		return view;
 	}
+	
+	@RequestMapping(value={"/surport/faqNew"}, method = RequestMethod.GET)
+	public ModelAndView getFaqNewPage(HttpServletRequest request, HttpServletResponse response, 
+			HttpSession session, Principal principal) {
+		ModelAndView view = new ModelAndView("/surport/faq_new");
+		return view;
+	}
+	
 	
 	@RequestMapping(value={"/surport/qna"}, method = RequestMethod.GET)
 	public ModelAndView getQnaPage(

@@ -24,8 +24,9 @@
 <link rel="stylesheet" href="<%=contextPath%>/assets/cdn/jquery-ui-1.12.1/jquery-ui.css">
 
 <script type="text/javascript" src="<%=contextPath%>/assets/dist/request.js"></script>
-]
+
 <title>지리원/공간정보융합 활용지원정보</title>
+
 </head>
 
 <body class="edu">
@@ -43,28 +44,20 @@
 	</ul>
 	<div class="contents">
 		<h3>공지사항</h3>
-		<div class="boardView">
-			<ul class="title">
-				<li>${postItem.title} </li>
-				<li><fmt:formatDate value="${postItem.createDate}" pattern="YYYY-MM-dd" /></li>
-			</ul>
-			<div class="script">
-				${postItem.description}
-			</div>
+		<ul class="boardNew">
+			<li class="title">
+				<label for="">제목</label>
+				<input id="qTitle" type="text">
+			</li>
+			<li class="script">
+				<textarea name="" id="qDescription" cols="30" rows="20" class="comment"></textarea>	
+			</li>
+		</ul>
+		<div class="btnCenter">
+			<button type="button" title="작성" class="point" onClick="submitPost()">작성</button>
+			<button type="button" title="취소" class="default" onclick="document.location = '<%=contextPath %>/surport/qna'">취소</button>
 		</div>
-		<div class="btnBoth">
-		
-			<c:if test="${'ADM' eq bbsrole}">
-				<button type="button" title="수정" class="point left" onclick="location.href='<%=contextPath %>/surport/noticeModify/'+${postItem.idx}" >수정</button>
-				<button type="button" title="삭제" class="point left" onclick="submitNoticeDelete(${postItem.idx})">삭제</button>
-			</c:if>
-			<!-- 
-			<button type="button" title="이전" class="default">이전</button>
-			<button type="button" title="다음" class="default">다음</button>
-			 -->
-			<button type="button" title="목록" class="point right"  onclick="document.location = '<%=contextPath %>/surport/notice'">목록</button>
-		</div>
-		<!-- END NOTICEVIEW -->
+		<!-- END QNA NEW -->
 	</div>
 	<!-- CONTENTS -->
 </div>
@@ -73,16 +66,20 @@
 <!-- END FOOTER -->
 
 <script>
-	function submitNoticeDelete(idx) {
+	
+	function submitPost(){
 		ajaxJson(
-			['DELETE', apiSvr + '/board/notice/' +idx+'.json'], 
-			null, 
+			['POST', apiSvr + '/board/notice.json'], 
+			{
+	     		"title" : $('#qTitle').val(),
+				"description" : $('#qDescription').val()
+	        }, 
 	        function (res) {
-	        	var data = res.response.data;
-	        	console.log(res);
-	        	console.log(data);
-	        	location.href="<%=contextPath %>/surport/notice";
-	    });
+            	var data = res.response.data;
+            	console.log(res);
+            	console.log(data);
+            	location.href="notice";
+        });
 	}
 </script>
 </body>

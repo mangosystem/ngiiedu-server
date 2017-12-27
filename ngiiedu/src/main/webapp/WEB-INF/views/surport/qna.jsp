@@ -163,7 +163,7 @@
 			</ul>
 			 -->
 			<c:if test="${'ADM' eq bbsrole or 'USR' eq bbsrole}">
-				<button class="new"  onclick="document.location = '<%=contextPath %>/surport/qnaNew'">새글</button>
+				<button class="new" onclick="document.location = '<%=contextPath %>/surport/qnaNew'">새글</button>
 			</c:if>
 		</div>
 		<!-- END QNALIST -->

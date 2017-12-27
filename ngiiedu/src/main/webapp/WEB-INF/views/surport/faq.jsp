@@ -134,6 +134,9 @@
 			<li class="ico end" title="맨뒤로">마지막</li>
 		</ul> -->
 		<!-- END FAQ -->
+		<c:if test="${'ADM' eq bbsrole or 'USR' eq bbsrole}">
+			<button class="new" onclick="document.location = '<%=contextPath %>/surport/faqNew'">새글</button>
+		</c:if>
 	</div>
 	<!-- CONTENTS -->
 </div>

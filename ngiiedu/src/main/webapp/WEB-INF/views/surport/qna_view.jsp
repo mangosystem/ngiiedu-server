@@ -4,7 +4,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%
 	String contextPath = request.getContextPath();
-
 %>
 	
 <!DOCTYPE html>
@@ -120,19 +119,11 @@
 			<button type="button" title="이전" class="default">이전</button>
 			<button type="button" title="다음" class="default">다음</button>
 		-->
-			<button type="button" title="목록" class="point right" onclick="document.location = '<%=contextPath %>/surport/qna'">
-				목록
-			</button>
-			
 			<c:if test="${'ADM' eq bbsrole}">
-				<button type="button" title="수정" class="point left" onclick="location.href='<%=contextPath %>/surport/qnaModify/'+${postItem.idx}" >
-					수정
-				</button>
-			
-				<button type="button" title="삭제" class="point left" onclick="submitDelete(${postItem.idx})">
-					삭제
-				</button>
+				<button type="button" title="수정" class="point left" onclick="location.href='<%=contextPath %>/surport/qnaModify/'+${postItem.idx}" >수정</button>
+				<button type="button" title="삭제" class="point left" onclick="submitDelete(${postItem.idx})">삭제</button>
 			</c:if>
+			<button type="button" title="목록" class="point right" onclick="document.location = '<%=contextPath %>/surport/qna'">목록</button>
 		</div>					
 		
 		<!-- END QNAVIEW -->

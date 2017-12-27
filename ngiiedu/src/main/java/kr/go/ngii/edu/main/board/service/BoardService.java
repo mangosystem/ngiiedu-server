@@ -174,20 +174,19 @@ public class BoardService {
 		return boardMapper.getFaqListbyId(question);
 	}
 
-	public BbsFAQuestion insertFaq(String title, String description, String writer, String attach) {
+	public BbsFAQuestion insertFaq(String title, String description, int userId) {
 		
 		BbsFAQuestion param = new BbsFAQuestion();
 		param.setTitle(title);
 		param.setDescription(description);
-		param.setWriter(writer);
-		param.setAttach(attach);
+		param.setUserId(userId);
+//		param.setWriter(writer);
+//		param.setAttach(attach);
 		//param.setCreateDate(new Date());
 		//param.setModifyDate(new Date());
 		boardMapper.insertFaq(param);
-
 		return param;
 		//Module result = false;
-
 	}
 	
 	public BbsFAQuestion modifyFaq(int idx, String title, String description, String attach) {
@@ -195,7 +194,7 @@ public class BoardService {
 		param.setIdx(idx);
 		param.setTitle(title);
 		param.setDescription(description);
-		param.setAttach(attach);
+//		param.setAttach(attach);
 		//param.setModiDate(new Date());
 		
 		boardMapper.modifyFaq(param);

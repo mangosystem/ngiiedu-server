@@ -15,9 +15,11 @@ public class BbsFAQuestion implements Serializable {
 	private String title;
 	private String description;
 	private String writer;
+	private int userId;
 	private Date createDate;
 	private Date modifyDate;
 	private String attach;
+	private int commentCount;
 	
 	public Integer getIdx() {
 		return idx;
@@ -30,6 +32,12 @@ public class BbsFAQuestion implements Serializable {
 	}
 	public void setWriter(String writer) {
 		this.writer = writer;
+	}
+	public int getUserId() {
+		return userId;
+	}
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 	public String getAttach() {
 		return attach;
@@ -61,7 +69,10 @@ public class BbsFAQuestion implements Serializable {
 	public void setModifyDate(Date modifyDate) {
 		this.modifyDate = modifyDate;
 	}
-
-
-
+	public int getCommentCount() {
+		return commentCount;
+	}
+	public void setCommentCount(int commentCount) {
+		this.commentCount = commentCount;
+	}
 }

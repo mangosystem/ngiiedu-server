@@ -134,6 +134,10 @@
 				<li class="ico end" title="맨뒤로">마지막</li>
 			</ul>
 			-->
+			
+			<c:if test="${'ADM' eq bbsrole or 'USR' eq bbsrole}">
+				<button class="new" onclick="document.location = '<%=contextPath %>/surport/noticeNew'">새글</button>
+			</c:if>
 		</div>
 		<!-- END NOTICELIST -->
 	</div>

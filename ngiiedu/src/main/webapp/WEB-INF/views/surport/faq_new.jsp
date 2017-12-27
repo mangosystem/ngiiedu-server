@@ -31,17 +31,17 @@
 	
 	<jsp:include page ="../common/header.jsp" flush="false">
 		<jsp:param value="surport" name="mainHeader"/>
-		<jsp:param value="qna" name="subHeader"/>
+		<jsp:param value="faq" name="subHeader"/>
 	</jsp:include>
 
 <div id="contentsWrap">
 	<ul class="location">
 		<li>홈</li>
 		<li>사용지원</li>
-		<li>묻고 답하기</li>
+		<li>자주 묻는 질문</li>
 	</ul>
 	<div class="contents">
-		<h3>묻고 답하기</h3>
+		<h3>자주 묻는 질문</h3>
 		<ul class="boardNew">
 			<li class="title">
 				<label for="">제목</label>
@@ -53,7 +53,7 @@
 		</ul>
 		<div class="btnCenter">
 			<button type="button" title="작성" class="point" onClick="submitPost()">작성</button>
-			<button type="button" title="취소" class="default" onclick="document.location = '<%=contextPath %>/surport/qna'">취소</button>
+			<button type="button" title="취소" class="default" onclick="document.location = '<%=contextPath %>/surport/faq'">취소</button>
 		</div>
 		<!-- END QNA NEW -->
 	</div>
@@ -62,12 +62,10 @@
 <!-- END CONTENTSWRAP -->
 	<jsp:include page ="../common/footer.jsp"></jsp:include>
 <!-- END FOOTER -->
-
 <script>
-	
 	function submitPost(){
 		ajaxJson(
-			['POST', apiSvr + '/board/qna.json'], 
+			['POST', apiSvr + '/board/faq.json'], 
 			{
 	     		"title" : $('#qTitle').val(),
 				"description" : $('#qDescription').val()
@@ -76,34 +74,9 @@
             	var data = res.response.data;
             	console.log(res);
             	console.log(data);
-            	location.href="qna";
+            	location.href="faq";
         });
 	}
-	
-
-	/*
-	function submitPost(){
-	  $.ajax({
-           type: "post",
-           //url: "qnaWrite",
-           url: apiSvr + "/board/qna",
-           data: {
-        		"title" : $('#qTitle').val(),
-				"description" : $('#qDescription').val()
-           },
-           contentType: "application/x-www-form-urlencoded",
-           success: function(responseData, textStatus, jqXHR) {
-               console.log(responseData);
-               location.href="qna";
-           },
-           error: function(jqXHR, textStatus, errorThrown) {
-        	   console.log(textStatus);
-           }
-       });
-	}
-	
-	*/
-	
 </script>
 </body>
 </html>

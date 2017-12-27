@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.databind.Module;
 
+import kr.go.ngii.edu.main.board.model.BbsFAQuestion;
 import kr.go.ngii.edu.main.board.model.BbsNotice;
 import kr.go.ngii.edu.main.board.model.BbsQuestion;
 import kr.go.ngii.edu.main.board.model.BbsReply;
@@ -75,7 +76,7 @@ public class BoardController extends BaseController {
 	 * 공지사항 생성하기
 	 * 
 	 * @param title
-	 * @param content
+	 * @param description
 	 * @param session
 	 * @return
 	 * @throws Exception
@@ -83,10 +84,10 @@ public class BoardController extends BaseController {
 	@RequestMapping(value="/notice", method=RequestMethod.POST)
 	public @ResponseBody ResponseEntity<ResponseData> insertNotice(
 			@RequestParam(value="title", required=true, defaultValue="") String title,
-			@RequestParam(value="content", required=true, defaultValue="") String content, 
+			@RequestParam(value="description", required=true, defaultValue="") String description, 
 			HttpSession session) throws Exception {
 		
-		BbsNotice result = boardService.insertNotice(title, content);
+		BbsNotice result = boardService.insertNotice(title, description);
 		//String result = null;
 		//result = boardService.insertNotice(title, content);
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
@@ -106,10 +107,10 @@ public class BoardController extends BaseController {
 	public @ResponseBody ResponseEntity<ResponseData> modifyNotice(
 			@PathVariable("noticeId") Integer noticeId,
 			@RequestParam(value="title", required=false, defaultValue="") String title, 
-			@RequestParam(value="content", required=false) String content,
+			@RequestParam(value="description", required=false) String description,
 			HttpSession session) throws Exception {
 
-		BbsNotice result = boardService.modifyNotice(noticeId, title, content);
+		BbsNotice result = boardService.modifyNotice(noticeId, title, description);
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
 	
@@ -129,6 +130,117 @@ public class BoardController extends BaseController {
 		boolean result = boardService.deleteNotice(noticeId);
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
+	
+	/**
+	 * FAQ 목록 조회하기
+	 * 
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/faq", method=RequestMethod.GET)
+	public @ResponseBody ResponseEntity<ResponseData> getFAQuestionList(
+			@RequestParam(value="offset", required=false, defaultValue="0") Integer offset, 
+			@RequestParam(value="limit", required=false, defaultValue="0") Integer limit, 
+			HttpSession session) throws Exception {
+		List<BbsFAQuestion> list = null;
+		if (offset==0 && limit==0) {
+			list = boardService.getFaqList();
+
+		} else {
+			list = boardService.getFaqList(offset, limit);
+		}
+		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
+	}
+	
+	/**
+	 * FAQ 조회하기
+	 * 
+	 * @param idx
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/faq/{faqId}", method=RequestMethod.GET)
+	public @ResponseBody ResponseEntity<ResponseData> getFAQuestionListbyId(
+			@PathVariable("faqId") Integer qaId,
+			HttpSession session) throws Exception {
+
+		BbsFAQuestion list = boardService.getFaqListbyId(qaId);
+		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
+	}
+	
+	/**
+	 * FAQ 생성하기
+	 * 
+	 * @param title
+	 * @param content
+	 * @param writer
+	 * @param attach
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/faq", method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<ResponseData> insertFAQuestion(
+			@RequestParam(value="title", required=true, defaultValue="") String title,
+			@RequestParam(value="description", required=true, defaultValue="") String description, 
+//			@RequestParam(value="writer", required=true, defaultValue="") String writer, 
+//			@RequestParam(value="attach", required=true, defaultValue="") String attach, 
+			HttpSession session) throws Exception {
+		
+		User user = (User)session.getAttribute("USER_INFO");
+		if (user == null) {
+			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+		}
+		
+		BbsFAQuestion result = boardService.insertFaq(title, description, user.getIdx());
+		//String result = null;
+		//result = boardService.insertNotice(title, content);
+		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
+		//return new ResponseEntity<List<Notice>>(responseBody(result), HttpStatus.OK);
+	}
+	
+	/**
+	 * FAQ 변경하기
+	 * @param idx
+	 * @param title
+	 * @param attach
+	 * @param content
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/faq/{faqId}", method=RequestMethod.PUT)
+	public @ResponseBody ResponseEntity<ResponseData> modifyFAQuestion(
+			@PathVariable("qnaId") Integer qnaId,
+			@RequestParam(value="title", required=false, defaultValue="") String title, 
+			@RequestParam(value="description", required=false) String description,
+			@RequestParam(value="attach", required=false) String attach,
+			HttpSession session) throws Exception {
+
+//		BbsQuestion result = boardService.modifyFaq(qnaId, title, description);
+		return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+	}
+	
+	/**
+	 * Q&A 목록 삭제하기
+	 * 
+	 * @param idx
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/faq/{faqId}", method=RequestMethod.DELETE)
+	public @ResponseBody ResponseEntity<ResponseData> deleteFAQuestion(
+			@PathVariable("qnaId") Integer qnaId,
+			HttpSession session) throws Exception {
+
+		boolean result = boardService.deleteFaq(qnaId);
+		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
+	}
+	
+	
 
 	/**
 	 * Q&A 목록 조회하기
