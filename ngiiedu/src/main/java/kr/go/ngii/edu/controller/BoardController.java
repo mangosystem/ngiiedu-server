@@ -21,6 +21,7 @@ import kr.go.ngii.edu.main.board.model.BbsNotice;
 import kr.go.ngii.edu.main.board.model.BbsQuestion;
 import kr.go.ngii.edu.main.board.model.BbsReply;
 import kr.go.ngii.edu.main.board.service.BoardService;
+import kr.go.ngii.edu.main.users.model.User;
 import kr.go.ngii.edu.controller.rest.BaseController;
 import kr.go.ngii.edu.controller.rest.ResponseData;
 
@@ -179,15 +180,20 @@ public class BoardController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/qa", method=RequestMethod.POST)
+	@RequestMapping(value="/qna", method=RequestMethod.POST)
 	public @ResponseBody ResponseEntity<ResponseData> insertQuestion(
 			@RequestParam(value="title", required=true, defaultValue="") String title,
-			@RequestParam(value="content", required=true, defaultValue="") String content, 
-			@RequestParam(value="writer", required=true, defaultValue="") String writer, 
-			@RequestParam(value="attach", required=true, defaultValue="") String attach, 
+			@RequestParam(value="description", required=true, defaultValue="") String description, 
+//			@RequestParam(value="writer", required=true, defaultValue="") String writer, 
+//			@RequestParam(value="attach", required=true, defaultValue="") String attach, 
 			HttpSession session) throws Exception {
 		
-		BbsQuestion result = boardService.insertQna(title, content, writer, attach);
+		User user = (User)session.getAttribute("USER_INFO");
+		if (user == null) {
+			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+		}
+		
+		BbsQuestion result = boardService.insertQna(title, description, user.getIdx());
 		//String result = null;
 		//result = boardService.insertNotice(title, content);
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
@@ -204,15 +210,15 @@ public class BoardController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/qa/{qaId}", method=RequestMethod.PUT)
+	@RequestMapping(value="/qna/{qnaId}", method=RequestMethod.PUT)
 	public @ResponseBody ResponseEntity<ResponseData> modifyQuestion(
-			@PathVariable("qaId") Integer qaId,
+			@PathVariable("qnaId") Integer qnaId,
 			@RequestParam(value="title", required=false, defaultValue="") String title, 
-			@RequestParam(value="content", required=false) String content,
+			@RequestParam(value="description", required=false) String description,
 			@RequestParam(value="attach", required=false) String attach,
 			HttpSession session) throws Exception {
 
-		BbsQuestion result = boardService.modifyQna(qaId, title, content, attach);
+		BbsQuestion result = boardService.modifyQna(qnaId, title, description);
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
 	
@@ -224,12 +230,12 @@ public class BoardController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/qa/{qaId}", method=RequestMethod.DELETE)
+	@RequestMapping(value="/qna/{qnaId}", method=RequestMethod.DELETE)
 	public @ResponseBody ResponseEntity<ResponseData> deleteQuestion(
-			@PathVariable("noticeId") Integer noticeId,
+			@PathVariable("qnaId") Integer qnaId,
 			HttpSession session) throws Exception {
 
-		boolean result = boardService.deleteQna(noticeId);
+		boolean result = boardService.deleteQna(qnaId);
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
 	
@@ -243,10 +249,10 @@ public class BoardController extends BaseController {
 	 */
 	@RequestMapping(value="/qa/re/{qaId}", method=RequestMethod.GET)
 	public @ResponseBody ResponseEntity<ResponseData> getReplyListbyId(
-			@PathVariable("qaId") Integer qaId,
+			@PathVariable("qaId") Integer qnaId,
 			HttpSession session) throws Exception {
 
-		List<BbsReply> list = boardService.getReListbyId(qaId);
+		List<BbsReply> list = boardService.getReListbyQnaId(qnaId);
 		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
 	}
 	

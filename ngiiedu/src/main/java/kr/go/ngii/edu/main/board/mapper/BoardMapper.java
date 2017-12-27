@@ -61,6 +61,8 @@ public interface BoardMapper {
 
 	public List<BbsReply> getReListbyIdx(BbsReply reply);
 
+	public List<BbsReply> getReListbyQnaId(BbsReply reply);
+
 	public BbsReply getRebyIdx(BbsReply reply);
 
 	public void insertRe(BbsReply reply);

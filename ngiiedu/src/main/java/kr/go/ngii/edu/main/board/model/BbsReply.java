@@ -11,10 +11,10 @@ public class BbsReply  implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Integer idx;
-	private Integer qnaId 	= null;
-	private String content 	= null;
-	private String writer	= null;
-	private Date createDate = null;
+	private Integer qnaId;
+	private String description;
+	private String writer;
+	private Date createDate;
 	private Date modifyDate;
 
 	public Integer getIdx() {
@@ -35,11 +35,11 @@ public class BbsReply  implements Serializable {
 	public void setWriter(String writer) {
 		this.writer = writer;
 	}
-	public String getContent() {
-		return content;
+	public String getDescription() {
+		return description;
 	}
-	public void setContent(String content) {
-		this.content = content;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	public Date getCreateDate() {
 		return createDate;

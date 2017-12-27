@@ -1,7 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%
 	String contextPath = request.getContextPath();
+
 %>
 	
 	
@@ -30,9 +33,6 @@
 		<jsp:param value="qna" name="subHeader"/>
 	</jsp:include>
 
-
-
-
 <div id="contentsWrap">
 	<ul class="location">
 		<li>홈</li>
@@ -44,14 +44,14 @@
 		<ul class="boardNew">
 			<li class="title">
 				<label for="">제목</label>
-				<input id="qTitle" type="text">
+				<input id="qTitle" type="text" value="${postItem.title}">
 			</li>
 			<li class="script">
-				<textarea name="" id="qDescription" cols="30" rows="20" class="comment"></textarea>	
+				<textarea name="" id="qDescription" cols="30" rows="20" class="comment">${postItem.description}</textarea>	
 			</li>
 		</ul>
 		<div class="btnCenter">
-			<button type="button" title="작성" class="point" onClick="submitPost()">작성</button>
+			<button type="button" title="작성" class="point" onClick="submitPut(${postItem.idx})">수정</button>
 			<button type="button" title="취소" class="default" onclick="document.location = '<%=contextPath %>/surport/qna'">취소</button>
 		</div>
 		<!-- END QNA NEW -->
@@ -64,9 +64,9 @@
 
 <script>
 	
-	function submitPost(){
+	function submitPut(id){
 		ajaxJson(
-			['POST', apiSvr + '/board/qna.json'], 
+			['PUT', apiSvr + '/board/qna/'+id+'.json'], 
 			{
 	     		"title" : $('#qTitle').val(),
 				"description" : $('#qDescription').val()
@@ -75,34 +75,9 @@
             	var data = res.response.data;
             	console.log(res);
             	console.log(data);
-            	location.href="qna";
+            	location.href='<%=contextPath %>/surport/qnaView/'+id;
         });
 	}
-	
-
-	/*
-	function submitPost(){
-	  $.ajax({
-           type: "post",
-           //url: "qnaWrite",
-           url: apiSvr + "/board/qna",
-           data: {
-        		"title" : $('#qTitle').val(),
-				"description" : $('#qDescription').val()
-           },
-           contentType: "application/x-www-form-urlencoded",
-           success: function(responseData, textStatus, jqXHR) {
-               console.log(responseData);
-               location.href="qna";
-           },
-           error: function(jqXHR, textStatus, errorThrown) {
-        	   console.log(textStatus);
-           }
-       });
-	}
-	
-	*/
-	
 </script>
 </body>
 </html>

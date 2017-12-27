@@ -15,6 +15,7 @@ public class BbsQuestion implements Serializable {
 	private String title;
 	private String description;
 	private String writer;
+	private int userId;
 	private Date createDate;
 	private Date modifyDate;
 	private String attach;
@@ -30,6 +31,12 @@ public class BbsQuestion implements Serializable {
 	}
 	public void setWriter(String writer) {
 		this.writer = writer;
+	}
+	public int getUserId() {
+		return userId;
+	}
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 	public String getAttach() {
 		return attach;

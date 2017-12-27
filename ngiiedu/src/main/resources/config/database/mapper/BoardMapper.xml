@@ -18,6 +18,7 @@
 		<result property="title" column="title" />
 		<result property="description" column="description" />
 		<result property="writer" column="writer" />
+		<result property="userId" column="user_id" />
 		<result property="createDate" column="create_date" />
 		<result property="modifyDate" column="modify_date" />
 		<result property="attach" column="attach" />
@@ -73,9 +74,6 @@
 	</insert> -->
 	
 	<insert id="insertNotice" parameterType="map">
-		<selectKey keyProperty="idx" resultType="int" order="BEFORE">
-			SELECT nextval('bbs_notice_idx_seq'::regclass)
-		</selectKey>
 		INSERT INTO bbs_notice(
 			title, 
 			description, 
@@ -113,7 +111,6 @@
 			idx,
 			title,
 			writer,
-			attach,
 			create_date
 		FROM bbs_qna
 		ORDER BY idx
@@ -127,9 +124,9 @@
 			idx,
 			title,
 			writer,
-			attach,
+			description,
 			create_date
-		FROM bba_qna
+		FROM bbs_qna
 		WHERE idx = #{idx}
 		ORDER BY idx
 	</select>
@@ -146,16 +143,14 @@
 		</selectKey>
 		INSERT INTO bbs_qna(
 			title, 
-			description, 
-			writer,
-			attach,
+			description,
+			user_id, 
 			create_date,
 			modify_date 
 		) VALUES (
 			#{title}, 
 			#{description}, 
-			#{writer}, 
-			#{attach}, 
+			#{userId}, 
 			now(), 
 			now()
 		)
@@ -165,7 +160,6 @@
 		UPDATE bbs_qna SET 
 			title = #{title}, 
 			description = #{description}, 
-			attach = #{attach}, 
 			modify_date = now() 
 		WHERE idx = #{idx}
 	</update>
@@ -246,6 +240,18 @@
 	</select>
 	
 	<select id="getReListbyIdx" resultMap="bbsReply">
+		SELECT
+			idx,
+			qna_id,
+			description,
+			writer,
+			create_date
+		FROM bbs_qna_re
+		WHERE idx = #{idx}
+		ORDER BY idx
+	</select>
+	
+	<select id="getReListbyQnaId" resultMap="bbsReply">
 		SELECT
 			idx,
 			qna_id,

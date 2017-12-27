@@ -120,7 +120,6 @@
 					</ul>
 				</c:when>
 			</c:choose>
-			
 			<!--
 			<ul class="pagination">
 				<li class="ico first" title="맨앞으로">처음</li>

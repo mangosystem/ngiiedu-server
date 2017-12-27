@@ -4,6 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%
 	String contextPath = request.getContextPath();
+	
 %>
 	
 <!DOCTYPE html>
@@ -161,16 +162,17 @@
 				<li class="ico end" title="맨뒤로">마지막</li>
 			</ul>
 			 -->
-			 
-			<button class="new"  onclick="document.location = '<%=contextPath %>/surport/qnaNew'">새글</button>
+			<c:if test="${'ADM' eq bbsrole or 'USR' eq bbsrole}">
+				<button class="new"  onclick="document.location = '<%=contextPath %>/surport/qnaNew'">새글</button>
+			</c:if>
 		</div>
 		<!-- END QNALIST -->
 	</div>
 	<!-- CONTENTS -->
 </div>
 <!-- END CONTENTSWRAP -->
-</script>
 	<jsp:include page ="../common/footer.jsp"></jsp:include>
 <!-- END FOOTER -->
+
 </body>
 </html>

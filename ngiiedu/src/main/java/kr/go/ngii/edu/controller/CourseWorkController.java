@@ -120,10 +120,10 @@ public class CourseWorkController extends BaseController {
 			MultipartHttpServletRequest request,
 			HttpSession session) throws Exception {
 //
-//		User user = (User)session.getAttribute("USER_INFO");
-//		if (user == null) {
-//			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
-//		}
+		User user = (User)session.getAttribute("USER_INFO");
+		if (user == null) {
+			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+		}
 		
 		Map<String, Object> paramVals = new HashMap<String, Object>();
 		Map<String, String> pathParamVals = new HashMap<String, String>();

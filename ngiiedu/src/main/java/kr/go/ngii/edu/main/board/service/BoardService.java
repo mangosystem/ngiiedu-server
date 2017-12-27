@@ -105,13 +105,14 @@ public class BoardService {
 		return boardMapper.getQnaListbyId(question);
 	}
 
-	public BbsQuestion insertQna(String title, String description, String writer, String attach) {
+	public BbsQuestion insertQna(String title, String description, int userId) {
 		
 		BbsQuestion param = new BbsQuestion();
 		param.setTitle(title);
 		param.setDescription(description);
-		param.setWriter(writer);
-		param.setAttach(attach);
+		param.setUserId(userId);
+//		param.setWriter(writer);
+//		param.setAttach(attach);
 		//param.setCreateDate(new Date());
 		//param.setModifyDate(new Date());
 		boardMapper.insertQna(param);
@@ -121,12 +122,12 @@ public class BoardService {
 
 	}
 	
-	public BbsQuestion modifyQna(int idx, String title, String description, String attach) {
+	public BbsQuestion modifyQna(int idx, String title, String description) {
 		BbsQuestion param = new BbsQuestion();
 		param.setIdx(idx);
 		param.setTitle(title);
 		param.setDescription(description);
-		param.setAttach(attach);
+//		param.setAttach(attach);
 		//param.setModiDate(new Date());
 		
 		boardMapper.modifyQna(param);
@@ -220,10 +221,10 @@ public class BoardService {
 	}
 
 	
-	public List<BbsReply> getReListbyId(int qnaId) {
+	public List<BbsReply> getReListbyQnaId(int qnaId) {
 		BbsReply reply = new BbsReply();
 		reply.setQnaId(qnaId);
-		return boardMapper.getReListbyIdx(reply);
+		return boardMapper.getReListbyQnaId(reply);
 	}
 	
 	public BbsReply getReListbyIdx(int idx) {
@@ -232,10 +233,10 @@ public class BoardService {
 		return boardMapper.getRebyIdx(reply);
 	}
 	
-	public BbsReply insertRe(int qnaId, String content, String writer) {
+	public BbsReply insertRe(int qnaId, String description, String writer) {
 		BbsReply param = new BbsReply();
 		param.setQnaId(qnaId);
-		param.setContent(content);
+		param.setDescription(description);
 		param.setWriter(writer);
 		//param.setCreateDate(new Date());
 		//param.setModifyDate(new Date());
@@ -244,11 +245,11 @@ public class BoardService {
 		return param;
 	}
 	
-	public BbsReply modifyRe(int idx, String content) {
+	public BbsReply modifyRe(int idx, String description) {
 		BbsReply param = new BbsReply();
 		param.setIdx(idx);
 		//param.setTitle(title);
-		param.setContent(content);
+		param.setDescription(description);
 		//param.setAttach(attach);
 		//param.setModiDate(new Date());
 		

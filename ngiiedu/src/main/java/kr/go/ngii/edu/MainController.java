@@ -26,6 +26,7 @@ import kr.go.ngii.edu.main.board.model.BbsFAQuestion;
 import kr.go.ngii.edu.main.board.model.BbsNotice;
 import kr.go.ngii.edu.main.board.model.BbsPageCriteria;
 import kr.go.ngii.edu.main.board.model.BbsQuestion;
+import kr.go.ngii.edu.main.board.model.BbsReply;
 import kr.go.ngii.edu.main.board.service.BoardService;
 import kr.go.ngii.edu.main.courses.course.model.Course;
 import kr.go.ngii.edu.main.users.model.User;
@@ -221,6 +222,8 @@ public class MainController extends BaseController {
 			HttpSession session, Principal principal) {
 		ModelAndView view = new ModelAndView("/surport/qna");
 		
+		User user = (User)session.getAttribute("USER_INFO");
+		
 		limit = limit == 0 ? LocalResourceBundle.BBS_QNA_POSTS_SIZE : limit;
 		
 		if (page == 0) {
@@ -232,6 +235,9 @@ public class MainController extends BaseController {
 		BbsPageCriteria bbsPageCriteria = new BbsPageCriteria(page, LocalResourceBundle.BBS_QNA_LIST_SIZE, limit);
 		List<BbsQuestion> bbsQuestionList = boardService.getQnaList(offset, limit); 
 		bbsPageCriteria.setRecordsNum(boardService.getQnaCnt());
+		
+		String bbsrole = "1".equals(user.getUserDivision().trim()) ? "ADM" : "USR";
+		view.getModelMap().addAttribute("bbsrole", bbsrole);
 		view.getModelMap().addAttribute("items", bbsQuestionList);
 		view.getModelMap().addAttribute("criteria", bbsPageCriteria);
 		return view;
@@ -241,9 +247,17 @@ public class MainController extends BaseController {
 	@RequestMapping(value={"/surport/qnaView/{qnaId}"}, method = RequestMethod.GET)
 	public ModelAndView getQnaViewPage(HttpServletRequest request, HttpServletResponse response, 
 			HttpSession session, Principal principal,
-			@PathVariable String qnaId) {
-		System.out.println(qnaId);
+			@PathVariable Integer qnaId) {
 		ModelAndView view = new ModelAndView("/surport/qna_view");
+		BbsQuestion bbsQuestion = boardService.getQnaListbyId(qnaId);
+		List<BbsReply> bbsReply = boardService.getReListbyQnaId(qnaId);
+		
+		// user 및 권한 변경 필요함
+		User user = (User)session.getAttribute("USER_INFO");
+		String bbsrole = "1".equals(user.getUserDivision().trim()) ? "ADM" : "USR";
+		view.getModelMap().addAttribute("bbsrole", bbsrole);
+		view.getModelMap().addAttribute("postItem", bbsQuestion);
+		view.getModelMap().addAttribute("reItems", bbsReply);
 		return view;
 	}
 	
@@ -251,15 +265,31 @@ public class MainController extends BaseController {
 	@RequestMapping(value={"/surport/qnaNew"}, method = RequestMethod.GET)
 	public ModelAndView getQnaNewPage(HttpServletRequest request, HttpServletResponse response, 
 			HttpSession session, Principal principal) {
-
 		ModelAndView view = new ModelAndView("/surport/qna_new");
+		return view;
+	}
+	
+	@RequestMapping(value={"/surport/qnaModify/{qnaId}"}, method = RequestMethod.GET)
+	public ModelAndView getQnaModifyPage(HttpServletRequest request, HttpServletResponse response,
+			@PathVariable Integer qnaId,
+			HttpSession session, Principal principal) {
+		ModelAndView view = new ModelAndView("/surport/qna_mod");
+		
+		User user = (User)session.getAttribute("USER_INFO");
+		
+		BbsQuestion bbsQuestion = boardService.getQnaListbyId(qnaId);
+		
+		if (user.getIdx() == bbsQuestion.getUserId()) {
+			return view;
+		}
+		
+		view.getModelMap().addAttribute("postItem", bbsQuestion);
 		return view;
 	}
 	
 	@RequestMapping(value={"/surport/download"}, method = RequestMethod.GET)
 	public ModelAndView getDownloadPage(HttpServletRequest request, HttpServletResponse response, 
 			HttpSession session, Principal principal) {
-
 		ModelAndView view = new ModelAndView("/surport/download");
 		return view;
 	}
