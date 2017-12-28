@@ -1192,12 +1192,217 @@ ul.tip li {
 }
 
 
+/* 메인 */
+/* 메인 / VISUAL */
+.visual {
+	position: relative;
+	height: 598px;
+	margin: 0 auto;
+	background-color: #43444c;
+}
 
+.a {
+	background-image: url(/ngiiedu/assets/images/mvisual1.jpg);
+	background-repeat: no-repeat;
+	background-position: center;
+}
 
+.b {
+	background-image: url(/ngiiedu/assets/images/mvisual2.jpg);
+	background-repeat: no-repeat;
+	background-position: center;
+}
 
+.c {
+	background-image: url(/ngiiedu/assets/images/mvisual3.jpg);
+	background-repeat: no-repeat;
+	background-position: center;
+}
 
+.visual > div {
+	width: 70px;
+	height: 20px;
+	position: absolute;
+	left: 50%;
+	margin-left: -35px;
+	bottom: 20px;
+	text-align: center;
+	background-color: transparent;
+}
 
+/* 메인 / CONTENTS / 수업소개 */
+h3.title {
+	position: relative;
+	margin-bottom: 20px;
+	padding: 15px 15px 0 0;
+	font-size: 20pt;
+	font-weight: normal;
+	background: url(/ngiiedu/assets/images/bullet.png) no-repeat right 0;
+}
 
+button.go {
+	float: right;
+	width: 30px;
+	height: 30px;
+	margin-top: 10px;
+	text-indent: -999em;
+	border: none;
+	background: url(/ngiiedu/assets/images/ico.png) no-repeat 5px -390px;
+}
+
+#contentsWrap .mainContents {
+	position: relative;
+	min-height: 500px;
+	padding: 30px 30px 30px 30px;
+	border: 1px solid #cecece;
+	background-color: #fff;
+	box-shadow: 0px 0px 5px 1px #ddd;
+}
+
+div.mainContents .classInfo {
+	width: 670px;
+}
+
+.classInfo ul li {
+	display: inline-block;
+	width: 160px;
+	height: 150px;
+	margin: 0;
+	padding: 0;
+	cursor: pointer;
+	border-radius: 10px;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-color: #fff;
+}
+
+.classInfo ul li:hover {
+	background-color:#3e81f6;
+}
+
+.classInfo ul li:hover span {
+	color: #fff;
+}
+
+.classInfo ul li span {
+	display: inline-block;
+	width: 160px;
+	margin: 120px 0 0;
+	text-align: center;
+	font-size: 11pt;
+	letter-spacing: -1px;
+}
+
+.classInfo ul li.noise {
+	background-image: url(/ngiiedu/assets/images/class_noise.png);	
+}
+
+.classInfo ul li.gps {
+	background-image: url(/ngiiedu/assets/images/class_gps.png);	
+}
+
+.classInfo ul li.population {
+	background-image: url(/ngiiedu/assets/images/class_population.png);	
+}
+
+.classInfo ul li.territory {
+	background-image: url(/ngiiedu/assets/images/class_territory.png);	
+}
+
+.classInfo ul li.school {
+	background-image: url(/ngiiedu/assets/images/class_school.png);	
+}
+
+.classInfo ul li.map {
+	background-image: url(/ngiiedu/assets/images/class_map.png);	
+}
+
+.classInfo ul li.dokdo {
+	background-image: url(/ngiiedu/assets/images/class_dokdo.png);	
+}
+
+.classInfo ul li.noise:hover {
+	background-image: url(/ngiiedu/assets/images/class_noise_on.png);	
+}
+
+.classInfo ul li.gps:hover {
+	background-image: url(/ngiiedu/assets/images/class_gps_on.png);	
+}
+
+.classInfo ul li.population:hover {
+	background-image: url(/ngiiedu/assets/images/class_population_on.png);	
+}
+.classInfo ul li.territory:hover {
+	background-image: url(/ngiiedu/assets/images/class_territory_on.png);	
+}
+.classInfo ul li.school:hover {
+	background-image: url(/ngiiedu/assets/images/class_school_on.png);	
+}
+.classInfo ul li.map:hover {
+	background-image: url(/ngiiedu/assets/images/class_map_on.png);	
+}
+.classInfo ul li.dokdo:hover {
+	background-image: url(/ngiiedu/assets/images/class_dokdo_on.png);	
+}
+/* 메인 / CONTENTS / 바로가기 */
+.mainContents .quick {
+	margin-top: 50px;
+}
+.mainContents .quick li {
+	display: inline-block;
+	width: 215px;
+	height: 80px;
+	cursor: pointer;
+	text-align: center;
+	background-color: #f4f4f4;
+	background-image: url(/ngiiedu/assets/images/ico.png);
+	background-repeat: no-repeat;
+}
+.mainContents .quick li.attend {
+	background-position: 95px -435px;
+	background-color: #fef47f;
+}
+.mainContents .quick li.gallery {
+	background-position: 105px -535px;
+}
+.mainContents .quick li.qna {
+	background-position: 95px -640px;
+}
+.mainContents .quick li:hover {
+	background-color: #fef47f;
+}
+.mainContents .quick li > span {
+	display: block;
+	margin-top: 45px;
+}
+
+/* 메인 / CONTENTS / 공지사항 */
+div.mainContents > .board {
+	position: absolute;
+	right: 30px;	
+	width: 270px;
+	margin: 0;
+	padding: 0 0 0 30px;
+	border-left: 1px dotted #ccc;
+}
+
+div.mainContents > .board li {
+	padding: 7px 0 7px 10px;
+	cursor: pointer;
+	background: url(/ngiiedu/assets/images/bullet.png) no-repeat left -48px;
+}
+
+div.mainContents > .board li:hover {
+	text-decoration: underline;
+}
+
+div.mainContents > .notice {
+	top: 30px;
+}
+
+div.mainContents > .faq {
+	top: 300px;
+}
 
 
 
@@ -1233,7 +1438,8 @@ ul.tip li {
     border:1px solid #777;
 }
 
-
-
-
-
+.ellipsis {
+	text-overflow:ellipsis;
+	overflow:hidden;
+	white-space:nowrap;
+}

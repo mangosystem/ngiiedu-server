@@ -47,10 +47,12 @@
 	var subHeader = "<%=subHeader%>";
 
 	$(function(){
-		$('#'+mainHeader).addClass("on");
-		console.log('addclass')
-		if(subHeader != null){
-			$('#'+subHeader).addClass("on");	
+		if ("main" != mainHeader) {
+			$('#'+mainHeader).addClass("on");
+			console.log('addclass')
+			if(subHeader != null){
+				$('#'+subHeader).addClass("on");	
+			}
 		}
 	});
 </script>
@@ -60,7 +62,7 @@
 <body class="edu">
 	<div id="headerWrap">
 		<div class="header">
-			<h1 class="edge" style="cursor: pointer;" onclick="document.location = '<%=contextPath %>/introduce'">공간정보융합 활용지원정보</h1>
+			<h1 class="edge" style="cursor: pointer;" onclick="document.location = '<%=contextPath %>/main'">공간정보융합 활용지원정보</h1>
 
 			<%
 				if (userDivision.trim().equals("1")) {  //교사 
@@ -102,30 +104,31 @@
 				<li id="course" ><a href="<%=contextPath %>/course">나의수업</a></li>
 			</ul>
 		</div>
-		<div class="snbWrap navy">
-			<!-- 클래스명 navy, brown -->
-			<div class="snb">
-			
-			<%if(mainHeader.equals("introduce")){ %>
-				<h2>수업소개</h2>
-			<%} else if (mainHeader.equals("gallary")){ %>
-				<h2>수업활동갤러리</h2>
-			<%} else if (mainHeader.equals("surport")){ %>
-				<h2>사용지원</h2>
-				<ul>
-					<li id="notice"><a href="<%=contextPath%>/surport/notice">공지사항</a></li>
-					<li id="faq"><a href="<%=contextPath%>/surport/faq">자주 묻는 질문</a></li>
-					<li id="qna"><a href="<%=contextPath%>/surport/qna">묻고 답하기</a></li>
-					<li id="download"><a href="<%=contextPath%>/surport/download">자료실</a></li>
-				</ul>
-			<%} else if (mainHeader.equals("course")){ %>			
-				<h2>수업</h2>
-			<% }%>
+		<%if (!"main".equals(mainHeader)){ %>
+			<div class="snbWrap navy">
+				<!-- 클래스명 navy, brown -->
+				<div class="snb">
+				
+				<%if(mainHeader.equals("introduce")){ %>
+					<h2>수업소개</h2>
+				<%} else if (mainHeader.equals("gallary")){ %>
+					<h2>수업활동갤러리</h2>
+				<%} else if (mainHeader.equals("surport")){ %>
+					<h2>사용지원</h2>
+					<ul>
+						<li id="notice"><a href="<%=contextPath%>/surport/notice">공지사항</a></li>
+						<li id="faq"><a href="<%=contextPath%>/surport/faq">자주 묻는 질문</a></li>
+						<li id="qna"><a href="<%=contextPath%>/surport/qna">묻고 답하기</a></li>
+						<li id="download"><a href="<%=contextPath%>/surport/download">자료실</a></li>
+					</ul>
+				<%} else if (mainHeader.equals("course")){ %>			
+					<h2>수업</h2>
+				<% }%>
+				</div>
 			</div>
-		</div>
+		<% }%>
+		
 	</div>
 	<!-- END HEADER -->
-
-
 </body>
 </html>

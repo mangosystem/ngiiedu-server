@@ -75,6 +75,17 @@ public class MainController extends BaseController {
 		ModelAndView view = new ModelAndView("/index");
 		return view;
 	}
+	
+	@RequestMapping(value={"/main"}, method = RequestMethod.GET)
+	public ModelAndView getMainPage(HttpServletRequest request, HttpServletResponse response, 
+			HttpSession session, Principal principal) {
+		ModelAndView view = new ModelAndView("/main");
+		List<BbsNotice> bbsNoticeList = boardService.getNoticeList(1, 5); 
+		List<BbsQuestion> bbsQuestionList = boardService.getQnaList(1, 5); 
+		view.getModelMap().addAttribute("noticeItems", bbsNoticeList);
+		view.getModelMap().addAttribute("qnaItems", bbsQuestionList);
+		return view;
+	}
 
 	@RequestMapping(value={"/course/**"}, method = RequestMethod.GET)
 	public ModelAndView getCoursePage(HttpServletRequest request, HttpServletResponse response, 

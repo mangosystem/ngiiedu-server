@@ -26,8 +26,7 @@
 		<jsp:param value="surport" name="mainHeader"/>
 		<jsp:param value="notice" name="subHeader"/>
 	</jsp:include>
-
-
+	
 <div id="contentsWrap">
 	<ul class="location">
 		<li>홈</li>
