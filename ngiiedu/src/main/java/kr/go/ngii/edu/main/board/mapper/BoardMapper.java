@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import kr.go.ngii.edu.main.board.model.BbsPds;
 import kr.go.ngii.edu.main.board.model.BbsFAQuestion;
 import kr.go.ngii.edu.main.board.model.BbsNotice;
 import kr.go.ngii.edu.main.board.model.BbsQuestion;
@@ -70,5 +71,19 @@ public interface BoardMapper {
 	public void modifyRe(BbsReply reply);
 
 	public void deleteRe(@Param("idx") int idx);
+	
+	public List<BbsPds> getPdsList();
+	
+	public List<BbsPds> getPdsList(@Param("offset") int offset, @Param("limit") int limit);
+
+	public BbsPds getPdsbyId(BbsPds BbbsPds);
+
+	public void insertPds(BbsPds BbbsPds);
+	
+	public void modifyPds(BbsPds BbbsPds);
+
+	public void deletePds(@Param("pdsId") int pdsId);
+	
+	public int getPdsCnt();
 
 }

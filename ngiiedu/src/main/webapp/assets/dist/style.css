@@ -1190,3 +1190,50 @@ ul.tip li {
 	font-size: 17px;
 	font-weight: bold;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+.file_input label {
+    position:relative;
+    cursor:pointer;
+    display:inline-block;
+    vertical-align:middle;
+    overflow:hidden;
+    width:100px;
+    height:30px;
+    background:#777;
+    color:#fff;
+    text-align:center;
+    line-height:30px;
+}
+.file_input label input {
+    position:absolute;
+    width:0;
+    height:0;
+    overflow:hidden;
+}
+.file_input input[type=text] {
+    vertical-align:middle;
+    display:inline-block;
+    width:400px;
+    height:28px;
+    line-height:28px;
+    font-size:11px;
+    padding:0;
+    border:0;
+    border:1px solid #777;
+}
+
+
+
+
+

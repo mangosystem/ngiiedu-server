@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.Module;
 
 import kr.go.ngii.edu.main.board.mapper.BoardMapper;
+import kr.go.ngii.edu.main.board.model.BbsPds;
 import kr.go.ngii.edu.main.board.model.BbsFAQuestion;
 import kr.go.ngii.edu.main.board.model.BbsNotice;
 import kr.go.ngii.edu.main.board.model.BbsQuestion;
@@ -265,6 +266,68 @@ public class BoardService {
 		} else {
 			return false;
 		}
+	}
+	
+	public List<BbsPds> getPdsList() {
+		List<BbsPds> result = null;
+		try{
+			result = boardMapper.getPdsList();
+			
+		}catch(Exception e) {
+			
+		}
+		return result;
+	}
+	public List<BbsPds> getPdsList(int offset, int limit) {
+		return boardMapper.getPdsList(offset, limit);
+	}
+
+	public BbsPds getPdsById(int idx) {
+		BbsPds param = new BbsPds();
+		param.setIdx(idx);
+		return boardMapper.getPdsbyId(param);
+	}
+
+	public BbsPds insertPds(String title, String description) {
+		
+		BbsPds param = new BbsPds();
+		param.setTitle(title);
+		param.setDescription(description);;
+//		param.setCreateDate(new Date());
+//		param.setModifyDate(new Date());
+		boardMapper.insertPds(param);
+
+		return param;
+		//Module result = false;
+
+	}
+	
+	public BbsPds modifyPds(int idx, String title, String description) {
+		BbsPds param = new BbsPds();
+		param.setIdx(idx);
+		param.setTitle(title);
+		param.setDescription(description);
+//		param.setModifyDate(new Date());
+		boardMapper.modifyPds(param);
+
+		if (param.getIdx()!=null) {
+			param = getPdsById(idx);
+		}
+
+		return param;
+	}
+
+	public boolean deletePds(int idx) {
+		if (getPdsById(idx)!=null) {
+			boardMapper.deletePds(idx);
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public int getPdsCnt() {
+		return boardMapper.getPdsCnt();
 	}
 	
 }

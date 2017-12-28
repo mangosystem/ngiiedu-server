@@ -115,7 +115,7 @@
 			</div>
 		</div>
 		<div class="btnBoth">
-		<!--  이전글 다음글?
+		<!--  이전글 다음글
 			<button type="button" title="이전" class="default">이전</button>
 			<button type="button" title="다음" class="default">다음</button>
 		-->

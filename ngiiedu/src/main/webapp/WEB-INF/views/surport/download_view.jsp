@@ -1,9 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%
 	String contextPath = request.getContextPath();
 %>
-	
 	
 <!DOCTYPE html>
 <html lang="ko">
@@ -16,6 +17,13 @@
 	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 <![endif]-->
 <meta content="IE=edge" http-equiv="X-UA-Compatible">
+<!--jquery  -->
+<script type="text/javascript" src="<%=contextPath%>/assets/cdn/jquery/jquery-3.2.1.min.js"></script>
+<script src="<%=contextPath%>/assets/cdn/jquery-ui-1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet" href="<%=contextPath%>/assets/cdn/jquery-ui-1.12.1/jquery-ui.css">
+
+<script type="text/javascript" src="<%=contextPath%>/assets/dist/request.js"></script>
+
 <title>지리원/공간정보융합 활용지원정보</title>
 </head>
 
@@ -26,8 +34,6 @@
 		<jsp:param value="download" name="subHeader"/>
 	</jsp:include>
 
-
-
 <div id="contentsWrap">
 	<ul class="location">
 		<li>홈</li>
@@ -37,6 +43,17 @@
 	<div class="contents">
 		<h3>자료실</h3>
 		<div class="boardView">
+		
+		
+			<ul class="title">
+				<li>${postItem.title}</li>
+				<li><fmt:formatDate value="${postItem.createDate}" pattern="YYYY-MM-dd" /></li>
+			</ul>
+			<div class="script">
+				${postItem.description}
+			</div>
+			
+			<!--  
 			<ul class="title">
 				<li>월성 1호기, 내년 조기폐쇄…8차 전력수급계획, 환경·수요관리 중심 </li>
 				<li>2017-12-11</li>
@@ -51,10 +68,18 @@
 				과거 수급계획이 수급 안정과 경제성에 초점을 맞췄다면 8차에는 환경성이 대폭 반영됐다. 
 				경제성에 맞춰 발전기를 가동(급전)하던 국내 전력체계에 환경 관련 변수가 새롭게 추가된다. 발전단가가 높다는 이유로 석탄발전에 밀렸던 친환경 액화천연가스(LNG) 발전의 가동률을 높이기 위함이다.
 			</div>
+			-->
+			
 		</div>
 		<div class="btnBoth">
+			<!-- 
 			<button type="button" title="이전" class="default">이전</button>
 			<button type="button" title="다음" class="default">다음</button>
+			 -->
+			 <c:if test="${'ADM' eq bbsrole}">
+				<button type="button" title="수정" class="point left" onclick="location.href='<%=contextPath %>/surport/downloadModify/'+${postItem.idx}" >수정</button>
+				<button type="button" title="삭제" class="point left" onclick="submitDelete(${postItem.idx})">삭제</button>
+			</c:if>
 			<button type="button" title="목록" class="point right"  onclick="document.location = '<%=contextPath %>/surport/download'">목록</button>
 		</div>
 		<!-- END NOTICEVIEW -->
@@ -64,5 +89,20 @@
 <!-- END CONTENTSWRAP -->
 	<jsp:include page ="../common/footer.jsp"></jsp:include>
 <!-- END FOOTER -->
+
+
+<script>
+	function submitDownloadDelete(idx) {
+		ajaxJson(
+			['DELETE', apiSvr + '/board/pds/' +idx+'.json'], 
+			null, 
+	        function (res) {
+	        	var data = res.response.data;
+	        	console.log(res);
+	        	console.log(data);
+	        	location.href="<%=contextPath %>/surport/download";
+	    });
+	}
+</script>
 </body>
 </html>

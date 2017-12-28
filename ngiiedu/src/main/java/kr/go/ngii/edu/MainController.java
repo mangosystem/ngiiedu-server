@@ -25,6 +25,7 @@ import kr.go.ngii.edu.controller.rest.ResponseData;
 import kr.go.ngii.edu.main.board.model.BbsFAQuestion;
 import kr.go.ngii.edu.main.board.model.BbsNotice;
 import kr.go.ngii.edu.main.board.model.BbsPageCriteria;
+import kr.go.ngii.edu.main.board.model.BbsPds;
 import kr.go.ngii.edu.main.board.model.BbsQuestion;
 import kr.go.ngii.edu.main.board.model.BbsReply;
 import kr.go.ngii.edu.main.board.service.BoardService;
@@ -334,17 +335,72 @@ public class MainController extends BaseController {
 	}
 	
 	@RequestMapping(value={"/surport/download"}, method = RequestMethod.GET)
-	public ModelAndView getDownloadPage(HttpServletRequest request, HttpServletResponse response, 
+	public ModelAndView getPdsPage(HttpServletRequest request, HttpServletResponse response, 
+			@RequestParam(value="page", required=false, defaultValue="1") Integer page,
+			@RequestParam(value="limit", required=false, defaultValue="0") Integer limit,
 			HttpSession session, Principal principal) {
 		ModelAndView view = new ModelAndView("/surport/download");
+		
+		User user = (User)session.getAttribute("USER_INFO");
+		
+		limit = limit == 0 ? LocalResourceBundle.BBS_PDS_POSTS_SIZE : limit;
+		
+		if (page == 0) {
+			page = 1;
+		}
+
+		int offset = (page -1) * limit;
+		
+		BbsPageCriteria bbsPageCriteria = new BbsPageCriteria(page, LocalResourceBundle.BBS_PDS_LIST_SIZE, limit);
+		List<BbsPds> bbsPdsList = boardService.getPdsList(offset, limit); 
+		bbsPageCriteria.setRecordsNum(boardService.getPdsCnt());
+		
+		String bbsrole = "1".equals(user.getUserDivision().trim()) ? "ADM" : "USR";
+		view.getModelMap().addAttribute("bbsrole", bbsrole);
+		view.getModelMap().addAttribute("items", bbsPdsList);
+		view.getModelMap().addAttribute("criteria", bbsPageCriteria);
 		return view;
 	}
 	
-	@RequestMapping(value={"/surport/downloadView/{download}"}, method = RequestMethod.GET)
+	@RequestMapping(value={"/surport/downloadView/{pdsId}"}, method = RequestMethod.GET)
 	public ModelAndView getDownloadViewPage(HttpServletRequest request, HttpServletResponse response, 
 			HttpSession session, Principal principal,
-			@PathVariable String download) {
+			@PathVariable Integer pdsId) {
+		
 		ModelAndView view = new ModelAndView("/surport/download_view");
+
+		BbsPds bbsPds = boardService.getPdsById(pdsId);
+		
+		// user 및 권한 변경 필요함
+		User user = (User)session.getAttribute("USER_INFO");
+		String bbsrole = "1".equals(user.getUserDivision().trim()) ? "ADM" : "USR";
+		view.getModelMap().addAttribute("bbsrole", bbsrole);
+		view.getModelMap().addAttribute("postItem", bbsPds);
+		return view;
+	}
+	
+	@RequestMapping(value={"/surport/downloadNew"}, method = RequestMethod.GET)
+	public ModelAndView getDownloadNewPage(HttpServletRequest request, HttpServletResponse response, 
+			HttpSession session, Principal principal) {
+		ModelAndView view = new ModelAndView("/surport/download_new");
+		return view;
+	}
+	
+	@RequestMapping(value={"/surport/downloadModify/{pdsId}"}, method = RequestMethod.GET)
+	public ModelAndView getDownloadModifyPage(HttpServletRequest request, HttpServletResponse response,
+			@PathVariable Integer pdsId,
+			HttpSession session, Principal principal) {
+		ModelAndView view = new ModelAndView("/surport/download_mod");
+		
+		User user = (User)session.getAttribute("USER_INFO");
+		
+		BbsPds bbsPds = boardService.getPdsById(pdsId);
+		
+		if (user.getIdx() == bbsPds.getUserId()) {
+			return view;
+		}
+		
+		view.getModelMap().addAttribute("postItem", bbsPds);
 		return view;
 	}
 	
