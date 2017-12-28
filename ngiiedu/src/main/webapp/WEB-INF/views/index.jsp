@@ -38,15 +38,22 @@
 		<!-- CKEditor4 -->
 		<script type="text/javascript" src="<%=contextPath%>/assets/cdn/ckeditor/ckeditor.js"></script>
 		
-		<!--openlayers  -->
+		<!--openLayers  -->
 		<link rel="stylesheet" type="text/css" href="<%=contextPath%>/assets/cdn/openlayers/dist/ol.css" />
 		<script type="text/javascript" src="<%=contextPath%>/assets/cdn/openlayers/dist/ol-debug.js"></script>
 		
-		<!--openlayers control -->
+		<!--openLayers swipeControl -->
 		<link rel="stylesheet" type="text/css" href="<%=contextPath%>/assets/cdn/openlayers/control/swipecontrol.css" />
 		<script type="text/javascript" src="<%=contextPath%>/assets/cdn/openlayers/control/swipecontrol.js"></script>
+		
+		<!--openLayers layerSwitcher -->
+		<link rel="stylesheet" type="text/css" href="<%=contextPath%>/assets/cdn/openlayers/control/ol3-layerswitcher.css" />
+		<script type="text/javascript" src="<%=contextPath%>/assets/cdn/openlayers/control/ol3-layerswitcher.js"></script>
+		
+		<!--openLayers proj4 -->
+		<script type="text/javascript" src="<%=contextPath%>/assets/cdn/openlayers/control/proj4.js"></script>
 
-		<!--jquery  -->
+		<!--jQuery  -->
 		<script type="text/javascript" src="<%=contextPath%>/assets/cdn/jquery/jquery-3.2.1.min.js"></script>
 		<script src="<%=contextPath%>/assets/cdn/jquery-ui-1.12.1/jquery-ui.js"></script>
 		<link rel="stylesheet" href="<%=contextPath%>/assets/cdn/jquery-ui-1.12.1/jquery-ui.css">
