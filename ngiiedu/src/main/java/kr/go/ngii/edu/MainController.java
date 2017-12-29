@@ -80,8 +80,8 @@ public class MainController extends BaseController {
 	public ModelAndView getMainPage(HttpServletRequest request, HttpServletResponse response, 
 			HttpSession session, Principal principal) {
 		ModelAndView view = new ModelAndView("/main");
-		List<BbsNotice> bbsNoticeList = boardService.getNoticeList(1, 5); 
-		List<BbsQuestion> bbsQuestionList = boardService.getQnaList(1, 5); 
+		List<BbsNotice> bbsNoticeList = boardService.getNoticeList(0, 5); 
+		List<BbsQuestion> bbsQuestionList = boardService.getQnaList(0, 5); 
 		view.getModelMap().addAttribute("noticeItems", bbsNoticeList);
 		view.getModelMap().addAttribute("qnaItems", bbsQuestionList);
 		return view;

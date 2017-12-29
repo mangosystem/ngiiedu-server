@@ -62,7 +62,7 @@
 			title,
 			create_date
 		FROM bbs_notice
-		ORDER BY idx
+		ORDER BY idx desc
 		<if test="offset != null and limit != null">
 			OFFSET ${offset} LIMIT ${limit}
 		</if>
@@ -76,7 +76,7 @@
 			create_date
 		FROM bbs_notice
 		WHERE idx = #{idx}
-		ORDER BY idx
+		ORDER BY idx desc
 	</select>
 	
 	<!-- <insert id="insertNotice">
@@ -135,7 +135,7 @@
 		FROM bbs_qna T1, users T2
 		WHERE
 			T1.user_id = T2.idx
-		ORDER BY T1.idx
+		ORDER BY T1.idx desc
 		<if test="offset != null and limit != null">
 			OFFSET ${offset} LIMIT ${limit}
 		</if>
@@ -150,7 +150,7 @@
 			create_date
 		FROM bbs_qna
 		WHERE idx = #{idx}
-		ORDER BY idx
+		ORDER BY idx desc
 	</select>
 	
 	<!-- <insert id="insertNotice">
@@ -204,7 +204,7 @@
 			attach,
 			create_date
 		FROM bbs_faq
-		ORDER BY idx
+		ORDER BY idx desc
 		<if test="offset != null and limit != null">
 			OFFSET ${offset} LIMIT ${limit}
 		</if>
@@ -270,7 +270,7 @@
 			create_date
 		FROM bbs_qna_re
 		WHERE idx = #{idx}
-		ORDER BY idx
+		ORDER BY idx desc
 	</select>
 	
 	<select id="getReListbyQnaId" resultMap="bbsReply">
@@ -284,7 +284,7 @@
 		WHERE 
 			T1.qna_id = #{qnaId}
 			AND T1.user_id = T2.idx
-		ORDER BY idx
+		ORDER BY idx desc
 	</select>
 	
 	<select id="getRebyIdx" resultMap="bbsReply">
@@ -333,7 +333,7 @@
 			title,
 			create_date
 		FROM bbs_pds
-		ORDER BY idx
+		ORDER BY idx desc
 		<if test="offset != null and limit != null">
 			OFFSET ${offset} LIMIT ${limit}
 		</if>
