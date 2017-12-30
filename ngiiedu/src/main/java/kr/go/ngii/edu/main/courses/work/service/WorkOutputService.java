@@ -40,9 +40,6 @@ public class WorkOutputService extends BaseService {
 	@Autowired
 	private CourseTeamMemberService courseTeamMemberService;
 	
-	@Autowired
-	private WorkOutputService workOutputService;
-	
 	/**
 	 * 결과물을 등록 한다.
 	 * 

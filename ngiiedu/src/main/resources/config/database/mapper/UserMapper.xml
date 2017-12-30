@@ -25,11 +25,11 @@
 			user_state
 		FROM users
 		<where>
-			<if test="userEmail == null">
+			<if test="userid != '' and userid != null">
 				userid = #{userid}
 			</if>
-			<if test="userEmail != null">
-				user_email = #{userEmail}
+			<if test="idx != null">
+				idx = #{idx}
 			</if>
 		</where>
 		
@@ -90,5 +90,13 @@
 		DELETE FROM users
 		WHERE idx = #{idx}
 	</delete>
+	
+	<select id="exists" parameterType="map" resultType="boolean">
+		SELECT 
+			CASE WHEN EXISTS (
+				SELECT idx FROM users
+				WHERE userid = #{userid}
+			)  THEN true ELSE false END 
+	</select>
 
 </mapper>

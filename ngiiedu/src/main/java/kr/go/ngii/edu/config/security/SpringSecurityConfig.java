@@ -74,6 +74,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/assets/**").permitAll()
 				.antMatchers("/login").permitAll()
 				.antMatchers("/join").permitAll()
+//				.antMatchers("/index").permitAll()
 				.antMatchers("/api/v1/**").permitAll()
 				.antMatchers("/cm-admin/**").access("hasRole('ROLE_ADMIN')")
 				.antMatchers("/course/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
@@ -154,6 +155,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 			super.onAuthenticationSuccess(request, response, authentication);
 
 			setDefaultTargetUrl("/course");
+//			setDefaultTargetUrl("/index");
 
 			User user = userService.get(authentication.getName());
 			user.setPassword(null);

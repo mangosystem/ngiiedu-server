@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.go.ngii.edu.main.users.mapper.PngoUserMapper">
+
+	<resultMap type="kr.go.ngii.edu.main.users.model.PngoUser" id="pngoUserMap">
+		<id property="idx" column="idx" />
+		<result property="username" column="username" />
+		<result property="passwd" column="passwd" />
+		<result property="firstName" column="first_name" />
+	</resultMap>
+
+	<select id="get" parameterType="map" resultMap="pngoUserMap">
+		SELECT
+			idx,
+			username,
+			passwd,
+			first_name
+		FROM pngo_user
+		<where>
+			<if test="username != null">
+				username = #{username}
+			</if>
+			<if test="idx != null">
+				idx = #{idx}
+			</if>
+		</where>
+		
+	</select>
+	
+	<insert id="create" parameterType="map">
+		INSERT INTO pngo_user(
+		username, email, passwd, first_name
+		) VALUES (
+		#{username}, '', #{passwd}, #{firstName}
+		)
+	</insert>
+
+	<delete id="delete" parameterType="int">
+		DELETE FROM pngo_user
+		WHERE idx = #{idx}
+	</delete>
+	
+	<select id="exists" parameterType="map" resultType="boolean">
+		SELECT 
+			CASE WHEN EXISTS (
+				SELECT idx FROM pngo_user
+				WHERE username = #{username}
+			)  THEN true ELSE false END 
+	</select>
+
+</mapper>

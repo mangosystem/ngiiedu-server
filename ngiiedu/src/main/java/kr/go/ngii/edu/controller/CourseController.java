@@ -1,6 +1,8 @@
 package kr.go.ngii.edu.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -14,9 +16,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import kr.go.ngii.edu.common.enums.EnumRestAPIType;
 import kr.go.ngii.edu.common.message.ErrorMessage;
 import kr.go.ngii.edu.controller.rest.BaseController;
 import kr.go.ngii.edu.controller.rest.ResponseData;
+import kr.go.ngii.edu.main.common.RestAPIClient;
 import kr.go.ngii.edu.main.courses.course.model.Course;
 import kr.go.ngii.edu.main.courses.course.model.CourseInfo;
 import kr.go.ngii.edu.main.courses.course.model.CourseMember;
@@ -66,7 +70,8 @@ public class CourseController extends BaseController {
 
 	@Autowired
 	private CourseWorkSubService courseWorkSubService;
-
+	
+	private RestAPIClient apiClient = new RestAPIClient();
 
 	// 수업관련 --------------------------------------------------------------------
 	/**
@@ -87,8 +92,14 @@ public class CourseController extends BaseController {
 			@RequestParam(value="courseName", required=true) String courseName, 
 			@RequestParam(value="courseMetadata", required=false) String courseMetadata,
 			HttpSession session) throws Exception {
-
-		Course result = courseService.create(moduleId, moduleWorkIds, courseName, courseMetadata);
+		
+		User user = (User)session.getAttribute("USER_INFO");
+		if (user == null) {
+			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+		}
+		
+//		Course result = courseService.create(moduleId, moduleWorkIds, courseName, courseMetadata);
+		Course result = courseService.create(user, moduleId, moduleWorkIds, courseName, courseMetadata);
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
 
@@ -522,7 +533,7 @@ public class CourseController extends BaseController {
 			@RequestParam(value="password", required=false, defaultValue="") String password,
 			HttpSession session) throws Exception {
 
-//		boolean result = courseMemberService.leave(courseId, userids, password);
+		boolean result = courseMemberService.leave(courseId, userids, password);
 		return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
 	}
 

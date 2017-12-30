@@ -53,6 +53,8 @@ public class CourseInfo implements Serializable {
 	
 	/** 사용자 상태. */
 	private String status;
+	
+	private String projectId;
 
 	public Integer getIdx() {
 		return idx;
@@ -157,5 +159,12 @@ public class CourseInfo implements Serializable {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	
+
+	public String getProjectId() {
+		return projectId;
+	}
+
+	public void setProjectId(String projectId) {
+		this.projectId = projectId;
+	}
 }

@@ -20,4 +20,5 @@ public class ErrorMessage {
 	
 	public static String PASSWORD_AUTHENTICATION_FAILED = "비밀번호 가 다릅니다.";
 
+	public static String COURSE_MEMBER_UPDATE_FAIL	= "사용자의 상태 변경이 서버에서 실패 하였습니다.";
 }

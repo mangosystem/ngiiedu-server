@@ -14,7 +14,7 @@ public enum EnumJoinStatus {
 	ACTIVE		("CJS02"),
 
 	// 비활성화
-	DEACTIVE		("CJS03"),
+	DEACTIVE	("CJS03"),
 
 	// 차단
 	BLOCK		("CJS04");

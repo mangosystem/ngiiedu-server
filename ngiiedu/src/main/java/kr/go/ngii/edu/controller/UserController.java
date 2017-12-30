@@ -151,12 +151,13 @@ public class UserController extends BaseController {
 			@RequestParam(value="userid", required=true) String userid,
 			@RequestParam(value="password", required=true) String password,
 			@RequestParam(value="userName", required=true) String userName,
-			@RequestParam(value="userEmail", required=true) String userEmail,
+			@RequestParam(value="userEmail", required=false, defaultValue="") String userEmail,
 			@RequestParam(value="schoolName", required=false) String schoolName,
 			@RequestParam(value="userDivision", required=false, defaultValue="2") String userDivision,
 			HttpSession session) throws Exception {
 		
-		User user = userService.create(userid, password, userEmail, userName, userDivision);
+//		User user = userService.create(userid, password, userEmail, userName, userDivision);
+		User user = userService.create(userid, password, userName, userDivision);
 		
 		return new ResponseEntity<ResponseData>(responseBody(user), HttpStatus.OK);
 	}

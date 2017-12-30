@@ -31,5 +31,13 @@
 			#{authority}
 		)
 	</insert>
+	
+	<select id="exists" parameterType="map" resultType="boolean">
+		SELECT 
+			CASE WHEN EXISTS (
+				SELECT idx FROM pngo_user_role
+				WHERE user_id = #{userId} and authority = #{authority}
+			)  THEN true ELSE false END 
+	</select>
 
 </mapper>

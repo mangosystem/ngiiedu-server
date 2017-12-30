@@ -438,6 +438,73 @@ public class RestApiTest extends BaseTest {
 		}
 	}
 	
+	@Test
+	public void testProjectsCreate() {
+		RestAPIClient rc = new RestAPIClient();
+		Map<String, String> pathParam = new HashMap<String, String>();
+		Map<String, String> param = new HashMap<String, String>();
+		param.put("title", "asd");
+		param.put("description", "aa");
+		param.put("privacy", "TEAM");
+		
+		String apiKey = "cacbf08b5c7a4b49a1d06ecb8c0278af";
+		Map<String, Object> r = rc.getResponseBodyWithLinkedMap(EnumRestAPIType.PROJECT_CREATE, pathParam, param, apiKey);
+		System.out.println(r);
+		Map<String, String> metaData = (Map<String, String>) r.get("meta");
+		String metaDataMessage = metaData.get("message");
+		System.out.println(metaDataMessage);
+	}
+	
+	@Test
+	public void testProjectsMemberCreate() {
+		RestAPIClient rc = new RestAPIClient();
+		Map<String, String> pathParam = new HashMap<String, String>();
+		pathParam.put("project_id", "p=3JC65hTd");
+		Map<String, String> param = new HashMap<String, String>();
+		param.put("member_id", "13");
+		param.put("member_role", "WRITER");
+		
+		String apiKey = "a62016b8459b411da642f1ef55b6be3e";
+		Map<String, Object> r = rc.getResponseBodyWithLinkedMap(EnumRestAPIType.PROJECT_MEMBER_CREATE, pathParam, param, apiKey);
+		System.out.println(r);
+		Map<String, String> metaData = (Map<String, String>) r.get("meta");
+		String metaDataMessage = metaData.get("message");
+		System.out.println(metaDataMessage);
+	}
+	
+	@Test
+	public void testProjectsMemberCreate2() {
+		RestAPIClient rc = new RestAPIClient();
+		Map<String, String> pathParam = new HashMap<String, String>();
+		pathParam.put("project_id", "p=3JC65hTd");
+		Map<String, String> param = new HashMap<String, String>();
+		param.put("member_id", "14");
+		param.put("member_role", "WRITER");
+		
+		String apiKey = "a62016b8459b411da642f1ef55b6be3e";
+		Map<String, Object> r = rc.getResponseBodyWithLinkedMap(EnumRestAPIType.PROJECT_MEMBER_CREATE, pathParam, param, apiKey);
+		System.out.println(r);
+		Map<String, String> metaData = (Map<String, String>) r.get("meta");
+		String metaDataMessage = metaData.get("message");
+		System.out.println(metaDataMessage);
+	}
+	
+	@Test
+	public void testProjectsMemberGet() {
+		RestAPIClient rc = new RestAPIClient();
+		Map<String, String> pathParam = new HashMap<String, String>();
+		pathParam.put("project_id", "p=3JC65hTd");
+		Map<String, String> param = new HashMap<String, String>();
+		param.put("member_id", "11");
+//		param.put("member_role", "WRITER");
+		
+		String apiKey = "a62016b8459b411da642f1ef55b6be3e";
+		Map<String, Object> r = rc.getResponseBodyWithLinkedMap(EnumRestAPIType.PEOJECT_GET, pathParam, param, apiKey);
+		System.out.println(r);
+		Map<String, String> metaData = (Map<String, String>) r.get("meta");
+		String metaDataMessage = metaData.get("message");
+		System.out.println(metaDataMessage);
+	}
 	
 	
 }

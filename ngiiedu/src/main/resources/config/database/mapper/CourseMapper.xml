@@ -13,6 +13,7 @@
 		<result property="createDate" column="create_date" />
 		<result property="modifyDate" column="modify_date" />
 		<result property="status" column="status" />
+		<result property="projectId" column="project_id" />
 	</resultMap>
 	
 	<resultMap type="kr.go.ngii.edu.main.courses.course.model.CourseInfo" id="courseInfoMap">
@@ -29,6 +30,7 @@
 		<result property="modifyDate" column="modify_date" />
 		<result property="userId" column="user_id" />
 		<result property="status" column="status" />
+		<result property="projectId" column="project_id" />
 	</resultMap>
 	
 	<!-- 사용자별 내가 만든 수업목록 -->
@@ -41,7 +43,8 @@
 			course_create_id,
 			create_date,
 			modify_date,
-			status
+			status,
+			project_id
 		FROM courses
 		WHERE 
 			course_create_id = #{value}
@@ -60,7 +63,8 @@
 			course_create_id,
 			create_date,
 			modify_date,
-			status
+			status,
+			project_id
 		FROM courses
 		WHERE 
 			course_create_id = #{value}
@@ -79,7 +83,8 @@
 			course_create_id,
 			create_date,
 			modify_date,
-			status
+			status,
+			project_id
 		FROM courses
 		<if test="offset != null and limit != null">
 			OFFSET ${offset} LIMIT ${limit}
@@ -99,7 +104,8 @@
        		userid as course_create_userid, 
        		user_division, 
        		create_date, 
-       		modify_date
+       		modify_date,
+			project_id
   		FROM public.courses_infos
   		<where>
   			<if test="keyword != '' and keyword != null">
@@ -131,7 +137,8 @@
        		userid as course_create_userid, 
        		user_division, 
        		create_date, 
-       		modify_date
+       		modify_date,
+			project_id
   		FROM public.courses_infos
   		<where>
   			user_id = ${userId}
@@ -161,7 +168,8 @@
 		    courses_infos.create_date,
 		    courses_infos.modify_date,
 		    courses_member.user_id,
-		    courses_member.join_status as status 
+		    courses_member.join_status as status,
+			courses_infos.project_id
 		FROM courses_infos courses_infos left join courses_member courses_member
 		    ON courses_infos.idx = courses_member.course_id
 		WHERE courses_member.user_id = ${userId}
@@ -186,7 +194,8 @@
 			course_create_id,
 			create_date,
 			modify_date,
-			status
+			status,
+			project_id
 		FROM courses
 		WHERE idx = #{idx}
 	</select>
@@ -204,7 +213,8 @@
 			course_create_id,
 			create_date,
 			modify_date,
-			status
+			status,
+			project_id
 		) VALUES (
 			#{idx},
 			#{moduleId},
@@ -213,7 +223,8 @@
 			#{courseCreateId},
 			#{createDate},
 			#{modifyDate},
-			#{status}
+			#{status},
+			#{projectId}
 		)
 	</insert>
 	

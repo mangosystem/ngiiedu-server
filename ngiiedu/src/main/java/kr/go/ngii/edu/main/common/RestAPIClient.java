@@ -134,7 +134,12 @@ public class RestAPIClient {
 	public Map<String, Object> getResponseBodyWithLinkedMap(EnumRestAPIType enumType, Map<String, String> pathParam, Map<String, String> param) {
 		try {
 //			UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(REST_BASE_URI + enumType.code());
-			UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(REST_BASE_URI +format(enumType.code(), pathParam));
+			UriComponentsBuilder builder;
+			if (pathParam == null || pathParam.isEmpty()) {
+				builder = UriComponentsBuilder.fromUriString(REST_BASE_URI + enumType.code());
+			} else {
+				builder = UriComponentsBuilder.fromUriString(REST_BASE_URI + format(enumType.code(), pathParam));
+			}
 			
 			MultiValueMap<String, String> multiValueMap = new LinkedMultiValueMap<String, String>();
 			
@@ -145,6 +150,7 @@ public class RestAPIClient {
 			}
 			HttpHeaders headers = new HttpHeaders();
 			headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+			headers.set("apikey", "cacbf08b5c7a4b49a1d06ecb8c0278af");
 			HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(multiValueMap, headers);
 	    	ParameterizedTypeReference<Map<String, Object>> typeRef = new ParameterizedTypeReference<Map<String, Object>>() {};
 			URI uriParam = builder.build().encode("UTF-8").toUri();
@@ -162,6 +168,46 @@ public class RestAPIClient {
 		}
 		return null;
 	}
+	
+	
+	public Map<String, Object> getResponseBodyWithLinkedMap(EnumRestAPIType enumType, Map<String, String> pathParam, 
+			Map<String, String> param, String apiKey) {
+		try {
+			UriComponentsBuilder builder;
+			if (pathParam == null || pathParam.isEmpty()) {
+				builder = UriComponentsBuilder.fromUriString(REST_BASE_URI + enumType.code());
+			} else {
+				builder = UriComponentsBuilder.fromUriString(REST_BASE_URI + format(enumType.code(), pathParam));
+			}
+			
+			MultiValueMap<String, String> multiValueMap = new LinkedMultiValueMap<String, String>();
+			
+			if (param != null && !param.isEmpty()) {
+				for( Map.Entry<String, String> elem : param.entrySet()) {
+					multiValueMap.set(elem.getKey(), elem.getValue());
+				}
+			}
+			HttpHeaders headers = new HttpHeaders();
+			headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+			headers.set("apikey", apiKey);
+			HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(multiValueMap, headers);
+	    	ParameterizedTypeReference<Map<String, Object>> typeRef = new ParameterizedTypeReference<Map<String, Object>>() {};
+			URI uriParam = builder.build().encode("UTF-8").toUri();
+			
+			 List<HttpMessageConverter<?>> messageConverters = new ArrayList<HttpMessageConverter<?>>();
+	        messageConverters.add(new MappingJackson2HttpMessageConverter());
+	        messageConverters.add(new FormHttpMessageConverter());
+	        restTemplate.getMessageConverters().addAll(messageConverters);
+		        
+			ResponseEntity<Map<String, Object>> result = restTemplate.exchange(uriParam, enumType.method(), requestEntity, typeRef);
+			Map<String, Object> body = result.getBody();
+			return body;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 	
 	private Map<String, Object> getResponseExchange(UriComponentsBuilder builder, HttpMethod method) {
 		try {
@@ -181,6 +227,7 @@ public class RestAPIClient {
 	}
 	
 	private static String format(String format, Map<String, String> values) {
+		
 	    StringBuilder formatter = new StringBuilder(format);
 	    List<Object> valueList = new ArrayList<Object>();
 	    Matcher matcher = Pattern.compile("\\{(\\w+)}").matcher(format);

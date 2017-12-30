@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.go.ngii.edu.main.users.mapper.PngoAuthKeyMapper">
+
+	<insert id="create" parameterType="map">
+		INSERT INTO pngo_auth_apikey (
+			apikey, 
+			user_id,
+			active_status,
+			created_date,
+			updated_date
+		) VALUES (
+			#{apikey},
+			#{userId},
+			true,
+			now(),
+			now()
+		)
+	</insert>
+	
+	<select id="exists" parameterType="int" resultType="boolean">
+		SELECT 
+			CASE WHEN EXISTS (
+				SELECT idx FROM pngo_auth_apikey
+				WHERE user_id = #{value}
+			)  THEN true ELSE false END 
+	</select>
+	
+	<select id="getApikey" parameterType="int" resultType="string">
+		SELECT 
+			apikey 
+		FROM pngo_auth_apikey
+		WHERE 
+			active_status IS true
+			AND 	user_id = #{value}
+	</select>
+	
+</mapper>

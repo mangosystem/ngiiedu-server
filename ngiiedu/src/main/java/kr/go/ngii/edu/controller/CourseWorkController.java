@@ -1093,9 +1093,6 @@ public class CourseWorkController extends BaseController {
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
 	
-	
-	
-	
 	/**
 	 * course_work_id로 Course Work Name 가져오기
 	 * 

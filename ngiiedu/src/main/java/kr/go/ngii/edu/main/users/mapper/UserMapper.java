@@ -19,5 +19,7 @@ public interface UserMapper {
 	public void modify(User user);
 
 	public void delete(String userid);
+	
+	public Boolean exists(@Param("userid") String userid);
 
 }

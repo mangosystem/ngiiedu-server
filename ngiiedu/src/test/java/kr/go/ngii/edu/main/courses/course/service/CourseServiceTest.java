@@ -2,6 +2,7 @@ package kr.go.ngii.edu.main.courses.course.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,6 +68,12 @@ public class CourseServiceTest extends BaseTest {
 	public void testList() {
 		Course result = service.get(44);
 		System.out.println(result.toString());
+	}
+	
+	@Test
+	public void testUUIDKey() {
+		String key = UUID.randomUUID().toString().replaceAll("-", "");
+		System.out.println("key : " + key);
 	}
 	
 }

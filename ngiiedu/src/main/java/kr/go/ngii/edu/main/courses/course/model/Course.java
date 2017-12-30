@@ -42,7 +42,8 @@ public class Course implements Serializable {
 	private boolean status;
 	
 	List<CourseWork> work;
-
+	
+	private String projectId;
 
 	public Integer getIdx() {
 		return idx;
@@ -116,4 +117,14 @@ public class Course implements Serializable {
 		this.status = status;
 	}
 
+	public String getProjectId() {
+		return projectId;
+	}
+	
+	public void setProjectId(String projectId) {
+		this.projectId = projectId;
+	}
+
+	
+	
 }

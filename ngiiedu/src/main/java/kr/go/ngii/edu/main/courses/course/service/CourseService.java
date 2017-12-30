@@ -1,19 +1,27 @@
 package kr.go.ngii.edu.main.courses.course.service;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import kr.go.ngii.edu.common.enums.EnumRestAPIType;
 import kr.go.ngii.edu.common.message.ErrorMessage;
 import kr.go.ngii.edu.main.common.BaseService;
+import kr.go.ngii.edu.main.common.RestAPIClient;
 import kr.go.ngii.edu.main.courses.course.mapper.CourseMapper;
 import kr.go.ngii.edu.main.courses.course.model.Course;
 import kr.go.ngii.edu.main.courses.course.model.CourseInfo;
 import kr.go.ngii.edu.main.courses.course.model.CourseTeam;
 import kr.go.ngii.edu.main.courses.work.model.CourseWork;
 import kr.go.ngii.edu.main.courses.work.service.CourseWorkService;
+import kr.go.ngii.edu.main.users.mapper.PngoAuthKeyMapper;
+import kr.go.ngii.edu.main.users.model.PngoUser;
+import kr.go.ngii.edu.main.users.model.User;
+import kr.go.ngii.edu.main.users.service.UserService;
 
 @Service
 public class CourseService extends BaseService {
@@ -34,8 +42,9 @@ public class CourseService extends BaseService {
 	private CourseTeamService courseTeamService;
 	
 	@Autowired
-	private CourseTeamMemberService courseTeamMemberService;
+	private UserService userService;
 	
+
 	public Course create(int moduleId, List<Integer> moduleWorkIds, String courseName, String courseMetadata) throws Exception {
 
 		Course param = new Course();
@@ -63,9 +72,59 @@ public class CourseService extends BaseService {
 		} catch(Exception e) {
 			throw new RuntimeException(ErrorMessage.COURSE_CREATE_FAILED);
 		}
-
 		return param;
+	}
+	
+	public Course create(User user, int moduleId, List<Integer> moduleWorkIds, String courseName, String courseMetadata) throws Exception {
+		
+		PngoUser pngoUser = userService.getPngoUser(user.getUserid());
+		String apiKey = userService.getApiKey(pngoUser.getIdx());
+		
+		RestAPIClient rc = new RestAPIClient();
+		Map<String, String> pathParam = new HashMap<String, String>();
+		Map<String, String> mParam = new HashMap<String, String>();
+		mParam.put("title", courseName);
+		mParam.put("description", courseMetadata);
+		mParam.put("privacy", "TEAM");
+		Map<String, Object> r = rc.getResponseBodyWithLinkedMap(EnumRestAPIType.PROJECT_CREATE, pathParam, mParam, apiKey);
+		Map<String, String> metaData = (Map<String, String>) r.get("meta");
+		String statusMessage = metaData.get("status");
+		
+		System.out.println(statusMessage);
+		if (!"CREATED".equals(statusMessage)) {
+			throw new RuntimeException(ErrorMessage.COURSE_CREATE_FAILED);
+		}
+		
+		Map<String, Object> projectCreatedData = (Map<String, Object>) r.get("data");
+		String projectId = (String) projectCreatedData.get("projectId");
+		
+		Course param = new Course();
+		try {
+			param.setCourseName(courseName);
+			param.setCourseMetadata(courseMetadata);
+			param.setModuleId(moduleId);
+			param.setProjectId(projectId);
+			
+			try {
+				param.setCourseCreateId(user.getIdx());
+			} catch (Exception e) {
+				throw new RuntimeException(ErrorMessage.FOBRIDDEN);
+			}
+			param.setCreateDate(new Date());
+			param.setModifyDate(new Date());
 
+			courseMapper.create(param);
+
+			courseAuthkeyService.create(param.getIdx());
+
+			// 수업과정 추가 로직 필요함
+			List<CourseWork> workResult = workService.create(param.getIdx(), moduleWorkIds);
+			param.setWork(workResult);
+
+		} catch(Exception e) {
+			throw new RuntimeException(ErrorMessage.COURSE_CREATE_FAILED);
+		}
+		return param;
 	}
 
 	public List<Course> list() {
