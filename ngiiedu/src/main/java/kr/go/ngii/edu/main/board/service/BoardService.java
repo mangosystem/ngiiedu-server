@@ -258,7 +258,7 @@ public class BoardService {
 		return param;
 	}
 	
-	public boolean deleteRe(Integer idx) {
+	public boolean deleteRe(int idx) {
 		// TODO Auto-generated method stub
 		if (getReListbyIdx(idx)!=null) {
 			boardMapper.deleteRe(idx);

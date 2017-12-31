@@ -74,36 +74,9 @@
 	        }, 
 	        function (res) {
             	var data = res.response.data;
-            	console.log(res);
-            	console.log(data);
             	location.href="qna";
         });
 	}
-	
-
-	/*
-	function submitPost(){
-	  $.ajax({
-           type: "post",
-           //url: "qnaWrite",
-           url: apiSvr + "/board/qna",
-           data: {
-        		"title" : $('#qTitle').val(),
-				"description" : $('#qDescription').val()
-           },
-           contentType: "application/x-www-form-urlencoded",
-           success: function(responseData, textStatus, jqXHR) {
-               console.log(responseData);
-               location.href="qna";
-           },
-           error: function(jqXHR, textStatus, errorThrown) {
-        	   console.log(textStatus);
-           }
-       });
-	}
-	
-	*/
-	
 </script>
 </body>
 </html>

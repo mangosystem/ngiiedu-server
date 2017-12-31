@@ -190,7 +190,7 @@ public class MainController extends BaseController {
 		List<BbsNotice> bbsNoticeList = boardService.getNoticeList(offset, limit); 
 		bbsPageCriteria.setRecordsNum(boardService.getNoticeCnt());
 		
-		String bbsrole = "1".equals(user.getUserDivision().trim()) ? "ADM" : "USR";
+		String bbsrole = "3".equals(user.getUserDivision().trim()) ? "ADM" : "USR";
 		view.getModelMap().addAttribute("bbsrole", bbsrole);
 		view.getModelMap().addAttribute("items", bbsNoticeList);
 		view.getModelMap().addAttribute("criteria", bbsPageCriteria);
@@ -211,10 +211,9 @@ public class MainController extends BaseController {
 			HttpSession session, Principal principal) {
 		ModelAndView view = new ModelAndView("/surport/notice_mod");
 		
-		User user = (User)session.getAttribute("USER_INFO");
+//		User user = (User)session.getAttribute("USER_INFO");
 		
 		BbsNotice bbsNotice = boardService.getNoticeListbyId(noticeId);
-		
 		view.getModelMap().addAttribute("postItem", bbsNotice);
 		return view;
 	}
@@ -230,7 +229,7 @@ public class MainController extends BaseController {
 		
 		User user = (User)session.getAttribute("USER_INFO");
 		
-		String bbsrole = "1".equals(user.getUserDivision().trim()) ? "ADM" : "USR";
+		String bbsrole = "3".equals(user.getUserDivision().trim()) ? "ADM" : "USR";
 		view.getModelMap().addAttribute("bbsrole", bbsrole);
 		view.getModelMap().addAttribute("postItem", bbsNotice);
 		return view;
@@ -257,7 +256,7 @@ public class MainController extends BaseController {
 		List<BbsFAQuestion> bbsFAQuestionList = boardService.getFaqList(offset, limit); 
 		bbsPageCriteria.setRecordsNum(boardService.getFaqCnt());
 		
-		String bbsrole = "1".equals(user.getUserDivision().trim()) ? "ADM" : "USR";
+		String bbsrole = "3".equals(user.getUserDivision().trim()) ? "ADM" : "USR";
 		view.getModelMap().addAttribute("bbsrole", bbsrole);
 		view.getModelMap().addAttribute("items", bbsFAQuestionList);
 		view.getModelMap().addAttribute("criteria", bbsPageCriteria);
@@ -280,8 +279,6 @@ public class MainController extends BaseController {
 			HttpSession session, Principal principal) {
 		ModelAndView view = new ModelAndView("/surport/qna");
 		
-		User user = (User)session.getAttribute("USER_INFO");
-		
 		limit = limit == 0 ? LocalResourceBundle.BBS_QNA_POSTS_SIZE : limit;
 		
 		if (page == 0) {
@@ -294,7 +291,12 @@ public class MainController extends BaseController {
 		List<BbsQuestion> bbsQuestionList = boardService.getQnaList(offset, limit); 
 		bbsPageCriteria.setRecordsNum(boardService.getQnaCnt());
 		
-		String bbsrole = "1".equals(user.getUserDivision().trim()) ? "ADM" : "USR";
+		String bbsrole = "";
+		try {
+			User user = (User)session.getAttribute("USER_INFO");
+			bbsrole = "3".equals(user.getUserDivision().trim()) ? "ADM" : "USR";
+		} catch (NullPointerException e) {
+		}
 		view.getModelMap().addAttribute("bbsrole", bbsrole);
 		view.getModelMap().addAttribute("items", bbsQuestionList);
 		view.getModelMap().addAttribute("criteria", bbsPageCriteria);
@@ -307,12 +309,27 @@ public class MainController extends BaseController {
 			HttpSession session, Principal principal,
 			@PathVariable Integer qnaId) {
 		ModelAndView view = new ModelAndView("/surport/qna_view");
+		
 		BbsQuestion bbsQuestion = boardService.getQnaListbyId(qnaId);
 		List<BbsReply> bbsReply = boardService.getReListbyQnaId(qnaId);
 		
 		// user 및 권한 변경 필요함
-		User user = (User)session.getAttribute("USER_INFO");
-		String bbsrole = "1".equals(user.getUserDivision().trim()) ? "ADM" : "USR";
+		String bbsrole = "";
+		try {
+			User user = (User)session.getAttribute("USER_INFO");
+			String division = user.getUserDivision().trim();
+			if ("3".equals(division)) {
+				bbsrole = "ADM";
+			} else {
+				if (user.getIdx() == bbsQuestion.getUserId()) {
+					bbsrole = "WRITER";
+				} else {
+					bbsrole = "USR";
+				}
+			}
+		} catch (NullPointerException e) {
+			bbsrole = "GUEST";
+		}
 		view.getModelMap().addAttribute("bbsrole", bbsrole);
 		view.getModelMap().addAttribute("postItem", bbsQuestion);
 		view.getModelMap().addAttribute("reItems", bbsReply);
@@ -334,13 +351,10 @@ public class MainController extends BaseController {
 		ModelAndView view = new ModelAndView("/surport/qna_mod");
 		
 		User user = (User)session.getAttribute("USER_INFO");
-		
 		BbsQuestion bbsQuestion = boardService.getQnaListbyId(qnaId);
-		
-		if (user.getIdx() == bbsQuestion.getUserId()) {
-			return view;
+		if (user.getIdx() != bbsQuestion.getUserId() || !"3".equals(user.getUserDivision())) {
+			return new ModelAndView("/index");
 		}
-		
 		view.getModelMap().addAttribute("postItem", bbsQuestion);
 		return view;
 	}
@@ -366,7 +380,7 @@ public class MainController extends BaseController {
 		List<BbsPds> bbsPdsList = boardService.getPdsList(offset, limit); 
 		bbsPageCriteria.setRecordsNum(boardService.getPdsCnt());
 		
-		String bbsrole = "1".equals(user.getUserDivision().trim()) ? "ADM" : "USR";
+		String bbsrole = "3".equals(user.getUserDivision().trim()) ? "ADM" : "USR";
 		view.getModelMap().addAttribute("bbsrole", bbsrole);
 		view.getModelMap().addAttribute("items", bbsPdsList);
 		view.getModelMap().addAttribute("criteria", bbsPageCriteria);
@@ -384,7 +398,7 @@ public class MainController extends BaseController {
 		
 		// user 및 권한 변경 필요함
 		User user = (User)session.getAttribute("USER_INFO");
-		String bbsrole = "1".equals(user.getUserDivision().trim()) ? "ADM" : "USR";
+		String bbsrole = "3".equals(user.getUserDivision().trim()) ? "ADM" : "USR";
 		view.getModelMap().addAttribute("bbsrole", bbsrole);
 		view.getModelMap().addAttribute("postItem", bbsPds);
 		return view;
@@ -404,10 +418,9 @@ public class MainController extends BaseController {
 		ModelAndView view = new ModelAndView("/surport/download_mod");
 		
 		User user = (User)session.getAttribute("USER_INFO");
-		
 		BbsPds bbsPds = boardService.getPdsById(pdsId);
 		
-		if (user.getIdx() == bbsPds.getUserId()) {
+		if (user.getIdx() != bbsPds.getUserId()) {
 			return view;
 		}
 		

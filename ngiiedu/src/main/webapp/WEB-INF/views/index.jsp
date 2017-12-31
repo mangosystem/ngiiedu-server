@@ -18,7 +18,6 @@
 		userName =user.getUserName();
 		userDivision =user.getUserDivision();
 		userIdx =user.getIdx();
-
 	}
 %>
 <!DOCTYPE html>

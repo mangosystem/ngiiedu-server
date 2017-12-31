@@ -249,7 +249,7 @@ public class BoardController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/qa", method=RequestMethod.GET)
+	@RequestMapping(value="/qna", method=RequestMethod.GET)
 	public @ResponseBody ResponseEntity<ResponseData> getQuestionList(
 			@RequestParam(value="offset", required=false, defaultValue="0") Integer offset, 
 			@RequestParam(value="limit", required=false, defaultValue="0") Integer limit, 
@@ -272,9 +272,9 @@ public class BoardController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/qa/{qaId}", method=RequestMethod.GET)
+	@RequestMapping(value="/qna/{qnaId}", method=RequestMethod.GET)
 	public @ResponseBody ResponseEntity<ResponseData> getQuestionListbyId(
-			@PathVariable("qaId") Integer qaId,
+			@PathVariable("qnId") Integer qaId,
 			HttpSession session) throws Exception {
 
 		BbsQuestion list = boardService.getQnaListbyId(qaId);
@@ -359,12 +359,12 @@ public class BoardController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/qa/re/{qaId}", method=RequestMethod.GET)
+	@RequestMapping(value="/qna/re/{qnaReId}", method=RequestMethod.GET)
 	public @ResponseBody ResponseEntity<ResponseData> getReplyListbyId(
-			@PathVariable("qaId") Integer qnaId,
+			@PathVariable("qaId") Integer qnaReId,
 			HttpSession session) throws Exception {
 
-		List<BbsReply> list = boardService.getReListbyQnaId(qnaId);
+		List<BbsReply> list = boardService.getReListbyQnaId(qnaReId);
 		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
 	}
 	
@@ -407,14 +407,14 @@ public class BoardController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/qa/re/{idx}", method=RequestMethod.PUT)
+	@RequestMapping(value="/qna/re/{qnaReId}", method=RequestMethod.PUT)
 	public @ResponseBody ResponseEntity<ResponseData> modifyReply(
-			@PathVariable("idx") int idx,
+			@PathVariable("qnaReId") int qnaReId,
 			//@RequestParam(value="reId", required=false, defaultValue="") int reId, 
-			@RequestParam(value="content", required=false) String content,
+			@RequestParam(value="description", required=false) String description,
 			//@RequestParam(value="writer", required=false) String writer,
 			HttpSession session) throws Exception {
-		BbsReply result = boardService.modifyRe(idx, content);
+		BbsReply result = boardService.modifyRe(qnaReId, description);
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
 	
@@ -426,13 +426,13 @@ public class BoardController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/qa/re/{idx}", method=RequestMethod.DELETE)
+	@RequestMapping(value="/qna/re/{qnaReId}", method=RequestMethod.DELETE)
 	public @ResponseBody ResponseEntity<ResponseData> deleteReply(
-			@PathVariable("fid") Integer idx,
+			@PathVariable("qnaReId") Integer qnaReId,
 			//@RequestParam(value="reId", required=false, defaultValue="") int reId,
 			HttpSession session) throws Exception {
-
-		boolean result = boardService.deleteRe(idx);
+		
+		boolean result = boardService.deleteRe(qnaReId);
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
 }

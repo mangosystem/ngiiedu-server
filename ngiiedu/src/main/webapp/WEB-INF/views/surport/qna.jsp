@@ -54,73 +54,6 @@
 							<td><fmt:formatDate value="${bbsQuestion.createDate}" pattern="YYYY-MM-dd" /></td>
 						</tr>
 					</c:forEach>
-					<!-- 
-					<tr onclick="document.location = 'qnaView/1'">
-						<td>
-							한은 "대출금리 올라도 가계 끄떡없다"…금리인상 포석
-							<span class="comment">3</span>
-						</td>
-						<td>김하나</td>
-						<td>2017-12-01</td>
-					</tr>
-					<tr>
-						<td>'국정농단 시작과 끝' 최순실 재판 휴정…구형은 오후에</td>
-						<td>나잘난</td>
-						<td>2017-12-01</td>
-					</tr>
-					<tr>
-						<td>
-							우병우 세번째 영장심사 출석…사찰 의혹에 "통상업무"
-							<span class="comment">7</span>
-						</td>
-						<td>김고운</td>
-						<td>2017-12-01</td>
-					</tr>
-					<tr>
-						<td>빛바랜 美틸러슨 '대화 초청장'…北 탐색기 길어질듯</td>
-						<td>박가람</td>
-						<td>2017-12-01</td>
-					</tr>
-					<tr>
-						<td>한경연, 정규-비정규직 실제 임금격차 23만원…"증가추세 아냐"</td>
-						<td>이새론</td>
-						<td>2017-12-01</td>
-					</tr>
-					<tr>
-						<td>
-							한중정상회담 왜 확대→소규모 순서로 진행되나
-							<span class="comment">3</span>
-						</td>
-						<td>우슬기</td>
-						<td>2017-12-01</td>
-					</tr>
-					<tr>
-						<td>문 대통령, 오늘 시진핑 주석과 정상회담…관계복원·북핵 협의</td>
-						<td>한가람</td>
-						<td>2017-12-01</td>
-					</tr>
-					<tr>
-						<td>
-							文대통령, 방중계기 시진핑과 세번째 정상회담…3대 관전포인트
-							<span class="comment">1</span>
-						</td>
-						<td>한비야</td>
-						<td>2017-12-01</td>
-					</tr>
-					<tr>
-						<td>문 대통령, 베이징 서민식당 깜짝방문…빵·두유로 아침식사</td>
-						<td>신민오</td>
-						<td>2017-12-01</td>
-					</tr>
-					<tr>
-						<td>
-							시진핑 '사드', 文대통령 '원유 중단' 직접 언급할까포토
-							<span class="comment">6</span>
-						</td>
-						<td>공효상</td>
-						<td>2017-12-01</td>
-					</tr>
-					 -->
 				</tbody>
 			</table>
 
@@ -148,20 +81,6 @@
 					</ul>
 				</c:when>
 			</c:choose>
-			<!-- 
-			<ul class="pagination">
-				<li class="ico first" title="맨앞으로">처음</li>
-				<li class="ico forward" title="앞으로">앞으로</li>
-				<li>1</li>
-				<li>2</li>
-				<li>3</li>
-				<li class="on">4</li>
-				<li>5</li>
-				<li>6</li>
-				<li class="ico back" title="뒤로">뒤로</li>
-				<li class="ico end" title="맨뒤로">마지막</li>
-			</ul>
-			 -->
 			<c:if test="${'ADM' eq bbsrole or 'USR' eq bbsrole}">
 				<button class="new" onclick="document.location = '<%=contextPath %>/surport/qnaNew'">새글</button>
 			</c:if>

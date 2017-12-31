@@ -3,15 +3,13 @@
 <%@ page import="kr.go.ngii.edu.main.users.model.User"%>
 <%
 	String contextPath = request.getContextPath();
-
-	User user = (User)session.getAttribute("USER_INFO");
-	
+	User user; 
 	String userId = null;
 	String userEmail = null;
 	String userName = null;
 	String userDivision = null;
 	int userIdx = -1;
-
+	user = (User)session.getAttribute("USER_INFO");
 	
 	if (user != null) {
 		userId =user.getUserid();
@@ -65,34 +63,37 @@
 			<h1 class="edge" style="cursor: pointer;" onclick="document.location = '<%=contextPath %>/main'">공간정보융합 활용지원정보</h1>
 
 			<%
-				if (userDivision.trim().equals("1")) {  //교사 
+				if(userDivision != null) {
+					if (userDivision.trim().equals("1")) {  //교사 
 			%>
 				<div class="gnb">
 					<span class="teacher"><%=userName %></span>님, 로그인하셨습니다.
 					<button type="button" title="로그아웃" onClick="location.href='<%=contextPath%>/logout'">로그아웃</button>
 				</div>
 			<%
-				} else if(userDivision.trim().equals("2")) {  //학생
+					} else if(userDivision.trim().equals("2")) {  //학생
 			%>
 				<div class="gnb">
 					<span class="student"><%=userName %></span>님, 로그인하셨습니다.
 					<button type="button" title="로그아웃" onClick="location.href='<%=contextPath%>/logout'">로그아웃</button>
 				</div>
 			<%
-				} else if(userDivision.trim().equals("3")) {  //관리자 
+					} else if(userDivision.trim().equals("3")) {  //관리자 
 			%>
 				<div class="gnb">
 					<span class="admin"><%=userName %></span>님, 로그인하셨습니다.
 					<button type="button" title="로그아웃" onClick="location.href='<%=contextPath%>/logout'">로그아웃</button>
 				</div>
 			<%
-				}else{ 
+					}
+				} else { 
 			%>
 				<ul class="gnb">
 					<li ><a href="<%=contextPath%>/login">로그인</a></li>
 					<li><a href="<%=contextPath%>/join">회원가입</a></li>
 				</ul>
 			<%
+					
 				}
 			%>
 		</div>

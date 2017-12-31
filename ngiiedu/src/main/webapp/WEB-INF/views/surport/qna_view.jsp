@@ -53,75 +53,40 @@
 				${postItem.description}
 			</div>
 			
-			<!-- 
-			<ul class="title">
-				<li>월성 1호기, 내년 조기폐쇄…8차 전력수급계획, 환경·수요관리 중심</li>
-				<li>한비야</li>
-				<li>2017-12-12</li>
-			</ul>
-			<div class="script">
-				월성 1호기, 내년 조기폐쇄…8차 전력수급계획, 환경·수요관리 중심 
-				석탄발전 4기, 추가로 LNG 전환…태양광·풍력 설비도 대폭 확대
-				정부의 탈원전·탈석탄 정책을 뒷받침할 에너지 분야 청사진이 14일 공개됐다.
-				산업통상자원부는 향후 15년간의 에너지 수급 전망과 설비 계획을 담은 '제8차 전력수급기본계획'(안, 2017~2031년)을 마련해 국회 산업통상자원중소벤처기업위원회 통상에너지 소위원회에 보고했다.
-				전력수급계획은 정부가 2년 단위로 발표한다. 이번 계획은 국회 산업위 전체 회의 보고, 공청회(26일) 등을 거쳐 전력정책심의회에서 최종 확정된다.
-				8차 계획의 골자는 원전·석탄발전의 단계적 감축과 재생에너지, 액화천연가스(LNG)발전 확대다. 문재인 정부 에너지전환 정책의 핵심이 담긴 셈이다.
-				과거 수급계획이 수급 안정과 경제성에 초점을 맞췄다면 8차에는 환경성이 대폭 반영됐다. 
-				경제성에 맞춰 발전기를 가동(급전)하던 국내 전력체계에 환경 관련 변수가 새롭게 추가된다. 발전단가가 높다는 이유로 석탄발전에 밀렸던 친환경 액화천연가스(LNG) 발전의 가동률을 높이기 위함이다.
-			</div>
-			 -->
 			<div class="commentWrap">
 				<c:forEach var="bbsReply" items="${reItems}"> 
 					<ul>
 						<li>
 							<span class="writer">${bbsReply.writer}</span>
-							<span><fmt:formatDate value="${bbsReply.createDate}" pattern="YYYY-MM-dd" /></span>
+							<!--  style 수정필요 -->
+							<span style="display:inline-block; width:630px"><fmt:formatDate value="${bbsReply.createDate}" pattern="YYYY-MM-dd" /></span>
+							<c:if test="${'ADM' eq bbsrole}">
+								<span style="cursor:pointer;" onClick="qnaReModify(${bbsReply.idx}, ${postItem.idx}, '${bbsReply.description}')">edit</span>
+								<span style="color:white;"> | </span>
+								<span style="color:red; font-weight:bpld; cursor:pointer;" onClick="qnaReDelete(${bbsReply.idx},${postItem.idx})">x</span>
+							</c:if>
 						</li>
 						<li>
-							${bbsReply.description}	
+							<div id="qEditDescriptionDiv${bbsReply.idx}">
+								${bbsReply.description}
+							</div>
 						</li>
 					</ul>
-					
 				</c:forEach>
-			
-			<!-- 
-				<ul>
-					<li>
-						<span class="writer">한겨례</span>
-						<span class="date">2017-12-12</span>
-					</li>
-					<li>
-						산업통상자원부는 향후 15년간의 에너지 수급 전망과 설비 계획을 담은 '제8차 전력수급기본계획'(안, 2017~2031년)을 마련해 국회 산업통상자원중소벤처기업위원회 통상에너지 소위원회에 보고했다.
-					</li>
-				</ul>
-				<ul>
-					<li>
-						<span class="writer">한마디</span>
-						<span class="date">2017-12-12</span>
-					</li>
-					<li>
-						산업통상자원부는 향후 15년간의 에너지 수급 전망과 설비 계획을 담은 '제8차 전력수급기본계획'(안, 2017~2031년)을 마련해 국회 산업통상자원중소벤처기업위원회 통상에너지 소위원회에 보고했다.
-					</li>
-				</ul>
-				
-				<textarea name="" id="" cols="30" rows="5" class="comment"></textarea>
-				<button type="button" title="이전" class="subbtn">댓글입력</button>
-			-->
-			
-			<c:if test="${'ADM' eq bbsrole}">
-				<textarea name="" id="qDescription" cols="30" rows="5" class="comment"></textarea>
-				<button type="button" title="이전" class="subbtn" onclick="submitQnaRePost(${postItem.idx})">댓글입력</button>
-			</c:if>
+				<c:if test="${'ADM' eq bbsrole}">
+					<textarea name="" id="qDescription" cols="30" rows="5" class="comment"></textarea>
+					<button type="button" title="이전" class="subbtn" onclick="qnaRePost(${postItem.idx})">댓글입력</button>
+				</c:if>
+				</div>
 			</div>
-		</div>
-		<div class="btnBoth">
+			<div class="btnBoth">
 		<!--  이전글 다음글
 			<button type="button" title="이전" class="default">이전</button>
 			<button type="button" title="다음" class="default">다음</button>
 		-->
-			<c:if test="${'ADM' eq bbsrole}">
+			<c:if test="${'ADM' eq bbsrole or 'WRITER' eq bbsrole}">
 				<button type="button" title="수정" class="point left" onclick="location.href='<%=contextPath %>/surport/qnaModify/'+${postItem.idx}" >수정</button>
-				<button type="button" title="삭제" class="point left" onclick="submitDelete(${postItem.idx})">삭제</button>
+				<button type="button" title="삭제" class="point left" onclick="qnaDelete(${postItem.idx})">삭제</button>
 			</c:if>
 			<button type="button" title="목록" class="point right" onclick="document.location = '<%=contextPath %>/surport/qna'">목록</button>
 		</div>					
@@ -135,32 +100,108 @@
 <!-- END FOOTER -->
 
 <script>
-	function submitQnaDelete(idx) {
-		ajaxJson(
-			['DELETE', apiSvr + '/board/qna/' +idx+'.json'], 
-			null, 
-	        function (res) {
-	        	var data = res.response.data;
-	        	console.log(res);
-	        	console.log(data);
-	        	location.href="<%=contextPath %>/surport/qna";
-	    });
+	function qnaDelete(idx) {
+		var cf = confirm("정말 삭제 하시겠습니까?");
+		
+		if (cf) {
+			ajaxJson(
+				['DELETE', apiSvr + '/board/qna/' +idx+'.json'], 
+				null, 
+		        function (res) {
+		        	var data = res.response.data;
+		        	console.log(res);
+		        	console.log(data);
+		        	location.href="<%=contextPath %>/surport/qna";
+		    });
+		} else {
+			
+		}
 	}
 	
-	function submitQnaRePost(qnaId) {
-		ajaxJson(
-			['POST', apiSvr + '/board/qna/re.json'], 
-			{
-	     		"qnaId" : qnaId,
-				"description" : $('#qDescription').val()
-	        }, 
-	        function (res) {
-	        	var data = res.response.data;
-	        	console.log(res);
-	        	console.log(data);
-	        	location.href="<%=contextPath %>/surport/qnaView/"+qnaId;
-	    });
+	function qnaRePost(qnaId) {
+		var cf = confirm("댓글을 등록 하시겠습니까?");
+		if (cf) {
+			ajaxJson(
+				['POST', apiSvr + '/board/qna/re.json'], 
+				{
+		     		"qnaId" : qnaId,
+					"description" : $('#qDescription').val()
+		        }, 
+		        function (res) {
+		        	var data = res.response.data;
+		        	console.log(res);
+		        	console.log(data);
+		        	location.href="<%=contextPath %>/surport/qnaView/"+qnaId;
+		    });
+		} else {
+			
+		}
 	}
+	
+	function qnaReDelete(idx, qnaIdx) {
+		
+		var cf = confirm("정말 삭제 하시겠습니까?");
+		
+		if (cf) {
+			
+			ajaxJson(
+				['DELETE', apiSvr + '/board/qna/re/' +idx+'.json'], 
+				null, 
+		        function (res) {
+		        	var data = res.response.data;
+		        	console.log(res);
+		        	console.log(data);
+		        	location.href="<%=contextPath %>/surport/qnaView" + qnaIdx;
+		    });
+			
+		} else {
+			
+		}
+	}
+	
+	function qnaReModify(reItemIdx, qnaIdx, beforeText) {
+		
+		console.log(reItemIdx);
+		console.log(qnaIdx);
+		
+		var modHtml = '<textarea name="" id="qEditDescription'+reItemIdx+'" cols="30" rows="2" class="comment">'+beforeText+'</textarea>' +
+		'<button type="button" title="취소" class="subbtn" onclick="qnaReModifyCancel('+reItemIdx+',\''+beforeText+'\')">취소</button>' +
+		'<button type="button" title="댓글수정" class="subbtn" onclick="qnaReModifySend('+reItemIdx+','+qnaIdx+')">댓글수정</button>' +
+		'<br /><br /><br /><br />';
+		
+		$('#qEditDescriptionDiv'+reItemIdx).html(modHtml);
+	}
+	
+	function qnaReModifySend(reItemIdx, qnaIdx) {
+		console.log("reItemIdx : " + reItemIdx);
+		console.log("qnaIdx : " + qnaIdx);
+		console.log("qEditDescription value : " + $('#qEditDescription'+reItemIdx).val());
+		
+		var cf = confirm("댓글을 수정 하시겠습니까?");
+				
+		if (cf) {
+			ajaxJson(
+				['PUT', apiSvr + '/board/qna/re/' +reItemIdx+'.json'], 
+				{
+					"description" : $('#qEditDescription'+reItemIdx).val()
+				}, 
+		        function (res) {
+		        	var data = res.response.data;
+		        	console.log(res);
+		        	console.log(data);
+		        	location.href="<%=contextPath %>/surport/qnaView/" + qnaIdx;
+		    });
+		} else {
+			
+		}
+	}
+	
+	function qnaReModifyCancel(reItemIdx, beforeText) {
+		console.log("beforeText : " + beforeText);
+		$('#qEditDescriptionDiv'+reItemIdx).html(beforeText);
+	}
+	
+	
 </script>
 
 </body>
