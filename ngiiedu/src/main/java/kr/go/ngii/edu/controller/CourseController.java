@@ -508,7 +508,7 @@ public class CourseController extends BaseController {
 	@RequestMapping(value="/{courseId}/member", method=RequestMethod.DELETE)
 	public @ResponseBody ResponseEntity<ResponseData> memberDelete(
 			@PathVariable("courseId") Integer courseId,
-			@RequestParam(value="userid", required=false, defaultValue="") Integer userid,
+			@RequestParam(value="userid", required=false, defaultValue="") String userid,
 			@RequestParam(value="password", required=false, defaultValue="") String password,
 			HttpSession session) throws Exception {
 
