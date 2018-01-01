@@ -213,14 +213,13 @@ public class BoardController extends BaseController {
 	 */
 	@RequestMapping(value="/faq/{faqId}", method=RequestMethod.PUT)
 	public @ResponseBody ResponseEntity<ResponseData> modifyFAQuestion(
-			@PathVariable("qnaId") Integer qnaId,
+			@PathVariable("faqId") int faqId,
 			@RequestParam(value="title", required=false, defaultValue="") String title, 
 			@RequestParam(value="description", required=false) String description,
-			@RequestParam(value="attach", required=false) String attach,
 			HttpSession session) throws Exception {
 
-//		BbsQuestion result = boardService.modifyFaq(qnaId, title, description);
-		return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+		BbsFAQuestion result = boardService.modifyFaq(faqId, title, description);
+		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
 	
 	/**
@@ -233,10 +232,9 @@ public class BoardController extends BaseController {
 	 */
 	@RequestMapping(value="/faq/{faqId}", method=RequestMethod.DELETE)
 	public @ResponseBody ResponseEntity<ResponseData> deleteFAQuestion(
-			@PathVariable("qnaId") Integer qnaId,
+			@PathVariable("faqId") Integer faqId,
 			HttpSession session) throws Exception {
-
-		boolean result = boardService.deleteFaq(qnaId);
+		boolean result = boardService.deleteFaq(faqId);
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
 	

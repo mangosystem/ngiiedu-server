@@ -9,15 +9,18 @@ import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.Module;
 
+import kr.go.ngii.edu.common.message.ErrorMessage;
 import kr.go.ngii.edu.main.board.mapper.BoardMapper;
 import kr.go.ngii.edu.main.board.model.BbsPds;
 import kr.go.ngii.edu.main.board.model.BbsFAQuestion;
 import kr.go.ngii.edu.main.board.model.BbsNotice;
 import kr.go.ngii.edu.main.board.model.BbsQuestion;
 import kr.go.ngii.edu.main.board.model.BbsReply;
+import kr.go.ngii.edu.main.common.BaseService;
+import kr.go.ngii.edu.main.users.model.User;
 
 @Service
-public class BoardService {
+public class BoardService extends BaseService {
 
 	@Autowired
 	private BoardMapper boardMapper;
@@ -57,6 +60,14 @@ public class BoardService {
 	}
 	
 	public BbsNotice modifyNotice(int idx, String title, String description) {
+		try {
+			User user = (User) getHttpSession().getAttribute("USER_INFO");
+			if (!"3".equals(user.getUserDivision().trim())) {
+				throw new RuntimeException(ErrorMessage.FOBRIDDEN);
+			}
+		} catch (Exception e) {
+			throw new RuntimeException(ErrorMessage.FOBRIDDEN);
+		}
 		BbsNotice param = new BbsNotice();
 		param.setIdx(idx);
 		param.setTitle(title);
@@ -72,6 +83,14 @@ public class BoardService {
 	}
 
 	public boolean deleteNotice(int noticeId) {
+		try {
+			User user = (User) getHttpSession().getAttribute("USER_INFO");
+			if (!"3".equals(user.getUserDivision().trim())) {
+				throw new RuntimeException(ErrorMessage.FOBRIDDEN);
+			}
+		} catch (Exception e) {
+			throw new RuntimeException(ErrorMessage.FOBRIDDEN);
+		}
 		if (getNoticeListbyId(noticeId)!=null) {
 			boardMapper.deleteNotice(noticeId);
 			return true;
@@ -176,7 +195,14 @@ public class BoardService {
 	}
 
 	public BbsFAQuestion insertFaq(String title, String description, int userId) {
-		
+		try {
+			User user = (User) getHttpSession().getAttribute("USER_INFO");
+			if (!"3".equals(user.getUserDivision().trim())) {
+				throw new RuntimeException(ErrorMessage.FOBRIDDEN);
+			}
+		} catch (Exception e) {
+			throw new RuntimeException(ErrorMessage.FOBRIDDEN);
+		}
 		BbsFAQuestion param = new BbsFAQuestion();
 		param.setTitle(title);
 		param.setDescription(description);
@@ -190,7 +216,15 @@ public class BoardService {
 		//Module result = false;
 	}
 	
-	public BbsFAQuestion modifyFaq(int idx, String title, String description, String attach) {
+	public BbsFAQuestion modifyFaq(int idx, String title, String description) {
+		try {
+			User user = (User) getHttpSession().getAttribute("USER_INFO");
+			if (!"3".equals(user.getUserDivision().trim())) {
+				throw new RuntimeException(ErrorMessage.FOBRIDDEN);
+			}
+		} catch (Exception e) {
+			throw new RuntimeException(ErrorMessage.FOBRIDDEN);
+		}
 		BbsFAQuestion param = new BbsFAQuestion();
 		param.setIdx(idx);
 		param.setTitle(title);
@@ -208,6 +242,16 @@ public class BoardService {
 	}
 	
 	public boolean deleteFaq(int faqId) {
+		
+		try {
+			User user = (User) getHttpSession().getAttribute("USER_INFO");
+			if (!"3".equals(user.getUserDivision().trim())) {
+				throw new RuntimeException(ErrorMessage.FOBRIDDEN);
+			}
+		} catch (Exception e) {
+			throw new RuntimeException(ErrorMessage.FOBRIDDEN);
+		}
+		
 		if (getFaqListbyId(faqId)!=null) {
 			boardMapper.deleteFaq(faqId);
 			return true;
@@ -234,6 +278,16 @@ public class BoardService {
 	}
 	
 	public BbsReply insertRe(int qnaId, String description, int userId) {
+		
+		try {
+			User user = (User) getHttpSession().getAttribute("USER_INFO");
+			if (!"3".equals(user.getUserDivision().trim())) {
+				throw new RuntimeException(ErrorMessage.FOBRIDDEN);
+			}
+		} catch (Exception e) {
+			throw new RuntimeException(ErrorMessage.FOBRIDDEN);
+		}
+		
 		BbsReply param = new BbsReply();
 		param.setQnaId(qnaId);
 		param.setDescription(description);
@@ -246,6 +300,15 @@ public class BoardService {
 	}
 	
 	public BbsReply modifyRe(int idx, String description) {
+		try {
+			User user = (User) getHttpSession().getAttribute("USER_INFO");
+			if (!"3".equals(user.getUserDivision().trim())) {
+				throw new RuntimeException(ErrorMessage.FOBRIDDEN);
+			}
+		} catch (Exception e) {
+			throw new RuntimeException(ErrorMessage.FOBRIDDEN);
+		}
+		
 		BbsReply param = new BbsReply();
 		param.setIdx(idx);
 		//param.setTitle(title);
@@ -259,7 +322,14 @@ public class BoardService {
 	}
 	
 	public boolean deleteRe(int idx) {
-		// TODO Auto-generated method stub
+		try {
+			User user = (User) getHttpSession().getAttribute("USER_INFO");
+			if (!"3".equals(user.getUserDivision().trim())) {
+				throw new RuntimeException(ErrorMessage.FOBRIDDEN);
+			}
+		} catch (Exception e) {
+			throw new RuntimeException(ErrorMessage.FOBRIDDEN);
+		}
 		if (getReListbyIdx(idx)!=null) {
 			boardMapper.deleteRe(idx);
 			return true;
@@ -283,13 +353,22 @@ public class BoardService {
 	}
 
 	public BbsPds getPdsById(int idx) {
+		
+		
 		BbsPds param = new BbsPds();
 		param.setIdx(idx);
 		return boardMapper.getPdsbyId(param);
 	}
 
 	public BbsPds insertPds(String title, String description) {
-		
+		try {
+			User user = (User) getHttpSession().getAttribute("USER_INFO");
+			if (!"3".equals(user.getUserDivision().trim())) {
+				throw new RuntimeException(ErrorMessage.FOBRIDDEN);
+			}
+		} catch (Exception e) {
+			throw new RuntimeException(ErrorMessage.FOBRIDDEN);
+		}
 		BbsPds param = new BbsPds();
 		param.setTitle(title);
 		param.setDescription(description);;
@@ -303,6 +382,14 @@ public class BoardService {
 	}
 	
 	public BbsPds modifyPds(int idx, String title, String description) {
+		try {
+			User user = (User) getHttpSession().getAttribute("USER_INFO");
+			if (!"3".equals(user.getUserDivision().trim())) {
+				throw new RuntimeException(ErrorMessage.FOBRIDDEN);
+			}
+		} catch (Exception e) {
+			throw new RuntimeException(ErrorMessage.FOBRIDDEN);
+		}
 		BbsPds param = new BbsPds();
 		param.setIdx(idx);
 		param.setTitle(title);
@@ -318,6 +405,14 @@ public class BoardService {
 	}
 
 	public boolean deletePds(int idx) {
+		try {
+			User user = (User) getHttpSession().getAttribute("USER_INFO");
+			if (!"3".equals(user.getUserDivision().trim())) {
+				throw new RuntimeException(ErrorMessage.FOBRIDDEN);
+			}
+		} catch (Exception e) {
+			throw new RuntimeException(ErrorMessage.FOBRIDDEN);
+		}
 		if (getPdsById(idx)!=null) {
 			boardMapper.deletePds(idx);
 			return true;

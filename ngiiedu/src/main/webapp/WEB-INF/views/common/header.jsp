@@ -38,8 +38,10 @@
 	<script type="text/javascript" src="<%=contextPath%>/assets/cdn/jquery/jquery-3.2.1.min.js"></script>
 	<script src="<%=contextPath%>/assets/cdn/jquery-ui-1.12.1/jquery-ui.js"></script>
 	<link rel="stylesheet" href="<%=contextPath%>/assets/cdn/jquery-ui-1.12.1/jquery-ui.css">
-
-
+	
+	<script src="<%=contextPath%>/assets/cdn/jQuery-contextMenu/jquery.contextMenu.min.js"></script>
+	<link rel="stylesheet" href="<%=contextPath%>/assets/cdn/jQuery-contextMenu/jquery.contextMenu.min.css">
+	
 <script>
 	var mainHeader = "<%=mainHeader%>";
 	var subHeader = "<%=subHeader%>";

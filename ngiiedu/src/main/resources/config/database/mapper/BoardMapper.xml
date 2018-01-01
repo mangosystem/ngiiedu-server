@@ -214,10 +214,8 @@
 		SELECT
 			idx,
 			title,
-			writer,
-			attach,
-			create_date
-		FROM bba_faq
+			description
+		FROM bbs_faq
 		WHERE idx = #{idx}
 		ORDER BY idx
 	</select>

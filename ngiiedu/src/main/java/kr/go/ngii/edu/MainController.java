@@ -210,9 +210,7 @@ public class MainController extends BaseController {
 			@PathVariable Integer noticeId,
 			HttpSession session, Principal principal) {
 		ModelAndView view = new ModelAndView("/surport/notice_mod");
-		
 //		User user = (User)session.getAttribute("USER_INFO");
-		
 		BbsNotice bbsNotice = boardService.getNoticeListbyId(noticeId);
 		view.getModelMap().addAttribute("postItem", bbsNotice);
 		return view;
@@ -270,6 +268,16 @@ public class MainController extends BaseController {
 		return view;
 	}
 	
+	@RequestMapping(value={"/surport/faqModify/{faqId}"}, method = RequestMethod.GET)
+	public ModelAndView getFaqModifyPage(HttpServletRequest request, HttpServletResponse response,
+			@PathVariable Integer faqId,
+			HttpSession session, Principal principal) {
+		ModelAndView view = new ModelAndView("/surport/faq_mod");
+//		User user = (User)session.getAttribute("USER_INFO");
+		BbsFAQuestion bbsFAQuestion = boardService.getFaqListbyId(faqId);
+		view.getModelMap().addAttribute("postItem", bbsFAQuestion);
+		return view;
+	}
 	
 	@RequestMapping(value={"/surport/qna"}, method = RequestMethod.GET)
 	public ModelAndView getQnaPage(

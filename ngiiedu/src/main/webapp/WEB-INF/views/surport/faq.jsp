@@ -18,6 +18,14 @@
 <![endif]-->
 <meta content="IE=edge" http-equiv="X-UA-Compatible">
 
+<!--jquery  -->
+<script type="text/javascript" src="<%=contextPath%>/assets/cdn/jquery/jquery-3.2.1.min.js"></script>
+<script src="<%=contextPath%>/assets/cdn/jquery-ui-1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet" href="<%=contextPath%>/assets/cdn/jquery-ui-1.12.1/jquery-ui.css">
+
+
+<script type="text/javascript" src="<%=contextPath%>/assets/dist/request.js"></script>
+
 <title>지리원/공간정보융합 활용지원정보</title>
 </head>
 
@@ -42,97 +50,19 @@
 		
 			<c:forEach var="bbsFAQuestion" items="${items}"> 
 				<li class="qTitle">
-					<p>${bbsFAQuestion.title}</p>
+					<p style=""
+					 	<c:if test="${'ADM' eq bbsrole}">
+					 		id="ccontext-menu-${bbsFAQuestion.idx}"
+					 		class="context-menu btn btn-neutral"
+					 		ondblclick="document.location='faqModify/${bbsFAQuestion.idx}'"
+					 		value="${bbsFAQuestion.idx}"
+					 	</c:if>
+					>${bbsFAQuestion.title}</p>
 					<div>${bbsFAQuestion.description}</div>
 				</li>
 			</c:forEach>
 			<!-- 작업자 메모 / li class="on"일때 내용인 div가 보여짐 -->
-			<!--  
-			<li class="qTitle">
-				<p>쇼핑몰, 상품정보 오류를 신고하려면 어떻게 해야 하나요?</p>
-				<div>
-					상품 가격비교 페이지의 [정보 수정요청] 또는 검색결과 리스트에 있는 [신고하기] 버튼을 클릭합니다.  
-					[정보 수정요청] 또는 [신고] 팝업창에서 네이버 아이디로 로그인 후 오류 내용을 신고해 주시면, 내부적으로 확인 후 빠르게 처리하고 있습니다.
-					네이버쇼핑을 이용하다가 상품정보에 오류가 있거나, 네이버쇼핑을 통한 구매과정에서 피해를 입었다면 
-					[신고하기]버튼을 통해 각종 오류사항을 신고해 주세요.   
-					신고된 쇼핑몰은 신고점수가 부과되어 네이버쇼핑 내 쇼핑몰 등급정책에 반영됩니다.  
-				</div>
-			</li>
-			<li class="qTitle">
-				<p>상품정보에 오류가 있거나 구매과정에서 피해를 입었을 경우 어떻게 해야 하나요?</p>
-				<div>
-					내용
-				</div>
-			</li>
-			<li class="qTitle">
-				<p>상품정보에 오류가 있거나 구매과정에서 피해를 입었을 경우 어떻게 해야 하나요?</p>
-				<div>
-					내용
-				</div>
-			</li>
-			<li class="qTitle">
-				<p>상품정보에 오류가 있거나 구매과정에서 피해를 입었을 경우 어떻게 해야 하나요?</p>
-				<div>
-					내용
-				</div>
-			</li>
-			<li class="qTitle">
-				<p>상품정보에 오류가 있거나 구매과정에서 피해를 입었을 경우 어떻게 해야 하나요?</p>
-				<div>
-					내용
-				</div>
-			</li>
-			<li class="qTitle">
-				<p>상품정보에 오류가 있거나 구매과정에서 피해를 입었을 경우 어떻게 해야 하나요?</p>
-				<div>
-					내용
-				</div>
-			</li>
-			<li class="qTitle">
-				<p>상품정보에 오류가 있거나 구매과정에서 피해를 입었을 경우 어떻게 해야 하나요?</p>
-				<div>
-					내용
-				</div>
-			</li>
-			<li class="qTitle">
-				<p>상품정보에 오류가 있거나 구매과정에서 피해를 입었을 경우 어떻게 해야 하나요?</p>
-				<div>
-					내용
-				</div>
-			</li>
-			<li class="qTitle">
-				<p>상품정보에 오류가 있거나 구매과정에서 피해를 입었을 경우 어떻게 해야 하나요?</p>
-				<div>
-					내용
-				</div>
-			</li>
-			<li class="qTitle">
-				<p>상품정보에 오류가 있거나 구매과정에서 피해를 입었을 경우 어떻게 해야 하나요?</p>
-				<div>
-					내용
-				</div>
-			</li>
-			<li class="qTitle">
-				<p>상품정보에 오류가 있거나 구매과정에서 피해를 입었을 경우 어떻게 해야 하나요?</p>
-				<div>
-					내용
-				</div>
-			</li>
-			
-			-->
 		</ul>
-	<!-- 	<ul class="pagination">
-			<li class="ico first" title="맨앞으로">처음</li>
-			<li class="ico forward" title="앞으로">앞으로</li>
-			<li>1</li>
-			<li>2</li>
-			<li>3</li>
-			<li class="on">4</li>
-			<li>5</li>
-			<li>6</li>
-			<li class="ico back" title="뒤로">뒤로</li>
-			<li class="ico end" title="맨뒤로">마지막</li>
-		</ul> -->
 		<!-- END FAQ -->
 		<c:if test="${'ADM' eq bbsrole or 'USR' eq bbsrole}">
 			<button class="new" onclick="document.location = '<%=contextPath %>/surport/faqNew'">새글</button>
@@ -152,6 +82,42 @@
 		  $(this).addClass('on');
 	  }
 	});
+	
+	$(function() {
+        $.contextMenu({
+            selector: '.context-menu', 
+            callback: function(itemKey, opt) {
+            	
+            	var targetId = this[0].getAttribute("value");
+            	if ("수정"==itemKey) {
+            		console.log("수정");
+            		var cf = confirm("수정 화면으로 이동 하시겠습니까?");
+            		if (cf) {
+            			location.href="<%=contextPath %>/surport/faqModify/"+targetId;
+            		} else {
+            			
+            		}
+            	} else if ("삭제"==itemKey){
+            		var cf = confirm("정말 삭제 하시겠습니까?");
+            		if (cf) {
+            			ajaxJson(
+            				['DELETE', apiSvr + '/board/faq/'+targetId+'.json'], 
+            				null, 
+            		        function (res) {
+            		        	console.log(res);
+            		        	location.href="<%=contextPath %>/surport/faq";
+            		    });
+            		} else {
+            			
+            		}
+            	}
+            },
+            items: {
+                "수정": {name: "Edit", icon: "edit"},
+                "삭제": {name: "Delete", icon: "delete"}
+            }
+        }); 
+    });
 
 </script>
 </body>
