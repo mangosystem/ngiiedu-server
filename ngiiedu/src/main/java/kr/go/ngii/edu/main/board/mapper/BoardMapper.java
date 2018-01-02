@@ -91,6 +91,8 @@ public interface BoardMapper {
 
 	public BbsPdsFile getPdsFilebyId(BbsPdsFile bbsPdsFile);
 
+	public BbsPdsFile getPdsFilebyUUID(BbsPdsFile bbsPdsFile);
+
 	public void insertPdsFile(BbsPdsFile bbsPdsFile);
 	
 	public void modifyPdsFile(BbsPdsFile bbsPdsFile);

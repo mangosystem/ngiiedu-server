@@ -64,7 +64,7 @@
 		
 		<div class="btnCenter">
 			<button type="button" title="작성" class="point" onClick="submitPost()">작성</button>
-			<button type="button" title="취소" class="default" onclick="document.location = '<%=contextPath %>/surport/qna'">취소</button>
+			<button type="button" title="취소" class="default" onclick="document.location = '<%=contextPath %>/surport/download'">취소</button>
 		</div>
 		<!-- END QNA NEW -->
 	</div>
@@ -75,12 +75,8 @@
 <!-- END FOOTER -->
 
 <script>
-	
-	function submitPost() {
-		
-		console.log("submitPost");
-		console.log($("input[name=uploadfile]")[0].files[0]);
 
+	function submitPost() {
 		var formData = new FormData();
 		formData.append("attach", $("input[name=uploadfile]")[0].files[0]);
 		formData.append("title", $('#qTitle').val());
@@ -90,21 +86,14 @@
              method: "post",
              processData: false,
              contentType: false,
-             url: "http://localhost:8080/ngiiedu/api/v1/board/pds.json",
+             url: apiSvr + '/board/pds.json',
              data: formData,
-             // processData: true=> get방식, false => post방식
-             //dataType: "text",
-             // contentType: true => application/x-www-form-urlencoded, 
-             //                false => multipart/form-data
-             //processData: false,
-             //contentType: false,
              success: function(data){
                  console.log(data);
+                 location.href="<%=contextPath %>/surport/download";
              }
          })
 	}
-	
-	
 	
 </script>
 </body>

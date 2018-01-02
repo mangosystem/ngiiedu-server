@@ -24,6 +24,10 @@
 
 <script type="text/javascript" src="<%=contextPath%>/assets/dist/request.js"></script>
 
+<!-- font-awesome -->
+<link rel="stylesheet" type="text/css" href="<%=contextPath%>/assets/cdn/font-awesome/css/font-awesome.min.css" />
+
+
 <title>지리원/공간정보융합 활용지원정보</title>
 </head>
 
@@ -43,8 +47,6 @@
 	<div class="contents">
 		<h3>자료실</h3>
 		<div class="boardView">
-		
-		
 			<ul class="title">
 				<li>${postItem.title}</li>
 				<li><fmt:formatDate value="${postItem.createDate}" pattern="YYYY-MM-dd" /></li>
@@ -52,6 +54,13 @@
 			<div class="script">
 				${postItem.description}
 			</div>
+		</div>
+		
+		<h5>파일 다운로드</h5>
+		<div>
+			<c:forEach var="bbsDownload" items="${fileItems}"> 
+				<a class="fa fa-download" href="#" onclick="submitDownloadFile('${bbsDownload.filePath}')" > ${bbsDownload.fileName} </a>
+			</c:forEach>
 		</div>
 		
 		<div class="btnBoth">
@@ -75,7 +84,7 @@
 
 
 <script>
-	function submitDownloadDelete(idx) {
+	function submitDelete(idx) {
 		ajaxJson(
 			['DELETE', apiSvr + '/board/pds/' +idx+'.json'], 
 			null, 
@@ -85,6 +94,10 @@
 	        	console.log(data);
 	        	location.href="<%=contextPath %>/surport/download";
 	    });
+	}
+	
+	function submitDownloadFile(fileId) {
+		location.href = apiSvr + '/board/pds/file/'+fileId;
 	}
 </script>
 </body>

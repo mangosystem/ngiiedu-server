@@ -33,17 +33,17 @@
 	
 	<jsp:include page ="../common/header.jsp" flush="false">
 		<jsp:param value="surport" name="mainHeader"/>
-		<jsp:param value="qna" name="subHeader"/>
+		<jsp:param value="download" name="subHeader"/>
 	</jsp:include>
 
 <div id="contentsWrap">
 	<ul class="location">
 		<li>홈</li>
 		<li>사용지원</li>
-		<li>묻고 답하기</li>
+		<li>자료실</li>
 	</ul>
 	<div class="contents">
-		<h3>묻고 답하기</h3>
+		<h3>자료실</h3>
 		<ul class="boardNew">
 			<li class="title">
 				<label for="">제목</label>
@@ -53,11 +53,21 @@
 				<textarea name="" id="qDescription" cols="30" rows="20" class="comment">${postItem.description}</textarea>	
 			</li>
 		</ul>
+		
+		<div class="file_input">
+		    <label>
+				파일첨부
+				<form id="uploadForm" enctype="multipart/form-data">
+		        	<input type="file" name="uploadfile" onchange="javascript:document.getElementById('file_route').value=this.value">
+		    	</form> 
+		    </label>
+		    <input type="text" readonly="readonly" title="File Route" id="file_route" value="">
+		</div>
+		
 		<div class="btnCenter">
 			<button type="button" title="작성" class="point" onClick="submitPut(${postItem.idx})">수정</button>
 			<button type="button" title="취소" class="default" onclick="document.location = '<%=contextPath %>/surport/qna'">취소</button>
 		</div>
-		<!-- END QNA NEW -->
 	</div>
 	<!-- CONTENTS -->
 </div>
@@ -66,21 +76,28 @@
 <!-- END FOOTER -->
 
 <script>
+
 	
-	function submitPut(id){
-		ajaxJson(
-			['PUT', apiSvr + '/board/pds/'+id+'.json'], 
-			{
-	     		"title" : $('#qTitle').val(),
-				"description" : $('#qDescription').val()
-	        }, 
-	        function (res) {
-            	var data = res.response.data;
-            	console.log(res);
-            	console.log(data);
-            	location.href='<%=contextPath %>/surport/qnaView/'+id;
-        });
+	function submitPut(id) {
+		var formData = new FormData();
+		formData.append("attach", $("input[name=uploadfile]")[0].files[0]);
+		formData.append("title", $('#qTitle').val());
+		formData.append("description", $('#qDescription').val());
+		
+		 $.ajax({
+             method: "POST",
+             processData: false,
+             contentType: false,
+             url: apiSvr + '/board/pds/'+id+'.json',
+             data: formData,
+             success: function(data){
+                 console.log(data);
+                 //location.href='<%=contextPath %>/surport/download/'+id;
+             }
+         })
 	}
+	
+	
 </script>
 </body>
 </html>

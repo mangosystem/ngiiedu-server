@@ -28,6 +28,7 @@ import com.fasterxml.jackson.databind.Module;
 import kr.go.ngii.edu.main.board.model.BbsFAQuestion;
 import kr.go.ngii.edu.main.board.model.BbsNotice;
 import kr.go.ngii.edu.main.board.model.BbsPds;
+import kr.go.ngii.edu.main.board.model.BbsPdsFile;
 import kr.go.ngii.edu.main.board.model.BbsQuestion;
 import kr.go.ngii.edu.main.board.model.BbsReply;
 import kr.go.ngii.edu.main.board.service.BoardService;
@@ -501,10 +502,10 @@ public class BoardController extends BaseController {
 			@RequestParam(value="attach", required=false) MultipartFile attach,
 			HttpSession session) throws Exception {
 		
-//		User user = (User)session.getAttribute("USER_INFO");
-//		if (user == null) {
-//			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
-//		}
+		User user = (User)session.getAttribute("USER_INFO");
+		if (user == null) {
+			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+		}
 		
 //		System.out.println(session.getServletContext().getRealPath("/"));
 		BbsPds result = boardService.insertPds(title, description, attach);
@@ -522,30 +523,24 @@ public class BoardController extends BaseController {
 	 */
 	@RequestMapping(value="/pds/file/{fileId}", method=RequestMethod.GET)
 	public @ResponseBody ResponseEntity<InputStreamResource> getPdsFile(
-			@RequestParam(value="fileId", required=true, defaultValue="") String fileId,
-			HttpSession session) throws Exception {
-//		System.out.println(session.getServletContext().getRealPath("/"));
+			@PathVariable(value="fileId") String fileId,
+			HttpSession session) throws Exception { 
 		
-//        InputStreamResource resultFile = 
-        
-        String fileName = "1514809666871.csv";
+		BbsPdsFile bbsPdsFile = boardService.getPdsFileByUUID(fileId);
+		
+		StringBuffer fileName = new StringBuffer()
+				.append(bbsPdsFile.getFilePath()).append(".").append(bbsPdsFile.getExt());
         String path = String.format("%s%s", LocalResourceBundle.FILE_SAVE_REPOSITORY, fileName);
 		FileSystemResource resource = new FileSystemResource(path);
-
-        
         HttpHeaders responseHeaders = new HttpHeaders();
-
-    	responseHeaders.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-    	
-    	String encordedFilename = URLEncoder.encode(fileName,"UTF-8").replace("+", "%20");
+        responseHeaders.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+    	String encordedFilename = URLEncoder.encode(bbsPdsFile.getFileName(), "UTF-8").replace("+", "%20");
     	responseHeaders.set("Content-Disposition",
     			  "attachment;filename=" + encordedFilename + ";filename*= UTF-8''" + encordedFilename);
 
 //    	responseHeaders.set("Content-Disposition", "attachment;filename=\"" + fileName + "\";");
     	responseHeaders.set("Content-Transfer-Encoding", "binary");
-
     	return new ResponseEntity<InputStreamResource>(new InputStreamResource(resource.getInputStream()), responseHeaders, HttpStatus.OK);
-
 	}
 	
 	
@@ -558,14 +553,15 @@ public class BoardController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/pds/{pdsId}", method=RequestMethod.PUT)
+	@RequestMapping(value="/pds/{pdsId}", method=RequestMethod.POST)
 	public @ResponseBody ResponseEntity<ResponseData> modifyPds(
 			@PathVariable("pdsId") Integer pdsId,
-			@RequestParam(value="title", required=false, defaultValue="") String title, 
-			@RequestParam(value="description", required=false) String description,
+			@RequestParam(value="title", required=true, defaultValue="") String title,
+			@RequestParam(value="description", required=true, defaultValue="") String description, 
+			@RequestParam(value="attach", required=false) MultipartFile attach,
 			HttpSession session) throws Exception {
 
-		BbsPds result = boardService.modifyPds(pdsId, title, description);
+		BbsPds result = boardService.modifyPds(pdsId, title, description, attach);
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
 	

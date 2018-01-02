@@ -17,6 +17,8 @@ public class BbsPdsFile implements Serializable {
 	private String fileName;
 	private Date createDate;
 	private Date modifyDate;
+	private String ext;
+	
 	public int getIdx() {
 		return idx;
 	}
@@ -52,5 +54,11 @@ public class BbsPdsFile implements Serializable {
 	}
 	public void setModifyDate(Date modifyDate) {
 		this.modifyDate = modifyDate;
+	}
+	public String getExt() {
+		return ext;
+	}
+	public void setExt(String ext) {
+		this.ext = ext;
 	}
 }

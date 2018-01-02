@@ -26,6 +26,7 @@ import kr.go.ngii.edu.main.board.model.BbsFAQuestion;
 import kr.go.ngii.edu.main.board.model.BbsNotice;
 import kr.go.ngii.edu.main.board.model.BbsPageCriteria;
 import kr.go.ngii.edu.main.board.model.BbsPds;
+import kr.go.ngii.edu.main.board.model.BbsPdsFile;
 import kr.go.ngii.edu.main.board.model.BbsQuestion;
 import kr.go.ngii.edu.main.board.model.BbsReply;
 import kr.go.ngii.edu.main.board.service.BoardService;
@@ -403,18 +404,38 @@ public class MainController extends BaseController {
 		ModelAndView view = new ModelAndView("/surport/download_view");
 
 		BbsPds bbsPds = boardService.getPdsById(pdsId);
+		List<BbsPdsFile> bbsPdsFileList = boardService.getPdsFileList(pdsId);
 		
-		// user 및 권한 변경 필요함
-		User user = (User)session.getAttribute("USER_INFO");
-		String bbsrole = "3".equals(user.getUserDivision().trim()) ? "ADM" : "USR";
+		String bbsrole = "";
+		try {
+			User user = (User)session.getAttribute("USER_INFO");
+			String division = user.getUserDivision().trim();
+			if ("3".equals(division)) {
+				bbsrole = "ADM";
+			} else {
+				if (user.getIdx() == bbsPds.getUserId()) {
+					bbsrole = "WRITER";
+				} else {
+					bbsrole = "USR";
+				}
+			}
+		} catch (NullPointerException e) {
+			bbsrole = "GUEST";
+		}
 		view.getModelMap().addAttribute("bbsrole", bbsrole);
 		view.getModelMap().addAttribute("postItem", bbsPds);
+		view.getModelMap().addAttribute("fileItems", bbsPdsFileList);
 		return view;
 	}
 	
 	@RequestMapping(value={"/surport/downloadNew"}, method = RequestMethod.GET)
 	public ModelAndView getDownloadNewPage(HttpServletRequest request, HttpServletResponse response, 
 			HttpSession session, Principal principal) {
+		User user = (User)session.getAttribute("USER_INFO");
+		String division = user.getUserDivision().trim();
+		if (!"3".equals(division)) {
+			return new ModelAndView("/main");
+		}
 		ModelAndView view = new ModelAndView("/surport/download_new");
 		return view;
 	}
@@ -429,7 +450,7 @@ public class MainController extends BaseController {
 		BbsPds bbsPds = boardService.getPdsById(pdsId);
 		
 		if (user.getIdx() != bbsPds.getUserId()) {
-			return view;
+			return new ModelAndView("/main");
 		}
 		
 		view.getModelMap().addAttribute("postItem", bbsPds);

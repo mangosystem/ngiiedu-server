@@ -63,6 +63,7 @@
 		<result property="fileName" column="file_name" />
 		<result property="createDate" column="create_date" />
 		<result property="createDate" column="modify_date" />
+		<result property="ext" column="ext" />
 	</resultMap>
 	
 	<select id="getNoticeList"  parameterType="map" resultMap="bbsNotice">
@@ -351,6 +352,7 @@
 			idx,
 			title,
 			description,
+			user_id,
 			create_date
 		FROM bbs_pds
 		WHERE idx = #{idx}
@@ -365,12 +367,14 @@
 			idx,
 			title, 
 			description, 
+			user_id,
 			create_date,  
 			modify_date 
 		) VALUES (
 			#{idx},
 			#{title}, 
 			#{description}, 
+			#{userId},
 			now(), 
 			now()
 		)
@@ -384,7 +388,7 @@
 		WHERE idx = #{idx}
 	</update>
 	
-	<delete id="deletePds" parameterType="int">
+	<delete id="deletePds" parameterType="map">
 		DELETE FROM bbs_pds
 		WHERE idx = #{pdsId}
 	</delete>
@@ -400,7 +404,8 @@
 			file_path,
 			file_name,
 			create_date,
-			modify_date
+			modify_date,
+			ext
 		FROM bbs_pds_attach
 		WHERE pds_id = #{pdsId}
 		ORDER BY idx desc
@@ -413,10 +418,25 @@
 			file_path,
 			file_name,
 			create_date,
-			modify_date
+			modify_date,
+			ext
 		FROM bbs_pds_attach
 		WHERE idx = #{idx}
 	</select>
+	
+	<select id="getPdsFilebyUUID" parameterType="map" resultMap="bbsPdsFile">
+		SELECT
+			idx,
+			pds_id,
+			file_path,
+			file_name,
+			create_date,
+			modify_date,
+			ext
+		FROM bbs_pds_attach
+		WHERE file_path = #{filePath}
+	</select>
+	
 	
 	<insert id="insertPdsFile" parameterType="map">
 		<selectKey keyProperty="idx" resultType="int" order="BEFORE">
@@ -428,14 +448,16 @@
 			file_path,
 			file_name,
 			create_date,
-			modify_date
+			modify_date,
+			ext
 		) VALUES (
 			#{idx},
 			#{pdsId}, 
 			#{filePath}, 
 			#{fileName}, 
 			now(), 
-			now()
+			now(),
+			#{ext}
 		)
 	</insert>
 
@@ -443,12 +465,13 @@
 		UPDATE bbs_pds_attach SET 
 			file_path = #{filePath}, 
 			file_name = #{fileName}, 
-			modify_date = now() 
+			modify_date = now(),
+			ext = #{ext}
 		WHERE idx = #{idx}
 	</update>
 	
-	<delete id="deletePdsFile" parameterType="int">
+	<delete id="deletePdsFile" parameterType="map">
 		DELETE FROM bbs_pds_attach
-		WHERE pds_id = #{value}
+		WHERE pds_id = #{pdsId}
 	</delete>
 </mapper>
