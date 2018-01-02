@@ -358,8 +358,6 @@ public class BoardService extends BaseService {
 	}
 
 	public BbsPds getPdsById(int idx) {
-		
-		
 		BbsPds param = new BbsPds();
 		param.setIdx(idx);
 		return boardMapper.getPdsbyId(param);
@@ -380,25 +378,23 @@ public class BoardService extends BaseService {
 //		param.setCreateDate(new Date());
 //		param.setModifyDate(new Date());
 		boardMapper.insertPds(param);
-
 		return param;
-		//Module result = false;
-
 	}
 	
 	
 	
 	public BbsPds insertPds(String title, String description, MultipartFile attach) {
 		
+		int userId;
 		try {
 			User user = (User) getHttpSession().getAttribute("USER_INFO");
+			userId = user.getIdx();
 			if (!"3".equals(user.getUserDivision().trim())) {
 				throw new RuntimeException(ErrorMessage.FOBRIDDEN);
 			}
 		} catch (Exception e) {
 			throw new RuntimeException(ErrorMessage.FOBRIDDEN);
 		}
-		
 		
 		String path = LocalResourceBundle.FILE_SAVE_REPOSITORY;
 
@@ -413,7 +409,7 @@ public class BoardService extends BaseService {
 		
 		StringBuffer newFileName = new StringBuffer();
 		newFileName.append(UUID.randomUUID().toString().replaceAll("-", ""))
-			.append(".").append(fileName.lastIndexOf(".")+1);
+			.append(".").append(fileName.substring(fileName.lastIndexOf(".")+1));
         try {
         	attach.transferTo(new File(path+newFileName.toString()));
         } catch (Exception e) {
@@ -422,7 +418,8 @@ public class BoardService extends BaseService {
 		
 		BbsPds bbsPds = new BbsPds();
 		bbsPds.setTitle(title);
-		bbsPds.setDescription(description);;
+		bbsPds.setDescription(description);
+		bbsPds.setUserId(userId);
 //		param.setCreateDate(new Date());
 //		param.setModifyDate(new Date());
 		boardMapper.insertPds(bbsPds);
@@ -434,7 +431,6 @@ public class BoardService extends BaseService {
 //      bbsPdsFile.setCreateDate(createDate);
 //		bbsPdsFile.setModifyDate(modifyDate);
         boardMapper.insertPdsFile(bbsPdsFile);
-
         bbsPds.setBbsPdsFile(bbsPdsFile);
 		return bbsPds;
 	}

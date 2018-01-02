@@ -14,7 +14,8 @@ public class LocalResourceBundle {
 	public static final String JDBC_USERNAME = resource.getString("JDBC_USERNAME");
 	public static final String JDBC_PASSWORD = resource.getString("JDBC_PASSWORD");
 	
-	public static final String PINOGIO_API_SERVER = resource.getString("PINOGIO_API_SERVER");
+	public static final String PINOGIO_SERVER = resource.getString("PINOGIO_SERVER");
+	public static final String PINOGIO_API_SERVER = PINOGIO_SERVER+"api/v1";
 	public static final String PINOGIO_API_PROJECT_ID = resource.getString("PINOGIO_API_PROJECT_ID");
 	
 	public static final int BBS_NOTICE_POSTS_SIZE = Integer.parseInt(resource.getString("BBS_NOTICE_POSTS_SIZE"));

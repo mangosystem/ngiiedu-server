@@ -1,9 +1,12 @@
 package kr.go.ngii.edu.controller;
 
+import java.net.URL;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +24,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import kr.go.ngii.edu.common.enums.EnumRestAPIType;
 import kr.go.ngii.edu.config.LocalResourceBundle;
 import kr.go.ngii.edu.controller.rest.BaseController;
+import kr.go.ngii.edu.controller.rest.GISServerConnect;
 import kr.go.ngii.edu.controller.rest.ResponseData;
 import kr.go.ngii.edu.main.common.RestAPIClient;
 import kr.go.ngii.edu.main.courses.work.model.WorkOutput;
@@ -1112,6 +1116,61 @@ public class CourseWorkController extends BaseController {
 		
 		String courseWorkName = courseWorkService.getCourseWorkName(courseWorkId);
 		return new ResponseEntity<ResponseData>(responseBody(courseWorkName), HttpStatus.OK);
+	}
+	
+	
+	@RequestMapping(value="/dataset/thumbNail/{datasetId}", method=RequestMethod.GET)
+	public @ResponseBody void datasetThumbnailGet(
+			HttpServletRequest request, HttpServletResponse response,
+			@PathVariable("datasetId") String datasetId,
+			@RequestParam(value="width", required=false, defaultValue="400") String width,
+			@RequestParam(value="height", required=false, defaultValue="400") String height,
+			@RequestParam(value="ext", required=false, defaultValue="png") String ext,
+			HttpSession session) throws Exception {
+		
+		StringBuffer sb = new StringBuffer();
+		sb.append(LocalResourceBundle.PINOGIO_SERVER).append("/data/thumbnail/datasets/")
+			.append(datasetId).append("/")
+			.append(width).append("/")
+			.append(height).append(".").append(ext);
+		URL url = new URL(sb.toString());
+		GISServerConnect.requestGET(url, request, response);
+	}
+	
+	@RequestMapping(value="/layers/thumbNail/{layerId}", method=RequestMethod.GET)
+	public @ResponseBody void layerThumbnailGet(
+			HttpServletRequest request, HttpServletResponse response,
+			@PathVariable("layerId") String layerId,
+			@RequestParam(value="width", required=false, defaultValue="400") String width,
+			@RequestParam(value="height", required=false, defaultValue="400") String height,
+			@RequestParam(value="ext", required=false, defaultValue="png") String ext,
+			HttpSession session) throws Exception {
+		
+		StringBuffer sb = new StringBuffer();
+		sb.append(LocalResourceBundle.PINOGIO_SERVER).append("/data/thumbnail/layers/")
+			.append(layerId).append("/")
+			.append(width).append("/")
+			.append(height).append(".").append(ext);
+		URL url = new URL(sb.toString());
+		GISServerConnect.requestGET(url, request, response);
+	}
+	
+	@RequestMapping(value="/maps/thumbNail/{mapsId}", method=RequestMethod.GET)
+	public @ResponseBody void mapsThumbnailGet(
+			HttpServletRequest request, HttpServletResponse response,
+			@PathVariable("layerId") String mapsId,
+			@RequestParam(value="width", required=false, defaultValue="400") String width,
+			@RequestParam(value="height", required=false, defaultValue="400") String height,
+			@RequestParam(value="ext", required=false, defaultValue="png") String ext,
+			HttpSession session) throws Exception {
+		
+		StringBuffer sb = new StringBuffer();
+		sb.append(LocalResourceBundle.PINOGIO_API_SERVER).append("/data/photo/")
+			.append(mapsId).append("/")
+			.append(width).append("/")
+			.append(height).append(".").append(ext);
+		URL url = new URL(sb.toString());
+		GISServerConnect.requestGET(url, request, response);
 	}
 	
 }

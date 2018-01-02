@@ -512,7 +512,7 @@ public class BoardController extends BaseController {
 	}
 	
 	/**
-	 * 자료실 생성하기
+	 * 자료실 파일 다운로드 생성하기
 	 * 
 	 * @param title
 	 * @param description
