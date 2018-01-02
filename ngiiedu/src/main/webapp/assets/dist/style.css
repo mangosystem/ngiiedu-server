@@ -61,6 +61,11 @@ button {
 	background-color: #f9f9f9;
 }
 
+.adminHeader {
+	border-top: 8px solid #6e564c;
+	background-color: #f9f9f9;
+}
+
 #headerWrap {
 	padding-bottom: 15px;
 	background-color: #fff;
@@ -143,6 +148,11 @@ h1.edge {
 .gnb>span.student {
 	padding-left: 40px;
 	background: url(/ngiiedu/assets/images/ico.png) no-repeat left -50px;
+}
+
+.gnb>span.admin {
+	padding-left: 45px;
+	background: url(/ngiiedu/assets/images/ico.png) no-repeat left -350px;
 }
 
 .gnb>button {
