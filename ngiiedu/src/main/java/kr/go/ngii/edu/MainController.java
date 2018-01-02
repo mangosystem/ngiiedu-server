@@ -38,6 +38,18 @@ public class MainController extends BaseController {
 
 	@Autowired
 	private BoardService boardService;	
+	
+	@RequestMapping(value={"","/"}, method = RequestMethod.GET)
+	public ModelAndView getViewPage(HttpServletRequest request, HttpServletResponse response, 
+			HttpSession session, Principal principal) {
+		
+		ModelAndView view = new ModelAndView("/index");
+		List<BbsNotice> bbsNoticeList = boardService.getNoticeList(0, 5); 
+		List<BbsQuestion> bbsQuestionList = boardService.getQnaList(0, 5); 
+		view.getModelMap().addAttribute("noticeItems", bbsNoticeList);
+		view.getModelMap().addAttribute("qnaItems", bbsQuestionList);
+		return view;
+	}
 
 	@RequestMapping(value={"/login"}, method = RequestMethod.GET)
 	public ModelAndView getLoginPage(HttpServletRequest request, HttpServletResponse response, 
@@ -69,33 +81,11 @@ public class MainController extends BaseController {
 		return view;
 	}
 
-	@RequestMapping(value={"*"}, method = RequestMethod.GET)
-	public ModelAndView getViewPage(HttpServletRequest request, HttpServletResponse response, 
-			HttpSession session, Principal principal) {
-		
-		ModelAndView view = new ModelAndView("/index");
-		List<BbsNotice> bbsNoticeList = boardService.getNoticeList(0, 5); 
-		List<BbsQuestion> bbsQuestionList = boardService.getQnaList(0, 5); 
-		view.getModelMap().addAttribute("noticeItems", bbsNoticeList);
-		view.getModelMap().addAttribute("qnaItems", bbsQuestionList);
-		return view;
-	}
 	@RequestMapping(value={"/course"}, method = RequestMethod.GET)
 	public ModelAndView getCourseViewPage(HttpServletRequest request, HttpServletResponse response, 
 			HttpSession session, Principal principal) {
 		
 		ModelAndView view = new ModelAndView("/course");
-		return view;
-	}
-	
-	@RequestMapping(value={"/index"}, method = RequestMethod.GET)
-	public ModelAndView getMainPage(HttpServletRequest request, HttpServletResponse response, 
-			HttpSession session, Principal principal) {
-		ModelAndView view = new ModelAndView("/index");
-		List<BbsNotice> bbsNoticeList = boardService.getNoticeList(0, 5); 
-		List<BbsQuestion> bbsQuestionList = boardService.getQnaList(0, 5); 
-		view.getModelMap().addAttribute("noticeItems", bbsNoticeList);
-		view.getModelMap().addAttribute("qnaItems", bbsQuestionList);
 		return view;
 	}
 
