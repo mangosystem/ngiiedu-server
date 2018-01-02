@@ -1,82 +1,119 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="kr.go.ngii.edu.main.users.model.User"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
 	String contextPath = request.getContextPath();
-
-	User user = (User)session.getAttribute("USER_INFO");
-	
-	String userId = null;
-	String userEmail = null;
-	String userName = null;
-	String userDivision = null;
-	int userIdx = -1;
-
-	
-	if (user != null) {
-		userId =user.getUserid();
-		userEmail =user.getUserEmail();
-		userName =user.getUserName();
-		userDivision =user.getUserDivision();
-		userIdx =user.getIdx();
-	}
 %>
+	
 <!DOCTYPE html>
 <html lang="ko">
-	<head>
-		<title>공간정보융합활용지원시스템</title>
-		<meta charset="utf-8">
-		<meta name="csrf-token" content="{{ csrf_token() }}">
-		
-		<script type="text/javascript">
-			var userId = "<%= userId %>";
-			var userName = "<%= userName %>";
-			var userDivision = <%= userDivision %>;
-			var userIdx = <%= userIdx %>;
+<head>
+<meta charset="utf-8">
+<!--[if lt IE 9]>4
+	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<!--[if lt IE 10]>
+	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<meta content="IE=edge" http-equiv="X-UA-Compatible">
+<!--jquery  -->
+	<script type="text/javascript" src="<%=contextPath%>/assets/cdn/jquery/jquery-3.2.1.min.js"></script>
+	<script src="<%=contextPath%>/assets/cdn/jquery-ui-1.12.1/jquery-ui.js"></script>
+	<link rel="stylesheet" href="<%=contextPath%>/assets/cdn/jquery-ui-1.12.1/jquery-ui.css">
 
-		</script>
-		<!-- CKEditor4 -->
-		<script type="text/javascript" src="<%=contextPath%>/assets/cdn/ckeditor/ckeditor.js"></script>
-		
-		<!--openLayers  -->
-		<link rel="stylesheet" type="text/css" href="<%=contextPath%>/assets/cdn/openlayers/dist/ol.css" />
-		<script type="text/javascript" src="<%=contextPath%>/assets/cdn/openlayers/dist/ol-debug.js"></script>
-		
-		<!--openLayers swipeControl -->
-		<link rel="stylesheet" type="text/css" href="<%=contextPath%>/assets/cdn/openlayers/control/swipecontrol.css" />
-		<script type="text/javascript" src="<%=contextPath%>/assets/cdn/openlayers/control/swipecontrol.js"></script>
-		
-		<!--openLayers layerSwitcher -->
-		<link rel="stylesheet" type="text/css" href="<%=contextPath%>/assets/cdn/openlayers/control/ol3-layerswitcher.css" />
-		<script type="text/javascript" src="<%=contextPath%>/assets/cdn/openlayers/control/ol3-layerswitcher.js"></script>
-		
-		<!--openLayers proj4 -->
-		<script type="text/javascript" src="<%=contextPath%>/assets/cdn/openlayers/control/proj4.js"></script>
 
-		<!--jQuery  -->
-		<script type="text/javascript" src="<%=contextPath%>/assets/cdn/jquery/jquery-3.2.1.min.js"></script>
-		<script src="<%=contextPath%>/assets/cdn/jquery-ui-1.12.1/jquery-ui.js"></script>
-		<link rel="stylesheet" href="<%=contextPath%>/assets/cdn/jquery-ui-1.12.1/jquery-ui.css">
+<title>지리원/공간정보융합 활용지원정보</title>
 
-		<!-- font-awesome -->
-		<link rel="stylesheet" type="text/css" href="<%=contextPath%>/assets/cdn/font-awesome/css/font-awesome.min.css" />
+<script>
+	var images = ['a', 'b', 'c'];
+	$(function(){
+		$('#qMainImageDiv').addClass(images[Math.floor(Math.random() * images.length)]);
+	});
+</script>
+</head>
 
-		<link rel="stylesheet" type="text/css" href="<%=contextPath%>/assets/dist/index.css" />
-		<link rel="stylesheet" type="text/css" href="<%=contextPath%>/assets/dist/style.css" />
-		
-		<script type="text/javascript" src="<%=contextPath%>/assets/dist/request.js"></script>
-		
-		<!--Google API-->
-		<script type="text/javascript" src="<%=contextPath%>/assets/dist/googleAPI.js"></script>
-		<script async defer src="https://apis.google.com/js/api.js"
-			onload="this.onload=function(){};handleClientLoad()"
-			onreadystatechange="if (this.readyState === 'complete') this.onload()">
-		</script>			
-	</head>
-
-	<body>
-		<div id="app-start">
-				<!-- Content Area -->
+<body class="edu">
+	
+	<jsp:include page ="./common/header.jsp" flush="false">
+		<jsp:param value="main" name="mainHeader"/>
+		<jsp:param value="main" name="subHeader"/>
+	</jsp:include>
+	
+	<div id="qMainImageDiv" class="visual"><!-- 작업자메모 / a b c 계속 롤링되게 -->
+		<div>
 		</div>
-		<script type="text/javascript" src="<%=contextPath%>/assets/dist/bundle.js"></script>
-	</body>
+	</div>
+		
+	<div id="contentsWrap">
+		<div class="mainContents">
+			<div class="classInfo">
+				<h3 class="title edge">수업소개</h3>
+				<ul>
+					<li class="noise" onClick="location.href='<%=contextPath%>/introduce/1'"><span>우리지역 소음지도</span></li>
+					<li class="gps" onClick="location.href='<%=contextPath%>/introduce/2'"><span>GPS활용 위치학습</span></li>
+					<li class="population" onClick="location.href='<%=contextPath%>/introduce/3'"><span>우리지역 인구지도</span></li>
+					<li class="territory" onClick="location.href='<%=contextPath%>/introduce/4'"><span>통합적 영토교육</span></li>
+					<li class="school" onClick="location.href='<%=contextPath%>/introduce/5'"><span>우리학교운동장 생태지도</span></li>
+					<li class="map" onClick="location.href='<%=contextPath%>/introduce/6'"><span>지도 정확성</span></li>
+					<li class="dokdo" onClick="location.href='<%=contextPath%>/introduce/7'"><span>독도의 중요성</span></li>
+				</ul>
+			</div>
+			<!-- END 수업소개 -->
+			
+			<ul class="quick">
+				<li class="attend" onClick="location.href='<%=contextPath%>/course'"><span>수업참여(로그인)</span></li>
+				<li class="gallery" onClick="location.href='<%=contextPath%>/gallary'"><span>수업활동갤러리</span></li>
+				<li class="qna" onClick="location.href='<%=contextPath%>/surport/faq'"><span>자주묻는질문</span></li>	
+			</ul>
+			<!-- END 바로가기 -->
+			
+			<div class="board notice">
+				<h3 class="title edge">공지사항</h3>
+				<button type="button" class="go" title="바로가기" onClick="location.href='<%=contextPath%>/surport/notice'">바로가기</button>
+				
+				<ul>
+					<c:forEach var="bbsNotice" items="${noticeItems}"> 
+						<li><a href="<%=contextPath%>/surport/noticeView/${bbsNotice.idx}">${bbsNotice.title}</a></li>
+					</c:forEach>
+				</ul>
+				<!-- 
+				<ul>
+					<li>한은 "대출금리 올라도 가계 끄떡없다"…</li>
+					<li>국정농단 시작과 끝' 최순실 재판 휴정…구형</li>
+					<li>우병우 세번째 영장심사 출석…사찰 의혹에</li>
+					<li>빛바랜 美틸러슨 '대화 초청장'…北 탐색기</li>
+					<li>정규-비정규직 실제 임금격차 23만원…"</li>
+				</ul>
+				 -->
+			</div>
+			<!-- END 공지사항 -->
+			
+			<div class="board faq">
+				<h3 class="title edge">묻고 답하기</h3>
+				
+				<button type="button" class="go" title="바로가기" onClick="location.href='<%=contextPath%>/surport/qna'">바로가기</button>
+				
+				<ul>
+					<c:forEach var="bbsQuestion" items="${qnaItems}"> 
+						<li class="ellipsis"><a href="<%=contextPath%>/surport/qnaView/${bbsQuestion.idx}">${bbsQuestion.title}</a></li>
+					</c:forEach>
+				</ul>
+				<!-- 
+				<ul>
+					<li>한은 "대출금리 올라도 가계 끄떡없다"…</li>
+					<li>국정농단 시작과 끝' 최순실 재판 휴정…구형</li>
+					<li>우병우 세번째 영장심사 출석…사찰 의혹에</li>
+					<li>빛바랜 美틸러슨 '대화 초청장'…北 탐색기</li>
+					<li>정규-비정규직 실제 임금격차 23만원…"</li>
+				</ul>
+				 -->
+			</div>
+			<!-- END 자주묻는질문 -->
+		</div>
+		<!-- CONTENTS -->
+	</div>
+	<!-- END CONTENTSWRAP -->
+	<jsp:include page ="./common/footer.jsp"></jsp:include>
+<!-- END FOOTER -->
+</body>
 </html>

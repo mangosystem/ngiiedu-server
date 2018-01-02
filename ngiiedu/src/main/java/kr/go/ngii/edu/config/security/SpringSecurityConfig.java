@@ -154,8 +154,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
 			super.onAuthenticationSuccess(request, response, authentication);
 
-			setDefaultTargetUrl("/course");
-//			setDefaultTargetUrl("/index");
+//			setDefaultTargetUrl("/course");
+			setDefaultTargetUrl("/index");
 
 			User user = userService.get(authentication.getName());
 			user.setPassword(null);
@@ -192,7 +192,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
 			request.getSession().setAttribute(WebAttributes.AUTHENTICATION_EXCEPTION, null);
 
-			response.sendRedirect(request.getContextPath() + "/login");
+//			response.sendRedirect(request.getContextPath() + "/login");
+			response.sendRedirect(request.getContextPath() + "/index");
 			response.setStatus(HttpStatus.SC_OK);
 		}
 	}

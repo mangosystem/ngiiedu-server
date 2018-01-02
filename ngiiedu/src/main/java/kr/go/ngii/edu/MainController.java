@@ -45,7 +45,7 @@ public class MainController extends BaseController {
 
 		ModelAndView view = null;
 		if (principal == null) {
-			view = new ModelAndView("/index");
+			view = new ModelAndView("/course");
 		} else {
 			RedirectView redirectView = new RedirectView(request.getContextPath() + "/");
 			redirectView.setExposeModelAttributes(false);
@@ -60,7 +60,7 @@ public class MainController extends BaseController {
 
 		ModelAndView view = null;
 		if (principal == null) {
-			view = new ModelAndView("/index");
+			view = new ModelAndView("/course");
 		} else {
 			RedirectView redirectView = new RedirectView(request.getContextPath() + "/");
 			redirectView.setExposeModelAttributes(false);
@@ -74,13 +74,24 @@ public class MainController extends BaseController {
 			HttpSession session, Principal principal) {
 		
 		ModelAndView view = new ModelAndView("/index");
+		List<BbsNotice> bbsNoticeList = boardService.getNoticeList(0, 5); 
+		List<BbsQuestion> bbsQuestionList = boardService.getQnaList(0, 5); 
+		view.getModelMap().addAttribute("noticeItems", bbsNoticeList);
+		view.getModelMap().addAttribute("qnaItems", bbsQuestionList);
+		return view;
+	}
+	@RequestMapping(value={"/course"}, method = RequestMethod.GET)
+	public ModelAndView getCourseViewPage(HttpServletRequest request, HttpServletResponse response, 
+			HttpSession session, Principal principal) {
+		
+		ModelAndView view = new ModelAndView("/course");
 		return view;
 	}
 	
-	@RequestMapping(value={"/main"}, method = RequestMethod.GET)
+	@RequestMapping(value={"/index"}, method = RequestMethod.GET)
 	public ModelAndView getMainPage(HttpServletRequest request, HttpServletResponse response, 
 			HttpSession session, Principal principal) {
-		ModelAndView view = new ModelAndView("/main");
+		ModelAndView view = new ModelAndView("/index");
 		List<BbsNotice> bbsNoticeList = boardService.getNoticeList(0, 5); 
 		List<BbsQuestion> bbsQuestionList = boardService.getQnaList(0, 5); 
 		view.getModelMap().addAttribute("noticeItems", bbsNoticeList);
@@ -92,7 +103,7 @@ public class MainController extends BaseController {
 	public ModelAndView getCoursePage(HttpServletRequest request, HttpServletResponse response, 
 			HttpSession session, Principal principal) {
 		
-		ModelAndView view = new ModelAndView("/index");
+		ModelAndView view = new ModelAndView("/course");
 		return view;
 	}
 	
@@ -100,7 +111,7 @@ public class MainController extends BaseController {
 	public ModelAndView getStorymapPage(HttpServletRequest request, HttpServletResponse response, 
 			HttpSession session, Principal principal) {
 		
-		ModelAndView view = new ModelAndView("/index");
+		ModelAndView view = new ModelAndView("/course");
 		return view;
 	}
 	
@@ -108,7 +119,7 @@ public class MainController extends BaseController {
 	public ModelAndView getMapPage(HttpServletRequest request, HttpServletResponse response, 
 			HttpSession session, Principal principal) {
 		
-		ModelAndView view = new ModelAndView("/index");
+		ModelAndView view = new ModelAndView("/course");
 		return view;
 	}
 
@@ -116,7 +127,7 @@ public class MainController extends BaseController {
 	public ModelAndView getCourseCreatePage(HttpServletRequest request, HttpServletResponse response, 
 			HttpSession session, Principal principal) {
 
-		ModelAndView view = new ModelAndView("/index");
+		ModelAndView view = new ModelAndView("/course");
 
 		User user = (User) session.getAttribute("USER_INFO");
 		if (user == null) {
@@ -137,7 +148,7 @@ public class MainController extends BaseController {
 	public ModelAndView getAdminPage(HttpServletRequest request, HttpServletResponse response, 
 			HttpSession session, Principal principal) {
 		
-		ModelAndView view = new ModelAndView("/index");
+		ModelAndView view = new ModelAndView("/course");
 		return view;
 	}
 
@@ -434,7 +445,7 @@ public class MainController extends BaseController {
 		User user = (User)session.getAttribute("USER_INFO");
 		String division = user.getUserDivision().trim();
 		if (!"3".equals(division)) {
-			return new ModelAndView("/main");
+			return new ModelAndView("/index");
 		}
 		ModelAndView view = new ModelAndView("/surport/download_new");
 		return view;
