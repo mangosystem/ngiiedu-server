@@ -1,12 +1,19 @@
 package kr.go.ngii.edu.controller;
 
+import java.io.File;
+import java.net.URLEncoder;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
 import org.eclipse.jdt.internal.compiler.parser.ParserBasicInformation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,15 +21,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.Module;
 
 import kr.go.ngii.edu.main.board.model.BbsFAQuestion;
 import kr.go.ngii.edu.main.board.model.BbsNotice;
+import kr.go.ngii.edu.main.board.model.BbsPds;
 import kr.go.ngii.edu.main.board.model.BbsQuestion;
 import kr.go.ngii.edu.main.board.model.BbsReply;
 import kr.go.ngii.edu.main.board.service.BoardService;
 import kr.go.ngii.edu.main.users.model.User;
+import kr.go.ngii.edu.config.LocalResourceBundle;
 import kr.go.ngii.edu.controller.rest.BaseController;
 import kr.go.ngii.edu.controller.rest.ResponseData;
 
@@ -31,7 +41,7 @@ import kr.go.ngii.edu.controller.rest.ResponseData;
 public class BoardController extends BaseController {
 
 	@Autowired
-	private BoardService boardService;	
+	private BoardService boardService;
 	
 	/**
 	 * 공지사항 목록 조회하기
@@ -433,4 +443,147 @@ public class BoardController extends BaseController {
 		boolean result = boardService.deleteRe(qnaReId);
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
+	
+	
+	
+	/**
+	 * 자료실 목록 조회하기
+	 * 
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/pds", method=RequestMethod.GET)
+	public @ResponseBody ResponseEntity<ResponseData> getPdsList(
+			@RequestParam(value="offset", required=false, defaultValue="0") Integer offset, 
+			@RequestParam(value="limit", required=false, defaultValue="0") Integer limit, 
+			HttpSession session) throws Exception {
+		List<BbsPds> list = null;
+		if (offset==0 && limit==0) {
+			list = boardService.getPdsList();
+
+		} else {
+			list = boardService.getPdsList(offset, limit);
+		}
+		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
+	}
+	
+	/**
+	 * 자료실 조회하기
+	 * 
+	 * @param idx
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/pds/{pdsId}", method=RequestMethod.GET)
+	public @ResponseBody ResponseEntity<ResponseData> getPdsListbyId(
+			@PathVariable("pdsId") int pdsId,
+			HttpSession session) throws Exception {
+
+		BbsPds list = boardService.getPdsById(pdsId);
+		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
+	}
+	
+	/**
+	 * 자료실 생성하기
+	 * 
+	 * @param title
+	 * @param description
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/pds", method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<ResponseData> insertPds(
+			@RequestParam(value="title", required=true, defaultValue="") String title,
+			@RequestParam(value="description", required=true, defaultValue="") String description, 
+			@RequestParam(value="attach", required=false) MultipartFile attach,
+			HttpSession session) throws Exception {
+		
+//		User user = (User)session.getAttribute("USER_INFO");
+//		if (user == null) {
+//			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+//		}
+		
+//		System.out.println(session.getServletContext().getRealPath("/"));
+		BbsPds result = boardService.insertPds(title, description, attach);
+		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
+	}
+	
+	/**
+	 * 자료실 생성하기
+	 * 
+	 * @param title
+	 * @param description
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/pds/file/{fileId}", method=RequestMethod.GET)
+	public @ResponseBody ResponseEntity<InputStreamResource> getPdsFile(
+			@RequestParam(value="fileId", required=true, defaultValue="") String fileId,
+			HttpSession session) throws Exception {
+//		System.out.println(session.getServletContext().getRealPath("/"));
+		
+//        InputStreamResource resultFile = 
+        
+        String fileName = "1514809666871.csv";
+        String path = String.format("%s%s", LocalResourceBundle.FILE_SAVE_REPOSITORY, fileName);
+		FileSystemResource resource = new FileSystemResource(path);
+
+        
+        HttpHeaders responseHeaders = new HttpHeaders();
+
+    	responseHeaders.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+    	
+    	String encordedFilename = URLEncoder.encode(fileName,"UTF-8").replace("+", "%20");
+    	responseHeaders.set("Content-Disposition",
+    			  "attachment;filename=" + encordedFilename + ";filename*= UTF-8''" + encordedFilename);
+
+//    	responseHeaders.set("Content-Disposition", "attachment;filename=\"" + fileName + "\";");
+    	responseHeaders.set("Content-Transfer-Encoding", "binary");
+
+    	return new ResponseEntity<InputStreamResource>(new InputStreamResource(resource.getInputStream()), responseHeaders, HttpStatus.OK);
+
+	}
+	
+	
+	/**
+	 * 자료실 변경하기
+	 * @param idx
+	 * @param title
+	 * @param content
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/pds/{pdsId}", method=RequestMethod.PUT)
+	public @ResponseBody ResponseEntity<ResponseData> modifyPds(
+			@PathVariable("pdsId") Integer pdsId,
+			@RequestParam(value="title", required=false, defaultValue="") String title, 
+			@RequestParam(value="description", required=false) String description,
+			HttpSession session) throws Exception {
+
+		BbsPds result = boardService.modifyPds(pdsId, title, description);
+		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
+	}
+	
+	/**
+	 * 공지사항 목록 삭제하기
+	 * 
+	 * @param idx
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/pds/{pdsId}", method=RequestMethod.DELETE)
+	public @ResponseBody ResponseEntity<ResponseData> deletelPds(
+			@PathVariable("pdsId") int pdsId,
+			HttpSession session) throws Exception {
+
+		boolean result = boardService.deletePds(pdsId);
+		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
+	}
+	
 }

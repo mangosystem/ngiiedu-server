@@ -26,4 +26,6 @@ public class LocalResourceBundle {
 	public static final int BBS_FAQ_LIST_SIZE = Integer.parseInt(resource.getString("BBS_FAQ_LIST_SIZE"));
 	public static final int BBS_QNA_LIST_SIZE = Integer.parseInt(resource.getString("BBS_QNA_LIST_SIZE"));
 	public static final int BBS_PDS_LIST_SIZE = Integer.parseInt(resource.getString("BBS_PDS_LIST_SIZE"));
+	
+	public static final String FILE_SAVE_REPOSITORY = resource.getString("FILE_SAVE_REPOSITORY");
 }

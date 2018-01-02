@@ -100,7 +100,7 @@ public class CourseAuthkeyService extends BaseService {
 	
 	
 	/**
-	 * 인증코드를 수정한다.
+	 * 인증코드를 삭제한다.
 	 * 
 	 * @param authkey
 	 * @return

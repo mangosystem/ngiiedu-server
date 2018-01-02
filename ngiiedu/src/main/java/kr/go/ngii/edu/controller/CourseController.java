@@ -277,7 +277,8 @@ public class CourseController extends BaseController {
 	@RequestMapping(value="/{courseId}", method=RequestMethod.DELETE)
 	public @ResponseBody ResponseEntity<ResponseData> delete(
 			@PathVariable("courseId") Integer courseId,
-			@RequestParam(value="userid", required=false, defaultValue="") Integer userid,
+			@RequestParam(value="userid", required=false, defaultValue="") String userid,
+			//@RequestParam(value="userid", required=false, defaultValue="") int userid,
 			@RequestParam(value="password", required=false, defaultValue="") String password,
 			HttpSession session) throws Exception {
 		courseService.delete(courseId, userid, password);

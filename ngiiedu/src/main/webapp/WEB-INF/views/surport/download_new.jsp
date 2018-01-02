@@ -31,7 +31,7 @@
 	
 	<jsp:include page ="../common/header.jsp" flush="false">
 		<jsp:param value="surport" name="mainHeader"/>
-		<jsp:param value="qna" name="subHeader"/>
+		<jsp:param value="download" name="subHeader"/>
 	</jsp:include>
 
 <div id="contentsWrap">
@@ -41,7 +41,7 @@
 		<li>묻고 답하기</li>
 	</ul>
 	<div class="contents">
-		<h3>묻고 답하기</h3>
+		<h3>자료실</h3>
 		<ul class="boardNew">
 			<li class="title">
 				<label for="">제목</label>
@@ -51,6 +51,17 @@
 				<textarea name="" id="qDescription" cols="30" rows="20" class="comment"></textarea>	
 			</li>
 		</ul>
+		
+		<div class="file_input">
+		    <label>
+				파일첨부
+				<form id="uploadForm" enctype="multipart/form-data">
+		        	<input type="file" name="uploadfile" onchange="javascript:document.getElementById('file_route').value=this.value">
+		    	</form> 
+		    </label>
+		    <input type="text" readonly="readonly" title="File Route" id="file_route">
+		</div>
+		
 		<div class="btnCenter">
 			<button type="button" title="작성" class="point" onClick="submitPost()">작성</button>
 			<button type="button" title="취소" class="default" onclick="document.location = '<%=contextPath %>/surport/qna'">취소</button>
@@ -65,44 +76,35 @@
 
 <script>
 	
-	function submitPost(){
-		ajaxJson(
-			['POST', apiSvr + '/board/qna.json'], 
-			{
-	     		"title" : $('#qTitle').val(),
-				"description" : $('#qDescription').val()
-	        }, 
-	        function (res) {
-            	var data = res.response.data;
-            	console.log(res);
-            	console.log(data);
-            	location.href="qna";
-        });
-	}
-	
+	function submitPost() {
+		
+		console.log("submitPost");
+		console.log($("input[name=uploadfile]")[0].files[0]);
 
-	/*
-	function submitPost(){
-	  $.ajax({
-           type: "post",
-           //url: "qnaWrite",
-           url: apiSvr + "/board/qna",
-           data: {
-        		"title" : $('#qTitle').val(),
-				"description" : $('#qDescription').val()
-           },
-           contentType: "application/x-www-form-urlencoded",
-           success: function(responseData, textStatus, jqXHR) {
-               console.log(responseData);
-               location.href="qna";
-           },
-           error: function(jqXHR, textStatus, errorThrown) {
-        	   console.log(textStatus);
-           }
-       });
+		var formData = new FormData();
+		formData.append("attach", $("input[name=uploadfile]")[0].files[0]);
+		formData.append("title", $('#qTitle').val());
+		formData.append("description", $('#qDescription').val());
+		
+		 $.ajax({
+             method: "post",
+             processData: false,
+             contentType: false,
+             url: "http://localhost:8080/ngiiedu/api/v1/board/pds.json",
+             data: formData,
+             // processData: true=> get방식, false => post방식
+             //dataType: "text",
+             // contentType: true => application/x-www-form-urlencoded, 
+             //                false => multipart/form-data
+             //processData: false,
+             //contentType: false,
+             success: function(data){
+                 alert(data);
+             }
+         })
 	}
 	
-	*/
+	
 	
 </script>
 </body>

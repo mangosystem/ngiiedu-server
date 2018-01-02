@@ -2,10 +2,11 @@ package kr.go.ngii.edu.main.board.model;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name = "bbsDownload")
+@XmlRootElement(name = "bbsPds")
 public class BbsPds implements Serializable {
 	
 	/** serialVersionUID. */
@@ -19,6 +20,8 @@ public class BbsPds implements Serializable {
 	private Date createDate;
 	private Date modifyDate;
 	private String attach;
+//	private List<BbsPdsFile> bbsPdsFileList;
+	private BbsPdsFile bbsPdsFile;
 	
 	public Integer getIdx() {
 		return idx;
@@ -68,4 +71,12 @@ public class BbsPds implements Serializable {
 	public void setModifyDate(Date modifyDate) {
 		this.modifyDate = modifyDate;
 	}
+	public BbsPdsFile getBbsPdsFile() {
+		return bbsPdsFile;
+	}
+	public void setBbsPdsFile(BbsPdsFile bbsPdsFile) {
+		this.bbsPdsFile = bbsPdsFile;
+	}
+	
+	
 }

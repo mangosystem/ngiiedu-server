@@ -243,7 +243,7 @@ public class CourseMemberService extends BaseService {
 		// 패스워드 체크필
 		User user = userService.get(userId);
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-		if (encoder.matches(password, user.getPassword())) {
+		if (!encoder.matches(password, user.getPassword())) {
 			throw new RuntimeException(ErrorMessage.PASSWORD_AUTHENTICATION_FAILED);
 		}
 		
@@ -269,7 +269,7 @@ public class CourseMemberService extends BaseService {
 		// 패스워드 체크필
 		User user = userService.get(userId);
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-		if (encoder.matches(password, user.getPassword())) {
+		if (!encoder.matches(password, user.getPassword())) {
 			throw new RuntimeException(ErrorMessage.PASSWORD_AUTHENTICATION_FAILED);
 		}
 		
@@ -296,7 +296,7 @@ public class CourseMemberService extends BaseService {
 		// 패스워드 체크필
 		User user = userService.get(userId);
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-		if (encoder.matches(password, user.getPassword())) {
+		if (!encoder.matches(password, user.getPassword())) {
 			throw new RuntimeException(ErrorMessage.PASSWORD_AUTHENTICATION_FAILED);
 		}
 		StringTokenizer s = new StringTokenizer(tagetUserIds, ",");
@@ -331,7 +331,7 @@ public class CourseMemberService extends BaseService {
 		// 패스워드 체크필
 		User user = userService.get(userId);
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-		if (encoder.matches(password, user.getPassword())) {
+		if (!encoder.matches(password, user.getPassword())) {
 			throw new RuntimeException(ErrorMessage.PASSWORD_AUTHENTICATION_FAILED);
 		}
 		StringTokenizer s = new StringTokenizer(tagetUserIds, ",");

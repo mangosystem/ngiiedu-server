@@ -69,7 +69,7 @@
 	
 	function submitPut(id){
 		ajaxJson(
-			['PUT', apiSvr + '/board/qna/'+id+'.json'], 
+			['PUT', apiSvr + '/board/pds/'+id+'.json'], 
 			{
 	     		"title" : $('#qTitle').val(),
 				"description" : $('#qDescription').val()

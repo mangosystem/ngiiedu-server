@@ -1,17 +1,22 @@
 package kr.go.ngii.edu.main.board.service;
 
+import java.io.File;
 import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.Module;
 
 import kr.go.ngii.edu.common.message.ErrorMessage;
+import kr.go.ngii.edu.config.LocalResourceBundle;
 import kr.go.ngii.edu.main.board.mapper.BoardMapper;
 import kr.go.ngii.edu.main.board.model.BbsPds;
+import kr.go.ngii.edu.main.board.model.BbsPdsFile;
 import kr.go.ngii.edu.main.board.model.BbsFAQuestion;
 import kr.go.ngii.edu.main.board.model.BbsNotice;
 import kr.go.ngii.edu.main.board.model.BbsQuestion;
@@ -379,6 +384,59 @@ public class BoardService extends BaseService {
 		return param;
 		//Module result = false;
 
+	}
+	
+	
+	
+	public BbsPds insertPds(String title, String description, MultipartFile attach) {
+		
+		try {
+			User user = (User) getHttpSession().getAttribute("USER_INFO");
+			if (!"3".equals(user.getUserDivision().trim())) {
+				throw new RuntimeException(ErrorMessage.FOBRIDDEN);
+			}
+		} catch (Exception e) {
+			throw new RuntimeException(ErrorMessage.FOBRIDDEN);
+		}
+		
+		
+		String path = LocalResourceBundle.FILE_SAVE_REPOSITORY;
+
+		File dir = new File(path);
+	    if(!dir.isDirectory()){
+	        dir.mkdir();
+	    }
+		
+//		String newFileName = ; // 업로드 되는 파일명
+		String fileName = attach.getOriginalFilename();
+		System.out.println("실제 파일 이름 : " + fileName);
+		
+		StringBuffer newFileName = new StringBuffer();
+		newFileName.append(UUID.randomUUID().toString().replaceAll("-", ""))
+			.append(".").append(fileName.lastIndexOf(".")+1);
+        try {
+        	attach.transferTo(new File(path+newFileName.toString()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+		
+		BbsPds bbsPds = new BbsPds();
+		bbsPds.setTitle(title);
+		bbsPds.setDescription(description);;
+//		param.setCreateDate(new Date());
+//		param.setModifyDate(new Date());
+		boardMapper.insertPds(bbsPds);
+        
+        BbsPdsFile bbsPdsFile = new BbsPdsFile();
+        bbsPdsFile.setPdsId(bbsPds.getIdx());
+        bbsPdsFile.setFileName(fileName);
+        bbsPdsFile.setFilePath(newFileName.toString());
+//      bbsPdsFile.setCreateDate(createDate);
+//		bbsPdsFile.setModifyDate(modifyDate);
+        boardMapper.insertPdsFile(bbsPdsFile);
+
+        bbsPds.setBbsPdsFile(bbsPdsFile);
+		return bbsPds;
 	}
 	
 	public BbsPds modifyPds(int idx, String title, String description) {

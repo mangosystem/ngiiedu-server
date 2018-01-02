@@ -56,6 +56,15 @@
 		<result property="attach" column="attach" />
 	</resultMap>
 
+	<resultMap type="kr.go.ngii.edu.main.board.model.BbsPdsFile" id="bbsPdsFile">
+		<id property="idx" column="idx" />
+		<result property="pdsId" column="pdsId" />
+		<result property="filePath" column="file_path" />
+		<result property="fileName" column="file_name" />
+		<result property="createDate" column="create_date" />
+		<result property="createDate" column="modify_date" />
+	</resultMap>
+	
 	<select id="getNoticeList"  parameterType="map" resultMap="bbsNotice">
 		SELECT
 			idx,
@@ -375,9 +384,61 @@
 		WHERE idx = #{pdsId}
 	</delete>
 	
-	
 	<select id="getPdsCnt" resultType="int">
 		select count(*) from bbs_pds;  
 	</select>
 	
+	<select id="getPdsFileList"  parameterType="map" resultMap="bbsPdsFile">
+		SELECT
+			idx,
+			pds_id,
+			file_path,
+			file_name,
+			create_date,
+			create_date
+		FROM bbs_pds_attach
+		WHERE pds_id = #{pdsId}
+		ORDER BY idx desc
+	</select>
+	
+	<select id="getPdsFilebyId" parameterType="map" resultMap="bbsPdsFile">
+		SELECT
+			idx,
+			pds_id,
+			file_path,
+			file_name,
+			create_date,
+			create_date
+		FROM bbs_pds_attach
+		WHERE idx = #{idx}
+	</select>
+	
+	<insert id="insertPdsFile" parameterType="map">
+		INSERT INTO bbs_pds_attach(
+			pds_id,
+			file_path,
+			file_name,
+			create_date,
+			create_date
+		) VALUES (
+			#{pdsId}, 
+			#{filePath}, 
+			#{fileName}, 
+			now(), 
+			now()
+		)
+	</insert>
+
+	<update id="modifyPdsFile" parameterType="map">
+		UPDATE bbs_pds_attach SET 
+			file_path = #{filePath}, 
+			file_name = #{fileName}, 
+			modify_date = now() 
+		WHERE idx = #{idx}
+	</update>
+	
+	<delete id="deletePdsFile" parameterType="int">
+		DELETE FROM bbs_pds_attach
+		WHERE pds_id = #{value}
+	</delete>
 </mapper>

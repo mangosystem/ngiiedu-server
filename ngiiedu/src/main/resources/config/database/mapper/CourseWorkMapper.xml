@@ -169,7 +169,7 @@
 		DELETE FROM courses_work
 		<where>
 			<if test="courseId !=null">
-				courseId = #{courseId}
+				course_id = #{courseId}
 			</if>
 			<if test="idx !=null">
 				idx = #{idx}

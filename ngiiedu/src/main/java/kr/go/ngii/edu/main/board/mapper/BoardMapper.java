@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import kr.go.ngii.edu.main.board.model.BbsPds;
+import kr.go.ngii.edu.main.board.model.BbsPdsFile;
 import kr.go.ngii.edu.main.board.model.BbsFAQuestion;
 import kr.go.ngii.edu.main.board.model.BbsNotice;
 import kr.go.ngii.edu.main.board.model.BbsQuestion;
@@ -85,5 +86,14 @@ public interface BoardMapper {
 	public void deletePds(@Param("pdsId") int pdsId);
 	
 	public int getPdsCnt();
+	
+	public List<BbsPdsFile> getPdsFileList(@Param("pdsId") int pdsId);
 
+	public BbsPdsFile getPdsFilebyId(BbsPdsFile bbsPdsFile);
+
+	public void insertPdsFile(BbsPdsFile bbsPdsFile);
+	
+	public void modifyPdsFile(BbsPdsFile bbsPdsFile);
+
+	public void deletePdsFile(@Param("pdsId") int pdsId);
 }

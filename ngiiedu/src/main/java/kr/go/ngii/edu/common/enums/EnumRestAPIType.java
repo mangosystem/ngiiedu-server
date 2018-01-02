@@ -12,9 +12,9 @@ public enum EnumRestAPIType {
 	
 	PROJECT_LIST			("/projects.json", HttpMethod.GET),
 	PEOJECT_GET				("/projects/{project_id}.json", HttpMethod.GET),
-	PROJECT_CREATE			("/projects", HttpMethod.POST),
-	PROJECT_UPDATE			("/projects", HttpMethod.PUT),
-	PROJECT_REMOVE			("/projects", HttpMethod.DELETE),
+	PROJECT_CREATE			("/projects.json", HttpMethod.POST),
+	PROJECT_UPDATE			("/projects/{project_id}.json", HttpMethod.PUT),
+	PROJECT_REMOVE			("/projects/{project_id}.json", HttpMethod.DELETE),
 
 	PROJECT_MEMBER_LIST		("/projects/{projrct_id}/member.json", HttpMethod.GET),
 	PEOJECT_MEMBER_GET		("/projects/{project_id}/member/{member_id}.json", HttpMethod.GET),

@@ -53,6 +53,7 @@
 				${postItem.description}
 			</div>
 		</div>
+		
 		<div class="btnBoth">
 			<!-- 
 			<button type="button" title="이전" class="default">이전</button>

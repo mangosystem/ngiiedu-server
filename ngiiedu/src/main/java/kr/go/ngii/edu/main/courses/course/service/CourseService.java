@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import kr.go.ngii.edu.common.enums.EnumRestAPIType;
@@ -231,11 +232,35 @@ public class CourseService extends BaseService {
 		return result;
 	}
 	
-	public void delete(int courseId, int userId, String password) {
+	public boolean delete(int courseId, int idx, String password) {
+		User user = userService.get(idx);
+		return this.delete(courseId, user, password);
+	}
+	
+	public boolean delete(int courseId, String userId, String password) {
+		User user = userService.get(userId);
+		return this.delete(courseId, user, password);
+	}
+	
+	public boolean delete(int courseId, User user, String password) {
 
 		// password 체크
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		if (!encoder.matches(password, user.getPassword())) {
+			throw new RuntimeException(ErrorMessage.PASSWORD_AUTHENTICATION_FAILED);
+		}
 		
-		// 수업결과물 삭제? 안함 과정정보 등이 지워지므로 결과물 관리 필요함.
+		Course course = new Course();
+		course.setIdx(courseId);
+		course = courseMapper.get(course);
+		
+		if (user.getIdx() != course.getCourseCreateId() && 
+				!"3".equals(user.getUserDivision().trim())) {
+			// 자신이 만든  수어빙 아니면서 관리자 권한이 없을경우
+			throw new RuntimeException(ErrorMessage.FOBRIDDEN);
+		}
+		
+		// 수업결과물 삭제?
 		
 		// 인증키 삭제
 		courseAuthkeyService.delete(courseId);
@@ -245,7 +270,7 @@ public class CourseService extends BaseService {
 		CourseWork courseWorkParam = new CourseWork();
 		courseWorkParam.setCourseId(courseId);
 		workService.delete(courseWorkParam);
-		
+		  
 		// 수업 참여자,  팀원, 팀 삭제 
 		courseMemberService.delete(courseId);
 		LOGGER.info(" >> courses_member 의  courseId : " + courseId +" >> 전체  삭제");
@@ -256,10 +281,38 @@ public class CourseService extends BaseService {
 			courseTeamService.delete(courseId, team.getIdx());
 		}
 		
+		//pinogio project 삭제..
+		try {
+			
+			RestAPIClient rc = new RestAPIClient();
+			String projectId = course.getProjectId();
+			
+			PngoUser pngoUser = userService.getPngoUser(user.getUserid());
+			int pngoUserId = pngoUser.getIdx();
+			
+			String apiKey = userService.getApiKey(pngoUserId);
+			
+			Map<String, String> pathParam = new HashMap<String, String>();
+			pathParam.put("project_id", projectId);
+			Map<String, String> param = new HashMap<String, String>();
+			
+			Map<String, Object> r = rc.getResponseBodyWithLinkedMap(EnumRestAPIType.PROJECT_REMOVE, pathParam, param, apiKey);
+			Map<String, String> metaData = (Map<String, String>) r.get("meta");
+			System.out.println(r);
+			System.out.println(metaData);
+			System.out.println(metaData.get("message"));
+//			if (!"Deleted".equalsIgnoreCase(metaData.get("status"))) {
+//				throw new RuntimeException(ErrorMessage.SERVER_ERROR);
+//			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		// 수업삭제
 		Course params = new Course();
 		params.setIdx(courseId);
-		boolean result = courseMapper.delete(params);
+		return courseMapper.delete(params);
 	}
 
 
