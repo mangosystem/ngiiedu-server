@@ -66,8 +66,7 @@ public class GISServerConnect {
 			}
 
 		} catch (Exception e) {
-			throw new RuntimeException(ErrorMessage.FOBRIDDEN);
-
+			e.printStackTrace();
 		}
 	}
 
