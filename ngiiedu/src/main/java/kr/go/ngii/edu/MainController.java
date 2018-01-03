@@ -112,6 +112,30 @@ public class MainController extends BaseController {
 		ModelAndView view = new ModelAndView("/course");
 		return view;
 	}
+	
+	@RequestMapping(value={"/maps/**"}, method = RequestMethod.GET)
+	public ModelAndView getMapsPage(HttpServletRequest request, HttpServletResponse response, 
+			HttpSession session, Principal principal) {
+		
+		ModelAndView view = new ModelAndView("/course");
+		return view;
+	}
+	
+	@RequestMapping(value={"/swipe"}, method = RequestMethod.GET)
+	public ModelAndView getSwipePage(HttpServletRequest request, HttpServletResponse response, 
+			HttpSession session, Principal principal) {
+		
+		ModelAndView view = new ModelAndView("/course");
+		return view;
+	}
+	
+	@RequestMapping(value={"/split"}, method = RequestMethod.GET)
+	public ModelAndView getSplitPage(HttpServletRequest request, HttpServletResponse response, 
+			HttpSession session, Principal principal) {
+		
+		ModelAndView view = new ModelAndView("/course");
+		return view;
+	}
 
 	@RequestMapping(value={"/courseCreate"}, method = RequestMethod.GET)
 	public ModelAndView getCourseCreatePage(HttpServletRequest request, HttpServletResponse response, 
@@ -456,7 +480,7 @@ public class MainController extends BaseController {
 		User user = (User)session.getAttribute("USER_INFO");
 		BbsQuestion bbsQuestion = boardService.getQnaListbyId(qnaId);
 		if (user.getIdx() != bbsQuestion.getUserId() || !"3".equals(user.getUserDivision())) {
-			return new ModelAndView("/index");
+			return new ModelAndView("/");
 		}
 		view.getModelMap().addAttribute("postItem", bbsQuestion);
 		return view;
@@ -549,7 +573,7 @@ public class MainController extends BaseController {
 		BbsPds bbsPds = boardService.getPdsById(pdsId);
 		
 		if (user.getIdx() != bbsPds.getUserId()) {
-			return new ModelAndView("/index");
+			return new ModelAndView("/");
 		}
 		
 		view.getModelMap().addAttribute("postItem", bbsPds);
