@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import kr.go.ngii.edu.common.StringUtil;
 import kr.go.ngii.edu.common.enums.EnumRestAPIType;
 import kr.go.ngii.edu.common.message.ErrorMessage;
 import kr.go.ngii.edu.main.common.BaseService;
@@ -19,6 +22,8 @@ import kr.go.ngii.edu.main.courses.course.model.CourseInfo;
 import kr.go.ngii.edu.main.courses.course.model.CourseTeam;
 import kr.go.ngii.edu.main.courses.work.model.CourseWork;
 import kr.go.ngii.edu.main.courses.work.service.CourseWorkService;
+import kr.go.ngii.edu.main.courses.work.service.CourseWorkSubService;
+import kr.go.ngii.edu.main.courses.work.service.WorkOutputService;
 import kr.go.ngii.edu.main.users.mapper.PngoAuthKeyMapper;
 import kr.go.ngii.edu.main.users.model.PngoUser;
 import kr.go.ngii.edu.main.users.model.User;
@@ -44,6 +49,12 @@ public class CourseService extends BaseService {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private CourseWorkSubService courseWorkSubService;
+	
+	@Autowired
+	private WorkOutputService workOutputService;
 	
 
 	public Course create(int moduleId, List<Integer> moduleWorkIds, String courseName, String courseMetadata) throws Exception {
@@ -76,7 +87,7 @@ public class CourseService extends BaseService {
 		return param;
 	}
 	
-	public Course create(User user, int moduleId, List<Integer> moduleWorkIds, String courseName, String courseMetadata) throws Exception {
+	public Course create(User user, int moduleId, List<Integer> moduleWorkIds, String courseName, String courseMetadata, Map<String, Object> emptyTemplate) throws Exception {
 		
 		PngoUser pngoUser = userService.getPngoUser(user.getUserid());
 		String apiKey = userService.getApiKey(pngoUser.getIdx());
@@ -121,7 +132,80 @@ public class CourseService extends BaseService {
 			// 수업과정 추가 로직 필요함
 			List<CourseWork> workResult = workService.create(param.getIdx(), moduleWorkIds);
 			param.setWork(workResult);
+			
+			
+			if (emptyTemplate != null) {
+				
+				/*
+				 * - /api/v1/datasets/createUpldate
+				 * - 파라미터
+				 * 	project_id			-> 
+				 * 	title				-> emptyTemplate.title
+				 * 	description			-> null
+				 * 	privacy				-> TEAM
+				 * 	metadata				-> emptyTemplate.metadata
+				 * 	geometry_type		-> emptyTemplate.geometry_type
+				 * 	columns				-> emptyTemplate.columns
+				 * 	is_photo				-> emptyTemplate.is_photo
+				 */
+				
+				ObjectMapper mapper = new ObjectMapper();
 
+				String title = "";
+				if (!StringUtil.isNullOrEmpty(emptyTemplate.get("title"))) {
+					title = emptyTemplate.get("title").toString();
+				}
+
+				String metadata = "";
+				if (!StringUtil.isNullOrEmpty(emptyTemplate.get("metadata"))) {
+					metadata = mapper.writeValueAsString(emptyTemplate.get("metadata"));
+					//metadata = emptyTemplate.get("metadata").toString();
+				}
+
+				String geometryType = "";
+				if (!StringUtil.isNullOrEmpty(emptyTemplate.get("geometry_type"))) {
+					geometryType = emptyTemplate.get("geometry_type").toString();
+				}
+
+				String columns = "";
+				if (!StringUtil.isNullOrEmpty(emptyTemplate.get("columns"))) {
+					columns = mapper.writeValueAsString(emptyTemplate.get("columns"));
+				}
+
+				String isPhoto = "false";
+				if (!StringUtil.isNullOrEmpty(emptyTemplate.get("is_photo"))) {
+					isPhoto = emptyTemplate.get("is_photo").toString();
+				}
+				
+				Map<String, String> ecPathParam = new HashMap<String, String>();
+				Map<String, String> ecMapmParam = new HashMap<String, String>();
+				ecMapmParam.put("project_id", projectId);
+				ecMapmParam.put("title", title);
+				ecMapmParam.put("description", null);
+				ecMapmParam.put("privacy", "TEAM");
+				ecMapmParam.put("metadata", metadata);
+				ecMapmParam.put("geometry_type", geometryType);
+				ecMapmParam.put("columns", columns);
+				ecMapmParam.put("is_photo", isPhoto);
+				
+				Map<String, Object> emptyCreateResult = rc.getResponseBodyWithLinkedMap(EnumRestAPIType.DATASET_EMPTY_CREATE, ecPathParam, ecMapmParam, apiKey);
+				Map<String, Object> createdDatgasetResult = (Map<String, Object>) emptyCreateResult.get("data");
+
+//				courseWorkSubService.create(courseWorkId, moduleWorkSubId, userId, teamId, outputTypem, layerTitle)
+				
+				// 
+				// 추가된 courseWork의 아이디 조회
+				// 
+				
+				
+				
+//				workOutputService.create(courseWorkSubId, 1, createdDatgasetResult, param.getCourseCreateId(), "dataset", true, false);
+				
+				
+				//{meta={code=200, status=OK}, data={id=47, projectId=p=qhPWP03W, datasetId=d=I8J6n9EZD7, ownerId=1, title=소음원 현장조사, description=, metadata={"wgs84Bounds":{"minY":34.44521717164801,"minX":124.14518712529437,"maxY":37.98947165211126,"maxX":131.29728673466937},"spatialType":"VECTOR","geometryType":"POINT"}, spatialType=VECTOR, privacy=TEAM, createdDate=1514962595590, updatedDate=null, ownerUsername=admin1, geometryType=POINT, geometryColumn=the_geom, srid=3857, bounds=null, rowsCount=0, totalSize=24576, commentCount=0, viewCount=0, likeCount=0, ratingScore=0, metadataMap={wgs84Bounds={minY=34.44521717164801, minX=124.14518712529437, maxY=37.98947165211126, maxX=131.29728673466937}, spatialType=VECTOR, geometryType=POINT}}}
+				
+			}
+			
 		} catch(Exception e) {
 			throw new RuntimeException(ErrorMessage.COURSE_CREATE_FAILED);
 		}

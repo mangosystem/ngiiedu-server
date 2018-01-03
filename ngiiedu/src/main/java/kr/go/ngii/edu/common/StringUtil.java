@@ -11,9 +11,12 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class StringUtil {
-	
+
 	public static Map<String, ?> stringToMap(String jsonString) {
 		try {
+			if (jsonString == null) {
+				return null;
+			}
 			ObjectMapper mapper = new ObjectMapper();
 			return mapper.readValue(jsonString, new TypeReference<HashMap<String, ?>>(){} );
 		} catch (IOException e) {
@@ -23,6 +26,9 @@ public class StringUtil {
 
 	public static String mapToString(Map<String, ?> map) {
 		try {
+			if (map == null) {
+				return null;
+			}
 			return new ObjectMapper().writeValueAsString(map);
 		} catch (Exception e) {
 			return null;
@@ -64,5 +70,18 @@ public class StringUtil {
 			}
 		}
 		return obj;
+	}
+
+	public static boolean isNullOrEmpty(Object value) {
+		try {
+			if (value == null) {
+				return true;
+			}
+
+			String str = value.toString();
+			return str == null || "".equals(str);
+		} catch (Exception e) {
+			return true;
+		}
 	}
 }

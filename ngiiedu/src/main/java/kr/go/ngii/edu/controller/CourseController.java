@@ -16,6 +16,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import kr.go.ngii.edu.common.StringUtil;
 import kr.go.ngii.edu.common.enums.EnumRestAPIType;
 import kr.go.ngii.edu.common.message.ErrorMessage;
 import kr.go.ngii.edu.controller.rest.BaseController;
@@ -74,6 +78,7 @@ public class CourseController extends BaseController {
 	private RestAPIClient apiClient = new RestAPIClient();
 
 	// 수업관련 --------------------------------------------------------------------
+	@SuppressWarnings("unchecked")
 	/**
 	 * 교사사용자가 모듈을 선택하여 새로운 수업을 만듭니다.
 	 * 
@@ -91,15 +96,25 @@ public class CourseController extends BaseController {
 			@RequestParam(value="moduleWorkIds[]", required=true) List<Integer> moduleWorkIds, 
 			@RequestParam(value="courseName", required=true) String courseName, 
 			@RequestParam(value="courseMetadata", required=false) String courseMetadata,
+			@RequestParam(value="emptyTemplate", required=false) String emptyTemplate,
 			HttpSession session) throws Exception {
 		
 		User user = (User)session.getAttribute("USER_INFO");
-		if (user == null) {
-			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
-		}
+//		if (user == null) {
+//			throw new RuntimeException(ErrorMessage.FOBRIDDEN);
+//		}
 		
+		Map<String,Object> emptyTemplateMap = null;
+		if (emptyTemplate != null) {
+			try {
+				emptyTemplateMap = (Map<String,Object>)StringUtil.stringToMap(emptyTemplate);
+			} catch (Exception e) {
+				throw new RuntimeException(ErrorMessage.BAD_REUQEST);
+			}
+		}
+
 //		Course result = courseService.create(moduleId, moduleWorkIds, courseName, courseMetadata);
-		Course result = courseService.create(user, moduleId, moduleWorkIds, courseName, courseMetadata);
+		Course result = courseService.create(user, moduleId, moduleWorkIds, courseName, courseMetadata, emptyTemplateMap);
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
 

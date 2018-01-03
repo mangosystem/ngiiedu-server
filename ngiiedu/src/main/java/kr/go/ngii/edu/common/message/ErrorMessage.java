@@ -5,6 +5,8 @@ public class ErrorMessage {
 	public static String SERVER_ERROR = "오류가 발생하였습니다.";
 	
 	public static String FOBRIDDEN = "접근 권한이 없습니다.";
+	
+	public static String BAD_REUQEST = "입력값이 잘못되었습니다.";
 
 	public static String COURSE_AUTHKEY_FAILED 	= "수업코드를 찾을 수가 없습니다. 다시 확인해 주세요.";
 
