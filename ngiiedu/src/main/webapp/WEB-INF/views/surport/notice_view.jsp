@@ -24,7 +24,7 @@
 <link rel="stylesheet" href="<%=contextPath%>/assets/cdn/jquery-ui-1.12.1/jquery-ui.css">
 
 <script type="text/javascript" src="<%=contextPath%>/assets/dist/request.js"></script>
-]
+
 <title>지리원/공간정보융합 활용지원정보</title>
 </head>
 

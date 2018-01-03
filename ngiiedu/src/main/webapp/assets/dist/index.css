@@ -59,3 +59,7 @@ a { color: rgba(0, 0, 0, 0.87); text-decoration: none; }
 .material-table td{
   vertical-align: middle;
 }
+
+.layer-switcher{
+	z-index:100
+}
