@@ -475,26 +475,26 @@ public class CourseWorkController extends BaseController {
 	
 	
 	@RequestMapping(value="/dataset/{datasetId}/download", method=RequestMethod.GET)
-	public @ResponseBody void datasetDownloadGet(
-			HttpServletRequest request, HttpServletResponse response, 
-			@PathVariable("datasetId") String datasetId,
-			@RequestParam(value="format", required=true) String format,
-			HttpSession session) throws Exception {
-		
-//		User user = (User)session.getAttribute("USER_INFO");
-//		if (user != null) {
-//			response.setHeader("apikey", userService.getApiKey(user.getIdx()));
-			
-			StringBuffer sb = new StringBuffer();
-			sb.append(LocalResourceBundle.PINOGIO_API_SERVER).append("/datasets/")
-				.append(datasetId).append("/")
-				.append("download?format=")
-				.append(format);
-			
-			URL url = new URL(sb.toString());
-			GISServerConnect.requestGET(url, request, response);
-//		}
-	}
+    public @ResponseBody void datasetDownloadGet(
+            HttpServletRequest request, HttpServletResponse response, 
+            @PathVariable("datasetId") String datasetId,
+            @RequestParam(value="format", required=true) String format,
+            HttpSession session) throws Exception {
+        
+        User user = (User)session.getAttribute("USER_INFO");
+        if (user != null) {
+            response.setHeader("apikey", userService.getApiKey(user.getIdx()));
+            
+            StringBuffer sb = new StringBuffer();
+            sb.append(LocalResourceBundle.PINOGIO_API_SERVER).append("/datasets/")
+                .append(datasetId).append("/")
+                .append("download?format=")
+                .append(format);
+            
+            URL url = new URL(sb.toString());
+            GISServerConnect.requestGET(url, request, response);
+        }
+    }
 	
 	@RequestMapping(value="/dataset/thumbNail/{datasetId}", method=RequestMethod.GET)
 	public @ResponseBody void datasetThumbnailGet(
