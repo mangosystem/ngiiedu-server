@@ -45,6 +45,8 @@ public enum EnumRestAPIType {
 	DATASET_COLUMN_CREATE	("/datasets/{dataset_id}/column/{column_id}.json", HttpMethod.POST),
 	DATASET_COLUMN_UPDATE	("/datasets/{dataset_id}/column/{column_id}.json", HttpMethod.PUT),
 	DATASET_COLUMN_REMOVE	("/datasets/{dataset_id}/column.json", HttpMethod.DELETE),
+
+	DATASET_DOWNLOAD		("/datasets/{dataset_id}/download.json", HttpMethod.GET),
 	
 	LAYER_LIST				("/layers.json", HttpMethod.GET),
 	LAYER_GET				("/layers/{layer_id}.json", HttpMethod.GET),

@@ -179,7 +179,17 @@ public class MainController extends BaseController {
 		ModelAndView view = new ModelAndView("/surport/notice");
 		
 		User user = (User)session.getAttribute("USER_INFO");
+		String bbsrole = "";
 		
+		if (user == null) {
+//			RedirectView redirectView = new RedirectView(request.getContextPath() + "/login");
+//			redirectView.setExposeModelAttributes(false);
+//			return new ModelAndView(redirectView);
+		} else {
+//			user = (User)session.getAttribute("USER_INFO");
+			bbsrole = "3".equals(user.getUserDivision().trim()) ? "ADM" : "USR";
+		}
+			
 		limit = limit == 0 ? LocalResourceBundle.BBS_NOTICE_POSTS_SIZE : limit;
 		
 		if (page == 0) {
@@ -192,7 +202,6 @@ public class MainController extends BaseController {
 		List<BbsNotice> bbsNoticeList = boardService.getNoticeList(offset, limit); 
 		bbsPageCriteria.setRecordsNum(boardService.getNoticeCnt());
 		
-		String bbsrole = "3".equals(user.getUserDivision().trim()) ? "ADM" : "USR";
 		view.getModelMap().addAttribute("bbsrole", bbsrole);
 		view.getModelMap().addAttribute("items", bbsNoticeList);
 		view.getModelMap().addAttribute("criteria", bbsPageCriteria);
@@ -203,6 +212,19 @@ public class MainController extends BaseController {
 	@RequestMapping(value={"/surport/noticeNew"}, method = RequestMethod.GET)
 	public ModelAndView getNoticeNewPage(HttpServletRequest request, HttpServletResponse response, 
 			HttpSession session, Principal principal) {
+		
+		User user = (User)session.getAttribute("USER_INFO");
+		String bbsrole = "";
+		
+		if (user == null) {
+			RedirectView redirectView = new RedirectView(request.getContextPath() + "/login");
+			redirectView.setExposeModelAttributes(false);
+			return new ModelAndView(redirectView);
+		} else {
+//			user = (User)session.getAttribute("USER_INFO");
+			bbsrole = "3".equals(user.getUserDivision().trim()) ? "ADM" : "USR";
+		}
+		
 		ModelAndView view = new ModelAndView("/surport/notice_new");
 		return view;
 	}
@@ -213,6 +235,18 @@ public class MainController extends BaseController {
 			HttpSession session, Principal principal) {
 		ModelAndView view = new ModelAndView("/surport/notice_mod");
 //		User user = (User)session.getAttribute("USER_INFO");
+		User user = (User)session.getAttribute("USER_INFO");
+//		String bbsrole = "";
+		
+		if (user == null) {
+			RedirectView redirectView = new RedirectView(request.getContextPath() + "/login");
+			redirectView.setExposeModelAttributes(false);
+			return new ModelAndView(redirectView);
+		} else {
+//			user = (User)session.getAttribute("USER_INFO");
+//			bbsrole = "3".equals(user.getUserDivision().trim()) ? "ADM" : "USR";
+		}
+		
 		BbsNotice bbsNotice = boardService.getNoticeListbyId(noticeId);
 		view.getModelMap().addAttribute("postItem", bbsNotice);
 		return view;
@@ -228,8 +262,15 @@ public class MainController extends BaseController {
 		BbsNotice bbsNotice = boardService.getNoticeListbyId(noticeId);
 		
 		User user = (User)session.getAttribute("USER_INFO");
-		
-		String bbsrole = "3".equals(user.getUserDivision().trim()) ? "ADM" : "USR";
+		String bbsrole = "";
+		if (user == null) {
+//			RedirectView redirectView = new RedirectView(request.getContextPath() + "/login");
+//			redirectView.setExposeModelAttributes(false);
+//			return new ModelAndView(redirectView);
+		} else {
+//			user = (User)session.getAttribute("USER_INFO");
+			bbsrole = "3".equals(user.getUserDivision().trim()) ? "ADM" : "USR";
+		}
 		view.getModelMap().addAttribute("bbsrole", bbsrole);
 		view.getModelMap().addAttribute("postItem", bbsNotice);
 		return view;
@@ -243,6 +284,16 @@ public class MainController extends BaseController {
 		ModelAndView view = new ModelAndView("/surport/faq");
 		
 		User user = (User)session.getAttribute("USER_INFO");
+		String bbsrole = "";
+		
+		if (user == null) {
+//			RedirectView redirectView = new RedirectView(request.getContextPath() + "/login");
+//			redirectView.setExposeModelAttributes(false);
+//			return new ModelAndView(redirectView);
+		} else {
+//			user = (User)session.getAttribute("USER_INFO");
+			bbsrole = "3".equals(user.getUserDivision().trim()) ? "ADM" : "USR";
+		}
 		
 		limit = limit == 0 ? LocalResourceBundle.BBS_FAQ_POSTS_SIZE : limit;
 		
@@ -256,7 +307,6 @@ public class MainController extends BaseController {
 		List<BbsFAQuestion> bbsFAQuestionList = boardService.getFaqList(offset, limit); 
 		bbsPageCriteria.setRecordsNum(boardService.getFaqCnt());
 		
-		String bbsrole = "3".equals(user.getUserDivision().trim()) ? "ADM" : "USR";
 		view.getModelMap().addAttribute("bbsrole", bbsrole);
 		view.getModelMap().addAttribute("items", bbsFAQuestionList);
 		view.getModelMap().addAttribute("criteria", bbsPageCriteria);
@@ -266,6 +316,19 @@ public class MainController extends BaseController {
 	@RequestMapping(value={"/surport/faqNew"}, method = RequestMethod.GET)
 	public ModelAndView getFaqNewPage(HttpServletRequest request, HttpServletResponse response, 
 			HttpSession session, Principal principal) {
+		
+		User user = (User)session.getAttribute("USER_INFO");
+//		String bbsrole = "";
+		
+		if (user == null) {
+			RedirectView redirectView = new RedirectView(request.getContextPath() + "/login");
+			redirectView.setExposeModelAttributes(false);
+			return new ModelAndView(redirectView);
+		} else {
+//			user = (User)session.getAttribute("USER_INFO");
+//			bbsrole = "3".equals(user.getUserDivision().trim()) ? "ADM" : "USR";
+		}
+		
 		ModelAndView view = new ModelAndView("/surport/faq_new");
 		return view;
 	}
@@ -274,6 +337,19 @@ public class MainController extends BaseController {
 	public ModelAndView getFaqModifyPage(HttpServletRequest request, HttpServletResponse response,
 			@PathVariable Integer faqId,
 			HttpSession session, Principal principal) {
+		
+		User user = (User)session.getAttribute("USER_INFO");
+//		String bbsrole = "";
+		
+		if (user == null) {
+			RedirectView redirectView = new RedirectView(request.getContextPath() + "/login");
+			redirectView.setExposeModelAttributes(false);
+			return new ModelAndView(redirectView);
+		} else {
+//			user = (User)session.getAttribute("USER_INFO");
+//			bbsrole = "3".equals(user.getUserDivision().trim()) ? "ADM" : "USR";
+		}
+		
 		ModelAndView view = new ModelAndView("/surport/faq_mod");
 //		User user = (User)session.getAttribute("USER_INFO");
 		BbsFAQuestion bbsFAQuestion = boardService.getFaqListbyId(faqId);
@@ -301,12 +377,18 @@ public class MainController extends BaseController {
 		List<BbsQuestion> bbsQuestionList = boardService.getQnaList(offset, limit); 
 		bbsPageCriteria.setRecordsNum(boardService.getQnaCnt());
 		
-		String bbsrole = "";
-		try {
-			User user = (User)session.getAttribute("USER_INFO");
+		User user = (User)session.getAttribute("USER_INFO");
+		String bbsrole = "GUEST";
+		
+		if (user == null) {
+//			RedirectView redirectView = new RedirectView(request.getContextPath() + "/login");
+//			redirectView.setExposeModelAttributes(false);
+//			return new ModelAndView(redirectView);
+		} else {
+//			user = (User)session.getAttribute("USER_INFO");
 			bbsrole = "3".equals(user.getUserDivision().trim()) ? "ADM" : "USR";
-		} catch (NullPointerException e) {
 		}
+		
 		view.getModelMap().addAttribute("bbsrole", bbsrole);
 		view.getModelMap().addAttribute("items", bbsQuestionList);
 		view.getModelMap().addAttribute("criteria", bbsPageCriteria);
@@ -350,6 +432,17 @@ public class MainController extends BaseController {
 	@RequestMapping(value={"/surport/qnaNew"}, method = RequestMethod.GET)
 	public ModelAndView getQnaNewPage(HttpServletRequest request, HttpServletResponse response, 
 			HttpSession session, Principal principal) {
+		
+		User user = (User)session.getAttribute("USER_INFO");
+		
+		if (user == null) {
+			RedirectView redirectView = new RedirectView(request.getContextPath() + "/login");
+			redirectView.setExposeModelAttributes(false);
+			return new ModelAndView(redirectView);
+		} else {
+//			user = (User)session.getAttribute("USER_INFO");
+//			bbsrole = "3".equals(user.getUserDivision().trim()) ? "ADM" : "USR";
+		}
 		ModelAndView view = new ModelAndView("/surport/qna_new");
 		return view;
 	}
@@ -375,8 +468,11 @@ public class MainController extends BaseController {
 			@RequestParam(value="limit", required=false, defaultValue="0") Integer limit,
 			HttpSession session, Principal principal) {
 		ModelAndView view = new ModelAndView("/surport/download");
-		
 		User user = (User)session.getAttribute("USER_INFO");
+		String bbsrole = "GUEST";
+		if (user!= null) {
+			bbsrole = "3".equals(user.getUserDivision().trim()) ? "ADM" : "USR";
+		}
 		
 		limit = limit == 0 ? LocalResourceBundle.BBS_PDS_POSTS_SIZE : limit;
 		
@@ -390,7 +486,6 @@ public class MainController extends BaseController {
 		List<BbsPds> bbsPdsList = boardService.getPdsList(offset, limit); 
 		bbsPageCriteria.setRecordsNum(boardService.getPdsCnt());
 		
-		String bbsrole = "3".equals(user.getUserDivision().trim()) ? "ADM" : "USR";
 		view.getModelMap().addAttribute("bbsrole", bbsrole);
 		view.getModelMap().addAttribute("items", bbsPdsList);
 		view.getModelMap().addAttribute("criteria", bbsPageCriteria);
@@ -434,9 +529,12 @@ public class MainController extends BaseController {
 			HttpSession session, Principal principal) {
 		User user = (User)session.getAttribute("USER_INFO");
 		String division = user.getUserDivision().trim();
-		if (!"3".equals(division)) {
-			return new ModelAndView("/index");
+		if (user == null || !"3".equals(division)) {
+			RedirectView redirectView = new RedirectView(request.getContextPath() + "/login");
+			redirectView.setExposeModelAttributes(false);
+			return new ModelAndView(redirectView);
 		}
+		
 		ModelAndView view = new ModelAndView("/surport/download_new");
 		return view;
 	}
@@ -451,7 +549,7 @@ public class MainController extends BaseController {
 		BbsPds bbsPds = boardService.getPdsById(pdsId);
 		
 		if (user.getIdx() != bbsPds.getUserId()) {
-			return new ModelAndView("/main");
+			return new ModelAndView("/index");
 		}
 		
 		view.getModelMap().addAttribute("postItem", bbsPds);
