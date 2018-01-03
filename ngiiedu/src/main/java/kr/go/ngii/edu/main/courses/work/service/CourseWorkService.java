@@ -11,8 +11,11 @@ import kr.go.ngii.edu.main.common.BaseService;
 import kr.go.ngii.edu.main.courses.work.mapper.CourseWorkMapper;
 import kr.go.ngii.edu.main.courses.work.model.CourseWork;
 import kr.go.ngii.edu.main.courses.work.model.CourseWorkInfo;
+import kr.go.ngii.edu.main.courses.work.model.CourseWorkSub;
 import kr.go.ngii.edu.main.modules.course.model.ModuleWork;
+import kr.go.ngii.edu.main.modules.course.model.ModuleWorkSub;
 import kr.go.ngii.edu.main.modules.course.service.ModuleWorkService;
+import kr.go.ngii.edu.main.modules.course.service.ModuleWorkSubService;
 
 @Service
 public class CourseWorkService extends BaseService {
@@ -25,7 +28,9 @@ public class CourseWorkService extends BaseService {
 
 	@Autowired
 	private ModuleWorkService moduleWorkService;
-
+	
+	@Autowired
+	private ModuleWorkSubService moduleWorkSubService;
 
 	/**
 	 * 수업과정을 업로드 한다.
@@ -42,22 +47,23 @@ public class CourseWorkService extends BaseService {
 
 		List<CourseWork> createResult = new ArrayList<CourseWork>();
 
-		CourseWork param = null;
-
-		for (int i=0; i<moduleWorkIds.size(); i++) {
-			param = new CourseWork();
+//		CourseWork param = null;
+		int moduleWorkIdSize = moduleWorkIds.size();
+		
+		for (int i=0; i < moduleWorkIdSize; i++) {
+			int moduleWorkId = moduleWorkIds.get(i);
+			
+			CourseWork param = new CourseWork();
 			param.setCourseId(courseId);
-			param.setModuleWorkId(moduleWorkIds.get(i));
+			param.setModuleWorkId(moduleWorkId);
 			param.setWorkSeq(i);
 			//param.setWorkTeamDivision(workTeamDivision);
 			param.setCreateDate(new Date());
 			param.setModifyDate(new Date());
-
 			courseWorkMapper.create(param);
-
+			
 			createResult.add(param);
 		}
-
 		return createResult;
 	}
 	

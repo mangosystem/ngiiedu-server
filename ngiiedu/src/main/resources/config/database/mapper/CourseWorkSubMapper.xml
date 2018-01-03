@@ -81,7 +81,7 @@
 			course_work_sub_id, 
 			output_team_id, 
 			output_userid, 
-			output_division,
+			.,
 			pinogio_output_id,
 			output_type,
 			is_shared,
@@ -110,12 +110,14 @@
 			idx, 
 			course_work_id, 
 			module_work_sub_id,
-			create_date
+			create_date,
+			modify_date
 		) VALUES (
 			#{idx},
-			#{course_work_id},
-			#{module_work_sub_id},
-			#{create_date}
+			#{courseWorkId},
+			#{moduleWorkSubId},
+			now(),
+			now()
 		)
 	</insert>
 	

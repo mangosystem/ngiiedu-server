@@ -2,6 +2,7 @@ package kr.go.ngii.edu.main.courses.work.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -39,7 +40,8 @@ public class CourseWork implements Serializable {
 
 	/** 수정일. */
 	private Date modifyDate;
-
+	
+	private List<CourseWorkSub> courseWorkSubList;
 
 	public Integer getIdx() {
 		return idx;
@@ -105,4 +107,12 @@ public class CourseWork implements Serializable {
 		this.modifyDate = modifyDate;
 	}
 
+	public List<CourseWorkSub> getCourseWorkSubList() {
+		return courseWorkSubList;
+	}
+
+	public void setCourseWorkSubList(List<CourseWorkSub> courseWorkSubList) {
+		this.courseWorkSubList = courseWorkSubList;
+	}
+	
 }

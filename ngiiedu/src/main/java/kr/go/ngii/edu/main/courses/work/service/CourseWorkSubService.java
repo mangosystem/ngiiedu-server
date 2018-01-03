@@ -114,28 +114,37 @@ public class CourseWorkSubService extends BaseService {
 		return list;
 	}
 	
-	public WorkOutput create(int courseWorkId, int moduleWorkSubId, int userId, 
-			int teamId, String outputTypem, String layerTitle) {
-		
-		// dataset 조회
-		List<WorkOutput> workOutputList = workOutputService.getListByCourseWorkId(courseWorkId);
-		
-		// dataset의 pinogio Id
-		String datasetPinogioId = workOutputList.get(0).getPinogioOutputId();
-		
-		// pinogio create
-		RestAPIClient rc = new RestAPIClient();
-		Map<String, String> uriParams = new HashMap<String, String>();
-		Map<String, String> params = new HashMap<String, String>();
-		params.put("project_id", LocalResourceBundle.PINOGIO_API_PROJECT_ID);
-		params.put("title", layerTitle);
-		params.put("source", "");
-		Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.LAYER_CREATE, uriParams, params);
-		// course_work_sub
-//		courseWorkSubMapper.create()
-		// work_output
-		return null;
+	public CourseWorkSub create(int courseWorkId, int moduleWorkSubId) {
+		CourseWorkSub courseWorkSub = new CourseWorkSub();
+		courseWorkSub.setCourseWorkId(courseWorkId);
+		courseWorkSub.setModuleWorkSubId(moduleWorkSubId);
+		courseWorkSubMapper.create(courseWorkSub);
+		return courseWorkSub;
 	}
+	
+//	public WorkOutput create(int courseWorkId, int moduleWorkSubId, int userId, 
+//			int teamId, String outputTypem, String layerTitle) {
+//		
+//		// dataset 조회
+//		List<WorkOutput> workOutputList = workOutputService.getListByCourseWorkId(courseWorkId);
+//		
+//		// dataset의 pinogio Id
+//		String datasetPinogioId = workOutputList.get(0).getPinogioOutputId();
+//		
+//		// pinogio create
+//		RestAPIClient rc = new RestAPIClient();
+//		Map<String, String> uriParams = new HashMap<String, String>();
+//		Map<String, String> params = new HashMap<String, String>();
+//		params.put("project_id", LocalResourceBundle.PINOGIO_API_PROJECT_ID);
+//		params.put("title", layerTitle);
+//		params.put("source", "");
+//		Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.LAYER_CREATE, uriParams, params);
+//		// course_work_sub
+////		courseWorkSubMapper.create()
+//		// work_output
+//		return null;
+//	}
+	
 	
 	private Object requestPngoData(String pngoId, String outputType) {
 		if ("layer".equals(outputType)) {

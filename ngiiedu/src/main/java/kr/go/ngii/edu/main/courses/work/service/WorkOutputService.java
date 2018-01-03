@@ -49,7 +49,7 @@ public class WorkOutputService extends BaseService {
 	 * @throws Exception
 	 */
 	public WorkOutput create(int courseWorkSubId, String outputDivision, Map<String, Object> createdPinogioResult,
-			int userId, String outputType, String isShared, String isDone) {
+			int userId, String outputType, boolean isShared, boolean isDone) {
 		
 		CourseWorkSub cwsParam = new CourseWorkSub();
 		cwsParam.setIdx(courseWorkSubId);
@@ -95,8 +95,10 @@ public class WorkOutputService extends BaseService {
 			woParam.setOutputType(outputType);
 			woParam.setPngoData(resultData);
 			woParam.setOutputName(createdTitle);
-			woParam.setShared("true".equals(isShared));
-			woParam.setDone("true".equals(isDone));
+//			woParam.setShared("true".equals(isShared));
+//			woParam.setDone("true".equals(isDone));
+			woParam.setShared(isShared);
+			woParam.setDone(isDone);
 			workOutputMapper.create(woParam);
 //			woParam.getPinogioOutputId();
 			return woParam;

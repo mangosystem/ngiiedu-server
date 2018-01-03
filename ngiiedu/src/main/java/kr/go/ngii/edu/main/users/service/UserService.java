@@ -92,6 +92,7 @@ public class UserService {
 		
 		// user
 		User param = new User();
+		param.setIdx(pngoUserIdx);
 		param.setUserid(userid);
 		param.setPassword(encodedPasswd);
 		param.setUserName(userName);

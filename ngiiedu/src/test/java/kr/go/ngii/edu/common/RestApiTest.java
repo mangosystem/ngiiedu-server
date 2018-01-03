@@ -351,7 +351,7 @@ public class RestApiTest extends BaseTest {
 		uriParams.put("type_kind", "TAB");
 		Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.MAPS_CREATE, "/maps.json", uriParams);
 		System.out.println(r);
-		WorkOutput workOutputResult = workOutputService.create(25, "1",  r, 40, "maps", "true", "false");
+		WorkOutput workOutputResult = workOutputService.create(25, "1",  r, 40, "maps", true, false);
 		System.out.println(workOutputResult);
 	}
 	
