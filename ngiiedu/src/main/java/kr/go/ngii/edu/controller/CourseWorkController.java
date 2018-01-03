@@ -31,6 +31,7 @@ import kr.go.ngii.edu.main.courses.work.model.WorkOutput;
 import kr.go.ngii.edu.main.courses.work.service.CourseWorkService;
 import kr.go.ngii.edu.main.courses.work.service.WorkOutputService;
 import kr.go.ngii.edu.main.users.model.User;
+import kr.go.ngii.edu.main.users.service.UserService;
 
 @Controller
 @RequestMapping(value="/api/v1/coursesWork")
@@ -43,6 +44,9 @@ public class CourseWorkController extends BaseController {
 	
 	@Autowired
 	private CourseWorkService courseWorkService;
+	
+	@Autowired
+	private UserService userService;
 	
 	
 	// --------------------------------------------------------------------
@@ -472,20 +476,24 @@ public class CourseWorkController extends BaseController {
 	
 	@RequestMapping(value="/dataset/{datasetId}/download", method=RequestMethod.GET)
 	public @ResponseBody void datasetDownloadGet(
-			HttpServletRequest request, HttpServletResponse response,
+			HttpServletRequest request, HttpServletResponse response, 
 			@PathVariable("datasetId") String datasetId,
-			@RequestParam(value="width", required=false, defaultValue="400") String width,
-			@RequestParam(value="height", required=false, defaultValue="400") String height,
-			@RequestParam(value="ext", required=false, defaultValue="png") String ext,
+			@RequestParam(value="format", required=true) String format,
 			HttpSession session) throws Exception {
 		
-		StringBuffer sb = new StringBuffer();
-		sb.append(LocalResourceBundle.PINOGIO_SERVER).append("/data/thumbnail/datasets/")
-			.append(datasetId).append("/")
-			.append(width).append("/")
-			.append(height).append(".").append(ext);
-		URL url = new URL(sb.toString());
-		GISServerConnect.requestGET(url, request, response);
+//		User user = (User)session.getAttribute("USER_INFO");
+//		if (user != null) {
+//			response.setHeader("apikey", userService.getApiKey(user.getIdx()));
+			
+			StringBuffer sb = new StringBuffer();
+			sb.append(LocalResourceBundle.PINOGIO_API_SERVER).append("/datasets/")
+				.append(datasetId).append("/")
+				.append("download?format=")
+				.append(format);
+			
+			URL url = new URL(sb.toString());
+			GISServerConnect.requestGET(url, request, response);
+//		}
 	}
 	
 	@RequestMapping(value="/dataset/thumbNail/{datasetId}", method=RequestMethod.GET)
@@ -757,7 +765,7 @@ public class CourseWorkController extends BaseController {
 	// --------- Maps
 	// --------------------------------------------------------------------
 
-	
+
 	/**
 	 * Maps 조회
 	 * 
