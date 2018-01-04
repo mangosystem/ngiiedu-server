@@ -107,6 +107,49 @@ public class WorkOutputService extends BaseService {
 		}
 	}
 	
+	
+	public WorkOutput create(int courseId, int courseWorkSubId, String outputDivision, Map<String, Object> createdPinogioResult,
+			int userId, String outputType, boolean isShared, boolean isDone) {
+		CourseTeamMember ctm = courseTeamMemberService.getByCourseIdAndMemberId(courseId, userId);
+		int temaId = 0;
+		try {
+			temaId = ctm.getTeamId();
+		} catch (Exception e) {
+		}
+		String pinogioIdColName = "";
+		
+		if ("maps".equals(outputType)) {
+			pinogioIdColName = "mapsId";
+		} else if ("layer".equals(outputType)) {
+			pinogioIdColName = "layerId";
+		} else if ("dataset".equals(outputType)) {
+			pinogioIdColName = "datasetId";
+		}
+		
+		try {
+			String createdPinogioId = (String) createdPinogioResult.get(pinogioIdColName).toString();
+			String createdTitle = (String) createdPinogioResult.get("title").toString();
+			WorkOutput woParam = new WorkOutput();
+			woParam.setCourseWorkSubId(courseWorkSubId);
+			woParam.setOutputDivision(outputDivision);
+			woParam.setPinogioOutputId(createdPinogioId);
+			woParam.setOutputTeamId(temaId);
+			woParam.setOutputUserid(userId);
+			woParam.setOutputType(outputType);
+			woParam.setPngoData(createdPinogioResult);
+			woParam.setOutputName(createdTitle);
+//			woParam.setShared("true".equals(isShared));
+//			woParam.setDone("true".equals(isDone));
+			woParam.setShared(isShared);
+			woParam.setDone(isDone);
+			workOutputMapper.create(woParam);
+//			woParam.getPinogioOutputId();
+			return woParam;
+		} catch (Exception e) {
+			throw new RuntimeException(ErrorMessage.SERVER_ERROR);
+		}
+	}
+	
 	public WorkOutput get(WorkOutput workOutput) {
 		workOutput =  workOutputMapper.get(workOutput);
 		Object pngoData = this.requestPngoData(workOutput.getPinogioOutputId(), workOutput.getOutputType());

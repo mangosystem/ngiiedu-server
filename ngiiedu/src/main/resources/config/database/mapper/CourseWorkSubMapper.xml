@@ -81,7 +81,7 @@
 			course_work_sub_id, 
 			output_team_id, 
 			output_userid, 
-			.,
+			output_division,
 			pinogio_output_id,
 			output_type,
 			is_shared,

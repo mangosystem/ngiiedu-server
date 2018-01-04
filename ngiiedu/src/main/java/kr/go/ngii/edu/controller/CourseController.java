@@ -41,11 +41,17 @@ import kr.go.ngii.edu.main.courses.work.model.CourseWork;
 import kr.go.ngii.edu.main.courses.work.model.CourseWorkData;
 import kr.go.ngii.edu.main.courses.work.model.CourseWorkDataInfo;
 import kr.go.ngii.edu.main.courses.work.model.CourseWorkInfo;
+import kr.go.ngii.edu.main.courses.work.model.CourseWorkSub;
 import kr.go.ngii.edu.main.courses.work.model.CourseWorkSubInfo;
 import kr.go.ngii.edu.main.courses.work.service.CourseWorkDataService;
 import kr.go.ngii.edu.main.courses.work.service.CourseWorkService;
 import kr.go.ngii.edu.main.courses.work.service.CourseWorkSubService;
+import kr.go.ngii.edu.main.courses.work.service.WorkOutputService;
+import kr.go.ngii.edu.main.modules.course.model.ModuleWork;
+import kr.go.ngii.edu.main.modules.course.service.ModuleWorkService;
+import kr.go.ngii.edu.main.users.model.PngoUser;
 import kr.go.ngii.edu.main.users.model.User;
+import kr.go.ngii.edu.main.users.service.UserService;
 
 @Controller
 @RequestMapping("/api/v1/courses")
@@ -74,6 +80,18 @@ public class CourseController extends BaseController {
 
 	@Autowired
 	private CourseWorkSubService courseWorkSubService;
+	
+	@Autowired
+	private ModuleWorkService moduleWorkService;
+	
+	@Autowired
+	private UserService userService;
+	
+	@Autowired
+	private WorkOutputService workOutputService;
+	
+	
+	
 	
 	private RestAPIClient apiClient = new RestAPIClient();
 
@@ -114,8 +132,60 @@ public class CourseController extends BaseController {
 		}
 
 //		Course result = courseService.create(moduleId, moduleWorkIds, courseName, courseMetadata);
-		Course result = courseService.create(user, moduleId, moduleWorkIds, courseName, courseMetadata, emptyTemplateMap);
-		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
+//		Course result = courseService.create(user, moduleId, moduleWorkIds, courseName, courseMetadata, emptyTemplateMap);
+		
+		RestAPIClient rc = new RestAPIClient();
+
+		int userId = user.getIdx();
+		PngoUser pngoUser = userService.getPngoUser(user.getUserid());
+		String apiKey = userService.getApiKey(pngoUser.getIdx());
+		
+		// PROJECT 생성
+		Map<String, String> createProjectParam = new HashMap<String, String>();
+		createProjectParam.put("title", courseName);
+		createProjectParam.put("description", courseMetadata);
+		createProjectParam.put("privacy", "TEAM");
+		Map<String, Object> r = rc.getResponseBodyWithLinkedMap(EnumRestAPIType.PROJECT_CREATE, null, createProjectParam, apiKey);
+		Map<String, String> metaData = (Map<String, String>) r.get("meta");
+		String statusMessage = metaData.get("status");
+		if (!"CREATED".equals(statusMessage)) {
+			throw new RuntimeException(ErrorMessage.COURSE_CREATE_FAILED);
+		}
+		Map<String, Object> projectCreatedData = (Map<String, Object>) r.get("data");
+		String projectId = (String) projectCreatedData.get("projectId");
+		
+		// Course 생성
+		Course course = courseService.create(courseName, courseMetadata, moduleId, projectId, userId);
+		
+		// Course Key 생성
+		courseAuthkeyService.create(course.getIdx());
+		
+		// Course Work 생성
+		// moduleWorkIds 만큼 loop를돌려 생성
+		List<CourseWork> courseWorkList = courseWorkService.create(course.getIdx(), moduleWorkIds);
+		course.setWork(courseWorkList);
+		
+		// Course Work Sub 생성
+		for (CourseWork courseWorkItem:courseWorkList) {
+			List<CourseWorkSub> courseWorkSubList = courseWorkSubService.createList(courseWorkItem);
+			
+			if (emptyTemplate != null || !"".equals(emptyTemplate)) {
+				
+				for (CourseWorkSub courseWorkSubItem:courseWorkSubList) {
+					ModuleWork moduleWork = moduleWorkService.get(courseWorkItem.getModuleWorkId());
+					
+					if (moduleWork.getModuleWorkCourseType().trim().equals("현장실습")) {
+					
+						Map<String, Object> createdDatasetResult = courseService.createEmptyDataset(emptyTemplateMap, projectId, apiKey);
+						workOutputService.create(course.getIdx(), courseWorkSubItem.getIdx(), "1" , createdDatasetResult,userId, "dataset", true, false);
+						
+					}
+				}
+				
+			}
+		}
+		
+		return new ResponseEntity<ResponseData>(responseBody(course), HttpStatus.OK);
 	}
 
 	/**

@@ -65,7 +65,7 @@
 			status
   		FROM courses_work
 		WHERE course_id = #{courseId}
-		ORDER BY idx
+		ORDER BY work_seq
 	</select>
 
 	<select id="get" parameterType="map" resultMap="courseWorkMap">

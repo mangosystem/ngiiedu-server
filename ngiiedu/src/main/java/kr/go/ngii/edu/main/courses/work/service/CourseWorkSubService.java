@@ -20,6 +20,8 @@ import kr.go.ngii.edu.main.courses.work.model.CourseWork;
 import kr.go.ngii.edu.main.courses.work.model.CourseWorkSub;
 import kr.go.ngii.edu.main.courses.work.model.CourseWorkSubInfo;
 import kr.go.ngii.edu.main.courses.work.model.WorkOutput;
+import kr.go.ngii.edu.main.modules.course.model.ModuleWorkSub;
+import kr.go.ngii.edu.main.modules.course.service.ModuleWorkSubService;
 
 @Service
 public class CourseWorkSubService extends BaseService {
@@ -32,6 +34,9 @@ public class CourseWorkSubService extends BaseService {
 	
 	@Autowired
 	private WorkOutputService workOutputService;
+	
+	@Autowired
+	private ModuleWorkSubService moduleWorkSubService;
 	
 	public CourseWorkSub get(CourseWorkSub courseWorkSub) {
 		return courseWorkSubMapper.get(courseWorkSub);
@@ -121,6 +126,19 @@ public class CourseWorkSubService extends BaseService {
 		courseWorkSubMapper.create(courseWorkSub);
 		return courseWorkSub;
 	}
+	
+	public List<CourseWorkSub> createList(CourseWork courseWork) {
+		List<CourseWorkSub> CourseWorkSubList = new ArrayList<CourseWorkSub>();
+		int courseWorkId = courseWork.getIdx();
+		List<ModuleWorkSub> moduleWorkSubList = moduleWorkSubService.list(courseWork.getModuleWorkId());
+		
+		for(ModuleWorkSub item:moduleWorkSubList) {
+			CourseWorkSub courseWorkSub = create(courseWorkId, item.getIdx());
+			CourseWorkSubList.add(courseWorkSub);
+		}
+		return CourseWorkSubList;
+	}
+	
 	
 //	public WorkOutput create(int courseWorkId, int moduleWorkSubId, int userId, 
 //			int teamId, String outputTypem, String layerTitle) {
