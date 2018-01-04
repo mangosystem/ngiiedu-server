@@ -83,8 +83,8 @@
 		    status
 		) VALUES (
 			#{idx}, 
-			#{course_id}, 
-			#{module_work_data_id}, 
+			#{courseId}, 
+			#{moduleWorkDataId}, 
 			#{status}
 		)
 	</insert>
@@ -107,7 +107,7 @@
 
 	<delete id="delete" parameterType="map">
 		DELETE FROM courses_work_data
-		WHERE courseId = #{courseId} AND idx = #{idx}
+		WHERE course_id = #{courseId}
 	</delete>
 
 </mapper>

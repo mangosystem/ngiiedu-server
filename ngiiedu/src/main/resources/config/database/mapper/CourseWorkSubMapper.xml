@@ -104,7 +104,7 @@
 	
 	<insert id="create" parameterType="map">
 		<selectKey keyProperty="idx" resultType="int" order="BEFORE">
-			SELECT nextval('modules_work_sub_idx_seq'::regclass)
+			SELECT nextval('courses_work_sub_idx_seq'::regclass)
 		</selectKey>
 		INSERT INTO courses_work_sub (
 			idx, 
@@ -139,12 +139,7 @@
 	<delete id="delete" parameterType="map">
 		DELETE FROM courses_work_sub
 		<where>
-			<if test="courseId !=null">
-				course_work_id = #{courseWorkId}
-			</if>
-			<if test="idx !=null">
-				idx = #{idx}
-			</if>
+			course_work_id = #{courseWorkId}
 		</where>
 	</delete>
 	

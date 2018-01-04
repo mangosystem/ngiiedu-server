@@ -89,11 +89,6 @@ public class CourseController extends BaseController {
 	
 	@Autowired
 	private WorkOutputService workOutputService;
-	
-	
-	
-	
-	private RestAPIClient apiClient = new RestAPIClient();
 
 	// 수업관련 --------------------------------------------------------------------
 	@SuppressWarnings("unchecked")
@@ -130,7 +125,6 @@ public class CourseController extends BaseController {
 				throw new RuntimeException(ErrorMessage.BAD_REUQEST);
 			}
 		}
-
 //		Course result = courseService.create(moduleId, moduleWorkIds, courseName, courseMetadata);
 //		Course result = courseService.create(user, moduleId, moduleWorkIds, courseName, courseMetadata, emptyTemplateMap);
 		
@@ -159,6 +153,9 @@ public class CourseController extends BaseController {
 		
 		// Course Key 생성
 		courseAuthkeyService.create(course.getIdx());
+		
+		// Course Work Data (다운로드 가능 데이터 생성)
+		courseWorkDataService.createList(moduleId, course.getIdx());
 		
 		// Course Work 생성
 		// moduleWorkIds 만큼 loop를돌려 생성

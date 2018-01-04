@@ -68,7 +68,7 @@
 	
 	
 	<update id="delete" parameterType="int">
-		DELETE FROM courses
+		DELETE FROM courses_authkey
 		WHERE idx = #{value}
 	</update>
 

@@ -29,8 +29,6 @@ public class CourseWorkService extends BaseService {
 	@Autowired
 	private ModuleWorkService moduleWorkService;
 	
-	@Autowired
-	private ModuleWorkSubService moduleWorkSubService;
 
 	/**
 	 * 수업과정을 업로드 한다.

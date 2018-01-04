@@ -42,9 +42,12 @@ public class CourseWorkSubService extends BaseService {
 		return courseWorkSubMapper.get(courseWorkSub);
 	}
 	
+	
+
+	
+	
 	public List<CourseWorkSubInfo> list(int courseWorkId) {
 		
-		// Module Work Id 조회
 		CourseWork param = new CourseWork();
 		param.setIdx(courseWorkId);
 		param = courseWorkService.get(param);

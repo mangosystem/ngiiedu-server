@@ -101,7 +101,7 @@ public class UserService {
 		param.setUserDivision(userDivision);
 		userMapper.create(param);
 		
-		return userMapper.get(param);
+		return param;
 	}
 	
 	public boolean checkDuplicated(String userid) {

@@ -23,12 +23,15 @@ import kr.go.ngii.edu.main.courses.course.model.Course;
 import kr.go.ngii.edu.main.courses.course.model.CourseInfo;
 import kr.go.ngii.edu.main.courses.course.model.CourseTeam;
 import kr.go.ngii.edu.main.courses.work.model.CourseWork;
+import kr.go.ngii.edu.main.courses.work.model.CourseWorkData;
 import kr.go.ngii.edu.main.courses.work.model.CourseWorkSub;
 import kr.go.ngii.edu.main.courses.work.model.WorkOutput;
+import kr.go.ngii.edu.main.courses.work.service.CourseWorkDataService;
 import kr.go.ngii.edu.main.courses.work.service.CourseWorkService;
 import kr.go.ngii.edu.main.courses.work.service.CourseWorkSubService;
 import kr.go.ngii.edu.main.courses.work.service.WorkOutputService;
 import kr.go.ngii.edu.main.modules.course.model.ModuleWorkSub;
+import kr.go.ngii.edu.main.modules.course.service.ModuleWorkDataService;
 import kr.go.ngii.edu.main.modules.course.service.ModuleWorkSubService;
 import kr.go.ngii.edu.main.users.mapper.PngoAuthKeyMapper;
 import kr.go.ngii.edu.main.users.model.PngoUser;
@@ -64,6 +67,11 @@ public class CourseService extends BaseService {
 	
 	@Autowired
 	private ModuleWorkSubService moduleWorkSubService;
+	
+	@Autowired
+	private CourseWorkDataService courseWorkDataService;
+	
+	
 	
 	public Course create(String courseName, String courseMetadata, int moduleId, 
 			String projectId, int userId) {
@@ -432,19 +440,11 @@ public class CourseService extends BaseService {
 		}
 		
 		// 수업결과물 삭제?
-		
 		// 인증키 삭제
 		courseAuthkeyService.delete(courseId);
-		LOGGER.info(" >> courseId : " + courseId + " >> 인증키삭제");
 		
-		// 과정삭제
-		CourseWork courseWorkParam = new CourseWork();
-		courseWorkParam.setCourseId(courseId);
-		workService.delete(courseWorkParam);
-		  
 		// 수업 참여자,  팀원, 팀 삭제 
 		courseMemberService.delete(courseId);
-		LOGGER.info(" >> courses_member 의  courseId : " + courseId +" >> 전체  삭제");
 		
 		// 팀, 팀원삭제
 		List<CourseTeam> teamList = courseTeamService.list(courseId);
@@ -479,6 +479,23 @@ public class CourseService extends BaseService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		// work data 삭제
+		courseWorkDataService.delete(courseId);
+		
+		// Work sub 삭제
+		CourseWork courseWorkParam = new CourseWork();
+		courseWorkParam.setCourseId(courseId);
+		List<CourseWork> CourseWorkList = workService.list(courseWorkParam);
+		
+		for (CourseWork courseWorkItem:CourseWorkList) {
+			CourseWorkSub courseWorkSub = new CourseWorkSub();
+			courseWorkSub.setCourseWorkId(courseWorkItem.getIdx());
+			courseWorkSubService.delete(courseWorkSub);
+		}
+		
+		// work 삭제 
+		workService.delete(courseWorkParam);
 		
 		// 수업삭제
 		Course params = new Course();
