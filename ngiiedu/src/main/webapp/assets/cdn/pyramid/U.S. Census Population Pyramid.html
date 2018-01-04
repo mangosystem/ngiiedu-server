@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>U.S. Census Population Pyramid</title>
+    <script type="text/javascript" src="./d3.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+
+    <style type="text/css">
+        body {
+          font: 12px sans-serif;
+          margin: 0;
+          padding: 5px;
+          color: #888;
+        }
+        h1 {
+          padding-left: 10px;
+          color: #333;
+        }
+        h4 {
+          padding-left: 10px;
+          padding-bottom: 2px;
+        }
+        .source {
+          padding-left: 10px;
+        }
+        .source a, .source a:hover {
+          color: #888;
+        }
+        .label {
+          position: absolute;
+          top: 100px;
+          left: 15px;
+          font-size: 48px;
+          font-weight: bold;
+          color: #dedede;
+        }
+        .break {
+          border-bottom: solid 1px #dedede;
+          margin: 10px 15px 2px 15px;
+          width: 545px;
+        }
+        .years, .controls {
+          padding-top: 10px;
+          padding-left: 15;
+          width: 540;
+          text-align: center;
+          font-size: 12px;
+        }
+        .years span, .controls span {
+          padding-left: 2px;
+          padding-right: 2px;
+        }
+        .years .title {
+          font-size: 13px;
+          font-variant: small-caps;
+          letter-spacing: 1;
+        }
+        .years a, .controls a {
+          color: #888;
+          text-decoration: none;
+        }
+        .years a:hover, .controls a:hover {
+          color: #000;
+          text-decoration: underline;
+        }
+        .years a.y1890 {
+          color: #bbb;
+        }
+        .years a.active {
+          color: #000;
+        }
+        .controls a {
+          font-variant: small-caps;
+          letter-spacing: 1;
+          text-decoration: none;
+        }
+        svg {
+          shape-rendering: crispEdges;
+        }
+    </style>
+</head>
+<body>
+    <h4>
+        시도선택
+        <select id="sido_code" onchange="changeSidoCode()">
+            <option value="0">전국</option>
+            <option value="11">서울특별시</option>
+            <option value="26">부산광역시</option>
+            <option value="27">대구광역시</option>
+            <option value="28">인천광역시</option>
+            <option value="29">광주광역시</option>
+            <option value="30">대전광역시</option>
+            <option value="31">울산광역시</option>
+            <option value="36">세종특별자치시</option>
+            <option value="41">경기도</option>
+            <option value="42">강원도</option>
+            <option value="43">충청북도</option>
+            <option value="44">충청남도</option>
+            <option value="45">전라북도</option>
+            <option value="46">전라남도</option>
+            <option value="47">경상북도</option>
+            <option value="48">경상남도</option>
+            <option value="50">제주특별자치도</option>
+        </select>
+    </h4>
+    <div id="population">
+        
+    </div>
+    <script type="text/javascript">
+        
+        function changeSidoCode() {
+            var sidoCode = $('#sido_code').val();
+            
+            let serverUrl = window.location.href.split("assets");
+            serverUrl = serverUrl[0] + "api/v1/utils/population.json";
+            
+            $.ajax({
+                type : "GET",
+                url : serverUrl,
+                data: { 
+                    "sido_code": sidoCode 
+                },
+                dataType : "json",
+                error : function(){
+                    alert('통신실패!!');
+                },
+                success : function(data){
+                    $('#population').empty();
+                    makePyramid(data.response.data);
+                }
+            });
+            
+        }
+        
+        var maxp, mdat, fdat, w, h, bins, y, x1, x2, rf, rTransform, lTransform, lEnter, label, div, ctrl;
+        
+        function makePyramid(data) {
+            
+                maxp = data.reduce(function(a,b) { return Math.max(a,b.people); }, 0),
+                mdat = data.filter(function(d) { return d.sex==1; })
+            .sort(function(a,b) { return b.age - a.age; }),
+                fdat = data.filter(function(d) { return d.sex==2; })
+            .sort(function(a,b) { return b.age - a.age; });
+
+            w = 250,
+            h = 19 * 20,
+            bins = d3.range(19),
+            year = 1960,
+            y = d3.scale.ordinal().domain(bins).rangeBands([0, h], 0.25),
+            x1 = d3.scale.linear().domain([0, maxp]).range([0, w]),
+            x2 = d3.scale.linear().domain([0, maxp]).range([w, 0]),
+            rf = "javascript:return false;";
+
+            label =   d3.select("div#population")
+                        .append("div")
+                        .attr("class", "label")
+                        .text(year.toFixed(0));
+
+            vis = d3.select("div#population")
+                    .append("svg:svg")
+                    .attr("width", 2*w + 40)
+                    .attr("height", h + 40)
+                    .append("svg:g")
+                    .attr("transform", "translate(20,15)");
+
+            // pyramid bar chart
+
+            vis.append("svg:g")
+                .selectAll("text.ages")
+                .data(bins)
+                .enter("svg:text")
+                .filter(function(d) { return d%2==0; })
+                .attr("class", "ages")
+                .attr("x", w+15)
+                .attr("y", function(d) { return y(d) + y.rangeBand() + 7; })
+                .attr("fill", "#888")
+                .attr("text-anchor", "middle")
+                .attr("font-size", "12px")
+                .text(function(d) { return (90-d*5).toFixed(0); });
+
+            rTransform = function(d,i) {
+                return "translate("+(w+30)+","+y(i).toFixed(2)+")";
+            }
+            lTransform = function(d,i) {
+                return "translate("+x2(d.people).toFixed(2)+","+y(i).toFixed(2)+")";
+            }
+            lEnter = function(d,i) {
+                return "translate("+w+","+y(i).toFixed(2)+")";
+            }
+
+            var mbars = vis.selectAll("rect.male")
+            .data(mdat.filter(isYear))
+            .enter("svg:rect")
+            .attr("id", function(d) { return "m"+(d.year - d.age); })
+            .attr("class", "male")
+            .attr("fill", "steelblue")
+            .attr("transform", rTransform)
+            .attr("width", barWidth)
+            .attr("height", y.rangeBand())
+            .attr("y", 0)
+            .attr("opacity", 1);
+
+            mbars.append("svg:title").text(tooltipText);
+
+            var fbars = vis.selectAll("rect.female")
+            .data(fdat.filter(isYear))
+            .enter("svg:rect")
+            .attr("id", function(d) { return "f"+(d.year - d.age); })
+            .attr("class", "female")
+            .attr("fill", "pink")
+            .attr("opacity", 1)
+            .attr("transform", lTransform)
+            .attr("width", barWidth)
+            .attr("height", y.rangeBand())
+            .attr("y", 0)
+            .attr("opacity", 1);
+
+            fbars.append("svg:title").text(tooltipText);
+
+            // animated intro for bars
+
+            mbars.attr("width", 0)
+                .transition()
+                .duration(500)
+                .delay(function(d,i) { return 30*i; })
+                .attr("width", barWidth);
+
+            fbars.attr("width", 0)
+                .attr("transform", lEnter)
+                .transition()
+                .duration(500)
+                .delay(function(d, i) { return 30*i; })
+                .attr("width", barWidth)
+                .attr("transform", lTransform);
+
+            // age label
+            vis.append("svg:text")
+                .attr("x", w+15)
+                .attr("y", h+10)
+                .attr("dy", ".71em")
+                .attr("fill", "#888")
+                .attr("text-anchor", "middle")
+                .attr("font-size", "13px")
+                .attr("font-variant", "small-caps")
+                .attr("letter-spacing", 1)
+                .text("나이");
+
+            // gridlines and labels for right pyramid
+
+            var rules1 = vis.selectAll("g.rule1")
+            .data(x1.ticks(5))
+            .enter("svg:g")
+            .filter(function(d) { return d > 0; })
+            .attr("class", "rule1")
+            .attr("transform", function(d) { return "translate("+(w+30+x1(d))+",0)";});
+
+            rules1.append("svg:line")
+                .attr("y1", h - 2)
+                .attr("y2", h + 4)
+                .attr("stroke", "#bbb");
+
+            rules1.append("svg:line")
+                .attr("y1", 0)
+                .attr("y2", h)
+                .attr("stroke", "white")
+                .attr("stroke-opacity", .3);
+
+            rules1.append("svg:text")
+                .attr("y", h + 9)
+                .attr("dy", ".71em")
+                .attr("text-anchor", "middle")
+                .attr("font-size", "12px")
+                .attr("fill", "#bbb")
+                .text(function(d) { return (d/10000).toFixed(0)+"만명"; });
+
+            // gridlines and labels for left pyramid
+
+            var rules2 = vis.selectAll("g.rule2")
+            .data(x2.ticks(5))
+            .enter("svg:g")
+            .filter(function(d) { return d > 0; })
+            .attr("class", "rule2")
+            .attr("transform", function(d) { return "translate("+(x2(d))+",0)";});
+
+            rules2.append("svg:line")
+                .attr("y1", h - 2)
+                .attr("y2", h + 4)
+                .attr("stroke", "#bbb");
+
+            rules2.append("svg:line")
+                .attr("y1", 0)
+                .attr("y2", h)
+                .attr("stroke", "white")
+                .attr("stroke-opacity", .3);
+
+            rules2.append("svg:text")
+                .attr("y", h + 9)
+                .attr("dy", ".71em")
+                .attr("text-anchor", "middle")
+                .attr("font-size", "12px")
+                .attr("fill", "#bbb")
+                .text(function(d) { return (d/10000).toFixed(0)+"만명"; });
+
+            d3.select("div#population")
+                .append("div")
+                .attr("class", "break");
+
+            div = d3.select("div#population")
+                .append("div")
+                .attr("class", "years");
+
+            div.append("span")
+                .attr("class", "title")
+                .text("기준년도");
+
+/*             ctrls =   d3.select("div#population")
+                        .append("div")
+                        .attr("class", "controls");
+            ctrls.append("span").append("a")
+                .attr("class", "control back")
+                .attr("href", "javascript:play(true);")
+                .text("<< ");
+            ctrls.append("span").append("a")
+                .attr("class", "control toggle")
+                .attr("href", "javascript:toggle();")
+                .text("play");
+            ctrls.append("span").append("a")
+                .attr("class", "control forward")
+                .attr("href", "javascript:play();")
+                .text(" >>"); */
+                
+            let range = d3.range(1970, 2020, 5);
+            range.unshift(1966);
+            range.unshift(1960);
+
+            div.selectAll("span.link")
+                .data(range)
+                .enter("span")
+                .attr("class", "link")
+                .append("a")
+                .attr("class", linkClass)
+                .attr("href", function(d) { return "javascript:goto("+d+");"; })
+                .text(function(d) { return d.toFixed(0); });
+        }
+        
+        $(document).ready(function() {
+            changeSidoCode();
+        });
+        
+        document.onkeydown = function(event) {
+            var y = year;
+            //console.log(y);
+            switch (event.keyCode) {
+                case 37: // left arrow
+                    if (y == 1970) y = Math.max(1960, year-4);
+                    else if (y == 1966) y = Math.max(1960, year-6);
+                    else y = Math.max(1960, year-5);
+                    //if (y == 1966) y -= 5;
+                    break;
+                case 39: // right arrow
+                    if (y == 1960) y = Math.min(2015, year+6);
+                    else if (y == 1966) y = Math.min(2015, year+4);
+                    else y = Math.min(2015, year+5);
+                    //if (y == 1960) y += 5;
+                    break;
+            }
+            if (y != year) goto(y);
+        };
+
+        function isYear(d) { return d.year == year; }
+        function linkClass(y) { return "y"+y.toFixed(0) + (y==year?" active":""); }
+        function tooltipText(d) {
+            return d3.format(",")(d.people)
+                + " " + (d.sex==1?"men":"women")
+                + " aged " + (d.age==85?"85+":d.age+"-"+(d.age+4))
+              + " in " + d.year;
+        }
+        function barWidth(d) { return x1(d.people); }
+
+        function goto(yr, dur) {
+          dur = dur || 300;
+          var old = year;
+          year = yr;
+
+          label.text(year);
+
+          div.selectAll("span.link a")
+             .attr("class", linkClass);
+
+          var fb = vis.selectAll("rect.female").data(fdat.filter(isYear), {
+              nodeKey: function(node) { return node.getAttribute("id"); },
+              dataKey: function(data) { return "f"+(data.year - data.age); }
+            });
+            fb.enter("svg:rect")
+              .attr("id", function(d) { return "f"+(d.year - d.age); })
+              .attr("class", "female")
+              .attr("fill", "pink")
+            .attr("transform", lTransform)
+              .attr("width", function(d) { return x1(d.people); })
+              .attr("y", yr>old ? 20 : -20)
+              .attr("height", y.rangeBand())
+              .attr("opacity", 0.0001)
+            .transition()
+              .duration(dur)
+              .attr("y", 0)
+              .attr("opacity", 1);
+            fb.exit().transition()
+                .duration(dur)
+              .attr("y", yr>old ? -20 : 30)
+                .attr("opacity", 0.0001)
+                .each("end", function() { d3.select(this).remove(); });
+          fb.transition()
+                .duration(dur)
+              .attr("transform", lTransform)
+              .attr("y", 0)
+              .attr("width", function(d) { return x1(d.people); })
+              .attr("opacity", 1);
+          fb.selectAll("title").text(tooltipText);
+
+
+          var mb = vis.selectAll("rect.male").data(mdat.filter(isYear), {
+              nodeKey: function(node) { return node.getAttribute("id"); },
+              dataKey: function(data) { return "m"+(data.year - data.age); }
+            });
+            mb.enter("svg:rect")
+              .attr("id", function(d) { return "m"+(d.year - d.age); })
+              .attr("class", "male")
+              .attr("fill", "steelblue")
+              .attr("transform", rTransform)
+              .attr("width", function(d) { return x1(d.people); })
+              .attr("y", yr>old ? 20 : -20)
+              .attr("height", y.rangeBand())
+              .attr("opacity", 0.0001)
+            .transition()
+              .duration(dur)
+              .attr("y", 0)
+              .attr("opacity", 1);
+            mb.exit().transition()
+                .duration(dur)
+                .attr("y", yr>old ? -20 : 30)
+                .attr("opacity",0.0001)
+                .each("end", function() { d3.select(this).remove(); });
+          mb.transition()
+                .duration(dur)
+              .attr("transform", rTransform)
+              .attr("y", 0)
+              .attr("width", function(d) { return x1(d.people); })
+              .attr("opacity", 1);
+          mb.select("title").text(tooltipText);
+        }
+
+/*         var timer = undefined;
+        function stop() {
+            clearInterval(timer);
+            timer = undefined;
+            ctrls.select("a.toggle").text("play");
+        }
+        function toggle() {
+          if (!timer) {
+            play();
+          } else {
+            stop();
+          }
+        }
+        function play(rev) {
+          rev = rev || false;
+          if (timer) { stop(); }
+          ctrls.select("a.toggle").text("stop");
+          var advance = function() {
+            var y = year + (rev?-1:1)*5;
+            if (y == 1960) {
+              // skip 1890
+              //y = y + (rev?-1:1)*10;
+            }
+            if (y < 1960 || y > 2015) {
+              // stop at end points
+              stop();
+              return;
+            } else {
+              // else advance
+              goto(y, 800);
+            }
+          };
+          advance();
+          timer = setInterval(advance, 850);
+        } */
+
+    </script>
+  </body>
+</html>

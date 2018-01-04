@@ -41,7 +41,7 @@ public class UserController extends BaseController {
 	@RequestMapping(value="", method=RequestMethod.GET)
 	public @ResponseBody ResponseEntity<ResponseData> list(
 			@RequestParam(value="offset", required=false, defaultValue="0") Integer offset, 
-			@RequestParam(value="limit", required=false, defaultValue="10") Integer limit,
+			@RequestParam(value="limit", required=false, defaultValue="1000") Integer limit,
 			@RequestParam(value="keyword", required=false, defaultValue="") String keyword,
 			HttpSession session) throws Exception {
 		

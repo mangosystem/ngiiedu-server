@@ -56,6 +56,9 @@
 		<script type="text/javascript" src="<%=contextPath%>/assets/cdn/jquery/jquery-3.2.1.min.js"></script>
 		<script src="<%=contextPath%>/assets/cdn/jquery-ui-1.12.1/jquery-ui.js"></script>
 		<link rel="stylesheet" href="<%=contextPath%>/assets/cdn/jquery-ui-1.12.1/jquery-ui.css">
+		
+		<!--pyramid  -->
+		<script src="<%=contextPath%>/assets/cdn/pyramid/d3.min.js"></script>
 
 		<!-- font-awesome -->
 		<link rel="stylesheet" type="text/css" href="<%=contextPath%>/assets/cdn/font-awesome/css/font-awesome.min.css" />
