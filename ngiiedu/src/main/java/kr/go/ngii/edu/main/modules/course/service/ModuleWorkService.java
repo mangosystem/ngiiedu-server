@@ -19,6 +19,11 @@ public class ModuleWorkService {
 	public List<ModuleWork> list(int moduleId) {
 		return workMapper.list(moduleId);
 	}
+	
+	public List<ModuleWork> listAll() {
+		return workMapper.listAll();
+	}
+
 
 	public ModuleWork get(int moduleId, int moduleWorkId) {
 		ModuleWork module = new ModuleWork();

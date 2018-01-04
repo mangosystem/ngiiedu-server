@@ -143,6 +143,16 @@ public class ModuleController extends BaseController {
 
 		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
 	}
+	
+	//module 과정 all 조회
+	@RequestMapping(value="/moduleWork", method=RequestMethod.GET)
+	public @ResponseBody ResponseEntity<ResponseData> workList(
+			HttpSession session) throws Exception {
+
+		List<ModuleWork> list = workService.listAll();
+
+		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
+	}
 
 	@RequestMapping(value="/{moduleId}/moduleWork/{moduleWorkId}", method=RequestMethod.GET)
 	public @ResponseBody ResponseEntity<ResponseData> workGet(

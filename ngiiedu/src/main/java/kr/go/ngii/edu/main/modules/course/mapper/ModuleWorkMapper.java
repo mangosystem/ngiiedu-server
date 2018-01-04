@@ -14,6 +14,8 @@ public interface ModuleWorkMapper {
 
 	public List<ModuleWork> list(@Param("moduleId") int moduleId);
 
+	public List<ModuleWork> listAll();
+
 	public void create(ModuleWork work);
 
 	public void modify(ModuleWork work);
