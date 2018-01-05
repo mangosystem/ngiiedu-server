@@ -32,6 +32,8 @@ import kr.go.ngii.edu.main.board.model.BbsPdsFile;
 import kr.go.ngii.edu.main.board.model.BbsQuestion;
 import kr.go.ngii.edu.main.board.model.BbsReply;
 import kr.go.ngii.edu.main.board.service.BoardService;
+import kr.go.ngii.edu.main.courses.work.model.WorkOutput;
+import kr.go.ngii.edu.main.courses.work.service.WorkOutputService;
 import kr.go.ngii.edu.main.users.model.User;
 import kr.go.ngii.edu.config.LocalResourceBundle;
 import kr.go.ngii.edu.controller.rest.BaseController;
@@ -43,6 +45,9 @@ public class BoardController extends BaseController {
 
 	@Autowired
 	private BoardService boardService;
+	
+	@Autowired
+	private WorkOutputService workOutputService;
 	
 	/**
 	 * 공지사항 목록 조회하기
@@ -579,6 +584,30 @@ public class BoardController extends BaseController {
 			HttpSession session) throws Exception {
 
 		boolean result = boardService.deletePds(pdsId);
+		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
+	}
+	
+	/**
+	 * 자료실 생성하기
+	 * 
+	 * @param title
+	 * @param description
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/gallery", method=RequestMethod.GET)
+	public @ResponseBody ResponseEntity<ResponseData> getGalleryList(
+			@RequestParam(value="offset", required=false, defaultValue="0") int offset, 
+			@RequestParam(value="limit", required=false, defaultValue="100") int limit, 
+			HttpSession session) throws Exception {
+		
+		User user = (User)session.getAttribute("USER_INFO");
+		if (user == null) {
+			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+		}
+		
+		List<WorkOutput> result = workOutputService.getGalleryList(offset, limit);
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
 	

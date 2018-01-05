@@ -13,6 +13,8 @@ public interface WorkOutputMapper {
 	public WorkOutput get(WorkOutput workOutput);
 	
 	public List<WorkOutput> getList(WorkOutput workOutput);
+	
+	public List<WorkOutput> getGalleryList(@Param("offset") int offset, @Param("limit") int limit);
 
 	public boolean create(WorkOutput workoutput);
 

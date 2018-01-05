@@ -337,8 +337,6 @@ public class WorkOutputServiceTest extends BaseTest{
 		System.out.println(wo);
 	}
 	
-
-	
 	@Test
 	public void workOutputStatus() {
 		WorkOutput wo = new WorkOutput();
@@ -350,5 +348,10 @@ public class WorkOutputServiceTest extends BaseTest{
 	}
 	
 	
+	@Test
+	public void workOutputList() {
+		List<WorkOutput> woList = workOutputService.getGalleryList(0, 100);
+		System.out.println(woList);
+	}
 	
 }

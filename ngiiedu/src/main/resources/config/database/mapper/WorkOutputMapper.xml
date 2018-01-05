@@ -59,6 +59,24 @@
 		ORDER BY idx
 	</select>
 	
+	<select id="getGalleryList" parameterType="map" resultMap="workOutputMap">
+		SELECT 
+			idx, 
+			course_work_sub_id, 
+			output_team_id, 
+			output_userid, 
+			output_division,
+			pinogio_output_id,
+			output_type,
+			is_shared,
+			is_done
+  		FROM works_output
+		ORDER BY idx
+  			<if test="offset != null and limit != null">
+				OFFSET ${offset} LIMIT ${limit}
+			</if>
+	</select>
+	
 	<select id="getList" parameterType="map" resultMap="workOutputMap">
 		SELECT 
 			idx, 
@@ -71,9 +89,12 @@
 			is_shared,
 			is_done
   		FROM works_output
-		WHERE course_work_sub_id = #{courseWorkSubId}
+  			<if test="courseWorkSubId != null or courseWorkSubId != 0 ">
+				WHERE course_work_sub_id = #{courseWorkSubId}
+			</if>
 		ORDER BY idx
 	</select>
+	
 
 	<select id="get" parameterType="map" resultMap="workOutputMap">
 		SELECT

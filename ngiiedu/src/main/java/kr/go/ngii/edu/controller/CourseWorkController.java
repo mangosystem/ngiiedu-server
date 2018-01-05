@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.NestedExceptionUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -73,25 +74,22 @@ public class CourseWorkController extends BaseController {
 			@PathVariable(value="datasetId", required=false) String datasetId,
 			HttpSession session) throws Exception {
 		User user = (User)session.getAttribute("USER_INFO");
-		if (user == null) {
-			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
-		}
-		
-		
-		
-		
-		
-		
+//		if (user == null) {
+//			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+//		}
 		
 		Map<String, String> pathParamVals = new HashMap<String,String>();
 		Map<String, String> paramVals = new HashMap<String,String>();
 		pathParamVals.put("dataset_id", datasetId);
-		
-		String apiKey = userService.getApiKey(user.getIdx());
+		String apiKey = "";
+		try {
+			apiKey = userService.getApiKey(user.getIdx());
+		} catch (NullPointerException e) {
+		}
 		apiClient.setApiKey(apiKey);
 		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.DATASET_GET, pathParamVals, paramVals);
 //			Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.DATASET_GET, paramPath);
-		return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
 	/**
 	 * 
@@ -107,16 +105,19 @@ public class CourseWorkController extends BaseController {
 			@PathVariable(value="datasetId", required=false) String datasetId,
 			HttpSession session) throws Exception {
 		User user = (User)session.getAttribute("USER_INFO");
-		if (user == null) {
-			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
-		}
+//		if (user == null) {
+//			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+//		}
 		Map<String, String> pathParamVals = new HashMap<String,String>();
 		Map<String, String> paramVals = new HashMap<String,String>();
 		pathParamVals.put("dataset_id", datasetId);
 		
-		String apiKey = userService.getApiKey(user.getIdx());
+		String apiKey = "";
+		try {
+			apiKey = userService.getApiKey(user.getIdx());
+		} catch (NullPointerException e) {
+		}
 		apiClient.setApiKey(apiKey);
-
 		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.DATASET_GET, pathParamVals, paramVals);
 //			Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.DATASET_GET, paramPath);
 
@@ -1295,25 +1296,37 @@ public class CourseWorkController extends BaseController {
 		GISServerConnect.requestGET(url, request, response);
 	}
 	
-	@RequestMapping(value="/maps/{mapsId}/status", method=RequestMethod.PUT)
-	public @ResponseBody ResponseEntity<ResponseData> mapsStatusModify(
+	@RequestMapping(value="/maps/{mapsId}/share", method=RequestMethod.PUT)
+	public @ResponseBody ResponseEntity<ResponseData> mapsShareModify(
 			@PathVariable("mapsId") String mapsId,
-			@RequestParam(value="isShared", required=false, defaultValue="true") String isShared,
-			@RequestParam(value="isDone", required=false, defaultValue="false") String isDone,
+			@RequestParam(value="isShared", required=false, defaultValue="false") String isShared,
 			HttpSession session) throws Exception {
 		
 		User user = (User)session.getAttribute("USER_INFO");
 		if (user == null) {
 			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
 		}
-		WorkOutput result = workOutputService.modifyStatus(mapsId, "true".equals(isShared), "true".equals(isDone));
-		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
+		workOutputService.modifyShare(mapsId, "true".equals(isShared));
+		return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
 	}
 	
-	@RequestMapping(value="/layers/{layerId}/status", method=RequestMethod.PUT)
-	public @ResponseBody ResponseEntity<ResponseData> layerStatusModify(
+	@RequestMapping(value="/layers/{layerId}/share", method=RequestMethod.PUT)
+	public @ResponseBody ResponseEntity<ResponseData> layerShareModify(
 			@PathVariable("mapsId") String mapsId,
-			@RequestParam(value="isShared", required=false, defaultValue="true") String isShared,
+			@RequestParam(value="isShared", required=false, defaultValue="false") String isShared,
+			HttpSession session) throws Exception {
+		
+		User user = (User)session.getAttribute("USER_INFO");
+		if (user == null) {
+			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+		}
+		WorkOutput result = workOutputService.modifyShare(mapsId, "true".equals(isShared));
+		return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/maps/{mapsId}/done", method=RequestMethod.PUT)
+	public @ResponseBody ResponseEntity<ResponseData> mapsDoneModify(
+			@PathVariable("mapsId") String mapsId,
 			@RequestParam(value="isDone", required=false, defaultValue="false") String isDone,
 			HttpSession session) throws Exception {
 		
@@ -1321,8 +1334,22 @@ public class CourseWorkController extends BaseController {
 		if (user == null) {
 			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
 		}
-		WorkOutput result = workOutputService.modifyStatus(mapsId, "true".equals(isShared), "true".equals(isDone));
-		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
+		workOutputService.modifyDone(mapsId, "true".equals(isDone));
+		return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/layers/{layerId}/done", method=RequestMethod.PUT)
+	public @ResponseBody ResponseEntity<ResponseData> layerDoneModify(
+			@PathVariable("mapsId") String mapsId,
+			@RequestParam(value="isDone", required=false, defaultValue="false") String isDone,
+			HttpSession session) throws Exception {
+		
+		User user = (User)session.getAttribute("USER_INFO");
+		if (user == null) {
+			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+		}
+		WorkOutput result = workOutputService.modifyDone(mapsId, "true".equals(isDone));
+		return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
 	}
 	
 }

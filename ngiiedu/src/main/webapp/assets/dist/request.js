@@ -1,4 +1,4 @@
-const apiSvr = 'http://localhost:8080/ngiiedu/api/v1';
+const apiSvr = 'http://1.234.82.19:8083/ngiiedu/api/v1';
 
 const contextPath = '/ngiiedu';
 

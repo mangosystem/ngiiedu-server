@@ -176,20 +176,34 @@ public class WorkOutputService extends BaseService {
 		return get(param);
 	}
 	
+	public List<WorkOutput> getList() {
+		return workOutputMapper.getList(new WorkOutput());
+	}
+	
+	public List<WorkOutput> getGalleryList(int offset, int limit) {
+		return workOutputMapper.getGalleryList(offset, limit);
+	}
+	
 	public List<WorkOutput> getList(WorkOutput workOutput) {
 		return workOutputMapper.getList(workOutput);
 	}
 	
-	public WorkOutput modify(WorkOutput workOutput) {
-		WorkOutput params = new WorkOutput();
-		workOutputMapper.modify(params);
-		return params;
+	public void modify(WorkOutput workOutput) {
+		workOutputMapper.modify(workOutput);
 	}
 	
-	public WorkOutput modifyStatus(String pinogioId, boolean isShared, boolean isDone) {
+	public WorkOutput modifyShare(String pinogioId, boolean isShared) {
 		WorkOutput params = new WorkOutput();
 		params.setPinogioOutputId(pinogioId);
 		params.setIsShared(isShared);
+		workOutputMapper.modifyStatus(params);
+		return params;
+		
+	}
+	
+	public WorkOutput modifyDone(String pinogioId, boolean isDone) {
+		WorkOutput params = new WorkOutput();
+		params.setPinogioOutputId(pinogioId);
 		params.setIsDone(isDone);
 		workOutputMapper.modifyStatus(params);
 		return params;
@@ -211,8 +225,12 @@ public class WorkOutputService extends BaseService {
 	
 	private Object requestPngoData(String pngoId, String outputType) {
 		RestAPIClient rc = new RestAPIClient();
-		User user = (User) getHttpSession().getAttribute("USER_INFO");
-		String apiKey = userService.getApiKey(user.getIdx());
+		String apiKey = "";
+		try {
+			User user = (User) getHttpSession().getAttribute("USER_INFO");
+			apiKey = userService.getApiKey(user.getIdx());
+		} catch (NullPointerException e) {
+		}
 		rc.setApiKey(apiKey);
 		if ("layer".equals(outputType)) {
 			Map<String, Object> r;

@@ -170,8 +170,12 @@ public class CourseWorkSubService extends BaseService {
 	
 	private Object requestPngoData(String pngoId, String outputType) {
 		RestAPIClient rc = new RestAPIClient();
-		User user = (User) getHttpSession().getAttribute("USER_INFO");
-		String apiKey = userService.getApiKey(user.getIdx());
+		String apiKey = "";
+		try {
+			User user = (User) getHttpSession().getAttribute("USER_INFO");
+			apiKey = userService.getApiKey(user.getIdx());
+		} catch (NullPointerException e) {
+		}
 		rc.setApiKey(apiKey);
 		if ("layer".equals(outputType)) {
 			Map<String, Object> r;
