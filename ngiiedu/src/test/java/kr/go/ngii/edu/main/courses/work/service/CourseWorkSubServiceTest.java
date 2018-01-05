@@ -198,7 +198,7 @@ public class CourseWorkSubServiceTest extends BaseTest {
 		Map<String, String> uriParams = new HashMap<String, String>();
 	    uriParams.put("dataset_id", "d=r7oFXBrCYl");
 		RestAPIClient rc = new RestAPIClient();
-		Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.DATASET_GET, uriParams);
+		Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.DATASET_GET, uriParams, null);
 		System.out.println(r.get("data"));
 		List<Map<String, Object>> ra = (List<Map<String, Object>>) r.get("data");
 		Map<String, Object> r1 = ra.get(0);
@@ -376,21 +376,21 @@ public class CourseWorkSubServiceTest extends BaseTest {
 			RestAPIClient rc = new RestAPIClient();
 			Map<String, String> uriParams = new HashMap<String, String>();
 			uriParams.put(EnumWorkOutputType.LAYER.idField(), pngoId);
-			r = rc.getResponseBody(EnumRestAPIType.LAYER_GET, uriParams);
+			r = rc.getResponseBody(EnumRestAPIType.LAYER_GET, uriParams, null);
 			return r.get("data");
 		} else if ("maps".equals(outputType)) {
 			Map<String, Object> r;
 			RestAPIClient rc = new RestAPIClient();
 			Map<String, String> uriParams = new HashMap<String, String>();
 			uriParams.put(EnumWorkOutputType.MAPS.idField(), pngoId);
-			r = rc.getResponseBody(EnumRestAPIType.MAPS_GET, uriParams);
+			r = rc.getResponseBody(EnumRestAPIType.MAPS_GET, uriParams, null);
 			return r.get("data");
 		} else if ("dataset".equals(outputType)) {
 			Map<String, Object> r;
 			RestAPIClient rc = new RestAPIClient();
 			Map<String, String> uriParams = new HashMap<String, String>();
 			uriParams.put(EnumWorkOutputType.DATASET.idField(), pngoId);
-			r = rc.getResponseBody(EnumRestAPIType.DATASET_GET, uriParams);
+			r = rc.getResponseBody(EnumRestAPIType.DATASET_GET, uriParams, null);
 			return r.get("data");
 		}
 		return null;

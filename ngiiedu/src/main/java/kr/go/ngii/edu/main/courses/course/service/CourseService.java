@@ -124,6 +124,7 @@ public class CourseService extends BaseService {
 		String apiKey = userService.getApiKey(pngoUser.getIdx());
 		
 		RestAPIClient rc = new RestAPIClient();
+		rc.setApiKey(apiKey);
 		Map<String, String> pathParam = new HashMap<String, String>();
 		Map<String, String> mParam = new HashMap<String, String>();
 		mParam.put("title", courseName);
@@ -456,12 +457,12 @@ public class CourseService extends BaseService {
 		try {
 			
 			RestAPIClient rc = new RestAPIClient();
+			String apiKey = userService.getApiKey(user.getIdx());
+			rc.setApiKey(apiKey);
 			String projectId = course.getProjectId();
 			
 			PngoUser pngoUser = userService.getPngoUser(user.getUserid());
 			int pngoUserId = pngoUser.getIdx();
-			
-			String apiKey = userService.getApiKey(pngoUserId);
 			
 			Map<String, String> pathParam = new HashMap<String, String>();
 			pathParam.put("project_id", projectId);

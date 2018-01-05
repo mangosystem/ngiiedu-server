@@ -113,9 +113,9 @@ public class CourseController extends BaseController {
 			HttpSession session) throws Exception {
 		
 		User user = (User)session.getAttribute("USER_INFO");
-//		if (user == null) {
-//			throw new RuntimeException(ErrorMessage.FOBRIDDEN);
-//		}
+		if (user == null) {
+			throw new RuntimeException(ErrorMessage.FOBRIDDEN);
+		}
 		
 		Map<String,Object> emptyTemplateMap = null;
 		if (emptyTemplate != null) {
@@ -129,10 +129,10 @@ public class CourseController extends BaseController {
 //		Course result = courseService.create(user, moduleId, moduleWorkIds, courseName, courseMetadata, emptyTemplateMap);
 		
 		RestAPIClient rc = new RestAPIClient();
-
 		int userId = user.getIdx();
 		PngoUser pngoUser = userService.getPngoUser(user.getUserid());
 		String apiKey = userService.getApiKey(pngoUser.getIdx());
+		rc.setApiKey(apiKey);
 		
 		// PROJECT 생성
 		Map<String, String> createProjectParam = new HashMap<String, String>();
@@ -178,7 +178,6 @@ public class CourseController extends BaseController {
 						
 					}
 				}
-				
 			}
 		}
 		

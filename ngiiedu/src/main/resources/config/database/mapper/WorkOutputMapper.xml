@@ -13,7 +13,7 @@
 		<result property="pinogioOutputId" column="pinogio_output_id" />
 		<result property="outputType" column="output_type" />
 		<result property="isShared" column="is_shared" />
-		<result property="isDone" column="isDone" />
+		<result property="isDone" column="is_done" />
 	</resultMap>
 	
 	<insert id="create" parameterType="map">
@@ -120,6 +120,20 @@
 		WHERE
 			idx = #{idx} 
 	</update>
+	
+	<update id="modifyStatus" parameterType="map">
+		UPDATE works_output
+		<set>
+			<if test="isShared !=null">
+				is_shared = #{isShared},
+			</if>
+			<if test="isDone !=null">
+				is_done =  #{isDone}
+			</if>
+		</set>
+		WHERE pinogio_output_id = #{pinogioOutputId}
+	</update>
+	
 	
 	<delete id="delete" parameterType="map">
 		DELETE FROM works_output

@@ -1,5 +1,6 @@
 package kr.go.ngii.edu.main.common;
 
+import java.io.File;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -47,42 +48,22 @@ public class RestAPIClient {
 		this.apiKey = apiKey;
 	}
 	
-	public Map<String, Object> getResponseBody(EnumRestAPIType enumType, Map<String, String> pathParam) {
-		try {
-			UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(REST_BASE_URI + format(enumType.code(), pathParam));
-		    return getResponseExchange(builder, enumType.method());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-	
-	
 	public Map<String, Object> getResponseBody(EnumRestAPIType enumType, Map<String, String> pathParam, Map<String, String> param) {
 		try {
+			
+			UriComponentsBuilder builder;
 			if (pathParam == null || pathParam.isEmpty()) {
-				return getResponseBody(enumType, enumType.code(), param);
+				//return getResponseBody(enumType, enumType.code(), param);
+				builder = UriComponentsBuilder.fromUriString(REST_BASE_URI + enumType.code());
+			} else {
+				
+				builder = UriComponentsBuilder.fromUriString(REST_BASE_URI + format(enumType.code(), pathParam));
 			}
-			UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(REST_BASE_URI + format(enumType.code(), pathParam));
 			if (param != null && !param.isEmpty()) {
 				for( Map.Entry<String, String> elem : param.entrySet()) {
 					builder.queryParam(elem.getKey(), elem.getValue());
 				}
 			}
-		    return getResponseExchange(builder, enumType.method());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-	
-	
-	public Map<String, Object> getResponseBody(EnumRestAPIType enumType, String pathParam, Map<String, String> param) {
-		try {
-		    UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(REST_BASE_URI + pathParam);
-		    for( Map.Entry<String, String> elem : param.entrySet()) {
-		    	builder.queryParam(elem.getKey(), elem.getValue());
-		    }
 		    return getResponseExchange(builder, enumType.method());
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -112,6 +93,128 @@ public class RestAPIClient {
 			URI uriParam = builder.build().encode("UTF-8").toUri();
 			return restTemplate.postForObject(uriParam, multiValueMap, String.class);
 		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	
+	public Map<String, Object> getResponseBodyWithLinkedMap(EnumRestAPIType enumType, Map<String, String> pathParam, 
+			Map<String, Object> param, MultipartFile file, String key) {
+		try {
+			UriComponentsBuilder builder;
+			if (pathParam == null || pathParam.isEmpty()) {
+				builder = UriComponentsBuilder.fromUriString(REST_BASE_URI + enumType.code());
+			} else {
+				builder = UriComponentsBuilder.fromUriString(REST_BASE_URI + format(enumType.code(), pathParam));
+			}
+			
+			MultiValueMap<String, Object> multiValueMap = new LinkedMultiValueMap<String, Object>();
+			
+			if (param != null && !param.isEmpty()) {
+				for( Map.Entry<String, Object> elem : param.entrySet()) {
+					multiValueMap.set(elem.getKey(), elem.getValue());
+				}
+			}
+			ByteArrayResource resource = new ByteArrayResource(file.getBytes()){
+				@Override
+				public String getFilename() throws IllegalStateException {
+					return file.getOriginalFilename();
+				}
+			};
+			
+//			File convFile = new File( file.getOriginalFilename());
+//			try {
+//				
+//				file.transferTo(convFile);
+//			} catch (Exception e) {
+//				// TODO: handle exception
+//			}
+			
+//			multiValueMap.add("ufile", convFile);
+			multiValueMap.add("ufile", resource);
+			HttpHeaders headers = new HttpHeaders();
+			headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+			if ("".equals(key)) {
+				key = this.apiKey;
+			}
+			//headers.set("apikey", key);
+			HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(multiValueMap, headers);
+	    	ParameterizedTypeReference<Map<String, Object>> typeRef = new ParameterizedTypeReference<Map<String, Object>>() {};
+//			URI uriParam = builder.build().encode("UTF-8").toUri();
+			URI uriParam = builder.build().encode().toUri();
+			
+//			 List<HttpMessageConverter<?>> messageConverters = new ArrayList<HttpMessageConverter<?>>();
+//	        messageConverters.add(new MappingJackson2HttpMessageConverter());
+//	        messageConverters.add(new FormHttpMessageConverter());
+//	        restTemplate.getMessageConverters().addAll(messageConverters);
+		        
+			ResponseEntity<Map<String, Object>> result = restTemplate.exchange(uriParam, enumType.method(), requestEntity, typeRef);
+			Map<String, Object> body = result.getBody();
+			return body;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public Map<String, Object> getResponseBodyWithLinkedMap(EnumRestAPIType enumType, Map<String, String> pathParam, 
+			Map<String, String> param, String key) {
+		try {
+			UriComponentsBuilder builder;
+			if (pathParam == null || pathParam.isEmpty()) {
+				builder = UriComponentsBuilder.fromUriString(REST_BASE_URI + enumType.code());
+			} else {
+				builder = UriComponentsBuilder.fromUriString(REST_BASE_URI + format(enumType.code(), pathParam));
+			}
+			
+			MultiValueMap<String, String> multiValueMap = new LinkedMultiValueMap<String, String>();
+			
+			if (param != null && !param.isEmpty()) {
+				for( Map.Entry<String, String> elem : param.entrySet()) {
+					multiValueMap.set(elem.getKey(), elem.getValue());
+				}
+			}
+			HttpHeaders headers = new HttpHeaders();
+			headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+			if ("".equals(key)) {
+				key = this.apiKey;
+			}
+			headers.set("apikey", key);
+			HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(multiValueMap, headers);
+	    	ParameterizedTypeReference<Map<String, Object>> typeRef = new ParameterizedTypeReference<Map<String, Object>>() {};
+			URI uriParam = builder.build().encode("UTF-8").toUri();
+			
+			 List<HttpMessageConverter<?>> messageConverters = new ArrayList<HttpMessageConverter<?>>();
+	        messageConverters.add(new MappingJackson2HttpMessageConverter());
+	        messageConverters.add(new FormHttpMessageConverter());
+	        restTemplate.getMessageConverters().addAll(messageConverters);
+		        
+			ResponseEntity<Map<String, Object>> result = restTemplate.exchange(uriParam, enumType.method(), requestEntity, typeRef);
+			Map<String, Object> body = result.getBody();
+			return body;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	
+	private Map<String, Object> getResponseExchange(UriComponentsBuilder builder, HttpMethod method) {
+		try {
+			HttpHeaders headers = new HttpHeaders();
+		    headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
+		    if (!"".equals(this.apiKey)) {
+		    	headers.set("apikey", this.apiKey);
+		    }
+		    URI uriParam = builder.build().encode("UTF-8").toUri();
+		    ParameterizedTypeReference<Map<String, Object>> typeRef = 
+					new ParameterizedTypeReference<Map<String, Object>>() {};
+			HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
+			ResponseEntity<Map<String, Object>> result = restTemplate.exchange(uriParam, method, entity, typeRef);
+			Map<String, Object> body = result.getBody();
+			return body;
+		} catch (Exception e) {         
 			e.printStackTrace();
 		}
 		return null;
@@ -177,68 +280,6 @@ public class RestAPIClient {
 //		return null;
 //	}
 	
-	
-	public Map<String, Object> getResponseBodyWithLinkedMap(EnumRestAPIType enumType, Map<String, String> pathParam, 
-			Map<String, String> param, String key) {
-		try {
-			UriComponentsBuilder builder;
-			if (pathParam == null || pathParam.isEmpty()) {
-				builder = UriComponentsBuilder.fromUriString(REST_BASE_URI + enumType.code());
-			} else {
-				builder = UriComponentsBuilder.fromUriString(REST_BASE_URI + format(enumType.code(), pathParam));
-			}
-			
-			MultiValueMap<String, String> multiValueMap = new LinkedMultiValueMap<String, String>();
-			
-			if (param != null && !param.isEmpty()) {
-				for( Map.Entry<String, String> elem : param.entrySet()) {
-					multiValueMap.set(elem.getKey(), elem.getValue());
-				}
-			}
-			HttpHeaders headers = new HttpHeaders();
-			headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-			if ("".equals(key)) {
-				key = this.apiKey;
-			}
-			headers.set("apikey", key);
-			HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(multiValueMap, headers);
-	    	ParameterizedTypeReference<Map<String, Object>> typeRef = new ParameterizedTypeReference<Map<String, Object>>() {};
-			URI uriParam = builder.build().encode("UTF-8").toUri();
-			
-			 List<HttpMessageConverter<?>> messageConverters = new ArrayList<HttpMessageConverter<?>>();
-	        messageConverters.add(new MappingJackson2HttpMessageConverter());
-	        messageConverters.add(new FormHttpMessageConverter());
-	        restTemplate.getMessageConverters().addAll(messageConverters);
-		        
-			ResponseEntity<Map<String, Object>> result = restTemplate.exchange(uriParam, enumType.method(), requestEntity, typeRef);
-			Map<String, Object> body = result.getBody();
-			return body;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-	
-	
-	private Map<String, Object> getResponseExchange(UriComponentsBuilder builder, HttpMethod method) {
-		try {
-			HttpHeaders headers = new HttpHeaders();
-		    headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
-		    if (!"".equals(this.apiKey)) {
-		    	headers.set("apikey", this.apiKey);
-		    }
-		    URI uriParam = builder.build().encode("UTF-8").toUri();
-		    ParameterizedTypeReference<Map<String, Object>> typeRef = 
-					new ParameterizedTypeReference<Map<String, Object>>() {};
-			HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
-			ResponseEntity<Map<String, Object>> result = restTemplate.exchange(uriParam, method, entity, typeRef);
-			Map<String, Object> body = result.getBody();
-			return body;
-		} catch (Exception e) {         
-			e.printStackTrace();
-		}
-		return null;
-	}
 	
 	private static String format(String format, Map<String, String> values) {
 		

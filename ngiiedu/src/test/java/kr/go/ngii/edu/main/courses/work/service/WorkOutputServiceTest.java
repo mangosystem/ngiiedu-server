@@ -311,21 +311,21 @@ public class WorkOutputServiceTest extends BaseTest{
 			RestAPIClient rc = new RestAPIClient();
 			Map<String, String> uriParams = new HashMap<String, String>();
 			uriParams.put(EnumWorkOutputType.LAYER.idField(), pngoId);
-			r = rc.getResponseBody(EnumRestAPIType.LAYER_GET, uriParams);
+			r = rc.getResponseBody(EnumRestAPIType.LAYER_GET, uriParams, null);
 			return r.get("data");
 		} else if ("maps".equals(outputType)) {
 			Map<String, Object> r;
 			RestAPIClient rc = new RestAPIClient();
 			Map<String, String> uriParams = new HashMap<String, String>();
 			uriParams.put(EnumWorkOutputType.MAPS.idField(), pngoId);
-			r = rc.getResponseBody(EnumRestAPIType.MAPS_GET, uriParams);
+			r = rc.getResponseBody(EnumRestAPIType.MAPS_GET, uriParams, null);
 			return r.get("data");
 		} else if ("dataset".equals(outputType)) {
 			Map<String, Object> r;
 			RestAPIClient rc = new RestAPIClient();
 			Map<String, String> uriParams = new HashMap<String, String>();
 			uriParams.put(EnumWorkOutputType.DATASET.idField(), pngoId);
-			r = rc.getResponseBody(EnumRestAPIType.DATASET_GET, uriParams);
+			r = rc.getResponseBody(EnumRestAPIType.DATASET_GET, uriParams, null);
 			return r.get("data");
 		}
 		return null;
@@ -338,6 +338,17 @@ public class WorkOutputServiceTest extends BaseTest{
 	}
 	
 
+	
+	@Test
+	public void workOutputStatus() {
+		WorkOutput wo = new WorkOutput();
+		wo.setPinogioOutputId("d=7idwhbimIY");
+		wo.setIsDone(false);
+		wo.setIsShared(false);
+		workOutputMapper.modifyStatus(wo);
+		System.out.println(wo);
+	}
+	
 	
 	
 }

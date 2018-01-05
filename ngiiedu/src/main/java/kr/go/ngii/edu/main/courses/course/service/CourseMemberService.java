@@ -180,7 +180,8 @@ public class CourseMemberService extends BaseService {
 		try {
 			
 			RestAPIClient rc = new RestAPIClient();
-
+			String apiKey = userService.getApiKey(userId);
+			rc.setApiKey(apiKey);
 			Course course = courseService.get(courseId);
 			String projectId = course.getProjectId();
 			
@@ -189,15 +190,13 @@ public class CourseMemberService extends BaseService {
 			
 			int pngoUserId = pngoUser.getIdx();
 			
-			String apiKey = userService.getApiKey(pngoUserId);
-			
 			Map<String, String> pathParam = new HashMap<String, String>();
 			pathParam.put("project_id", projectId);
 			
 			Map<String, Object> r = rc.getResponseBodyWithLinkedMap(enumType, pathParam, param, apiKey);
 			Map<String, String> metaData = (Map<String, String>) r.get("meta");
 			if (!"OK".equalsIgnoreCase(metaData.get("status"))) {
-				throw new RuntimeException(ErrorMessage.COURSE_CREATE_FAILED);
+				// throw new RuntimeException(ErrorMessage.COURSE_CREATE_FAILED);
 			}
 			
 		} catch (Exception e) {
@@ -212,7 +211,6 @@ public class CourseMemberService extends BaseService {
 		courseMemberMapper.modify(params);
 		return courseMemberMapper.get(courseId, userId);
 	}
-
 
 	/**
 	 * 수업에서 탈퇴하기

@@ -185,19 +185,19 @@ public class WorkOutput implements Serializable {
 		this.pngoData = pngoData;
 	}
 	
-	public boolean isShared() {
+	public boolean getIsShared() {
 		return isShared;
 	}
 
-	public void setShared(boolean isShared) {
+	public void setIsShared(boolean isShared) {
 		this.isShared = isShared;
 	}
 
-	public boolean isDone() {
+	public boolean getIsDone() {
 		return isDone;
 	}
 
-	public void setDone(boolean isDone) {
+	public void setIsDone(boolean isDone) {
 		this.isDone = isDone;
 	}
 

@@ -22,6 +22,8 @@ import kr.go.ngii.edu.main.courses.work.model.CourseWorkSubInfo;
 import kr.go.ngii.edu.main.courses.work.model.WorkOutput;
 import kr.go.ngii.edu.main.modules.course.model.ModuleWorkSub;
 import kr.go.ngii.edu.main.modules.course.service.ModuleWorkSubService;
+import kr.go.ngii.edu.main.users.model.User;
+import kr.go.ngii.edu.main.users.service.UserService;
 
 @Service
 public class CourseWorkSubService extends BaseService {
@@ -38,13 +40,12 @@ public class CourseWorkSubService extends BaseService {
 	@Autowired
 	private ModuleWorkSubService moduleWorkSubService;
 	
+	@Autowired
+	private UserService userService;
+	
 	public CourseWorkSub get(CourseWorkSub courseWorkSub) {
 		return courseWorkSubMapper.get(courseWorkSub);
 	}
-	
-	
-
-	
 	
 	public List<CourseWorkSubInfo> list(int courseWorkId) {
 		
@@ -168,26 +169,27 @@ public class CourseWorkSubService extends BaseService {
 	
 	
 	private Object requestPngoData(String pngoId, String outputType) {
+		RestAPIClient rc = new RestAPIClient();
+		User user = (User) getHttpSession().getAttribute("USER_INFO");
+		String apiKey = userService.getApiKey(user.getIdx());
+		rc.setApiKey(apiKey);
 		if ("layer".equals(outputType)) {
 			Map<String, Object> r;
-			RestAPIClient rc = new RestAPIClient();
 			Map<String, String> uriParams = new HashMap<String, String>();
 			uriParams.put(EnumWorkOutputType.LAYER.idField(), pngoId);
-			r = rc.getResponseBody(EnumRestAPIType.LAYER_GET, uriParams);
+			r = rc.getResponseBody(EnumRestAPIType.LAYER_GET, uriParams, null);
 			return r.get("data");
 		} else if ("maps".equals(outputType)) {
 			Map<String, Object> r;
-			RestAPIClient rc = new RestAPIClient();
 			Map<String, String> uriParams = new HashMap<String, String>();
 			uriParams.put(EnumWorkOutputType.MAPS.idField(), pngoId);
-			r = rc.getResponseBody(EnumRestAPIType.MAPS_GET, uriParams);
+			r = rc.getResponseBody(EnumRestAPIType.MAPS_GET, uriParams, null);
 			return r.get("data");
 		} else if ("dataset".equals(outputType)) {
 			Map<String, Object> r;
-			RestAPIClient rc = new RestAPIClient();
 			Map<String, String> uriParams = new HashMap<String, String>();
 			uriParams.put(EnumWorkOutputType.DATASET.idField(), pngoId);
-			r = rc.getResponseBody(EnumRestAPIType.DATASET_GET, uriParams);
+			r = rc.getResponseBody(EnumRestAPIType.DATASET_GET, uriParams, null);
 			return r.get("data");
 		}
 		return null;

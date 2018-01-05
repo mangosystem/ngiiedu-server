@@ -24,6 +24,8 @@ import kr.go.ngii.edu.main.courses.work.mapper.WorkOutputMapper;
 import kr.go.ngii.edu.main.courses.work.model.CourseWork;
 import kr.go.ngii.edu.main.courses.work.model.CourseWorkSub;
 import kr.go.ngii.edu.main.courses.work.model.WorkOutput;
+import kr.go.ngii.edu.main.users.model.User;
+import kr.go.ngii.edu.main.users.service.UserService;
 
 @Service
 public class WorkOutputService extends BaseService {
@@ -39,6 +41,9 @@ public class WorkOutputService extends BaseService {
 	
 	@Autowired
 	private CourseTeamMemberService courseTeamMemberService;
+	
+	@Autowired
+	private UserService userService;
 	
 	/**
 	 * 결과물을 등록 한다.
@@ -97,8 +102,8 @@ public class WorkOutputService extends BaseService {
 			woParam.setOutputName(createdTitle);
 //			woParam.setShared("true".equals(isShared));
 //			woParam.setDone("true".equals(isDone));
-			woParam.setShared(isShared);
-			woParam.setDone(isDone);
+			woParam.setIsShared(isShared);
+			woParam.setIsDone(isDone);
 			workOutputMapper.create(woParam);
 //			woParam.getPinogioOutputId();
 			return woParam;
@@ -140,8 +145,8 @@ public class WorkOutputService extends BaseService {
 			woParam.setOutputName(createdTitle);
 //			woParam.setShared("true".equals(isShared));
 //			woParam.setDone("true".equals(isDone));
-			woParam.setShared(isShared);
-			woParam.setDone(isDone);
+			woParam.setIsShared(isShared);
+			woParam.setIsDone(isDone);
 			workOutputMapper.create(woParam);
 //			woParam.getPinogioOutputId();
 			return woParam;
@@ -181,6 +186,16 @@ public class WorkOutputService extends BaseService {
 		return params;
 	}
 	
+	public WorkOutput modifyStatus(String pinogioId, boolean isShared, boolean isDone) {
+		WorkOutput params = new WorkOutput();
+		params.setPinogioOutputId(pinogioId);
+		params.setIsShared(isShared);
+		params.setIsDone(isDone);
+		workOutputMapper.modifyStatus(params);
+		return params;
+	}
+	
+	
 	public boolean delete(int idx) {
 		if (workOutputMapper.exists(idx)) {
 			workOutputMapper.delete(idx);
@@ -195,26 +210,27 @@ public class WorkOutputService extends BaseService {
 	}
 	
 	private Object requestPngoData(String pngoId, String outputType) {
+		RestAPIClient rc = new RestAPIClient();
+		User user = (User) getHttpSession().getAttribute("USER_INFO");
+		String apiKey = userService.getApiKey(user.getIdx());
+		rc.setApiKey(apiKey);
 		if ("layer".equals(outputType)) {
 			Map<String, Object> r;
-			RestAPIClient rc = new RestAPIClient();
 			Map<String, String> uriParams = new HashMap<String, String>();
 			uriParams.put(EnumWorkOutputType.LAYER.idField(), pngoId);
-			r = rc.getResponseBody(EnumRestAPIType.LAYER_GET, uriParams);
+			r = rc.getResponseBody(EnumRestAPIType.LAYER_GET, uriParams, null);
 			return r.get("data");
 		} else if ("maps".equals(outputType)) {
 			Map<String, Object> r;
-			RestAPIClient rc = new RestAPIClient();
 			Map<String, String> uriParams = new HashMap<String, String>();
 			uriParams.put(EnumWorkOutputType.MAPS.idField(), pngoId);
-			r = rc.getResponseBody(EnumRestAPIType.MAPS_GET, uriParams);
+			r = rc.getResponseBody(EnumRestAPIType.MAPS_GET, uriParams, null);
 			return r.get("data");
 		} else if ("dataset".equals(outputType)) {
 			Map<String, Object> r;
-			RestAPIClient rc = new RestAPIClient();
 			Map<String, String> uriParams = new HashMap<String, String>();
 			uriParams.put(EnumWorkOutputType.DATASET.idField(), pngoId);
-			r = rc.getResponseBody(EnumRestAPIType.DATASET_GET, uriParams);
+			r = rc.getResponseBody(EnumRestAPIType.DATASET_GET, uriParams, null);
 			return r.get("data");
 		}
 		return null;

@@ -17,6 +17,8 @@ public interface WorkOutputMapper {
 	public boolean create(WorkOutput workoutput);
 
 	public void modify(WorkOutput workoutput);
+	
+	public void modifyStatus(WorkOutput workoutput);
 
 	public void delete(int idx);
 	

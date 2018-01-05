@@ -85,7 +85,7 @@ public class RestApiTest extends BaseTest {
 //		uriParams.put("row_id", "12");
 //		Map<String, String> params = new HashMap<String, String>();
 //		params.put("content", "cc");
-		Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.DATASET_ROW_LIST, uriParams);
+		Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.DATASET_ROW_LIST, uriParams, null);
 		System.out.println(r);
 	}
 	
@@ -97,7 +97,7 @@ public class RestApiTest extends BaseTest {
 		uriParams.put("row_id", "12");
 //		Map<String, String> params = new HashMap<String, String>();
 //		params.put("content", "cc");
-		Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.DATASET_ROW_GET, uriParams);
+		Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.DATASET_ROW_GET, uriParams, null);
 		System.out.println(r);
 	}
 	
@@ -109,7 +109,7 @@ public class RestApiTest extends BaseTest {
 		uriParams.put("row_id", "9");
 //		Map<String, String> params = new HashMap<String, String>();
 //		params.put("content", "cc");
-		Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.DATASET_ROW_REMOVE, uriParams);
+		Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.DATASET_ROW_REMOVE, uriParams, null);
 		System.out.println(r);
 	}
 	
@@ -157,8 +157,8 @@ public class RestApiTest extends BaseTest {
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("content", "{\"noise_value\":51,\"noise_zone\":\"a\",\"noise_level\":2,\"survey_dn\":\"洹쇰같諛붾낫\",\"course_id\":null,\"work_id\":null,\"create_team_id\":null,\"create_mem_id\":null,\"create_date\":\"\",\"the_geom\":\"POINT(126.97444438934404 37.396567745417215)\"}");
 //		params.put("content","{\"the_geom\": \"POINT(126.588866114616 33.3103962893675)\", \"kr_np_golf\": \"testtest\"}" );
-		Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.DATASET_ROW_CREATE, "/datasets/" +"d=KjCXc4dmy9" +"/row.json", params);
-		System.out.println(r);
+//		Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.DATASET_ROW_CREATE, "/datasets/" +"d=KjCXc4dmy9" +"/row.json", params);
+//		System.out.println(r);
 	}
 	
 	
@@ -170,7 +170,7 @@ public class RestApiTest extends BaseTest {
 //		uriParams.put("row_id", "d=r7oFXBrCYl");
 //		uriParams.put("dataset_id", "d=r7oFXBrCYl");
 		Map<String, String> params = new HashMap<String, String>();
-		Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.DATASET_COLUMN_LIST, uriParams);
+		Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.DATASET_COLUMN_LIST, uriParams, null);
 		System.out.println(r);
 	}
 	
@@ -180,7 +180,7 @@ public class RestApiTest extends BaseTest {
 		Map<String, String> uriParams = new HashMap<String, String>();
 		uriParams.put("layer_id", "l=oBGRzS7ijB");
 		Map<String, String> params = new HashMap<String, String>();
-		Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.LAYER_GET, uriParams);
+		Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.LAYER_GET, uriParams, null);
 		System.out.println(r);
 	}
 	
@@ -313,7 +313,7 @@ public class RestApiTest extends BaseTest {
 		RestAPIClient rc = new RestAPIClient();
 		Map<String, String> uriParams = new HashMap<String, String>();
 		uriParams.put("layer_id", "l=oBGRzS7ijB");
-		Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.LAYER_COLUMN_LIST, uriParams);
+		Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.LAYER_COLUMN_LIST, uriParams, null);
 		System.out.println(r);
 	}
 	
@@ -323,7 +323,7 @@ public class RestApiTest extends BaseTest {
 		Map<String, String> uriParams = new HashMap<String, String>();
 		uriParams.put("maps_id", "m=XAjbWilXu0");
 		Map<String, String> params = new HashMap<String, String>();
-		Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.MAPS_GET, uriParams);
+		Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.MAPS_GET, uriParams, null);
 		
 		System.out.println(r);
 		Map<String, Object> r2 = (Map<String, Object>) r.get("data");
@@ -349,10 +349,10 @@ public class RestApiTest extends BaseTest {
 		uriParams.put("privacy", "PUBLIC");
 		uriParams.put("metadata", "null");
 		uriParams.put("type_kind", "TAB");
-		Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.MAPS_CREATE, "/maps.json", uriParams);
-		System.out.println(r);
-		WorkOutput workOutputResult = workOutputService.create(25, "1",  r, 40, "maps", true, false);
-		System.out.println(workOutputResult);
+//		Map<String, Object> r = rc.getResponseBody(EnumRestAPIType.MAPS_CREATE, "/maps.json", uriParams);
+//		System.out.println(r);
+//		WorkOutput workOutputResult = workOutputService.create(25, "1",  r, 40, "maps", true, false);
+//		System.out.println(workOutputResult);
 	}
 	
 	@Test

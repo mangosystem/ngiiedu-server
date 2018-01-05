@@ -60,10 +60,7 @@
 	</select>
 
 	<insert id="create" parameterType="map">
-		<selectKey keyProperty="idx" resultType="int" order="BEFORE">
-			select
-			nextval('users_idx_seq'::regclass)
-		</selectKey>
+
 		INSERT INTO users(
 		idx, userid, password, user_email, user_name,
 		user_division
