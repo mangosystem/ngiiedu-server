@@ -29,6 +29,20 @@
 		WHERE module_id = #{moduleId}
 		ORDER BY idx
 	</select>
+	
+	<select id="listAll" resultMap="moduleWorkMap">
+		SELECT
+			idx,
+			module_id,
+			module_work_name,
+			module_work_seq,
+			module_work_course_type,
+			create_date,
+			modify_date,
+			module_work_metadata
+		FROM modules_work
+		ORDER BY idx
+	</select>
 
 	<select id="get" parameterType="map" resultMap="moduleWorkMap">
 		SELECT
