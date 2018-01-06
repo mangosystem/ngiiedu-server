@@ -64,8 +64,12 @@ a { color: rgba(0, 0, 0, 0.87); text-decoration: none; }
 	z-index:100
 }
 
+.layer-switcher.ol-unselectable.ol-control{
+	background-color:rgba(0,0,0,0)	
+}
+
 .layer-switcher >.panel{
-	background-color:rgb(67, 68, 76);
+	background-color:rgb(0, 68, 76);
 	color:#fff;
 	border:0 solid black;
 }
