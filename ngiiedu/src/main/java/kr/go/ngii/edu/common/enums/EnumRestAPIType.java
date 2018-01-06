@@ -48,6 +48,8 @@ public enum EnumRestAPIType {
 
 	DATASET_DOWNLOAD		("/datasets/{dataset_id}/download.json", HttpMethod.GET),
 	
+	DATASET_PRIVACY_UPDATE	("/datasets/{dataset_id}/privacy.json", HttpMethod.PUT),
+		
 	LAYER_LIST				("/layers.json", HttpMethod.GET),
 	LAYER_GET				("/layers/{layer_id}.json", HttpMethod.GET),
 	LAYER_CREATE			("/layers.json", HttpMethod.POST),
@@ -80,6 +82,8 @@ public enum EnumRestAPIType {
 	// 모듈 파라미터
 	LAYER_MODULE_PROCESS_PARAM	("/layers/metadata/module_params.json", HttpMethod.GET),
 	
+	LAYER_PRIVACY_UPDATE	("/layers/{layer_id}/privacy.json", HttpMethod.PUT),
+	
 	// Maps 목록
 	MAPS_LIST	("/maps.json", HttpMethod.GET),
 	// Maps 상세정보
@@ -104,7 +108,9 @@ public enum EnumRestAPIType {
 	MAPS_ITEM_REMOVE ("/maps/{maps_id}/item/{item_id}.json", HttpMethod.DELETE),
 
 	// Maps 순서변경
-	MAPS_ITEMORDER_UPDATE ("/maps/{maps_id}/itemOrder.json", HttpMethod.PUT);
+	MAPS_ITEMORDER_UPDATE ("/maps/{maps_id}/itemOrder.json", HttpMethod.PUT),
+	
+	MAPS_PRIVACY_UPDATE	("/layers/{dataset_id}/privacy.json", HttpMethod.PUT);
 
 	private String code;
 	private HttpMethod method;

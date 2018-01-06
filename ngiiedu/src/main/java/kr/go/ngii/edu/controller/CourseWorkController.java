@@ -1306,13 +1306,28 @@ public class CourseWorkController extends BaseController {
 		if (user == null) {
 			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
 		}
+		
+		Map<String, String> pathParamVals = new HashMap<String,String>();
+		pathParamVals.put("maps_id", mapsId);
+		
+		String privacy = "true".equals(isShared) ? "PUBLIC" : "TEAM";
+		
+		Map<String, String> paramVals = new HashMap<String,String>();
+		paramVals.put("privacy", privacy);
+		
+		String apiKey = userService.getApiKey(user.getIdx());
+		apiClient.setApiKey(apiKey);
+		
+		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.MAPS_ITEMORDER_UPDATE, pathParamVals, paramVals);
+		
 		workOutputService.modifyShare(mapsId, "true".equals(isShared));
-		return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+		
+		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
 	
 	@RequestMapping(value="/layers/{layerId}/share", method=RequestMethod.PUT)
 	public @ResponseBody ResponseEntity<ResponseData> layerShareModify(
-			@PathVariable("mapsId") String mapsId,
+			@PathVariable("layerId") String layerId,
 			@RequestParam(value="isShared", required=false, defaultValue="false") String isShared,
 			HttpSession session) throws Exception {
 		
@@ -1320,8 +1335,22 @@ public class CourseWorkController extends BaseController {
 		if (user == null) {
 			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
 		}
-		WorkOutput result = workOutputService.modifyShare(mapsId, "true".equals(isShared));
-		return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+		Map<String, String> pathParamVals = new HashMap<String,String>();
+		pathParamVals.put("layer_id", layerId);
+		
+		String privacy = "true".equals(isShared) ? "PUBLIC" : "TEAM";
+		
+		Map<String, String> paramVals = new HashMap<String,String>();
+		paramVals.put("privacy", privacy);
+		
+		String apiKey = userService.getApiKey(user.getIdx());
+		apiClient.setApiKey(apiKey);
+		
+		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.MAPS_ITEMORDER_UPDATE, pathParamVals, paramVals);
+		
+		workOutputService.modifyShare(layerId, "true".equals(isShared));
+		
+		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
 	
 	@RequestMapping(value="/maps/{mapsId}/done", method=RequestMethod.PUT)
@@ -1349,7 +1378,7 @@ public class CourseWorkController extends BaseController {
 			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
 		}
 		WorkOutput result = workOutputService.modifyDone(mapsId, "true".equals(isDone));
-		return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
 	
 }
