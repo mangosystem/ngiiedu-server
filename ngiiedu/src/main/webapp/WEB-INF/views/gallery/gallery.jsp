@@ -22,8 +22,8 @@
 <body class="edu">
 	
 	<jsp:include page ="../common/header.jsp" flush="false">
-		<jsp:param value="gallary" name="mainHeader"/>
-		<jsp:param value="gallary" name="subHeader"/>
+		<jsp:param value="gallery" name="mainHeader"/>
+		<jsp:param value="gallery" name="subHeader"/>
 	</jsp:include>
 
 

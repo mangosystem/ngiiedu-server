@@ -102,7 +102,7 @@
 		<div class="lnbWrap">
 			<ul class="lnb">
 				<a href="<%=contextPath%>/introduce"><li id="introduce">수업소개</li></a>
-				<a href="<%=contextPath %>/gallary"><li id="gallary">수업활동갤러리</li></a>
+				<a href="<%=contextPath %>/gallery"><li id="gallery">수업활동갤러리</li></a>
 				<a href="<%=contextPath %>/surport/notice"><li id="surport">사용지원</li></a>
 				<a href="<%=contextPath %>/course"><li id="course" >나의수업</li></a>
 			</ul>
@@ -114,7 +114,7 @@
 				
 				<%if(mainHeader.equals("introduce")){ %>
 					<h2>수업소개</h2>
-				<%} else if (mainHeader.equals("gallary")){ %>
+				<%} else if (mainHeader.equals("gallery")){ %>
 					<h2>수업활동갤러리</h2>
 				<%} else if (mainHeader.equals("surport")){ %>
 					<h2>사용지원</h2>

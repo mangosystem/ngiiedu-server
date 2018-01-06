@@ -183,13 +183,34 @@ public class MainController extends BaseController {
 		ModelAndView view = new ModelAndView("/filetest");
 		return view;
 	}
-
 	
-	@RequestMapping(value={"/gallary"}, method = RequestMethod.GET)
+	
+	@RequestMapping(value={"/gallery/view/l/{layer_id}"}, method = RequestMethod.GET)
+    public ModelAndView getGalleryViewLayer(HttpServletRequest request, HttpServletResponse response, 
+            @PathVariable("layer_id") String layerId,
+            HttpSession session, Principal principal) {
+
+        ModelAndView view = null;
+        view = new ModelAndView("/course");
+        return view;
+    }
+    
+    @RequestMapping(value={"/gallery/view/m/{maps_id}"}, method = RequestMethod.GET)
+    public ModelAndView getGalleryViewMaps(HttpServletRequest request, HttpServletResponse response, 
+            @PathVariable("maps_id") String mapsId,
+            HttpSession session, Principal principal) {
+
+        ModelAndView view = null;
+        view = new ModelAndView("/course");
+        return view;
+    }
+    
+	
+	@RequestMapping(value={"/gallery"}, method = RequestMethod.GET)
 	public ModelAndView getGellaryPage(HttpServletRequest request, HttpServletResponse response, 
 			HttpSession session, Principal principal) {
 
-		ModelAndView view = new ModelAndView("/gallary/gallary");
+		ModelAndView view = new ModelAndView("/gallery/gallery");
 		return view;
 	}
 	
@@ -594,6 +615,7 @@ public class MainController extends BaseController {
 		ModelAndView view = new ModelAndView("/introduce/"+courseId);
 		return view;
 	}
-	
-	
+
+    
+   
 }

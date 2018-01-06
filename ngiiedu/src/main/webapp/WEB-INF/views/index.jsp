@@ -83,7 +83,7 @@
 			<ul class="quick">
 				<li class="attend" onClick="location.href='<%=contextPath%>/course'"><span>수업참여(로그인)</span></li>
 				<li class="gallery"
-					onClick="location.href='<%=contextPath%>/gallary'"><span>수업활동갤러리</span></li>
+					onClick="location.href='<%=contextPath%>/gallery'"><span>수업활동갤러리</span></li>
 				<li class="qna"
 					onClick="location.href='<%=contextPath%>/surport/faq'"><span>자주묻는질문</span></li>
 			</ul>
