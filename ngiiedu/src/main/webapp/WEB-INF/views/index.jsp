@@ -4,7 +4,7 @@
 <%
 	String contextPath = request.getContextPath();
 %>
-	
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -17,63 +17,87 @@
 <![endif]-->
 <meta content="IE=edge" http-equiv="X-UA-Compatible">
 <!--jquery  -->
-	<script type="text/javascript" src="<%=contextPath%>/assets/cdn/jquery/jquery-3.2.1.min.js"></script>
-	<script src="<%=contextPath%>/assets/cdn/jquery-ui-1.12.1/jquery-ui.js"></script>
-	<link rel="stylesheet" href="<%=contextPath%>/assets/cdn/jquery-ui-1.12.1/jquery-ui.css">
+<script type="text/javascript"
+	src="<%=contextPath%>/assets/cdn/jquery/jquery-3.2.1.min.js"></script>
+<script src="<%=contextPath%>/assets/cdn/jquery-ui-1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet"
+	href="<%=contextPath%>/assets/cdn/jquery-ui-1.12.1/jquery-ui.css">
 
 
 <title>지리원/공간정보융합 활용지원정보</title>
 
 <script>
-	var images = ['a', 'b', 'c'];
-	$(function(){
-		$('#qMainImageDiv').addClass(images[Math.floor(Math.random() * images.length)]);
+	var images = [ 'a', 'b', 'c' ];
+	$(function() {
+		$('#qMainImageDiv').addClass(
+				images[Math.floor(Math.random() * images.length)]);
 	});
 </script>
 </head>
 
 <body class="edu">
-	
-	<jsp:include page ="./common/header.jsp" flush="false">
-		<jsp:param value="main" name="mainHeader"/>
-		<jsp:param value="main" name="subHeader"/>
+
+	<jsp:include page="./common/header.jsp" flush="false">
+		<jsp:param value="main" name="mainHeader" />
+		<jsp:param value="main" name="subHeader" />
 	</jsp:include>
-	
-	<div id="qMainImageDiv" class="visual"><!-- 작업자메모 / a b c 계속 롤링되게 -->
-		<div>
+		<div id="qMainImageDiv" class="visual">
+			<!-- 작업자메모 / a b c 계속 롤링되게 -->
+			<div></div>
+
 		</div>
-	</div>
-		
+		<div style="text-align:right">
+		출처 : 강영옥외, 2017, "공간정보 융복합 교육지원을 위한 수업모듈개발" 국토지리정보원
+		</div>
 	<div id="contentsWrap">
+	
 		<div class="mainContents">
 			<div class="classInfo">
 				<h3 class="title edge">수업소개</h3>
 				<ul>
-					<li class="noise" onClick="location.href='<%=contextPath%>/introduce/1'"><span>우리지역 소음지도</span></li>
-					<li class="gps" onClick="location.href='<%=contextPath%>/introduce/2'"><span>GPS활용 위치학습</span></li>
-					<li class="population" onClick="location.href='<%=contextPath%>/introduce/3'"><span>우리지역 인구지도</span></li>
-					<li class="territory" onClick="location.href='<%=contextPath%>/introduce/4'"><span>통합적 영토교육</span></li>
-					<li class="school" onClick="location.href='<%=contextPath%>/introduce/5'"><span>우리학교운동장 생태지도</span></li>
-					<li class="map" onClick="location.href='<%=contextPath%>/introduce/6'"><span>지도 정확성</span></li>
-					<li class="dokdo" onClick="location.href='<%=contextPath%>/introduce/7'"><span>독도의 중요성</span></li>
+					<li class="noise"
+						onClick="location.href='<%=contextPath%>/introduce/1'"><span>우리지역
+							소음지도</span></li>
+					<li class="gps"
+						onClick="location.href='<%=contextPath%>/introduce/2'"><span>GPS활용
+							위치학습</span></li>
+					<li class="population"
+						onClick="location.href='<%=contextPath%>/introduce/3'"><span>우리지역
+							인구지도</span></li>
+					<li class="territory"
+						onClick="location.href='<%=contextPath%>/introduce/4'"><span>통합적
+							영토교육</span></li>
+					<li class="school"
+						onClick="location.href='<%=contextPath%>/introduce/5'"><span>우리학교운동장
+							생태지도</span></li>
+					<li class="map"
+						onClick="location.href='<%=contextPath%>/introduce/6'"><span>지도
+							정확성</span></li>
+					<li class="dokdo"
+						onClick="location.href='<%=contextPath%>/introduce/7'"><span>독도의
+							중요성</span></li>
 				</ul>
 			</div>
 			<!-- END 수업소개 -->
-			
+
 			<ul class="quick">
 				<li class="attend" onClick="location.href='<%=contextPath%>/course'"><span>수업참여(로그인)</span></li>
-				<li class="gallery" onClick="location.href='<%=contextPath%>/gallary'"><span>수업활동갤러리</span></li>
-				<li class="qna" onClick="location.href='<%=contextPath%>/surport/faq'"><span>자주묻는질문</span></li>	
+				<li class="gallery"
+					onClick="location.href='<%=contextPath%>/gallary'"><span>수업활동갤러리</span></li>
+				<li class="qna"
+					onClick="location.href='<%=contextPath%>/surport/faq'"><span>자주묻는질문</span></li>
 			</ul>
 			<!-- END 바로가기 -->
-			
+
 			<div class="board notice">
 				<h3 class="title edge">공지사항</h3>
-				<button type="button" class="go" title="바로가기" onClick="location.href='<%=contextPath%>/surport/notice'">바로가기</button>
-				
+				<button type="button" class="go" title="바로가기"
+					onClick="location.href='<%=contextPath%>/surport/notice'">바로가기</button>
+
 				<ul>
-					<c:forEach var="bbsNotice" items="${noticeItems}"> 
-						<li><a href="<%=contextPath%>/surport/noticeView/${bbsNotice.idx}">${bbsNotice.title}</a></li>
+					<c:forEach var="bbsNotice" items="${noticeItems}">
+						<li><a
+							href="<%=contextPath%>/surport/noticeView/${bbsNotice.idx}">${bbsNotice.title}</a></li>
 					</c:forEach>
 				</ul>
 				<!-- 
@@ -87,15 +111,17 @@
 				 -->
 			</div>
 			<!-- END 공지사항 -->
-			
+
 			<div class="board faq">
 				<h3 class="title edge">묻고 답하기</h3>
-				
-				<button type="button" class="go" title="바로가기" onClick="location.href='<%=contextPath%>/surport/qna'">바로가기</button>
-				
+
+				<button type="button" class="go" title="바로가기"
+					onClick="location.href='<%=contextPath%>/surport/qna'">바로가기</button>
+
 				<ul>
-					<c:forEach var="bbsQuestion" items="${qnaItems}"> 
-						<li class="ellipsis"><a href="<%=contextPath%>/surport/qnaView/${bbsQuestion.idx}">${bbsQuestion.title}</a></li>
+					<c:forEach var="bbsQuestion" items="${qnaItems}">
+						<li class="ellipsis"><a
+							href="<%=contextPath%>/surport/qnaView/${bbsQuestion.idx}">${bbsQuestion.title}</a></li>
 					</c:forEach>
 				</ul>
 				<!-- 
@@ -113,7 +139,7 @@
 		<!-- CONTENTS -->
 	</div>
 	<!-- END CONTENTSWRAP -->
-	<jsp:include page ="./common/footer.jsp"></jsp:include>
-<!-- END FOOTER -->
+	<jsp:include page="./common/footer.jsp"></jsp:include>
+	<!-- END FOOTER -->
 </body>
 </html>

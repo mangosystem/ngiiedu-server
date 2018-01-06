@@ -101,10 +101,10 @@
 		</div>
 		<div class="lnbWrap">
 			<ul class="lnb">
-				<li id="introduce"><a href="<%=contextPath%>/introduce">수업소개</a></li>
-				<li id="gallary"><a href="<%=contextPath %>/gallary">수업활동갤러리</a></li>
-				<li id="surport"><a href="<%=contextPath %>/surport/notice">사용지원</a></li>
-				<li id="course" ><a href="<%=contextPath %>/course">나의수업</a></li>
+				<a href="<%=contextPath%>/introduce"><li id="introduce">수업소개</li></a>
+				<a href="<%=contextPath %>/gallary"><li id="gallary">수업활동갤러리</li></a>
+				<a href="<%=contextPath %>/surport/notice"><li id="surport">사용지원</li></a>
+				<a href="<%=contextPath %>/course"><li id="course" >나의수업</li></a>
 			</ul>
 		</div>
 		<%if (!"main".equals(mainHeader)){ %>

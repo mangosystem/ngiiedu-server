@@ -59,6 +59,10 @@
 			</div>
 		</div>
 		<!-- END GALLERYLIST -->
+		
+		<div class='source' >
+			출처 : 강영옥외, 2017, "공간정보 융복합 교육지원을 위한 수업모듈 개발" 국토지리정보원
+		</div>
 	</div>
 	<!-- CONTENTS -->
 </div>

@@ -1451,3 +1451,17 @@ div.mainContents > .faq {
 	overflow:hidden;
 	white-space:nowrap;
 }
+
+.source{
+	position:absolute;
+	bottom:0;
+	right:0;
+	padding:10px;
+}
+
+.sourceTop{
+	position:absolute;
+	top:0;
+	right:0;
+	padding:10px;
+}
