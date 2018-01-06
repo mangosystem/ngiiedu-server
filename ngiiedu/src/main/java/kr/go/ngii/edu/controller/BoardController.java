@@ -1,6 +1,7 @@
 package kr.go.ngii.edu.controller;
 
 import java.io.File;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Iterator;
 import java.util.List;
@@ -37,6 +38,7 @@ import kr.go.ngii.edu.main.courses.work.service.WorkOutputService;
 import kr.go.ngii.edu.main.users.model.User;
 import kr.go.ngii.edu.config.LocalResourceBundle;
 import kr.go.ngii.edu.controller.rest.BaseController;
+import kr.go.ngii.edu.controller.rest.GISServerConnect;
 import kr.go.ngii.edu.controller.rest.ResponseData;
 
 @Controller
@@ -588,7 +590,7 @@ public class BoardController extends BaseController {
 	}
 	
 	/**
-	 * 자료실 생성하기
+	 * gallerty 목록 
 	 * 
 	 * @param title
 	 * @param description
@@ -602,13 +604,54 @@ public class BoardController extends BaseController {
 			@RequestParam(value="limit", required=false, defaultValue="100") int limit, 
 			HttpSession session) throws Exception {
 		
+		String rootPath = session.getServletContext().getRealPath(File.separator) + 
+				File.separator + "assets" + File.separator + "thumbnail" + File.separator;
 		User user = (User)session.getAttribute("USER_INFO");
 		if (user == null) {
 			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
 		}
+		List<WorkOutput> workOutputList = workOutputService.getGalleryList(offset, limit);
 		
-		List<WorkOutput> result = workOutputService.getGalleryList(offset, limit);
-		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
+		for (WorkOutput item:workOutputList) {
+			String imgId = item.getPinogioOutputId();
+			String savePath = rootPath + imgId + ".png";
+			
+			String type = item.getOutputType();
+			String apiImageSource = "";
+			if ("dataset".equals(type)) {
+				StringBuffer apiImgPath = new StringBuffer();
+				apiImgPath.append(LocalResourceBundle.PINOGIO_SERVER).append("data/thumbnail/datasets/")
+					.append(imgId).append("/")
+					.append(400).append("/")
+					.append(400).append(".png");
+				apiImageSource = apiImgPath.toString();
+			} else if ("layer".equals(type)) {
+				StringBuffer apiImgPath = new StringBuffer();
+				apiImgPath.append(LocalResourceBundle.PINOGIO_SERVER).append("data/thumbnail/layers/")
+					.append(imgId).append("/")
+					.append(400).append("/")
+					.append(400).append(".png");
+				apiImageSource = apiImgPath.toString();
+			} else if ("maps".equals(type)) {
+				StringBuffer apiImgPath = new StringBuffer();
+				apiImgPath.append(LocalResourceBundle.PINOGIO_SERVER).append("data/photo/")
+				.append(imgId).append("/")
+				.append(400).append("/")
+				.append(400).append(".png");
+				apiImageSource = apiImgPath.toString();
+			}
+			if (!"".equals(apiImageSource)) {
+				GISServerConnect.requestGET(new URL(apiImageSource), savePath);
+//				item.setThumbNailPath(apiImageSource);
+				StringBuffer sb = new StringBuffer();
+				sb.append(session.getServletContext().getContextPath()).append(File.separator)
+					.append("assets").append(File.separator)
+					.append("thumbnail").append(File.separator)
+					.append(imgId).append(".png");
+				item.setThumbNailPath(sb.toString());
+			}
+		}
+		return new ResponseEntity<ResponseData>(responseBody(workOutputList), HttpStatus.OK);
 	}
 	
 }

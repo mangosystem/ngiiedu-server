@@ -44,6 +44,8 @@ public class WorkOutput implements Serializable {
 	
 	private boolean isDone;
 	
+	private String thumbNailPath;
+	
 	public String getOutputName() {
 //		String returnVal = "";
 //		try {
@@ -198,6 +200,22 @@ public class WorkOutput implements Serializable {
 	}
 
 	public void setIsDone(boolean isDone) {
+		this.isDone = isDone;
+	}
+	
+	public String getThumbNailPath() {
+		return thumbNailPath;
+	}
+
+	public void setThumbNailPath(String thumbNailPath) {
+		this.thumbNailPath = thumbNailPath;
+	}
+
+	public void setShared(boolean isShared) {
+		this.isShared = isShared;
+	}
+
+	public void setDone(boolean isDone) {
 		this.isDone = isDone;
 	}
 

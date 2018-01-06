@@ -1,6 +1,8 @@
 package kr.go.ngii.edu.controller.rest;
 
+import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Enumeration;
@@ -69,5 +71,25 @@ public class GISServerConnect {
 			e.printStackTrace();
 		}
 	}
-
+	
+	public static void requestGET(URL url, String savePath) {
+		try {
+			HttpURLConnection con = (HttpURLConnection)url.openConnection();
+			con.setRequestMethod("GET");
+			int responseCode = con.getResponseCode();
+			if(responseCode==200) {
+				InputStream is = url.openStream();
+				OutputStream os = new FileOutputStream(savePath);
+				byte[] b = new byte[2048];
+				int length;
+				while ((length = is.read(b)) != -1) {
+					os.write(b, 0, length);
+				}
+				is.close();
+				os.close();
+			} 
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }

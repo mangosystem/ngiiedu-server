@@ -181,6 +181,8 @@ public class WorkOutputService extends BaseService {
 	}
 	
 	public List<WorkOutput> getGalleryList(int offset, int limit) {
+		
+		
 		return workOutputMapper.getGalleryList(offset, limit);
 	}
 	
