@@ -138,7 +138,8 @@
        		user_division, 
        		create_date, 
        		modify_date,
-			project_id
+			project_id,
+			status
   		FROM public.courses_infos
   		<where>
   			user_id = ${userId}
