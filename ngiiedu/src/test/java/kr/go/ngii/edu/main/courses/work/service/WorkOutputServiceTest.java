@@ -118,7 +118,7 @@ public class WorkOutputServiceTest extends BaseTest{
 			System.out.println("pinogioDatasetId : " + pinogioDatasetId);
 			Map<String, String> uriParams = new HashMap<String, String>();
 			Map<String, String> params = new HashMap<String, String>();
-			params.put("project_id", LocalResourceBundle.PINOGIO_API_PROJECT_ID);
+//			params.put("project_id", LocalResourceBundle.PINOGIO_API_PROJECT_ID);
 			params.put("title", title);
 	        Map<String, Object> inputDatasetParam = new HashMap<>();
 	        Map<String, Object> sourcesParam = new HashMap<>();
@@ -211,7 +211,7 @@ public class WorkOutputServiceTest extends BaseTest{
 			System.out.println("pinogioDatasetId : " + pinogioDatasetId);
 			Map<String, String> uriParams = new HashMap<String, String>();
 			Map<String, String> params = new HashMap<String, String>();
-			params.put("project_id", LocalResourceBundle.PINOGIO_API_PROJECT_ID);
+//			params.put("project_id", LocalResourceBundle.PINOGIO_API_PROJECT_ID);
 			params.put("title", title);
 	        Map<String, Object> inputDatasetParam = new HashMap<>();
 	        Map<String, Object> sourcesParam = new HashMap<>();

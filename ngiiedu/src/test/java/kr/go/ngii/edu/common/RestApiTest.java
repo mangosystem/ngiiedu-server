@@ -342,7 +342,7 @@ public class RestApiTest extends BaseTest {
 	public void testMapsCreate() {
 		RestAPIClient rc = new RestAPIClient();
 		Map<String, String> uriParams = new HashMap<String, String>();
-		uriParams.put("project_id", LocalResourceBundle.PINOGIO_API_PROJECT_ID);
+//		uriParams.put("project_id", LocalResourceBundle.PINOGIO_API_PROJECT_ID);
 		uriParams.put("title", "aaa");
 		uriParams.put("description", "a");
 		uriParams.put("maps_type", "STORY");
@@ -361,7 +361,7 @@ public class RestApiTest extends BaseTest {
 		Map<String, String> uriParams = new HashMap<String, String>();
 		uriParams.put("maps_id", "m=Al4uSj6hAh");
 		Map<String, String> params = new HashMap<String, String>();
-		params.put("project_id", LocalResourceBundle.PINOGIO_API_PROJECT_ID);
+//		params.put("project_id", LocalResourceBundle.PINOGIO_API_PROJECT_ID);
 		params.put("title", "asd");
 		params.put("description", "a");
 		params.put("maps_type", "STORY");

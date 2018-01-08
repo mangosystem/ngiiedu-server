@@ -193,7 +193,7 @@ public class CourseWorkSubServiceTest extends BaseTest {
 	
 	@Test
 	public void testRestApi3() {
-		System.out.println(LocalResourceBundle.PINOGIO_API_PROJECT_ID);
+//		System.out.println(LocalResourceBundle.PINOGIO_API_PROJECT_ID);
 		System.out.println(LocalResourceBundle.PINOGIO_API_SERVER);
 		Map<String, String> uriParams = new HashMap<String, String>();
 	    uriParams.put("dataset_id", "d=r7oFXBrCYl");
@@ -323,7 +323,7 @@ public class CourseWorkSubServiceTest extends BaseTest {
         sourceParam.put("inputDataset", contentParams);
         
         Map<String, String> params = new HashMap<String, String>();
-		params.put("project_id", LocalResourceBundle.PINOGIO_API_PROJECT_ID);
+//		params.put("project_id", LocalResourceBundle.PINOGIO_API_PROJECT_ID);
 		params.put("title", layerTitle);
 		params.put("sources", StringUtil.mapToString(sourceParam));
 		
