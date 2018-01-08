@@ -1170,9 +1170,9 @@ public class CourseWorkController extends BaseController {
 		
 		Map<String, String> paramVals = new HashMap<String,String>();
 		paramVals.put("title", title);
-		if (!"".equals(description)) {
+		//if (!"".equals(description)) {
 			paramVals.put("description", description);
-		}
+		//}
 		if (!"".equals(metadata)) {
 			paramVals.put("metadata", metadata);
 		}
