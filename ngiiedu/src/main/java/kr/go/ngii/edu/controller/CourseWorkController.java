@@ -30,8 +30,11 @@ import kr.go.ngii.edu.controller.rest.ResponseData;
 import kr.go.ngii.edu.main.common.RestAPIClient;
 import kr.go.ngii.edu.main.courses.course.model.Course;
 import kr.go.ngii.edu.main.courses.course.service.CourseService;
+import kr.go.ngii.edu.main.courses.work.model.CourseWork;
+import kr.go.ngii.edu.main.courses.work.model.CourseWorkSub;
 import kr.go.ngii.edu.main.courses.work.model.WorkOutput;
 import kr.go.ngii.edu.main.courses.work.service.CourseWorkService;
+import kr.go.ngii.edu.main.courses.work.service.CourseWorkSubService;
 import kr.go.ngii.edu.main.courses.work.service.WorkOutputService;
 import kr.go.ngii.edu.main.users.model.PngoUser;
 import kr.go.ngii.edu.main.users.model.User;
@@ -51,6 +54,9 @@ public class CourseWorkController extends BaseController {
 
 	@Autowired
 	private CourseWorkService courseWorkService;
+	
+	@Autowired
+	private CourseWorkSubService courseWorkSubService;
 	
 	@Autowired
 	private UserService userService;
@@ -623,15 +629,27 @@ public class CourseWorkController extends BaseController {
 			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
 		}
 		
+		CourseWorkSub courseWorkSub = new CourseWorkSub();
+		courseWorkSub.setIdx(courseWorkSubId);
+		courseWorkSub = courseWorkSubService.get(courseWorkSub);
+		
+		CourseWork courseWork = new CourseWork();
+		courseWork.setIdx(courseWorkSub.getCourseWorkId());
+		courseWork = courseWorkService.get(courseWork);
+		
+		int courseId = courseWork.getCourseId();
+		
+		Course course = courseService.get(courseId);
+		String projectId = course.getProjectId();
+		String apiKey = userService.getApiKey(user.getIdx());
+		
 		Map<String, String> paramVals = new HashMap<String,String>();
 		Map<String, String> pathParamVals = new HashMap<String,String>();
-		paramVals.put("project_id", LocalResourceBundle.PINOGIO_API_PROJECT_ID);
+		paramVals.put("project_id", projectId);
 		paramVals.put("title", title);
 		paramVals.put("sources", sources);
 		
-		String apiKey = userService.getApiKey(user.getIdx());
 		apiClient.setApiKey(apiKey);
-		
 //		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.LAYER_CREATE, "/layers.json", paramVals);
 		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.LAYER_CREATE, pathParamVals, paramVals);
 
@@ -892,9 +910,23 @@ public class CourseWorkController extends BaseController {
 			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
 		}
 		
-		Map<String, String> pathParamVals = new HashMap<String,String>();
-		Map<String, String> paramVals = new HashMap<String,String>();
-		paramVals.put("project_id", LocalResourceBundle.PINOGIO_API_PROJECT_ID);
+		CourseWorkSub courseWorkSub = new CourseWorkSub();
+		courseWorkSub.setIdx(courseWorkSubId);
+		courseWorkSub = courseWorkSubService.get(courseWorkSub);
+		
+		CourseWork courseWork = new CourseWork();
+		courseWork.setIdx(courseWorkSub.getCourseWorkId());
+		courseWork = courseWorkService.get(courseWork);
+		
+		int courseId = courseWork.getCourseId();
+		
+		Course course = courseService.get(courseId);
+		String projectId = course.getProjectId();
+		String apiKey = userService.getApiKey(user.getIdx());
+		
+		Map<String, String> paramVals = new HashMap<String, String>();
+		Map<String, String> pathParamVals = new HashMap<String, String>();
+		paramVals.put("project_id", projectId);
 		paramVals.put("title", title);
 		paramVals.put("description", description);
 		paramVals.put("maps_type", mapsType);
@@ -902,7 +934,6 @@ public class CourseWorkController extends BaseController {
 		paramVals.put("privacy", privacy);
 		paramVals.put("type_kind", typeKind);
 		
-		String apiKey = userService.getApiKey(user.getIdx());
 		apiClient.setApiKey(apiKey);
 		
 //		int userId = user.getIdx();
@@ -1369,7 +1400,7 @@ public class CourseWorkController extends BaseController {
 	
 	@RequestMapping(value="/layers/{layerId}/done", method=RequestMethod.PUT)
 	public @ResponseBody ResponseEntity<ResponseData> layerDoneModify(
-			@PathVariable("mapsId") String mapsId,
+			@PathVariable("layerId") String layerId,
 			@RequestParam(value="isDone", required=false, defaultValue="false") String isDone,
 			HttpSession session) throws Exception {
 		
@@ -1377,7 +1408,7 @@ public class CourseWorkController extends BaseController {
 		if (user == null) {
 			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
 		}
-		WorkOutput result = workOutputService.modifyDone(mapsId, "true".equals(isDone));
+		WorkOutput result = workOutputService.modifyDone(layerId, "true".equals(isDone));
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
 	
