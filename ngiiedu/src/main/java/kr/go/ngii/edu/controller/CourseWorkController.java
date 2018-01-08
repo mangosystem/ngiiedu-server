@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import kr.go.ngii.edu.common.StringUtil;
 import kr.go.ngii.edu.common.enums.EnumRestAPIType;
 import kr.go.ngii.edu.config.LocalResourceBundle;
 import kr.go.ngii.edu.controller.rest.BaseController;
@@ -764,6 +765,7 @@ public class CourseWorkController extends BaseController {
 			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
 		}
 		Map<String, String> paramVals = new HashMap<String,String>();
+//		paramVals.put("process", StringUtil.encodeURIComponent(process));
 		paramVals.put("process", process);
 		Map<String, String> pathParamVals = new HashMap<String,String>();
 		pathParamVals.put("layer_id", layerId);

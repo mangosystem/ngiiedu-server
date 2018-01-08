@@ -606,10 +606,10 @@ public class BoardController extends BaseController {
 		
 		String rootPath = session.getServletContext().getRealPath(File.separator) + 
 				File.separator + "assets" + File.separator + "thumbnail" + File.separator;
-		User user = (User)session.getAttribute("USER_INFO");
-		if (user == null) {
-			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
-		}
+//		User user = (User)session.getAttribute("USER_INFO");
+//		if (user == null) {
+//			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+//		}
 		List<WorkOutput> workOutputList = workOutputService.getGalleryList(offset, limit);
 		
 		for (WorkOutput item:workOutputList) {
@@ -641,14 +641,14 @@ public class BoardController extends BaseController {
 				apiImageSource = apiImgPath.toString();
 			}
 			if (!"".equals(apiImageSource)) {
-				GISServerConnect.requestGET(new URL(apiImageSource), savePath);
-//				item.setThumbNailPath(apiImageSource);
-				StringBuffer sb = new StringBuffer();
-				sb.append(session.getServletContext().getContextPath()).append(File.separator)
-					.append("assets").append(File.separator)
-					.append("thumbnail").append(File.separator)
-					.append(imgId).append(".png");
-				item.setThumbNailPath(sb.toString());
+//				GISServerConnect.requestGET(new URL(apiImageSource), savePath);
+				item.setThumbNailPath(apiImageSource);
+//				StringBuffer sb = new StringBuffer();
+//				sb.append(session.getServletContext().getContextPath()).append(File.separator)
+//					.append("assets").append(File.separator)
+//					.append("thumbnail").append(File.separator)
+//					.append(imgId).append(".png");
+//				item.setThumbNailPath(sb.toString());
 			}
 		}
 		return new ResponseEntity<ResponseData>(responseBody(workOutputList), HttpStatus.OK);

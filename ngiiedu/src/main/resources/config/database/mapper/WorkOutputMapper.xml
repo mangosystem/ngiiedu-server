@@ -71,6 +71,7 @@
 			is_shared,
 			is_done
   		FROM works_output
+  		WHERE is_shared = true
 		ORDER BY idx
   			<if test="offset != null and limit != null">
 				OFFSET ${offset} LIMIT ${limit}

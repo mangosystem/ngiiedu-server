@@ -1,8 +1,10 @@
 package kr.go.ngii.edu.common;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -18,7 +20,8 @@ public class StringUtil {
 				return null;
 			}
 			ObjectMapper mapper = new ObjectMapper();
-			return mapper.readValue(jsonString, new TypeReference<HashMap<String, ?>>(){} );
+			return mapper.readValue(jsonString, new TypeReference<HashMap<String, ?>>() {
+			});
 		} catch (IOException e) {
 			return null;
 		}
@@ -83,5 +86,22 @@ public class StringUtil {
 		} catch (Exception e) {
 			return true;
 		}
+	}
+
+	public static String encodeURIComponent(String s) {
+		String result = null;
+
+		try {
+			result = URLEncoder.encode(s, "UTF-8").replaceAll("\\+", "%20").replaceAll("\\%21", "!")
+					.replaceAll("\\%27", "'").replaceAll("\\%28", "(").replaceAll("\\%29", ")")
+					.replaceAll("\\%7E", "~");
+		}
+
+		// This exception should never occur.
+		catch (UnsupportedEncodingException e) {
+			result = s;
+		}
+
+		return result;
 	}
 }
