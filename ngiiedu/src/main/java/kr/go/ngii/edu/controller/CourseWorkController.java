@@ -975,10 +975,25 @@ public class CourseWorkController extends BaseController {
 			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
 		}
 		
+		WorkOutput workOutput = workOutputService.getByPinogioOutputId(mapsId);
+		
+		CourseWorkSub courseWorkSub = new CourseWorkSub();
+		courseWorkSub.setIdx(workOutput.getCourseWorkSubId());
+		courseWorkSub = courseWorkSubService.get(courseWorkSub);
+		
+		CourseWork courseWork = new CourseWork();
+		courseWork.setIdx(courseWorkSub.getCourseWorkId());
+		courseWork = courseWorkService.get(courseWork);
+		
+		int courseId = courseWork.getCourseId();
+		
+		Course course = courseService.get(courseId);
+		String projectId = course.getProjectId();
+		String apiKey = userService.getApiKey(user.getIdx());
+		
 		Map<String, String> pathParamVals = new HashMap<String,String>();
 		pathParamVals.put("maps_id", mapsId);
 		
-		String apiKey = userService.getApiKey(user.getIdx());
 		apiClient.setApiKey(apiKey);
 		
 		Map<String, Object> mapsGetResult = apiClient.getResponseBody(EnumRestAPIType.MAPS_GET, pathParamVals, null);
@@ -992,7 +1007,7 @@ public class CourseWorkController extends BaseController {
 		typeKind = "".equals(typeKind) ? (String) mapsGetResultData.get("typeKind") : typeKind;
 		
 		Map<String, String> paramVals = new HashMap<String,String>();
-		paramVals.put("project_id", LocalResourceBundle.PINOGIO_API_PROJECT_ID);
+		paramVals.put("project_id", projectId);
 		paramVals.put("title", title);
 		paramVals.put("description", description);
 		paramVals.put("maps_type", mapsType);
