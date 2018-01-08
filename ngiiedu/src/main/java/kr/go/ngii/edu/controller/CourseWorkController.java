@@ -1179,9 +1179,9 @@ public class CourseWorkController extends BaseController {
 		if (!"".equals(baseLayer)) {
 			paramVals.put("base_layer", baseLayer);
 		}
-		if (!"".equals(pinoLayer)) {
+		//if (!"".equals(pinoLayer)) {
 			paramVals.put("pino_layer", pinoLayer);
-		}
+		//}
 		if (!"".equals(mapOptions)) {
 			paramVals.put("map_options", mapOptions);
 		}
