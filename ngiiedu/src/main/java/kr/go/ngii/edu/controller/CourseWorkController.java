@@ -620,7 +620,7 @@ public class CourseWorkController extends BaseController {
 			@RequestParam(value="courseWorkSubId", required=true) int courseWorkSubId,
 			@RequestParam(value="title", required=false, defaultValue="untitled") String title,
 			@RequestParam(value="sources", required=false, defaultValue="null") String sources,
-			@RequestParam(value="isShared", required=false, defaultValue="true") String isShared,
+			@RequestParam(value="isShared", required=false, defaultValue="false") String isShared,
 			@RequestParam(value="isDone", required=false, defaultValue="false") String isDone,
 			HttpSession session) throws Exception {
 
@@ -901,7 +901,7 @@ public class CourseWorkController extends BaseController {
 			@RequestParam(value="metadata", required=false, defaultValue="null") String metadata,
 			@RequestParam(value="privacy", required=false, defaultValue="PUBLIC") String privacy,
 			@RequestParam(value="typeKind", required=false, defaultValue="TAB") String typeKind,
-			@RequestParam(value="isShared", required=false, defaultValue="true") String isShared,
+			@RequestParam(value="isShared", required=false, defaultValue="false") String isShared,
 			@RequestParam(value="isDone", required=false, defaultValue="false") String isDone,
 			HttpSession session) throws Exception {
 
@@ -942,6 +942,20 @@ public class CourseWorkController extends BaseController {
 		// output division?
 		WorkOutput workOutputResult = workOutputService.create(courseWorkSubId, "1",  result, user.getIdx(), "maps", "true".equals(isShared), "true".equals(isDone));
 		result.put("result", workOutputResult);
+		
+//		Map<String, String> pathParamVals = new HashMap<String,String>();
+//		pathParamVals.put("layer_id", layerId);
+//		
+//		String privacy = "true".equals(isShared) ? "PUBLIC" : "TEAM";
+//		
+//		Map<String, String> paramVals = new HashMap<String,String>();
+//		paramVals.put("privacy", privacy);
+//		
+//		String apiKey = userService.getApiKey(user.getIdx());
+//		apiClient.setApiKey(apiKey);
+//		
+//		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.LAYER_PRIVACY_UPDATE, pathParamVals, paramVals);
+		
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
 	
@@ -1146,13 +1160,26 @@ public class CourseWorkController extends BaseController {
 			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
 		}
 		
+		String apiKey = userService.getApiKey(user.getIdx());
+		apiClient.setApiKey(apiKey);
+		
 		Map<String, String> paramVals = new HashMap<String,String>();
 		paramVals.put("title", title);
-		paramVals.put("description", description);
-		paramVals.put("metadata", metadata);
-		paramVals.put("base_layer", baseLayer);
-		paramVals.put("pino_layer", pinoLayer);
-		paramVals.put("map_options", mapOptions);
+		if (!"".equals(description)) {
+			paramVals.put("description", description);
+		}
+		if (!"".equals(metadata)) {
+			paramVals.put("metadata", metadata);
+		}
+		if (!"".equals(baseLayer)) {
+			paramVals.put("base_layer", baseLayer);
+		}
+		if (!"".equals(pinoLayer)) {
+			paramVals.put("pino_layer", pinoLayer);
+		}
+		if (!"".equals(mapOptions)) {
+			paramVals.put("map_options", mapOptions);
+		}
 		
 		Map<String, String> pathParamVals = new HashMap<String,String>();
 		pathParamVals.put("maps_id", mapsId);
@@ -1364,7 +1391,7 @@ public class CourseWorkController extends BaseController {
 		String apiKey = userService.getApiKey(user.getIdx());
 		apiClient.setApiKey(apiKey);
 		
-		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.MAPS_ITEMORDER_UPDATE, pathParamVals, paramVals);
+		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.MAPS_PRIVACY_UPDATE, pathParamVals, paramVals);
 		
 		workOutputService.modifyShare(mapsId, "true".equals(isShared));
 		
@@ -1392,7 +1419,7 @@ public class CourseWorkController extends BaseController {
 		String apiKey = userService.getApiKey(user.getIdx());
 		apiClient.setApiKey(apiKey);
 		
-		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.MAPS_ITEMORDER_UPDATE, pathParamVals, paramVals);
+		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.LAYER_PRIVACY_UPDATE, pathParamVals, paramVals);
 		
 		workOutputService.modifyShare(layerId, "true".equals(isShared));
 		
