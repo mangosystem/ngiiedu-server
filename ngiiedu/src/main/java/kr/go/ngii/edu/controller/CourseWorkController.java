@@ -155,9 +155,9 @@ public class CourseWorkController extends BaseController {
 			HttpSession session) throws Exception {
 //
 		User user = (User)session.getAttribute("USER_INFO");
-//		if (user == null) {
-//			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
-//		}
+		if (user == null) {
+			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+		}
 		
 		// project id 조회
 		Course course = courseService.get(courseId);
@@ -620,6 +620,7 @@ public class CourseWorkController extends BaseController {
 			@RequestParam(value="courseWorkSubId", required=true) int courseWorkSubId,
 			@RequestParam(value="title", required=false, defaultValue="untitled") String title,
 			@RequestParam(value="sources", required=false, defaultValue="null") String sources,
+			@RequestParam(value="privacy", required=false, defaultValue="TEAM") String privacy,
 			@RequestParam(value="isShared", required=false, defaultValue="false") String isShared,
 			@RequestParam(value="isDone", required=false, defaultValue="false") String isDone,
 			HttpSession session) throws Exception {
@@ -647,12 +648,20 @@ public class CourseWorkController extends BaseController {
 		Map<String, String> pathParamVals = new HashMap<String,String>();
 		paramVals.put("project_id", projectId);
 		paramVals.put("title", title);
+		paramVals.put("privacy", privacy);
 		paramVals.put("sources", sources);
 		
 		apiClient.setApiKey(apiKey);
 //		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.LAYER_CREATE, "/layers.json", paramVals);
 		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.LAYER_CREATE, pathParamVals, paramVals);
 
+//		String layerId = ((Map<String, String>) result.get("data")).get("layerId");
+//		Map<String, String> layerCreatePathParamVals = new HashMap<String,String>();
+//		layerCreatePathParamVals.put("layer_id", layerId);
+//		Map<String, String> layerCreateparamVals = new HashMap<String,String>();
+//		layerCreateparamVals.put("privacy", "TEAM");
+//		Map<String, Object> create = apiClient.getResponseBody(EnumRestAPIType.LAYER_PRIVACY_UPDATE, layerCreatePathParamVals, layerCreateparamVals);
+		
 		// output division
 		WorkOutput workOutputResult = workOutputService.create(courseWorkSubId, "1",  result, user.getIdx(), "layer", "true".equals(isShared), "true".equals(isDone));
 		result.put("worksOutputId", workOutputResult.getIdx());
@@ -942,19 +951,13 @@ public class CourseWorkController extends BaseController {
 		// output division?
 		WorkOutput workOutputResult = workOutputService.create(courseWorkSubId, "1",  result, user.getIdx(), "maps", "true".equals(isShared), "true".equals(isDone));
 		result.put("result", workOutputResult);
-		
-//		Map<String, String> pathParamVals = new HashMap<String,String>();
-//		pathParamVals.put("layer_id", layerId);
 //		
-//		String privacy = "true".equals(isShared) ? "PUBLIC" : "TEAM";
-//		
-//		Map<String, String> paramVals = new HashMap<String,String>();
-//		paramVals.put("privacy", privacy);
-//		
-//		String apiKey = userService.getApiKey(user.getIdx());
-//		apiClient.setApiKey(apiKey);
-//		
-//		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.LAYER_PRIVACY_UPDATE, pathParamVals, paramVals);
+//		String layerId = ((Map<String, String>) result.get("data")).get("mapsId");
+//		Map<String, String> layerCreatePathParamVals = new HashMap<String,String>();
+//		layerCreatePathParamVals.put("maps_id", layerId);
+//		Map<String, String> layerCreateparamVals = new HashMap<String,String>();
+//		layerCreateparamVals.put("privacy", "TEAM");
+//		Map<String, Object> create = apiClient.getResponseBody(EnumRestAPIType.MAPS_PRIVACY_UPDATE, layerCreatePathParamVals, layerCreateparamVals);
 		
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
@@ -1206,12 +1209,13 @@ public class CourseWorkController extends BaseController {
 			@PathVariable("itemId") String itemId,
 			@RequestParam(value="title", required=false, defaultValue="") String title,
 			@RequestParam(value="description", required=false, defaultValue="") String description,
-			@RequestParam(value="metadata", required=false, defaultValue="") String metadata,
+			@RequestParam(value="metadata", required=false, defaultValue="null") String metadata,
 			@RequestParam(value="baseLayer", required=false, defaultValue="") String baseLayer,
 			@RequestParam(value="pinoLayer", required=true, defaultValue="") String pinoLayer,
-			@RequestParam(value="mapOptions", required=false, defaultValue="") String mapOptions,
+			@RequestParam(value="mapOptions", required=false, defaultValue="null") String mapOptions,
 //			MultipartHttpServletRequest request,
 			HttpSession session) throws Exception {
+		// metadata,  mapOptions 값없으면 에러생김...
 		
 		User user = (User)session.getAttribute("USER_INFO");
 		if (user == null) {
@@ -1232,9 +1236,9 @@ public class CourseWorkController extends BaseController {
 		
 		title = "".equals(title) ? (String) mapsItemGetResultData.get("title") : title;
 		description = "".equals(description) ? (String) mapsItemGetResultData.get("description") : description;
-		metadata = "".equals(metadata) ? (String) mapsItemGetResultData.get("metadata") : metadata;
 		baseLayer = "".equals(baseLayer) ? (String) mapsItemGetResultData.get("baseLayer") : baseLayer;
 //		pinoLayer = "".equals(pinoLayer) ? (String) mapsItemGetResultData.get("pinoLayer") : pinoLayer;
+		metadata = "".equals(metadata) ? (String) mapsItemGetResultData.get("metadata") : metadata;
 		mapOptions = "".equals(mapOptions) ? (String) mapsItemGetResultData.get("mapOptions") : mapOptions;
 		
 		paramVals.put("title", title);

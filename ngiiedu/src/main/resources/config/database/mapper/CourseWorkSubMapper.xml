@@ -17,6 +17,8 @@
 		<result property="courseWorkSubId" column="course_work_sub_id" />
 		<result property="outputTeamId" column="output_team_id" />
 		<result property="outputUserid" column="output_userid" />
+		<result property="outputUserAlias" column="userid" />
+		<result property="outputUserName" column="user_name" />
 		<result property="outputDivision" column="output_division" />
 		<result property="pinogioOutputId" column="pinogio_output_id" />
 		<result property="outputType" column="output_type" />
@@ -77,17 +79,22 @@
 	
 	<select id="workOutputList" parameterType="map" resultMap="workOutputMap">
 		SELECT 
-			idx, 
-			course_work_sub_id, 
-			output_team_id, 
-			output_userid, 
-			output_division,
-			pinogio_output_id,
-			output_type,
-			is_shared,
-			is_done
-  		FROM works_output
-		WHERE course_work_sub_id = #{courseWorkId}
+			T1.idx idx, 
+			T1.course_work_sub_id course_work_sub_id, 
+			T1.output_team_id output_team_id, 
+			T1.output_userid output_userid,
+			T2.userid userid,
+			T2.user_name user_name,
+			T1.output_division output_division,
+			T1.pinogio_output_id pinogio_output_id,
+			T1.output_type output_type,
+			T1.is_shared is_shared,
+			T1.is_done is_done
+		FROM works_output T1, users T2
+		WHERE 
+			T1.output_userid = T2.idx
+		AND
+		T1.course_work_sub_id = #{moduleWorkSubId}
 		ORDER BY idx
 	</select>
 	

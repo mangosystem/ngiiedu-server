@@ -172,9 +172,8 @@ public class CourseController extends BaseController {
 					ModuleWork moduleWork = moduleWorkService.get(courseWorkItem.getModuleWorkId());
 					
 					if (moduleWork.getModuleWorkCourseType().trim().equals("현장실습")) {
-					
 						Map<String, Object> createdDatasetResult = courseService.createEmptyDataset(emptyTemplateMap, projectId, apiKey);
-						workOutputService.create(course.getIdx(), courseWorkSubItem.getIdx(), "1" , createdDatasetResult,userId, "dataset", true, false);
+						workOutputService.create(course.getIdx(), courseWorkSubItem.getIdx(), "1" , createdDatasetResult, userId, "dataset", false, false);
 						
 					}
 				}

@@ -2,6 +2,7 @@ package kr.go.ngii.edu.main.courses.work.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
@@ -41,6 +42,7 @@ public class CourseWorkSubInfo implements Serializable {
 	private String outputType;
 	
 	private List<WorkOutput> workOutputList;
+//	private List<WorkOutput> workOutputList;
 
 	public Integer getIdx() {
 		return idx;

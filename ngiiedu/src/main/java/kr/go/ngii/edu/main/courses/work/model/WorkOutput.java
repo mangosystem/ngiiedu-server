@@ -27,6 +27,10 @@ public class WorkOutput implements Serializable {
 
 	/** 사용자아이디. */
 	private int outputUserid;
+	
+	private String outputUserAlias;
+	
+	private String outputUserName;
 
 	/** 결과물타입. */
 	private String outputDivision;
@@ -217,6 +221,24 @@ public class WorkOutput implements Serializable {
 
 	public void setDone(boolean isDone) {
 		this.isDone = isDone;
+	}
+
+	
+
+	public String getOutputUserAlias() {
+		return outputUserAlias;
+	}
+
+	public void setOutputUserAlias(String outputUserAlias) {
+		this.outputUserAlias = outputUserAlias;
+	}
+
+	public String getOutputUserName() {
+		return outputUserName;
+	}
+
+	public void setOutputUserName(String outputUserName) {
+		this.outputUserName = outputUserName;
 	}
 
 	@Override
