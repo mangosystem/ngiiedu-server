@@ -149,7 +149,7 @@ public class CourseWorkController extends BaseController {
 //			@RequestParam(value="title", required=false, defaultValue="untitled") String title,
 			@RequestParam(value="options", required=false, defaultValue="") String options,
 			@RequestParam(value="metadata", required=false, defaultValue="") String metadata,
-			@RequestParam(value="privacy", required=false, defaultValue="PUBLIC") String privacy,
+			@RequestParam(value="privacy", required=false, defaultValue="PRIVATE") String privacy,
 			@RequestParam(value="uFile", required=false) MultipartFile uFile,
 //			@RequestParam(value="sources", required=false, defaultValue="") String sources,
 			MultipartHttpServletRequest request,
@@ -621,7 +621,7 @@ public class CourseWorkController extends BaseController {
 			@RequestParam(value="courseWorkSubId", required=true) int courseWorkSubId,
 			@RequestParam(value="title", required=false, defaultValue="untitled") String title,
 			@RequestParam(value="sources", required=false, defaultValue="null") String sources,
-			@RequestParam(value="privacy", required=false, defaultValue="TEAM") String privacy,
+			@RequestParam(value="privacy", required=false, defaultValue="PRIVATE") String privacy,
 			@RequestParam(value="isShared", required=false, defaultValue="false") String isShared,
 			@RequestParam(value="isDone", required=false, defaultValue="false") String isDone,
 			HttpSession session) throws Exception {
@@ -720,7 +720,7 @@ public class CourseWorkController extends BaseController {
 			@RequestParam(value="title", required=false, defaultValue="untitled") String title,
 			@RequestParam(value="description", required=false, defaultValue="") String description,
 			@RequestParam(value="metadata", required=false, defaultValue="") String metadata,
-			@RequestParam(value="privacy", required=false, defaultValue="PUBLIC") String privacy,
+			@RequestParam(value="privacy", required=false, defaultValue="") String privacy,
 			HttpSession session) throws Exception {
 		User user = (User)session.getAttribute("USER_INFO");
 		if (user == null) {
@@ -907,11 +907,11 @@ public class CourseWorkController extends BaseController {
 	public @ResponseBody ResponseEntity<ResponseData> mapsCreate(
 			@RequestParam(value="courseWorkSubId", required=true) int courseWorkSubId,
 			@RequestParam(value="title", required=false, defaultValue="untitled") String title,
-			@RequestParam(value="description", required=false, defaultValue="description") String description,
-			@RequestParam(value="mapsType", required=false, defaultValue="STORY") String mapsType,
+			@RequestParam(value="description", required=false) String description,
+			@RequestParam(value="mapsType", required=false) String mapsType,
 			@RequestParam(value="metadata", required=false, defaultValue="null") String metadata,
-			@RequestParam(value="privacy", required=false, defaultValue="PUBLIC") String privacy,
-			@RequestParam(value="typeKind", required=false, defaultValue="TAB") String typeKind,
+			@RequestParam(value="privacy", required=false, defaultValue="PRIVATE") String privacy,
+			@RequestParam(value="typeKind", required=false) String typeKind,
 			@RequestParam(value="isShared", required=false, defaultValue="false") String isShared,
 			@RequestParam(value="isDone", required=false, defaultValue="false") String isDone,
 			HttpSession session) throws Exception {
