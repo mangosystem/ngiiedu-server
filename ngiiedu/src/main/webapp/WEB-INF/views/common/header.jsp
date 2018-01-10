@@ -83,7 +83,7 @@
 					} else if(userDivision.trim().equals("3")) {  //관리자 
 			%>
 				<div class="gnb">
-					<span class="admin"><%=userName %></span>님, 로그인하셨습니다.
+					<span class="admin" onclick="location.href='<%=contextPath%>/cm-admin'"><%=userName %></span>님, 로그인하셨습니다.
 					<button type="button" title="로그아웃" onClick="location.href='<%=contextPath%>/logout'">로그아웃</button>
 				</div>
 			<%
