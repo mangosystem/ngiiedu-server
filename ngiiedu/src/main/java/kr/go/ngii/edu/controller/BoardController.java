@@ -3,8 +3,10 @@ package kr.go.ngii.edu.controller;
 import java.io.File;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -33,9 +35,11 @@ import kr.go.ngii.edu.main.board.model.BbsPdsFile;
 import kr.go.ngii.edu.main.board.model.BbsQuestion;
 import kr.go.ngii.edu.main.board.model.BbsReply;
 import kr.go.ngii.edu.main.board.service.BoardService;
+import kr.go.ngii.edu.main.common.RestAPIClient;
 import kr.go.ngii.edu.main.courses.work.model.WorkOutput;
 import kr.go.ngii.edu.main.courses.work.service.WorkOutputService;
 import kr.go.ngii.edu.main.users.model.User;
+import kr.go.ngii.edu.common.enums.EnumRestAPIType;
 import kr.go.ngii.edu.config.LocalResourceBundle;
 import kr.go.ngii.edu.controller.rest.BaseController;
 import kr.go.ngii.edu.controller.rest.GISServerConnect;
@@ -604,28 +608,23 @@ public class BoardController extends BaseController {
 			@RequestParam(value="limit", required=false, defaultValue="100") int limit, 
 			HttpSession session) throws Exception {
 		
+//		String rootPath = session.getServletContext().getRealPath(File.separator) + 
+//				File.separator + "assets" + File.separator + "thumbnail" + File.separator;
 		String rootPath = session.getServletContext().getRealPath(File.separator) + 
-				File.separator + "assets" + File.separator + "thumbnail" + File.separator;
+				File.separator + "assets" + File.separator + "images" + File.separator;
 //		User user = (User)session.getAttribute("USER_INFO");
 //		if (user == null) {
 //			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
 //		}
 		List<WorkOutput> workOutputList = workOutputService.getGalleryList(offset, limit);
-		
+		RestAPIClient apiClient = new RestAPIClient();
 		for (WorkOutput item:workOutputList) {
 			String imgId = item.getPinogioOutputId();
-			String savePath = rootPath + imgId + ".png";
+//			String savePath = rootPath + imgId + ".png";
 			
 			String type = item.getOutputType();
 			String apiImageSource = "";
-			if ("dataset".equals(type)) {
-				StringBuffer apiImgPath = new StringBuffer();
-				apiImgPath.append(LocalResourceBundle.PINOGIO_SERVER).append("data/thumbnail/datasets/")
-					.append(imgId).append("/")
-					.append(400).append("/")
-					.append(400).append(".png");
-				apiImageSource = apiImgPath.toString();
-			} else if ("layer".equals(type)) {
+			if ("layer".equals(type)) {
 				StringBuffer apiImgPath = new StringBuffer();
 				apiImgPath.append(LocalResourceBundle.PINOGIO_SERVER).append("data/thumbnail/layers/")
 					.append(imgId).append("/")
@@ -633,12 +632,39 @@ public class BoardController extends BaseController {
 					.append(400).append(".png");
 				apiImageSource = apiImgPath.toString();
 			} else if ("maps".equals(type)) {
-				StringBuffer apiImgPath = new StringBuffer();
-				apiImgPath.append(LocalResourceBundle.PINOGIO_SERVER).append("data/photo/")
-				.append(imgId).append("/")
-				.append(400).append("/")
-				.append(400).append(".png");
-				apiImageSource = apiImgPath.toString();
+				
+				try {
+					Map<String, String> pathParamVals = new HashMap<String,String>();
+					pathParamVals.put("maps_id", imgId);
+//					apiClient.setApiKey(apiKey);
+					Map<String, Object> mapsGetResult = apiClient.getResponseBody(EnumRestAPIType.MAPS_GET, pathParamVals, null);
+					Map<String, String> mapsGetResultData = (Map<String, String>) mapsGetResult.get("data");
+					
+					String mapsType = mapsGetResultData.get("mapsType");
+					String typeKind = mapsGetResultData.get("typeKind");
+					
+					String imageFileName = "";
+					if ("BASIC".equalsIgnoreCase(mapsType)) {
+						// left, right, top
+						imageFileName = typeKind;
+					} else if ("STORY".equalsIgnoreCase(mapsType)) {
+						// tab
+						imageFileName = typeKind;
+					} else if ("SWIPE".equalsIgnoreCase(mapsType)) {
+						imageFileName = "swipe";
+					} else if ("SERIES".equalsIgnoreCase(mapsType)) {
+						// slide
+						imageFileName = typeKind;
+					} else if ("SPLIT".equalsIgnoreCase(mapsType)) {
+						imageFileName = "split";
+					}
+					StringBuffer apiImgPath = new StringBuffer();
+					apiImgPath.append(rootPath).append(imageFileName).append(".png");
+					apiImageSource = apiImgPath.toString();
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 			if (!"".equals(apiImageSource)) {
 //				GISServerConnect.requestGET(new URL(apiImageSource), savePath);
