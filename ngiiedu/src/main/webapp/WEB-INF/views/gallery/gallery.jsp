@@ -1,6 +1,8 @@
+<%@page import="kr.go.ngii.edu.config.LocalResourceBundle"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
+    String apiSvr = LocalResourceBundle.NGIIEDU_API_SERVER;
 	String contextPath = request.getContextPath();
 %>
 	
@@ -17,6 +19,37 @@
 <![endif]-->
 <meta content="IE=edge" http-equiv="X-UA-Compatible">
 <title>지리원/공간정보융합 활용지원정보</title>
+<!--jQuery  -->
+<script type="text/javascript" src="<%=contextPath%>/assets/cdn/jquery/jquery-3.2.1.min.js"></script>
+<script src="<%=contextPath%>/assets/cdn/jquery-ui-1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet" href="<%=contextPath%>/assets/cdn/jquery-ui-1.12.1/jquery-ui.css">
+<script>
+
+	var apiSvr = '<%=apiSvr%>';
+	var galleryData=[]
+	
+	$(document).ready(function(){
+		$.ajax({
+	         url: apiSvr + '/board/gallery.json',
+	         dataType: 'json',
+	         success: function(data) {
+	        	 galleryData=data.response.data
+	        	 console.dir(galleryData)
+	        	 for(var i = 0;i<galleryData.length;i++){
+	        		 var data = galleryData[i];
+	        		if(data.outputType=='layer'){
+		        	 $('.galleryList').append('<li><div onclick="document.location = \'/ngiiedu/gallery/view/l/'+data.pinogioOutputId+'\'"></div><img src ="'+apiSvr+'/coursesWork/layers/thumbNail/'+data.pinogioOutputId+'?width:300&height=230"></li>');
+	        		} else if(data.outputType=='maps'){
+	        			$('.galleryList').append('<li><div onclick="document.location = \'/ngiiedu/gallery/view/l/\''+data.pinogioOutputId+'"></div><img src ="'+data.thumbNailPath+'"></li>');
+	        		}
+	        	 }
+	         },
+	         error: function(xhr, status, err) {
+	             console.error(status, err.toString());
+	         }
+	     });	
+	});
+</script>
 </head>
 
 <body class="edu">
@@ -35,28 +68,12 @@
 	<div class="contents">
 		<h3 class="edge">수업활동갤러리</h3>
 		<ul class="galleryList">
-			<li>
+			<%-- <li>
 				<div></div>
 				<img src="<%=contextPath%>/assets/images/@test1.png" alt="" title="">
-			</li>
-			<li>
-				<div></div>
-				<img src="<%=contextPath%>/assets/images/@test2.png" alt="" title="">
-			</li>
-			<li>
-				<div></div>
-				<img src="<%=contextPath%>/assets/images/@test3.png" alt="" title="">
-			</li>
-			<li>
-				<div></div>
-				<img src="<%=contextPath%>/assets/images/@test4.png" alt="" title="">
-			</li>
-			<li>
-				<div></div>
-				<img src="<%=contextPath%>/assets/images/@test5.png" alt="" title="">
-			</li>
+			</li> --%>
 		</ul>
-		<ul class="pagination">
+		<!-- <ul class="pagination">
 			<li class="ico first" title="맨앞으로">앞으로</li>
 			<li class="ico forward" title="앞으로">앞으로</li>
 			<li>1</li>
@@ -67,7 +84,7 @@
 			<li>6</li>
 			<li class="ico back" title="뒤로">뒤로</li>
 			<li class="ico end" title="맨뒤로">맨뒤로</li>
-		</ul>
+		</ul> -->
 		<!-- END GALLERYLIST -->
 	</div>
 	<!-- CONTENTS -->
