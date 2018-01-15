@@ -55,7 +55,7 @@
 		</ul>
 		<div class="btnCenter">
 			<button type="button" title="작성" class="point" onClick="submitPost()">작성</button>
-			<button type="button" title="취소" class="default" onclick="document.location = '<%=contextPath %>/surport/qna'">취소</button>
+			<button type="button" title="취소" class="default" onclick="document.location = '<%=contextPath %>/surport/notice'">취소</button>
 		</div>
 		<!-- END QNA NEW -->
 	</div>

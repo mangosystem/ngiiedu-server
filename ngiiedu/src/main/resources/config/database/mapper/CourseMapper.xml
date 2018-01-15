@@ -173,7 +173,11 @@
 			courses_infos.project_id
 		FROM courses_infos courses_infos left join courses_member courses_member
 		    ON courses_infos.idx = courses_member.course_id
-		WHERE courses_member.user_id = ${userId}
+		WHERE 
+			courses_member.user_id = ${userId}
+		AND 
+			courses_infos.course_create_id != ${userId}
+			
 			
 		<if test="keyword != '' and keyword != null">
 				and (

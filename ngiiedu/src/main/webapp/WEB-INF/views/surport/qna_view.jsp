@@ -151,7 +151,7 @@
 		        	var data = res.response.data;
 		        	console.log(res);
 		        	console.log(data);
-		        	location.href="<%=contextPath %>/surport/qnaView" + qnaIdx;
+		        	location.href="<%=contextPath %>/surport/qnaView/" + qnaIdx;
 		    });
 			
 		} else {

@@ -94,7 +94,7 @@
 		WHERE 
 			T1.output_userid = T2.idx
 		AND
-		T1.course_work_sub_id = #{moduleWorkSubId}
+			T1.course_work_sub_id = #{moduleWorkSubId}
 		ORDER BY idx
 	</select>
 	

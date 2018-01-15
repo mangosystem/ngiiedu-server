@@ -61,7 +61,26 @@ public class CourseWorkSubService extends BaseService {
 		List<CourseWorkSubInfo> list = courseWorkSubMapper.list(courseWork);
 		
 		for (CourseWorkSubInfo cwsi : list) {
+//			List<WorkOutput> workOutputList = cwsi.getWorkOutputList();5
+			
+			// workoutput 조회....
+//			param
 			List<WorkOutput> workOutputList = cwsi.getWorkOutputList();
+			
+			// shared, done 체크...
+			// 다시 조회...
+			// 수업목록....11
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
 			for (WorkOutput wo : workOutputList) {
 				Object pngoData = this.requestPngoData(wo.getPinogioOutputId(), wo.getOutputType());
 				wo.setPngoData(pngoData);
@@ -176,25 +195,28 @@ public class CourseWorkSubService extends BaseService {
 			apiKey = userService.getApiKey(user.getIdx());
 		} catch (NullPointerException e) {
 		}
-		rc.setApiKey(apiKey);
-		if ("layer".equals(outputType)) {
-			Map<String, Object> r;
-			Map<String, String> uriParams = new HashMap<String, String>();
-			uriParams.put(EnumWorkOutputType.LAYER.idField(), pngoId);
-			r = rc.getResponseBody(EnumRestAPIType.LAYER_GET, uriParams, null);
-			return r.get("data");
-		} else if ("maps".equals(outputType)) {
-			Map<String, Object> r;
-			Map<String, String> uriParams = new HashMap<String, String>();
-			uriParams.put(EnumWorkOutputType.MAPS.idField(), pngoId);
-			r = rc.getResponseBody(EnumRestAPIType.MAPS_GET, uriParams, null);
-			return r.get("data");
-		} else if ("dataset".equals(outputType)) {
-			Map<String, Object> r;
-			Map<String, String> uriParams = new HashMap<String, String>();
-			uriParams.put(EnumWorkOutputType.DATASET.idField(), pngoId);
-			r = rc.getResponseBody(EnumRestAPIType.DATASET_GET, uriParams, null);
-			return r.get("data");
+		try {
+			rc.setApiKey(apiKey);
+			if ("layer".equals(outputType)) {
+				Map<String, Object> r;
+				Map<String, String> uriParams = new HashMap<String, String>();
+				uriParams.put(EnumWorkOutputType.LAYER.idField(), pngoId);
+				r = rc.getResponseBody(EnumRestAPIType.LAYER_GET, uriParams, null);
+				return r.get("data");
+			} else if ("maps".equals(outputType)) {
+				Map<String, Object> r;
+				Map<String, String> uriParams = new HashMap<String, String>();
+				uriParams.put(EnumWorkOutputType.MAPS.idField(), pngoId);
+				r = rc.getResponseBody(EnumRestAPIType.MAPS_GET, uriParams, null);
+				return r.get("data");
+			} else if ("dataset".equals(outputType)) {
+				Map<String, Object> r;
+				Map<String, String> uriParams = new HashMap<String, String>();
+				uriParams.put(EnumWorkOutputType.DATASET.idField(), pngoId);
+				r = rc.getResponseBody(EnumRestAPIType.DATASET_GET, uriParams, null);
+				return r.get("data");
+			}
+		} catch (Exception e) {
 		}
 		return null;
 	}
