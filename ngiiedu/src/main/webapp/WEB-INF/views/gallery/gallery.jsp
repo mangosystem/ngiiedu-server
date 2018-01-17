@@ -40,7 +40,7 @@
 	        		if(data.outputType=='layer'){
 		        	 $('.galleryList').append('<li><div onclick="document.location = \'/ngiiedu/gallery/view/l/'+data.pinogioOutputId+'\'"></div><img src ="'+apiSvr+'/coursesWork/layers/thumbNail/'+data.pinogioOutputId+'?width:300&height=230"></li>');
 	        		} else if(data.outputType=='maps'){
-	        			$('.galleryList').append('<li><div onclick="document.location = \'/ngiiedu/gallery/view/l/\''+data.pinogioOutputId+'"></div><img src ="'+data.thumbNailPath+'"></li>');
+	        			$('.galleryList').append('<li><div onclick="document.location = \'/ngiiedu/gallery/view/m/'+data.pinogioOutputId+'\'"></div><img src ="/ngiiedu/assets/images/TAB.png" style="width:300px;height:230px"></li>');
 	        		}
 	        	 }
 	         },

@@ -64,7 +64,7 @@
 			<!-- 작업자 메모 / li class="on"일때 내용인 div가 보여짐 -->
 		</ul>
 		<!-- END FAQ -->
-		<c:if test="${'ADM' eq bbsrole or 'USR' eq bbsrole}">
+		<c:if test="${'ADM' eq bbsrole}">
 			<button class="new" onclick="document.location = '<%=contextPath %>/surport/faqNew'">새글</button>
 		</c:if>
 	</div>

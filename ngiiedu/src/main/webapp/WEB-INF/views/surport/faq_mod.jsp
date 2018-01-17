@@ -34,7 +34,7 @@
 	
 	<jsp:include page ="../common/header.jsp" flush="false">
 		<jsp:param value="surport" name="mainHeader"/>
-		<jsp:param value="notice" name="subHeader"/>
+		<jsp:param value="faq" name="subHeader"/>
 	</jsp:include>
 
 <div id="contentsWrap">
