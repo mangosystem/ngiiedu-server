@@ -208,6 +208,54 @@ public class CourseController extends BaseController {
 		}
 		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
 	}
+	
+	/*
+	 * 
+	 * 데이터셋 추가하기
+	 */
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "/addDataset", method = RequestMethod.POST)
+	public @ResponseBody ResponseEntity<ResponseData> add(
+			@RequestParam(value = "courseId", required = true) Integer courseId,
+			@RequestParam(value = "courseWorkId", required = true) Integer courseWorkId,
+			@RequestParam(value = "emptyTemplate", required = false) String emptyTemplate, HttpSession session)
+			throws Exception {
+
+		User user = (User) session.getAttribute("USER_INFO");
+		if (user == null) {
+			throw new RuntimeException(ErrorMessage.FOBRIDDEN);
+		}
+
+		Map<String, Object> emptyTemplateMap = null;
+		if (emptyTemplate != null) {
+			try {
+				emptyTemplateMap = (Map<String, Object>) StringUtil.stringToMap(emptyTemplate);
+			} catch (Exception e) {
+				throw new RuntimeException(ErrorMessage.BAD_REUQEST);
+			}
+		}
+		// Course result = courseService.create(moduleId, moduleWorkIds, courseName,
+		// courseMetadata);
+		// Course result = courseService.create(user, moduleId, moduleWorkIds,
+		// courseName, courseMetadata, emptyTemplateMap);
+
+		RestAPIClient rc = new RestAPIClient();
+		int userId = user.getIdx();
+		PngoUser pngoUser = userService.getPngoUser(user.getUserid());
+		String apiKey = userService.getApiKey(pngoUser.getIdx());
+		rc.setApiKey(apiKey);
+
+		// project id 조회
+		Course course = courseService.get(courseId);
+		String projectId = course.getProjectId();
+
+		Map<String, Object> createdDatasetResult = courseService.createEmptyDataset(emptyTemplateMap, projectId,
+				apiKey);
+		workOutputService.create(courseId, courseWorkId, "1", createdDatasetResult, userId, "dataset", false, false);
+
+		return new ResponseEntity<ResponseData>(responseBody(course), HttpStatus.OK);
+	}
+	
 
 	/**
 	 * 수업 목록 조회하기 

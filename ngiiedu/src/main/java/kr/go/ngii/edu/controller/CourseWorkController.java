@@ -142,10 +142,12 @@ public class CourseWorkController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/dataset", method=RequestMethod.POST)
+	@RequestMapping(value="/dataset/{courseId}/{courseWorkId}", method=RequestMethod.POST)
 	public @ResponseBody ResponseEntity<ResponseData> datasetCreate(
-			@RequestParam(value="courseId", required=true) int courseId,
-			@RequestParam(value="courseWorkId", required=true) int courseWorkId,
+			@PathVariable("courseId") Integer courseId,
+			@PathVariable("courseWorkId") Integer courseWorkId,
+//			@RequestParam(value="courseId", required=true) int courseId,
+//			@RequestParam(value="courseWorkId", required=true) int courseWorkId,
 			//			@RequestParam(value="title", required=false, defaultValue="untitled") String title,
 			@RequestParam(value="options", required=false, defaultValue="") String options,
 			@RequestParam(value="metadata", required=false, defaultValue="") String metadata,
@@ -184,9 +186,10 @@ public class CourseWorkController extends BaseController {
 
 		if ("".equals(options)) {
 			if ("zip".equals(uFileType)) {
-				options = "{\"charset\":\"x-windows-949\",  \"srid\":5179 }";
+				options = "{\"charset\":\"x-windows-949\",  \"srid\":3857 }";
 			} else if ("csv".equals(uFileType)) {
 				options = "{\"lon\":\"x\",  \"lat\":\"y\", \"delimiter\":\",\" , \"headerLine\":1}";
+//				options = "{\"lon\":\"x\",  \"lat\":\"y\", \"delimiter\":\",\" , \"headerLine\":1,\"charset\":\"x-windows-949\",\"srid\":3857}";
 			} else if ("excel".equals(uFileType)) {
 				options = "{\"lon\":\"x\",  \"lat\":\"y\"}";
 			}
@@ -206,7 +209,6 @@ public class CourseWorkController extends BaseController {
 		//		result.put("worksOutputId", workOutputResult.getIdx());
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
-
 
 	/**
 	 * 

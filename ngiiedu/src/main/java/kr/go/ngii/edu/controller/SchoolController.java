@@ -168,8 +168,8 @@ public class SchoolController extends BaseController{
 		long start = System.currentTimeMillis();
 
 		
-		String sPage="0";
-		String sList="100";
+		String sPage="1";
+		String sList="15000";
 		
 		String addr = "http://api.data.go.kr/openapi/elesch-mskul-lc-std?serviceKey=";
 		String serviceKey = "Yi8DoSjyAGhSiZy4cRAPT614KxQFYsGlhE%2Fh7WPOaG5A5pqT%2FYrHYDdwZ0Mefa%2B1Ducm62vuAUeg0nkY1%2BRZrw%3D%3D";
