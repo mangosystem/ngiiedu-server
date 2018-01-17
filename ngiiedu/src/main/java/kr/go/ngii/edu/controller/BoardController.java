@@ -42,7 +42,7 @@ import kr.go.ngii.edu.main.users.model.User;
 import kr.go.ngii.edu.common.enums.EnumRestAPIType;
 import kr.go.ngii.edu.config.LocalResourceBundle;
 import kr.go.ngii.edu.controller.rest.BaseController;
-import kr.go.ngii.edu.controller.rest.GISServerConnect;
+import kr.go.ngii.edu.controller.rest.OutputStreamConnect;
 import kr.go.ngii.edu.controller.rest.ResponseData;
 
 @Controller
