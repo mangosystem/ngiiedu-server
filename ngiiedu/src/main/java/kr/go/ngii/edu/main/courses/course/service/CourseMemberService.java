@@ -32,10 +32,10 @@ public class CourseMemberService extends BaseService {
 
 	@Autowired
 	private CourseAuthkeyMapper courseAuthkeyMapper;
-	
+
 	@Autowired
 	private CourseService courseService;
-	
+
 	@Autowired
 	private UserService userService;
 
@@ -59,7 +59,7 @@ public class CourseMemberService extends BaseService {
 	public List<CourseMember> list(int courseId, String joinStatus) {
 		return courseMemberMapper.listByCourseIdAndJoinStatus(courseId, EnumJoinStatus.findCode(joinStatus));
 	}
-	
+
 	/**
 	 * 수업에 참여하고 있는 학생사용자 목록 조회 (뷰테이블)
 	 * @param courseId
@@ -122,136 +122,230 @@ public class CourseMemberService extends BaseService {
 			if ("WAITING".equals(status)) {
 				// 대기중
 				status = ErrorMessage.COURSE_JOIN_WAITING;
-				
+
 			} else if ("ACTIVE".equals(status) || "DEACTIVE".equals(status)) {
 				// 참여중
 				status = ErrorMessage.COURSE_JOIN_ACTIVE;
-				
+
 			} else if ("BLOCK".equals(status)) {
 				// 블락
 				status = ErrorMessage.COURSE_JOIN_BLOCK;
-				
+
 			} else {
 				status = ErrorMessage.SERVER_ERROR;
 			}
-			
+
 			throw new RuntimeException(status);
 		}
 	}
 
+	//	/**
+	//	 * 학생사용자 상태변경하기
+	//	 * 
+	//	 * @param courseId
+	//	 * @param userId
+	//	 * @param status
+	//	 * @return
+	//	 */
+	//	public CourseMember updateStatus(int courseId, int userId, String joinStatus) {
+	//
+	//		String statusCode = null;
+	//		
+	//		EnumRestAPIType enumType;
+	//		Map<String, String> param = new HashMap<String, String>();
+	//		
+	//		RestAPIClient rc = new RestAPIClient();
+	//		User loginUser = (User) getHttpSession().getAttribute("USER_INFO");
+	//		String apiKey = userService.getApiKey(loginUser.getIdx());
+	//		rc.setApiKey(apiKey);
+	//		
+	//		Course course = courseService.get(courseId);
+	//		String projectId = course.getProjectId();
+	//		User user = userService.get(userId);
+	//		PngoUser pngoUser = userService.getPngoUser(user.getUserid());
+	////		param.put("member_id", pngoUser.getIdx().toString());
+	//		Map<String, String> pathParam = new HashMap<String, String>();
+	//		pathParam.put("project_id", projectId);
+	//		pathParam.put("member_id", pngoUser.getIdx().toString());
+	//		
+	//		try {
+	//			
+	//			Map<String, Object> getMemberResult = rc.getResponseBodyWithLinkedMap(EnumRestAPIType.PEOJECT_MEMBER_GET, pathParam, param, apiKey);
+	//			Map<String, String> getMemberMetadata = (Map<String, String>) getMemberResult.get("meta");
+	//			if ("OK".equalsIgnoreCase(getMemberMetadata.get("status"))) {
+	//				// throw new RuntimeException(ErrorMessage.COURSE_CREATE_FAILED);
+	//				// Member 있음
+	//				if (joinStatus.equals(EnumJoinStatus.WAITING.name())) {
+	//					statusCode = EnumJoinStatus.WAITING.code();
+	//					enumType = EnumRestAPIType.PROJECT_MEMBER_REMOVE;
+	//				} else if (joinStatus.equals(EnumJoinStatus.ACTIVE.name())) {
+	//					statusCode = EnumJoinStatus.ACTIVE.code();
+	//					enumType = null;
+	//					//param.put("member_role", "WRITER");
+	//				} else if (joinStatus.equals(EnumJoinStatus.DEACTIVE.name())) {
+	//					statusCode = EnumJoinStatus.DEACTIVE.code();
+	//					enumType = EnumRestAPIType.PROJECT_MEMBER_REMOVE;
+	//				} else if (joinStatus.equals(EnumJoinStatus.BLOCK.name())) {
+	//					statusCode = EnumJoinStatus.BLOCK.code();
+	//					enumType = EnumRestAPIType.PROJECT_MEMBER_REMOVE;
+	//				} else {
+	//					statusCode = null;
+	//					enumType = EnumRestAPIType.PROJECT_MEMBER_REMOVE;
+	//				}
+	//
+	//				if (statusCode == null) {
+	//					try {
+	//						Map<String, Object> r = rc.getResponseBodyWithLinkedMap(enumType, pathParam, param, apiKey);
+	//						Map<String, String> metaData = (Map<String, String>) r.get("meta");
+	//						if (!"OK".equalsIgnoreCase(metaData.get("status"))) {
+	//							// throw new RuntimeException(ErrorMessage.COURSE_CREATE_FAILED);
+	//						}
+	//					} catch (Exception e) {
+	//						e.printStackTrace();
+	//					}
+	//				}
+	//			} else {
+	//				// 메버 없음
+	//				if (joinStatus.equals(EnumJoinStatus.WAITING.name())) {
+	//					statusCode = EnumJoinStatus.WAITING.code();
+	//					enumType = null;
+	//				} else if (joinStatus.equals(EnumJoinStatus.ACTIVE.name())) {
+	//					statusCode = EnumJoinStatus.ACTIVE.code();
+	//					enumType = EnumRestAPIType.PROJECT_MEMBER_CREATE;
+	//					param.put("member_role", "WRITER");
+	//				} else if (joinStatus.equals(EnumJoinStatus.DEACTIVE.name())) {
+	//					statusCode = EnumJoinStatus.DEACTIVE.code();
+	//					enumType = null;
+	//				} else if (joinStatus.equals(EnumJoinStatus.BLOCK.name())) {
+	//					statusCode = EnumJoinStatus.BLOCK.code();
+	//					enumType = null;
+	//				} else {
+	//					enumType = null;
+	//					statusCode = null;
+	//				}
+	//
+	//				if (enumType != null) {
+	//					try {
+	//						Map<String, Object> r = rc.getResponseBodyWithLinkedMap(enumType, pathParam, param, apiKey);
+	//						Map<String, String> metaData = (Map<String, String>) r.get("meta");
+	//						if (!"OK".equalsIgnoreCase(metaData.get("status"))) {
+	//							// throw new RuntimeException(ErrorMessage.COURSE_CREATE_FAILED);
+	//						}
+	//					} catch (Exception e) {
+	//						e.printStackTrace();
+	//					}
+	//				}
+	//			}
+	////			if (statusCode == null) {
+	////				throw new RuntimeException(ErrorMessage.COURSE_CREATE_FAILED);
+	////			}
+	//			CourseMember params = new CourseMember();
+	//			params.setCourseId(courseId);
+	//			params.setUserId(userId);
+	//			params.setJoinStatus(statusCode);
+	//			params.setModifyDate(new Date());
+	//			courseMemberMapper.modify(params);
+	//			return courseMemberMapper.get(courseId, userId);
+	//			
+	//		} catch (Exception e) {
+	//			e.printStackTrace();
+	//			return null;
+	//		}
+	//	}
+
+	
 	/**
 	 * 학생사용자 상태변경하기
-	 * 
 	 * @param courseId
 	 * @param userId
-	 * @param status
+	 * @param updateStatus
 	 * @return
 	 */
-	public CourseMember updateStatus(int courseId, int userId, String joinStatus) {
+	public CourseMember updateStatus(int courseId, int userId, String updateStatus) {
 
-		String statusCode = null;
-		
-		EnumRestAPIType enumType;
-		Map<String, String> param = new HashMap<String, String>();
-		
+		CourseMember courseMember = courseMemberMapper.get(courseId, userId);
+
+		if (courseMember == null) {
+			return null;
+		}
+
+		String joinStatus = courseMember.getJoinStatus();
+
+		// 수업멤버 변경 API 요청 여부 확인
+		boolean apiInserted = false;
+		if (joinStatus.equalsIgnoreCase("CJS01") || joinStatus.equalsIgnoreCase("CJS03") || joinStatus.equalsIgnoreCase("CJS04")) {
+			apiInserted = false;
+		} else if (joinStatus.equalsIgnoreCase("CJS02")) {
+			apiInserted = true;
+		} else {
+			return null;
+		}
+
+		//수업의 프로젝트 ID 획인
+		Course course = courseService.get(courseId);
+		String projectId = course.getProjectId();
+
+		// 변경할 회원정보 확인 - PngoUser
+		User user = userService.get(userId);
+
+		//-- API 서버에 회원 조회
+		EnumRestAPIType restAPIType = null;
+
 		RestAPIClient rc = new RestAPIClient();
 		User loginUser = (User) getHttpSession().getAttribute("USER_INFO");
 		String apiKey = userService.getApiKey(loginUser.getIdx());
 		rc.setApiKey(apiKey);
-		
-		Course course = courseService.get(courseId);
-		String projectId = course.getProjectId();
-		User user = userService.get(userId);
-		PngoUser pngoUser = userService.getPngoUser(user.getUserid());
-//		param.put("member_id", pngoUser.getIdx().toString());
-		Map<String, String> pathParam = new HashMap<String, String>();
-		pathParam.put("project_id", projectId);
-		pathParam.put("member_id", pngoUser.getIdx().toString());
-		
-		try {
-			
-			Map<String, Object> getMemberResult = rc.getResponseBodyWithLinkedMap(EnumRestAPIType.PEOJECT_MEMBER_GET, pathParam, param, apiKey);
-			Map<String, String> getMemberMetadata = (Map<String, String>) getMemberResult.get("meta");
-			if ("OK".equalsIgnoreCase(getMemberMetadata.get("status"))) {
-				// throw new RuntimeException(ErrorMessage.COURSE_CREATE_FAILED);
-				// Member 있음
-				if (joinStatus.equals(EnumJoinStatus.WAITING.name())) {
-					statusCode = EnumJoinStatus.WAITING.code();
-					enumType = EnumRestAPIType.PROJECT_MEMBER_REMOVE;
-				} else if (joinStatus.equals(EnumJoinStatus.ACTIVE.name())) {
-					statusCode = EnumJoinStatus.ACTIVE.code();
-					enumType = null;
-					//param.put("member_role", "WRITER");
-				} else if (joinStatus.equals(EnumJoinStatus.DEACTIVE.name())) {
-					statusCode = EnumJoinStatus.DEACTIVE.code();
-					enumType = EnumRestAPIType.PROJECT_MEMBER_REMOVE;
-				} else if (joinStatus.equals(EnumJoinStatus.BLOCK.name())) {
-					statusCode = EnumJoinStatus.BLOCK.code();
-					enumType = EnumRestAPIType.PROJECT_MEMBER_REMOVE;
-				} else {
-					statusCode = null;
-					enumType = EnumRestAPIType.PROJECT_MEMBER_REMOVE;
-				}
 
-				if (statusCode == null) {
-					try {
-						Map<String, Object> r = rc.getResponseBodyWithLinkedMap(enumType, pathParam, param, apiKey);
-						Map<String, String> metaData = (Map<String, String>) r.get("meta");
-						if (!"OK".equalsIgnoreCase(metaData.get("status"))) {
-							// throw new RuntimeException(ErrorMessage.COURSE_CREATE_FAILED);
-						}
-					} catch (Exception e) {
-						e.printStackTrace();
+		Map<String, String> apiPathParam = new HashMap<String, String>();
+		apiPathParam.put("project_id", projectId);
+		apiPathParam.put("member_id", user.getIdx().toString());
+
+		Map<String, String> apiParam = new HashMap<String, String>();
+		try {
+			Map<String, Object> getMemberResult = rc.getResponseBodyWithLinkedMap(EnumRestAPIType.PEOJECT_MEMBER_GET, apiPathParam, apiParam, apiKey);
+			Map<String, String> getMemberData = (Map<String, String>) getMemberResult.get("data");
+
+			if (getMemberData == null) {
+				if (updateStatus.equalsIgnoreCase("WAITING") || updateStatus.equalsIgnoreCase("DEACTIVE") || updateStatus.equalsIgnoreCase("BLOCK")) {
+					if (apiInserted) {
+						// API로 삭제
+						restAPIType = EnumRestAPIType.PROJECT_MEMBER_REMOVE;
+						apiPathParam.put("member_id", user.getIdx().toString());
+					}
+				} else if (updateStatus.equalsIgnoreCase("ACTIVE")) {
+					if (!apiInserted) {
+						// API로 추가
+						restAPIType = EnumRestAPIType.PROJECT_MEMBER_CREATE;
+						apiParam.put("member_id", user.getIdx().toString());
+						apiParam.put("member_role", "WRITER");
 					}
 				}
 			} else {
-				// 메버 없음
-				if (joinStatus.equals(EnumJoinStatus.WAITING.name())) {
-					statusCode = EnumJoinStatus.WAITING.code();
-					enumType = null;
-				} else if (joinStatus.equals(EnumJoinStatus.ACTIVE.name())) {
-					statusCode = EnumJoinStatus.ACTIVE.code();
-					enumType = EnumRestAPIType.PROJECT_MEMBER_CREATE;
-					param.put("member_role", "WRITER");
-				} else if (joinStatus.equals(EnumJoinStatus.DEACTIVE.name())) {
-					statusCode = EnumJoinStatus.DEACTIVE.code();
-					enumType = null;
-				} else if (joinStatus.equals(EnumJoinStatus.BLOCK.name())) {
-					statusCode = EnumJoinStatus.BLOCK.code();
-					enumType = null;
-				} else {
-					enumType = null;
-					statusCode = null;
-				}
-
-				if (enumType != null) {
-					try {
-						Map<String, Object> r = rc.getResponseBodyWithLinkedMap(enumType, pathParam, param, apiKey);
-						Map<String, String> metaData = (Map<String, String>) r.get("meta");
-						if (!"OK".equalsIgnoreCase(metaData.get("status"))) {
-							// throw new RuntimeException(ErrorMessage.COURSE_CREATE_FAILED);
-						}
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
+				if (updateStatus.equalsIgnoreCase("WAITING") || updateStatus.equalsIgnoreCase("DEACTIVE") || updateStatus.equalsIgnoreCase("BLOCK")) {
+					restAPIType = EnumRestAPIType.PROJECT_MEMBER_REMOVE;
+					apiPathParam.put("member_id", user.getIdx().toString());
 				}
 			}
-//			if (statusCode == null) {
-//				throw new RuntimeException(ErrorMessage.COURSE_CREATE_FAILED);
-//			}
+
+			if (restAPIType != null) {
+				Map<String, Object> r = rc.getResponseBodyWithLinkedMap(restAPIType, apiPathParam, apiParam, apiKey);
+				Map<String, String> metaData = (Map<String, String>) r.get("meta");
+			}
+
 			CourseMember params = new CourseMember();
 			params.setCourseId(courseId);
 			params.setUserId(userId);
-			params.setJoinStatus(statusCode);
+			params.setJoinStatus(EnumJoinStatus.findCode(updateStatus));
 			params.setModifyDate(new Date());
 			courseMemberMapper.modify(params);
+
 			return courseMemberMapper.get(courseId, userId);
-			
+
 		} catch (Exception e) {
-			e.printStackTrace();
 			return null;
 		}
 	}
+
 
 	/**
 	 * 수업에서 탈퇴하기
@@ -261,7 +355,7 @@ public class CourseMemberService extends BaseService {
 	 * @return
 	 */
 	public boolean leave(int courseId, int userId) {
-		
+
 		if (courseMemberMapper.exists(courseId, userId)) {
 			courseMemberMapper.deleteByCourseIdAndUserId(courseId, userId);
 			return true;
@@ -269,7 +363,7 @@ public class CourseMemberService extends BaseService {
 			return false;
 		}
 	}
-	
+
 	/**
 	 * 수업에서 멤버 삭제하기
 	 * 
@@ -278,14 +372,14 @@ public class CourseMemberService extends BaseService {
 	 * @return
 	 */
 	public boolean leave(int courseId, String userId, String password) {
-		
+
 		// 패스워드 체크필
 		User user = userService.get(userId);
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		if (!encoder.matches(password, user.getPassword())) {
 			throw new RuntimeException(ErrorMessage.PASSWORD_AUTHENTICATION_FAILED);
 		}
-		
+
 		// 삭제
 		if (courseMemberMapper.exists(courseId, user.getIdx())) {
 			courseMemberMapper.deleteByCourseIdAndUserId(courseId, user.getIdx());
@@ -294,7 +388,7 @@ public class CourseMemberService extends BaseService {
 			return false;
 		}
 	}
-	
+
 	/**
 	 * 수업에서 멤버 삭제하기
 	 * 
@@ -304,14 +398,14 @@ public class CourseMemberService extends BaseService {
 	 * @return
 	 */ 
 	public boolean leave(int courseId, int userId, String password) {
-		
+
 		// 패스워드 체크필
 		User user = userService.get(userId);
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		if (!encoder.matches(password, user.getPassword())) {
 			throw new RuntimeException(ErrorMessage.PASSWORD_AUTHENTICATION_FAILED);
 		}
-		
+
 		// 삭제
 		if (courseMemberMapper.exists(courseId, user.getIdx())) {
 			courseMemberMapper.deleteByCourseIdAndUserId(courseId, user.getIdx());
@@ -320,8 +414,8 @@ public class CourseMemberService extends BaseService {
 			return false;
 		}
 	}
-	
-	
+
+
 	/**
 	 * 수업에서 멤버 삭제하기
 	 * 
@@ -339,10 +433,10 @@ public class CourseMemberService extends BaseService {
 			throw new RuntimeException(ErrorMessage.PASSWORD_AUTHENTICATION_FAILED);
 		}
 		StringTokenizer s = new StringTokenizer(tagetUserIds, ",");
-		
+
 		int i = 0;
 		while (s.hasMoreTokens()) {
-			
+
 			int uid = Integer.parseInt(s.nextToken().trim());
 			if (courseMemberMapper.exists(courseId, uid)) {
 				courseMemberMapper.deleteByCourseIdAndUserId(courseId, uid);
@@ -356,7 +450,7 @@ public class CourseMemberService extends BaseService {
 			return false;
 		}
 	}
-	
+
 	/**
 	 * 수업에서 멤버 삭제하기
 	 * 
@@ -374,7 +468,7 @@ public class CourseMemberService extends BaseService {
 			throw new RuntimeException(ErrorMessage.PASSWORD_AUTHENTICATION_FAILED);
 		}
 		StringTokenizer s = new StringTokenizer(tagetUserIds, ",");
-		
+
 		int i = 0;
 		while (s.hasMoreTokens()) {
 			String uid = s.nextToken();
@@ -391,9 +485,9 @@ public class CourseMemberService extends BaseService {
 			return false;
 		}
 	}
-	
-	
-	
+
+
+
 	/**
 	 * 수업에서 멤버 삭제하기
 	 * 
@@ -405,8 +499,8 @@ public class CourseMemberService extends BaseService {
 		// 패스워드 체크필요함.
 		return false;
 	}
-	
-	
+
+
 	/**
 	 * 수업에서 멤버 삭제하기  
 	 * 
