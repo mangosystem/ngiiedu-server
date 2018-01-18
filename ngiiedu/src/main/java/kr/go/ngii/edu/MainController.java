@@ -1,5 +1,7 @@
 package kr.go.ngii.edu;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.security.Principal;
 import java.util.List;
 
@@ -8,20 +10,17 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import kr.go.ngii.edu.config.LocalResourceBundle;
 import kr.go.ngii.edu.controller.rest.BaseController;
-import kr.go.ngii.edu.controller.rest.ResponseData;
+import kr.go.ngii.edu.controller.rest.OutputStreamConnect;
 import kr.go.ngii.edu.main.board.model.BbsFAQuestion;
 import kr.go.ngii.edu.main.board.model.BbsNotice;
 import kr.go.ngii.edu.main.board.model.BbsPageCriteria;
@@ -30,7 +29,6 @@ import kr.go.ngii.edu.main.board.model.BbsPdsFile;
 import kr.go.ngii.edu.main.board.model.BbsQuestion;
 import kr.go.ngii.edu.main.board.model.BbsReply;
 import kr.go.ngii.edu.main.board.service.BoardService;
-import kr.go.ngii.edu.main.courses.course.model.Course;
 import kr.go.ngii.edu.main.users.model.User;
 
 @Controller
@@ -615,7 +613,18 @@ public class MainController extends BaseController {
 		ModelAndView view = new ModelAndView("/introduce/"+courseId);
 		return view;
 	}
+	
+	@RequestMapping(value="/ngiiemapProxy", method=RequestMethod.GET)
+	public void requestGETImage(
+			@RequestParam(value="ngiiproxy", required=false) String ngiiProxy,
+			@RequestParam(value="URL", required=false) String ngiiImgUrl,
+			HttpServletRequest request, HttpServletResponse response
+			) {
 
-    
-   
+		try {
+			OutputStreamConnect.requestGETImage(new URL(ngiiProxy + "&URL=" + ngiiImgUrl), request, response);
+		} catch (MalformedURLException e) {
+		}
+	}
+
 }

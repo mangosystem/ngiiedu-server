@@ -15,8 +15,6 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import kr.go.ngii.edu.common.message.ErrorMessage;
-
 
 public class OutputStreamConnect {
 
@@ -41,7 +39,7 @@ public class OutputStreamConnect {
 			http.setDoOutput(false);
 			byte[] buffer = new byte[8192];
 			int read = -1;
-			
+
 			http.setRequestProperty("apikey", response.getHeader("apikey"));
 
 			InputStream is = http.getInputStream();
@@ -69,7 +67,7 @@ public class OutputStreamConnect {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static void requestGET(URL url, String savePath) {
 		try {
 			HttpURLConnection con = (HttpURLConnection)url.openConnection();
@@ -90,4 +88,49 @@ public class OutputStreamConnect {
 			e.printStackTrace();
 		}
 	}
+
+
+	/**
+	 * 이미지 데이터
+	 * 
+	 * @param url
+	 * @param request
+	 * @param response
+	 */
+	public static void requestGETImage(URL url, HttpServletRequest request, HttpServletResponse response) {
+
+		try {
+			HttpURLConnection con = (HttpURLConnection)url.openConnection();
+
+			con.setRequestMethod("GET");
+
+			int responseCode = con.getResponseCode();
+			if(responseCode==200) {
+				// 정상 호출
+				HttpURLConnection http = (HttpURLConnection) url.openConnection();
+
+				http.setDoInput(true);
+				http.setDoOutput(false);
+				byte[] buffer = new byte[8192];
+				int read = -1;
+
+				InputStream is = http.getInputStream();
+
+				response.setContentType("image/png");
+				response.setHeader("Content-Type", "image/png");
+
+				ServletOutputStream sos = response.getOutputStream();
+				response.resetBuffer();
+				while ((read = is.read(buffer)) != -1) {
+					sos.write(buffer, 0, read);
+				}
+				response.flushBuffer();
+				sos.close();
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 }

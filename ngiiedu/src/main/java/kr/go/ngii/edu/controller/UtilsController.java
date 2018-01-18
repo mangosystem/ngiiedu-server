@@ -36,5 +36,4 @@ public class UtilsController extends BaseController {
 		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
 	}
 
-
 }
