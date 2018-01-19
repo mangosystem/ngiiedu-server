@@ -72,6 +72,8 @@
 			is_done
   		FROM works_output
   		WHERE is_shared = true
+  			AND output_type != 'dataset'
+  			AND output_type != 'maps'
 		ORDER BY idx
   			<if test="offset != null and limit != null">
 				OFFSET ${offset} LIMIT ${limit}
