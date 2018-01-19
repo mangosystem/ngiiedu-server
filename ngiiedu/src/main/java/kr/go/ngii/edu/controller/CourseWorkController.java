@@ -593,19 +593,21 @@ public class CourseWorkController extends BaseController {
 			@PathVariable(value="layerId", required=false) String layerId,
 			HttpSession session) throws Exception {
 
-		User user = (User)session.getAttribute("USER_INFO");
-		if (user == null) {
-			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
-		}
+//		if (user == null) {
+//			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+//		}
 
+		try {
+			User user = (User)session.getAttribute("USER_INFO");
+			String apiKey = userService.getApiKey(user.getIdx());
+			apiClient.setApiKey(apiKey);
+		} catch (Exception e) {
+		}
 		Map<String, String> paramVals = new HashMap<String, String>();
 		Map<String, String> pathParamVals = new HashMap<String, String>();
 		pathParamVals.put("layer_id", layerId);
-		String apiKey = userService.getApiKey(user.getIdx());
-		apiClient.setApiKey(apiKey);
 		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.LAYER_GET, pathParamVals, paramVals);
 		//		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.LAYER_GET, paramPath);
-
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
 
@@ -881,9 +883,9 @@ public class CourseWorkController extends BaseController {
 			HttpSession session) throws Exception {
 
 		User user = (User)session.getAttribute("USER_INFO");
-		if (user == null) {
-			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
-		}
+//		if (user == null) {
+//			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+//		}
 
 		Map<String, Object> result = new HashMap<>();
 		result.put("data", workOutputService.getByPinogioOutputId(mapsId));
