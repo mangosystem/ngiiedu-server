@@ -16,9 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import kr.go.ngii.edu.common.StringUtil;
 import kr.go.ngii.edu.common.enums.EnumRestAPIType;
 import kr.go.ngii.edu.common.message.ErrorMessage;
@@ -125,9 +122,6 @@ public class CourseController extends BaseController {
 				throw new RuntimeException(ErrorMessage.BAD_REUQEST);
 			}
 		}
-//		Course result = courseService.create(moduleId, moduleWorkIds, courseName, courseMetadata);
-//		Course result = courseService.create(user, moduleId, moduleWorkIds, courseName, courseMetadata, emptyTemplateMap);
-		
 		RestAPIClient rc = new RestAPIClient();
 		int userId = user.getIdx();
 		PngoUser pngoUser = userService.getPngoUser(user.getUserid());
@@ -975,7 +969,4 @@ public class CourseController extends BaseController {
 			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
 		}
 	}
-	
-
-
 }

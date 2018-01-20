@@ -205,6 +205,7 @@ public class CourseWorkController extends BaseController {
 				options = "{\"lon\":\"x\",  \"lat\":\"y\"}";
 			}
 		}
+		paramVals.put("options", options);
 		
 		apiClient.setApiKey(apiKey);
 		String result = apiClient.excuteHttpPostWithFile(EnumRestAPIType.DATASET_UPLOAD_CREATE, pathParamVals, paramVals, uFile, apiKey);
@@ -214,6 +215,188 @@ public class CourseWorkController extends BaseController {
 		resultBody.put("worksOutputId", workOutputResult.getIdx());
 		return new ResponseEntity<ResponseData>(responseBody(resultBody), HttpStatus.OK);
 	}
+	
+	/**
+	 * Dataset 생성 (행정경계 결합)
+	 * 
+	 * 
+	 * @param courseWorkSubId
+	 * @param title
+	 * @param description
+	 * @param privacy
+	 * @param metadata
+	 * @param options
+	 * @param geometryDefine
+	 * @param boundaryId
+	 * @param boundaryJointype
+	 * @param boundaryFilter
+	 * @param isShared
+	 * @param isDone
+	 * @param uFile
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/boundaryJoinDataset", method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<ResponseData> datasetBoundaryJoinCreate(
+			@RequestParam(value="courseWorkSubId", required=true) int courseWorkSubId,
+			@RequestParam(value="title", required=false, defaultValue="untitled") String title,
+			@RequestParam(value="description", required=false) String description,
+			@RequestParam(value="privacy", required=false, defaultValue="TEAM") String privacy,
+			@RequestParam(value="metadata", required=false) String metadata,
+			@RequestParam(value="options", required=false, defaultValue="") String options,
+			@RequestParam(value="geometryDefine", required=true) String geometryDefine,
+			@RequestParam(value="boundaryId", required=true) String boundaryId,
+			@RequestParam(value="boundaryJointype", required=true) String boundaryJointype,
+			@RequestParam(value="boundaryFilter", required=false) String boundaryFilter,
+			@RequestParam(value="isShared", required=false, defaultValue="false") String isShared,
+			@RequestParam(value="isDone", required=false, defaultValue="false") String isDone,
+			@RequestParam(value="uFile", required=false) MultipartFile uFile,
+			HttpSession session) throws Exception {
+
+		User user = (User)session.getAttribute("USER_INFO");
+		if (user == null) {
+			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+		}
+
+		CourseWorkSub courseWorkSub = new CourseWorkSub();
+		courseWorkSub.setIdx(courseWorkSubId);
+		courseWorkSub = courseWorkSubService.get(courseWorkSub);
+
+		CourseWork courseWork = new CourseWork();
+		courseWork.setIdx(courseWorkSub.getCourseWorkId());
+		courseWork = courseWorkService.get(courseWork);
+
+		int courseId = courseWork.getCourseId();
+
+		Course course = courseService.get(courseId);
+		String projectId = course.getProjectId();
+		String apiKey = userService.getApiKey(user.getIdx());
+
+		Map<String, String> paramVals = new HashMap<String, String>();
+		Map<String, String> pathParamVals = new HashMap<String, String>();
+		
+		paramVals.put("project_id", projectId);
+		if (title != null && !"".equals(title.trim())) {
+			paramVals.put("title", title);
+		}
+		if (description != null && !"".equals(description.trim())) {
+			paramVals.put("description", description);
+		}
+		if (metadata != null && !"".equals(metadata.trim())) {
+			paramVals.put("metadata", metadata);
+		}
+		if (privacy != null && !"".equals(privacy.trim())) {
+			paramVals.put("privacy", privacy);
+		}
+		paramVals.put("options", options);
+		
+		paramVals.put("geometry_define", geometryDefine);
+		paramVals.put("boundary_id", boundaryId);
+		paramVals.put("boundary_jointype", boundaryJointype);
+		
+		if (privacy != null && !"".equals(boundaryFilter.trim())) {
+			paramVals.put("boundary_filter", boundaryFilter);
+		}
+
+		apiClient.setApiKey(apiKey);
+		String result = apiClient.excuteHttpPostWithFile(EnumRestAPIType.DATASET_BOUNDARYJOIN_CREATE, pathParamVals, paramVals, uFile, apiKey);
+		Map<String, Object> resultBody =  (Map<String, Object>)StringUtil.stringToMap(result);
+		// output division
+		WorkOutput workOutputResult = workOutputService.create(courseWorkSubId, "1",  resultBody, user.getIdx(), "dataset", "true".equals(isShared), "true".equals(isDone));
+		resultBody.put("worksOutputId", workOutputResult.getIdx());
+		return new ResponseEntity<ResponseData>(responseBody(resultBody), HttpStatus.OK);
+	}
+	
+	
+	/**
+	 * 
+	 * Dataset 생성(온라인 데이터)
+	 * 
+	 * @param courseWorkSubId
+	 * @param title
+	 * @param description
+	 * @param privacy
+	 * @param metadata
+	 * @param options
+	 * @param fileId
+	 * @param vendorId
+	 * @param isShared
+	 * @param isDone
+	 * @param uFile
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/onlineDataset", method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<ResponseData> datasetOnlineCreate(
+			@RequestParam(value="courseWorkSubId", required=true) int courseWorkSubId,
+			@RequestParam(value="title", required=false, defaultValue="untitled") String title,
+			@RequestParam(value="description", required=false) String description,
+			@RequestParam(value="privacy", required=false, defaultValue="TEAM") String privacy,
+			@RequestParam(value="metadata", required=false) String metadata,
+			@RequestParam(value="options", required=false, defaultValue="") String options,
+			@RequestParam(value="fileId", required=false, defaultValue="") String fileId,
+			@RequestParam(value="vendorId", required=false, defaultValue="") String vendorId,
+			@RequestParam(value="isShared", required=false, defaultValue="false") String isShared,
+			@RequestParam(value="isDone", required=false, defaultValue="false") String isDone,
+			@RequestParam(value="uFile", required=false) MultipartFile uFile,
+			HttpSession session) throws Exception {
+
+		User user = (User)session.getAttribute("USER_INFO");
+		if (user == null) {
+			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+		}
+
+		CourseWorkSub courseWorkSub = new CourseWorkSub();
+		courseWorkSub.setIdx(courseWorkSubId);
+		courseWorkSub = courseWorkSubService.get(courseWorkSub);
+
+		CourseWork courseWork = new CourseWork();
+		courseWork.setIdx(courseWorkSub.getCourseWorkId());
+		courseWork = courseWorkService.get(courseWork);
+
+		int courseId = courseWork.getCourseId();
+
+		Course course = courseService.get(courseId);
+		String projectId = course.getProjectId();
+		String apiKey = userService.getApiKey(user.getIdx());
+
+		Map<String, String> paramVals = new HashMap<String, String>();
+		Map<String, String> pathParamVals = new HashMap<String, String>();
+		
+		paramVals.put("project_id", projectId);
+		if (title != null && !"".equals(title.trim())) {
+			paramVals.put("title", title);
+		}
+		if (description != null && !"".equals(description.trim())) {
+			paramVals.put("description", description);
+		}
+		if (metadata != null && !"".equals(metadata.trim())) {
+			paramVals.put("metadata", metadata);
+		}
+		if (privacy != null && !"".equals(privacy.trim())) {
+			paramVals.put("privacy", privacy);
+		}
+		
+		paramVals.put("options", options);
+		
+		if (fileId != null && !"".equals(fileId.trim())) {
+			paramVals.put("file_id", fileId);
+		}
+		if (vendorId != null && !"".equals(vendorId.trim())) {
+			paramVals.put("vendor_id", vendorId);
+		}
+		
+		apiClient.setApiKey(apiKey);
+		String result = apiClient.excuteHttpPostWithFile(EnumRestAPIType.DATASET_ONLINE_CREATE, pathParamVals, paramVals, uFile, apiKey);
+		Map<String, Object> resultBody =  (Map<String, Object>)StringUtil.stringToMap(result);
+		// output division
+		WorkOutput workOutputResult = workOutputService.create(courseWorkSubId, "1",  resultBody, user.getIdx(), "dataset", "true".equals(isShared), "true".equals(isDone));
+		resultBody.put("worksOutputId", workOutputResult.getIdx());
+		return new ResponseEntity<ResponseData>(responseBody(resultBody), HttpStatus.OK);
+	}
+	
 
 	/**
 	 * 

@@ -29,6 +29,9 @@ public enum EnumRestAPIType {
 	DATASET_EMPTY_CREATE	("/datasets/createEmpty", HttpMethod.POST),
 	DATASET_UPLOAD_CREATE	("/datasets/createUpload", HttpMethod.POST),
 	
+	DATASET_BOUNDARYJOIN_CREATE	("/datasets/createBoundaryJoin", HttpMethod.POST),
+	DATASET_ONLINE_CREATE	("/datasets/createOnlineDataset", HttpMethod.POST),
+
 	DATASET_UPDATE			("/datasets/{dataset_id}.json", HttpMethod.PUT),
 	DATASET_REMOVE			("/datasets/{dataset_id}.json", HttpMethod.DELETE),
 	
@@ -56,58 +59,58 @@ public enum EnumRestAPIType {
 	LAYER_UPDATE			("/layers/{layer_id}.json", HttpMethod.PUT),
 	LAYER_REMOVE			("/layers/{layer_id}.json", HttpMethod.DELETE),
 	
-	// 메타데이터 정보 변경
+	// 硫뷀��뜲�씠�꽣 �젙蹂� 蹂�寃�
 	LAYER_METADATA_UPDATE	("/layers/{layer_id}/metadata.json", HttpMethod.PUT),
 	
-	// 메타데이터 소스 변경
+	// 硫뷀��뜲�씠�꽣 �냼�뒪 蹂�寃�
 	LAYER_METADATA_SOURCE_UPDATE	("/layers/{layer_id}/source.json", HttpMethod.PUT),
 	
-	// 메타데이터 프로세스 변경
+	// 硫뷀��뜲�씠�꽣 �봽濡쒖꽭�뒪 蹂�寃�
 	LAYER_METADAT_PROCESS_UPDATE	("/layers/{layer_id}/process.json", HttpMethod.PUT),
 
-	// 메타데이터 스타일 변경
+	// 硫뷀��뜲�씠�꽣 �뒪���씪 蹂�寃�
 	LAYER_METADATA_STYLING_UPDATE	("/layers/{layer_id}/styling.json", HttpMethod.PUT),
 
-	// 레이어 상태 확인
+	// �젅�씠�뼱 �긽�깭 �솗�씤
 	LAYER_JOB_STATUS	("/layers/{layer_id}/job_status.json", HttpMethod.GET),
 
-	// 래이어 컬럼 목록
+	// �옒�씠�뼱 而щ읆 紐⑸줉
 	LAYER_COLUMN_LIST	("/layers/{layer_id}/column.json", HttpMethod.GET),
-	// 레이어 컬럼 정보
+	// �젅�씠�뼱 而щ읆 �젙蹂�
 	LAYER_COLUMN_GET	("/layers/{layer_id}/column/{column_id}.json", HttpMethod.GET),
-	// 레이어 데이터 값 분류
+	// �젅�씠�뼱 �뜲�씠�꽣 媛� 遺꾨쪟
 	LAYER_STYLING_CLASSIFY	("/layers/{layer_id}/styling/classify.json", HttpMethod.GET),
-	// 지원프로세스 목록
+	// 吏��썝�봽濡쒖꽭�뒪 紐⑸줉
 	LAYER_MODULE_SUPPORT_PROCESS	("/layers/metadata/support_process.json", HttpMethod.GET),
-	// 모듈 파라미터
+	// 紐⑤뱢 �뙆�씪誘명꽣
 	LAYER_MODULE_PROCESS_PARAM	("/layers/metadata/module_params.json", HttpMethod.GET),
 	
 	LAYER_PRIVACY_UPDATE	("/layers/{layer_id}/privacy.json", HttpMethod.PUT),
 	
-	// Maps 목록
+	// Maps 紐⑸줉
 	MAPS_LIST	("/maps.json", HttpMethod.GET),
-	// Maps 상세정보
+	// Maps �긽�꽭�젙蹂�
 	MAPS_GET	("/maps/{maps_id}.json", HttpMethod.GET),
-	// Maps 생성
+	// Maps �깮�꽦
 	MAPS_CREATE	("/maps.json", HttpMethod.POST),
-	// Maps 수정
+	// Maps �닔�젙
 	MAPS_UPDATE	("/maps/{maps_id}.json", HttpMethod.PUT),
-	// Maps 삭제
+	// Maps �궘�젣
 	MAPS_REMOVE	("/maps/{maps_id}.json", HttpMethod.DELETE),
 	
-	// Maps 아이템 목록
+	// Maps �븘�씠�뀥 紐⑸줉
 	MAPS_ITEM_LIST ("/maps/{maps_id}/item.json", HttpMethod.GET),
-	// Maps 아이템 상세정보
+	// Maps �븘�씠�뀥 �긽�꽭�젙蹂�
 	MAPS_ITEM_GET ("/maps/{maps_id}/item/{item_id}.json", HttpMethod.GET),
-	// Maps 아이템 생성
+	// Maps �븘�씠�뀥 �깮�꽦
 	MAPS_ITEM_CREATE ("/maps/{maps_id}/item.json", HttpMethod.POST),
-	// Maps 아이템 수정
+	// Maps �븘�씠�뀥 �닔�젙
 //	MAPS_ITEM_UPDATE ("/maps/{maps_id}/item/{item_id}.json", HttpMethod.PUT),
 	MAPS_ITEM_UPDATE ("/maps/{maps_id}/item/{item_id}.json", HttpMethod.POST),
-	// Maps 아이템 삭제
+	// Maps �븘�씠�뀥 �궘�젣
 	MAPS_ITEM_REMOVE ("/maps/{maps_id}/item/{item_id}.json", HttpMethod.DELETE),
 
-	// Maps 순서변경
+	// Maps �닚�꽌蹂�寃�
 	MAPS_ITEMORDER_UPDATE ("/maps/{maps_id}/itemOrder.json", HttpMethod.PUT),
 	
 	MAPS_PRIVACY_UPDATE	("/layers/{dataset_id}/privacy.json", HttpMethod.PUT);
@@ -129,7 +132,7 @@ public enum EnumRestAPIType {
 	}
 	
 	/**
-	 * 코드값으로 키값을 찾는다.
+	 * 肄붾뱶媛믪쑝濡� �궎媛믪쓣 李얜뒗�떎.
 	 * @param code
 	 * @return
 	 */
@@ -145,7 +148,7 @@ public enum EnumRestAPIType {
 	}
 	
 	/**
-	 * 키값으로 코드를 찾는다.
+	 * �궎媛믪쑝濡� 肄붾뱶瑜� 李얜뒗�떎.
 	 * 
 	 * @param key
 	 * @return
