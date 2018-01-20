@@ -1,15 +1,20 @@
 package kr.go.ngii.edu.main.common;
 
-import java.io.File;
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.impl.client.BasicResponseHandler;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpEntity;
@@ -53,7 +58,6 @@ public class RestAPIClient {
 			
 			UriComponentsBuilder builder;
 			if (pathParam == null || pathParam.isEmpty()) {
-				//return getResponseBody(enumType, enumType.code(), param);
 				builder = UriComponentsBuilder.fromUriString(REST_BASE_URI + enumType.code());
 			} else {
 				
@@ -97,67 +101,44 @@ public class RestAPIClient {
 		}
 		return null;
 	}
-	
-	
-	public Map<String, Object> getResponseBodyWithLinkedMap(EnumRestAPIType enumType, Map<String, String> pathParam, 
-			Map<String, Object> param, MultipartFile file, String key) {
-		try {
-			UriComponentsBuilder builder;
-			if (pathParam == null || pathParam.isEmpty()) {
-				builder = UriComponentsBuilder.fromUriString(REST_BASE_URI + enumType.code());
-			} else {
-				builder = UriComponentsBuilder.fromUriString(REST_BASE_URI + format(enumType.code(), pathParam));
-			}
-			
-			MultiValueMap<String, Object> multiValueMap = new LinkedMultiValueMap<String, Object>();
-			
-			if (param != null && !param.isEmpty()) {
-				for( Map.Entry<String, Object> elem : param.entrySet()) {
-					multiValueMap.set(elem.getKey(), elem.getValue());
+
+	public String excuteHttpPostWithFile(EnumRestAPIType enumType, Map<String, String> pathParam, 
+			Map<String, String> param, MultipartFile file, String key) {
+ 
+		
+		
+		
+        try {
+        	
+        	CloseableHttpClient client = HttpClients.createDefault();
+            HttpPost httpPost = new HttpPost(REST_BASE_URI + enumType.code());
+            httpPost.addHeader("apikey", key);
+
+            MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+            if (param != null && !param.isEmpty()) {
+				for( Map.Entry<String, String> elem : param.entrySet()) {
+					builder.addTextBody(elem.getKey(), elem.getValue());
 				}
 			}
-			ByteArrayResource resource = new ByteArrayResource(file.getBytes()){
-				@Override
-				public String getFilename() throws IllegalStateException {
-					return file.getOriginalFilename();
-				}
-			};
-			
-//			File convFile = new File( file.getOriginalFilename());
-//			try {
-//				
-//				file.transferTo(convFile);
-//			} catch (Exception e) {
-//				// TODO: handle exception
-//			}
-			
-//			multiValueMap.add("ufile", convFile);
-			multiValueMap.add("ufile", resource);
-			HttpHeaders headers = new HttpHeaders();
-			headers.setContentType(MediaType.MULTIPART_FORM_DATA);
-			if ("".equals(key)) {
+            
+            if ("".equals(key)) {
 				key = this.apiKey;
 			}
-			//headers.set("apikey", key);
-			HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(multiValueMap, headers);
-	    	ParameterizedTypeReference<Map<String, Object>> typeRef = new ParameterizedTypeReference<Map<String, Object>>() {};
-//			URI uriParam = builder.build().encode("UTF-8").toUri();
-			URI uriParam = builder.build().encode().toUri();
-			
-//			 List<HttpMessageConverter<?>> messageConverters = new ArrayList<HttpMessageConverter<?>>();
-//	        messageConverters.add(new MappingJackson2HttpMessageConverter());
-//	        messageConverters.add(new FormHttpMessageConverter());
-//	        restTemplate.getMessageConverters().addAll(messageConverters);
-		        
-			ResponseEntity<Map<String, Object>> result = restTemplate.exchange(uriParam, enumType.method(), requestEntity, typeRef);
-			Map<String, Object> body = result.getBody();
-			return body;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+            
+            builder.addBinaryBody("ufile", file.getInputStream(), ContentType.create("application/octet-stream"), file.getOriginalFilename());
+            org.apache.http.HttpEntity multipart = builder.build();
+            httpPost.setEntity(multipart);
+            CloseableHttpResponse response = client.execute(httpPost);
+            ResponseHandler<String> handler = new BasicResponseHandler();
+            String body = handler.handleResponse(response);
+            client.close();
+            return body;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 		return null;
 	}
-	
+
 	public Map<String, Object> getResponseBodyWithLinkedMap(EnumRestAPIType enumType, Map<String, String> pathParam, 
 			Map<String, String> param, String key) {
 		try {
@@ -219,67 +200,6 @@ public class RestAPIClient {
 		}
 		return null;
 	}
-	
-//	public String getResponseBodyForObject(EnumRestAPIType enumType, Map<String, String> pathParam, Map<String, String> param) {
-//		try {
-////			UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(REST_BASE_URI + enumType.code());
-//			UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(REST_BASE_URI + format(enumType.code(), pathParam));
-//			
-//			MultiValueMap<String, String> multiValueMap = new LinkedMultiValueMap<>();
-//			
-//			if (param != null && !param.isEmpty()) {
-//				for( Map.Entry<String, String> elem : param.entrySet()) {
-//					multiValueMap.add(elem.getKey(), elem.getValue());
-//				}
-//			}
-//			URI uriParam = builder.build().encode("UTF-8").toUri();
-////			return restTemplate.postForObject(uriParam, multiValueMap, String.class);
-//			return restTemplate.postForObject(uriParam, multiValueMap, String.class);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		return null;
-//	}
-	
-	
-//	public Map<String, Object> getResponseBodyWithLinkedMap(EnumRestAPIType enumType, Map<String, String> pathParam, Map<String, String> param) {
-//		try {
-////			UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(REST_BASE_URI + enumType.code());
-//			UriComponentsBuilder builder;
-//			if (pathParam == null || pathParam.isEmpty()) {
-//				builder = UriComponentsBuilder.fromUriString(REST_BASE_URI + enumType.code());
-//			} else {
-//				builder = UriComponentsBuilder.fromUriString(REST_BASE_URI + format(enumType.code(), pathParam));
-//			}
-//			
-//			MultiValueMap<String, String> multiValueMap = new LinkedMultiValueMap<String, String>();
-//			
-//			if (param != null && !param.isEmpty()) {
-//				for( Map.Entry<String, String> elem : param.entrySet()) {
-//					multiValueMap.set(elem.getKey(), elem.getValue());
-//				}
-//			}
-//			HttpHeaders headers = new HttpHeaders();
-//			headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-//			headers.set("apikey", "cacbf08b5c7a4b49a1d06ecb8c0278af");
-//			HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(multiValueMap, headers);
-//	    	ParameterizedTypeReference<Map<String, Object>> typeRef = new ParameterizedTypeReference<Map<String, Object>>() {};
-//			URI uriParam = builder.build().encode("UTF-8").toUri();
-//			
-//			 List<HttpMessageConverter<?>> messageConverters = new ArrayList<HttpMessageConverter<?>>();
-//	        messageConverters.add(new MappingJackson2HttpMessageConverter());
-//	        messageConverters.add(new FormHttpMessageConverter());
-//	        restTemplate.getMessageConverters().addAll(messageConverters);
-//		        
-//			ResponseEntity<Map<String, Object>> result = restTemplate.exchange(uriParam, enumType.method(), requestEntity, typeRef);
-//			Map<String, Object> body = result.getBody();
-//			return body;
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		return null;
-//	}
-	
 	
 	private static String format(String format, Map<String, String> values) {
 		

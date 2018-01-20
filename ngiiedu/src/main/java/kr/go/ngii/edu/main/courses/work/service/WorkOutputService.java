@@ -100,8 +100,6 @@ public class WorkOutputService extends BaseService {
 			woParam.setOutputType(outputType);
 			woParam.setPngoData(resultData);
 			woParam.setOutputName(createdTitle);
-//			woParam.setShared("true".equals(isShared));
-//			woParam.setDone("true".equals(isDone));
 			woParam.setIsShared(isShared);
 			woParam.setIsDone(isDone);
 			workOutputMapper.create(woParam);
@@ -181,8 +179,6 @@ public class WorkOutputService extends BaseService {
 	}
 	
 	public List<WorkOutput> getGalleryList(int offset, int limit) {
-		
-		
 		return workOutputMapper.getGalleryList(offset, limit);
 	}
 	
@@ -231,9 +227,9 @@ public class WorkOutputService extends BaseService {
 		try {
 			User user = (User) getHttpSession().getAttribute("USER_INFO");
 			apiKey = userService.getApiKey(user.getIdx());
+			rc.setApiKey(apiKey);
 		} catch (NullPointerException e) {
 		}
-		rc.setApiKey(apiKey);
 		if ("layer".equals(outputType)) {
 			Map<String, Object> r;
 			Map<String, String> uriParams = new HashMap<String, String>();

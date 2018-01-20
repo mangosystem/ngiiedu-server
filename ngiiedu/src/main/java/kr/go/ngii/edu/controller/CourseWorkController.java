@@ -1,7 +1,6 @@
 package kr.go.ngii.edu.controller;
 
 import java.net.URL;
-import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.NestedExceptionUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -20,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import kr.go.ngii.edu.common.StringUtil;
 import kr.go.ngii.edu.common.enums.EnumRestAPIType;
@@ -37,7 +34,6 @@ import kr.go.ngii.edu.main.courses.work.model.WorkOutput;
 import kr.go.ngii.edu.main.courses.work.service.CourseWorkService;
 import kr.go.ngii.edu.main.courses.work.service.CourseWorkSubService;
 import kr.go.ngii.edu.main.courses.work.service.WorkOutputService;
-import kr.go.ngii.edu.main.users.model.PngoUser;
 import kr.go.ngii.edu.main.users.model.User;
 import kr.go.ngii.edu.main.users.service.UserService;
 
@@ -142,72 +138,81 @@ public class CourseWorkController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/dataset/{courseId}/{courseWorkId}", method=RequestMethod.POST)
+	@RequestMapping(value="/dataset", method=RequestMethod.POST)
 	public @ResponseBody ResponseEntity<ResponseData> datasetCreate(
-			@PathVariable("courseId") Integer courseId,
-			@PathVariable("courseWorkId") Integer courseWorkId,
-//			@RequestParam(value="courseId", required=true) int courseId,
-//			@RequestParam(value="courseWorkId", required=true) int courseWorkId,
-			//			@RequestParam(value="title", required=false, defaultValue="untitled") String title,
+			@RequestParam(value="courseWorkSubId", required=true) int courseWorkSubId,
+			@RequestParam(value="title", required=false, defaultValue="untitled") String title,
+			@RequestParam(value="description", required=false) String description,
+			@RequestParam(value="privacy", required=false, defaultValue="TEAM") String privacy,
+			@RequestParam(value="metadata", required=false) String metadata,
 			@RequestParam(value="options", required=false, defaultValue="") String options,
-			@RequestParam(value="metadata", required=false, defaultValue="") String metadata,
-			@RequestParam(value="privacy", required=false, defaultValue="PRIVATE") String privacy,
+			@RequestParam(value="isShared", required=false, defaultValue="false") String isShared,
+			@RequestParam(value="isDone", required=false, defaultValue="false") String isDone,
 			@RequestParam(value="uFile", required=false) MultipartFile uFile,
-			//			@RequestParam(value="sources", required=false, defaultValue="") String sources,
-			MultipartHttpServletRequest request,
 			HttpSession session) throws Exception {
-		//
+
 		User user = (User)session.getAttribute("USER_INFO");
 		if (user == null) {
 			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
 		}
 
-		// project id 조회
+		CourseWorkSub courseWorkSub = new CourseWorkSub();
+		courseWorkSub.setIdx(courseWorkSubId);
+		courseWorkSub = courseWorkSubService.get(courseWorkSub);
+
+		CourseWork courseWork = new CourseWork();
+		courseWork.setIdx(courseWorkSub.getCourseWorkId());
+		courseWork = courseWorkService.get(courseWork);
+
+		int courseId = courseWork.getCourseId();
+
 		Course course = courseService.get(courseId);
 		String projectId = course.getProjectId();
 		String apiKey = userService.getApiKey(user.getIdx());
 
-		Map<String, Object> paramVals = new HashMap<String, Object>();
+		Map<String, String> paramVals = new HashMap<String, String>();
 		Map<String, String> pathParamVals = new HashMap<String, String>();
+		
 		paramVals.put("project_id", projectId);
-		//		paramVals.put("title", title);
-		paramVals.put("ufile", uFile);
-		paramVals.put("metadata", metadata);
-		paramVals.put("privacy", privacy);
-
-		String uFileType = ""; 
-		try {
-			String uFileName = uFile.getOriginalFilename();
-			uFileType = uFileName.substring(uFileName.lastIndexOf(".") + 1);
-		} catch (NullPointerException ne) {
-		} catch (IndexOutOfBoundsException ie) {
-		} catch (Exception e) {
+		if (title != null && !"".equals(title.trim())) {
+			paramVals.put("title", title);
 		}
-
+		if (description != null && !"".equals(description.trim())) {
+			paramVals.put("description", description);
+		}
+		if (metadata != null && !"".equals(metadata.trim())) {
+			paramVals.put("metadata", metadata);
+		}
+		if (privacy != null && !"".equals(privacy.trim())) {
+			paramVals.put("privacy", privacy);
+		}
+		
 		if ("".equals(options)) {
+			
+			String uFileType = ""; 
+			try {
+				String uFileName = uFile.getOriginalFilename();
+				uFileType = uFileName.substring(uFileName.lastIndexOf(".") + 1);
+			} catch (Exception e) {
+				
+			}
+
 			if ("zip".equals(uFileType)) {
 				options = "{\"charset\":\"x-windows-949\",  \"srid\":3857 }";
 			} else if ("csv".equals(uFileType)) {
 				options = "{\"lon\":\"x\",  \"lat\":\"y\", \"delimiter\":\",\" , \"headerLine\":1}";
-//				options = "{\"lon\":\"x\",  \"lat\":\"y\", \"delimiter\":\",\" , \"headerLine\":1,\"charset\":\"x-windows-949\",\"srid\":3857}";
-			} else if ("excel".equals(uFileType)) {
+			} else if ("xlsx".equals(uFileType)) {
 				options = "{\"lon\":\"x\",  \"lat\":\"y\"}";
 			}
 		}
-		paramVals.put("options", options);
-
+		
 		apiClient.setApiKey(apiKey);
-
-		//		paramVals.put("sources", sources);
-		//			Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.DATASET_CREATE, "/dataset.json", paramVals);
-		Map<String, Object> result = apiClient.getResponseBodyWithLinkedMap(EnumRestAPIType.DATASET_UPLOAD_CREATE, pathParamVals, paramVals, uFile, apiKey);
-		//		String result = apiClient.getResponseBodyWithFiles(EnumRestAPIType.DATASET_UPLOAD_CREATE, pathParamVals, paramVals, uFile);
-
-		// output Division 
-		//		WorkOutput workOutputResult = workOutputService.create(courseWorkSubId, "1",  result, 40, "dataset");
-		//		WorkOutput workOutputResult = workOutputService.create(courseWorkSubId, "1",  result, user.getIdx(), "dataset");
-		//		result.put("worksOutputId", workOutputResult.getIdx());
-		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
+		String result = apiClient.excuteHttpPostWithFile(EnumRestAPIType.DATASET_UPLOAD_CREATE, pathParamVals, paramVals, uFile, apiKey);
+		Map<String, Object> resultBody =  (Map<String, Object>)StringUtil.stringToMap(result);
+		// output division
+		WorkOutput workOutputResult = workOutputService.create(courseWorkSubId, "1",  resultBody, user.getIdx(), "dataset", "true".equals(isShared), "true".equals(isDone));
+		resultBody.put("worksOutputId", workOutputResult.getIdx());
+		return new ResponseEntity<ResponseData>(responseBody(resultBody), HttpStatus.OK);
 	}
 
 	/**
