@@ -189,7 +189,7 @@ public class CourseController extends BaseController {
 	@RequestMapping(value="", method=RequestMethod.GET)
 	public @ResponseBody ResponseEntity<ResponseData> list(
 			@RequestParam(value="offset", required=false, defaultValue="0") Integer offset, 
-			@RequestParam(value="limit", required=false, defaultValue="20") Integer limit, 
+			@RequestParam(value="limit", required=false, defaultValue="100") Integer limit, 
 			HttpSession session) throws Exception {
 
 		List<Course> list = null;
@@ -265,7 +265,7 @@ public class CourseController extends BaseController {
 	@RequestMapping(value="/list/courseInfos", method=RequestMethod.GET)
 	public @ResponseBody ResponseEntity<ResponseData> courseInfoList(
 			@RequestParam(value="offset", required=false, defaultValue="0") Integer offset, 
-			@RequestParam(value="limit", required=false, defaultValue="10") Integer limit, 
+			@RequestParam(value="limit", required=false, defaultValue="100") Integer limit, 
 			@RequestParam(value="keyword", required=false, defaultValue="") String keyword,
 			HttpSession session) throws Exception {
 
@@ -288,7 +288,7 @@ public class CourseController extends BaseController {
 	@RequestMapping(value="/list/courseInfoListJoin", method=RequestMethod.GET)
 	public @ResponseBody ResponseEntity<ResponseData> joinCourseInfoList(
 			@RequestParam(value="offset", required=false, defaultValue="0") Integer offset, 
-			@RequestParam(value="limit", required=false, defaultValue="10") Integer limit, 
+			@RequestParam(value="limit", required=false, defaultValue="100") Integer limit, 
 			@RequestParam(value="keyword", required=false, defaultValue="") String keyword,
 			HttpSession session) throws Exception {
 
@@ -316,7 +316,7 @@ public class CourseController extends BaseController {
 	@RequestMapping(value="/list/courseInfoListOwn", method=RequestMethod.GET)
 	public @ResponseBody ResponseEntity<ResponseData> createdCourseInfoList(
 			@RequestParam(value="offset", required=false, defaultValue="0") Integer offset, 
-			@RequestParam(value="limit", required=false, defaultValue="10") Integer limit, 
+			@RequestParam(value="limit", required=false, defaultValue="100") Integer limit, 
 			@RequestParam(value="keyword", required=false, defaultValue="") String keyword,
 			HttpSession session) throws Exception {
 

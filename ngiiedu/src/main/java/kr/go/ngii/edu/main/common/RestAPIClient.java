@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.http.Consts;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -104,20 +105,15 @@ public class RestAPIClient {
 
 	public String excuteHttpPostWithFile(EnumRestAPIType enumType, Map<String, String> pathParam, 
 			Map<String, String> param, MultipartFile file, String key) {
- 
-		
-		
-		
         try {
-        	
         	CloseableHttpClient client = HttpClients.createDefault();
             HttpPost httpPost = new HttpPost(REST_BASE_URI + enumType.code());
             httpPost.addHeader("apikey", key);
-
+            httpPost.addHeader("Content-Type", "charset=UTF-8");
             MultipartEntityBuilder builder = MultipartEntityBuilder.create();
             if (param != null && !param.isEmpty()) {
 				for( Map.Entry<String, String> elem : param.entrySet()) {
-					builder.addTextBody(elem.getKey(), elem.getValue());
+					builder.addTextBody(elem.getKey(), elem.getValue(), ContentType.create("text/plain", Consts.UTF_8));
 				}
 			}
             

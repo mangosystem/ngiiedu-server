@@ -304,13 +304,16 @@ public class CourseMemberService extends BaseService {
 		try {
 			Map<String, Object> getMemberResult = rc.getResponseBodyWithLinkedMap(EnumRestAPIType.PEOJECT_MEMBER_GET, apiPathParam, apiParam, apiKey);
 			Map<String, String> getMemberData = (Map<String, String>) getMemberResult.get("data");
-
+			
+			Map<String, String> setApiPathParam = new HashMap<String, String>();
+			setApiPathParam.put("project_id", projectId);
+			
 			if (getMemberData == null) {
 				if (updateStatus.equalsIgnoreCase("WAITING") || updateStatus.equalsIgnoreCase("DEACTIVE") || updateStatus.equalsIgnoreCase("BLOCK")) {
 					if (apiInserted) {
 						// API로 삭제
 						restAPIType = EnumRestAPIType.PROJECT_MEMBER_REMOVE;
-						apiPathParam.put("member_id", user.getIdx().toString());
+						setApiPathParam.put("member_id", user.getIdx().toString());
 					}
 				} else if (updateStatus.equalsIgnoreCase("ACTIVE")) {
 					if (!apiInserted) {
@@ -323,12 +326,12 @@ public class CourseMemberService extends BaseService {
 			} else {
 				if (updateStatus.equalsIgnoreCase("WAITING") || updateStatus.equalsIgnoreCase("DEACTIVE") || updateStatus.equalsIgnoreCase("BLOCK")) {
 					restAPIType = EnumRestAPIType.PROJECT_MEMBER_REMOVE;
-					apiPathParam.put("member_id", user.getIdx().toString());
+					setApiPathParam.put("member_id", user.getIdx().toString());
 				}
 			}
 
 			if (restAPIType != null) {
-				Map<String, Object> r = rc.getResponseBodyWithLinkedMap(restAPIType, apiPathParam, apiParam, apiKey);
+				Map<String, Object> r = rc.getResponseBodyWithLinkedMap(restAPIType, setApiPathParam, apiParam, apiKey);
 				Map<String, String> metaData = (Map<String, String>) r.get("meta");
 			}
 
