@@ -25,12 +25,15 @@ public enum EnumRestAPIType {
 	DATASET_LIST			("/datasets.json", HttpMethod.GET),
 	DATASET_GET				("/datasets/{dataset_id}.json", HttpMethod.GET),
 	
+
 	DATASET_CREATE			("/datasets", HttpMethod.POST),
 	DATASET_EMPTY_CREATE	("/datasets/createEmpty", HttpMethod.POST),
 	DATASET_UPLOAD_CREATE	("/datasets/createUpload", HttpMethod.POST),
 	
 	DATASET_BOUNDARYJOIN_CREATE	("/datasets/createBoundaryJoin", HttpMethod.POST),
 	DATASET_ONLINE_CREATE	("/datasets/createOnlineDataset", HttpMethod.POST),
+
+	DATASET_TITLE_UPDATE	("/datasets/{dataset_id}/title.json", HttpMethod.PUT),
 
 	DATASET_UPDATE			("/datasets/{dataset_id}.json", HttpMethod.PUT),
 	DATASET_REMOVE			("/datasets/{dataset_id}.json", HttpMethod.DELETE),

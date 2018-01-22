@@ -146,6 +146,7 @@ public class CourseWorkController extends BaseController {
 			@RequestParam(value="privacy", required=false, defaultValue="TEAM") String privacy,
 			@RequestParam(value="metadata", required=false) String metadata,
 			@RequestParam(value="options", required=false, defaultValue="") String options,
+			@RequestParam(value="geometryDefine", required=false, defaultValue="POINT_COORDINATES") String geometryDefine,
 			@RequestParam(value="isShared", required=false, defaultValue="false") String isShared,
 			@RequestParam(value="isDone", required=false, defaultValue="false") String isDone,
 			@RequestParam(value="uFile", required=false) MultipartFile uFile,
@@ -174,9 +175,9 @@ public class CourseWorkController extends BaseController {
 		Map<String, String> pathParamVals = new HashMap<String, String>();
 		
 		paramVals.put("project_id", projectId);
-		if (title != null && !"".equals(title.trim())) {
-			paramVals.put("title", title);
-		}
+//		if (title != null && !"".equals(title.trim())) {
+			paramVals.put("title", "");
+//		}
 		if (description != null && !"".equals(description.trim())) {
 			paramVals.put("description", description);
 		}
@@ -187,6 +188,7 @@ public class CourseWorkController extends BaseController {
 			paramVals.put("privacy", privacy);
 		}
 		
+		paramVals.put("geometry_define", geometryDefine);
 		if ("".equals(options)) {
 			
 			String uFileType = ""; 
@@ -203,6 +205,15 @@ public class CourseWorkController extends BaseController {
 		apiClient.setApiKey(apiKey);
 		String result = apiClient.excuteHttpPostWithFile(EnumRestAPIType.DATASET_UPLOAD_CREATE, pathParamVals, paramVals, uFile, apiKey);
 		Map<String, Object> resultBody =  (Map<String, Object>)StringUtil.stringToMap(result);
+		Map<String, Object> resultData = (Map<String, Object>) resultBody.get("data");
+		String createdPinogioId = (String) resultData.get("datasetId").toString();
+
+		Map<String, String> titleUpdateParamVals = new HashMap<String, String>();
+		titleUpdateParamVals.put("title", title);
+		Map<String, String> titleUpdatePathParamVals = new HashMap<String, String>();
+		titleUpdatePathParamVals.put("dataset_id", createdPinogioId);
+		Map<String, Object> titleUpdateResult = apiClient.getResponseBody(EnumRestAPIType.DATASET_TITLE_UPDATE, titleUpdatePathParamVals, titleUpdateParamVals);
+		
 		// output division
 		WorkOutput workOutputResult = workOutputService.create(courseWorkSubId, "1",  resultBody, user.getIdx(), "dataset", "true".equals(isShared), "true".equals(isDone));
 		resultBody.put("worksOutputId", workOutputResult.getIdx());
@@ -270,9 +281,9 @@ public class CourseWorkController extends BaseController {
 		Map<String, String> pathParamVals = new HashMap<String, String>();
 		
 		paramVals.put("project_id", projectId);
-		if (title != null && !"".equals(title.trim())) {
-			paramVals.put("title", title);
-		}
+//		if (title != null && !"".equals(title.trim())) {
+			paramVals.put("title", "");
+//		}
 		if (description != null && !"".equals(description.trim())) {
 			paramVals.put("description", description);
 		}
@@ -296,6 +307,15 @@ public class CourseWorkController extends BaseController {
 		apiClient.setApiKey(apiKey);
 		String result = apiClient.excuteHttpPostWithFile(EnumRestAPIType.DATASET_BOUNDARYJOIN_CREATE, pathParamVals, paramVals, uFile, apiKey);
 		Map<String, Object> resultBody =  (Map<String, Object>)StringUtil.stringToMap(result);
+		Map<String, Object> resultData = (Map<String, Object>) resultBody.get("data");
+		String createdPinogioId = (String) resultData.get("datasetId").toString();
+		
+		Map<String, String> titleUpdateParamVals = new HashMap<String, String>();
+		titleUpdateParamVals.put("title", title);
+		Map<String, String> titleUpdatePathParamVals = new HashMap<String, String>();
+		titleUpdatePathParamVals.put("dataset_id", createdPinogioId);
+		Map<String, Object> titleUpdateResult = apiClient.getResponseBody(EnumRestAPIType.DATASET_TITLE_UPDATE, titleUpdatePathParamVals, titleUpdateParamVals);
+		
 		// output division
 		WorkOutput workOutputResult = workOutputService.create(courseWorkSubId, "1",  resultBody, user.getIdx(), "dataset", "true".equals(isShared), "true".equals(isDone));
 		resultBody.put("worksOutputId", workOutputResult.getIdx());
