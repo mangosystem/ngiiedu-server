@@ -1,6 +1,7 @@
 package kr.go.ngii.edu.main.common;
 
 import java.net.URI;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,7 @@ import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicNameValuePair;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpEntity;
@@ -108,12 +110,20 @@ public class RestAPIClient {
         try {
         	CloseableHttpClient client = HttpClients.createDefault();
             HttpPost httpPost = new HttpPost(REST_BASE_URI + enumType.code());
+            
+//            httpPost.setEntity(new UrlEncodedFormEntity(nvps, "euc-kr"));
+//            httpPost.setHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
             httpPost.addHeader("apikey", key);
-            httpPost.addHeader("Content-Type", "charset=UTF-8");
+//            httpPost.addHeader("Content-Type", "charset=UTF-8");
             MultipartEntityBuilder builder = MultipartEntityBuilder.create();
             if (param != null && !param.isEmpty()) {
 				for( Map.Entry<String, String> elem : param.entrySet()) {
-					builder.addTextBody(elem.getKey(), elem.getValue(), ContentType.create("text/plain", Consts.UTF_8));
+					builder.addTextBody(elem.getKey(), elem.getValue());
+//					builder.addTextBody(elem.getKey(), URLEncoder.encode(elem.getValue(), "UTF-8"));
+//					builder.addTextBody(elem.getKey(), elem.getValue(), "UTF-8");
+//					builder.addTextBody(new BasicNameValuePair(elem.getKey(), URLEncoder.encode(elem.getValue(), "UTF-8")));
+//					builder.addTextBody(elem.getKey(), URLEncoder.encode(elem.getValue(), "euc-kr"));
+//					builder.addTextBody(elem.getKey(), elem.getValue());
 				}
 			}
             
