@@ -337,10 +337,11 @@ public class CourseWorkController extends BaseController {
 			@RequestParam(value="metadata", required=false) String metadata,
 			@RequestParam(value="options", required=false, defaultValue="") String options,
 			@RequestParam(value="fileId", required=false, defaultValue="") String fileId,
+			@RequestParam(value="geometryDefine", required=false, defaultValue="") String geometryDefine,
 			@RequestParam(value="vendorId", required=false, defaultValue="") String vendorId,
+			@RequestParam(value="fileType", required=false, defaultValue="") String fileType,
 			@RequestParam(value="isShared", required=false, defaultValue="false") String isShared,
 			@RequestParam(value="isDone", required=false, defaultValue="false") String isDone,
-			@RequestParam(value="uFile", required=false) MultipartFile uFile,
 			HttpSession session) throws Exception {
 
 		User user = (User)session.getAttribute("USER_INFO");
@@ -387,14 +388,21 @@ public class CourseWorkController extends BaseController {
 		if (vendorId != null && !"".equals(vendorId.trim())) {
 			paramVals.put("vendor_id", vendorId);
 		}
+		if (fileType != null && !"".equals(fileType.trim())) {
+			paramVals.put("file_type", fileType);
+		}
+		if (geometryDefine != null && !"".equals(geometryDefine.trim())) {
+			paramVals.put("geometry_define", geometryDefine);
+		}
 		
 		apiClient.setApiKey(apiKey);
-		String result = apiClient.excuteHttpPostWithFile(EnumRestAPIType.DATASET_ONLINE_CREATE, pathParamVals, paramVals, uFile, apiKey);
-		Map<String, Object> resultBody =  (Map<String, Object>)StringUtil.stringToMap(result);
+//		String result = apiClient.excuteHttpPostWithFile(EnumRestAPIType.DATASET_ONLINE_CREATE, pathParamVals, paramVals, uFile, apiKey);
+		Map<String, Object> result = apiClient.getResponseBody(EnumRestAPIType.DATASET_ONLINE_CREATE, pathParamVals, paramVals);
+//		Map<String, Object> resultBody =  (Map<String, Object>)StringUtil.stringToMap(result);
 		// output division
-		WorkOutput workOutputResult = workOutputService.create(courseWorkSubId, "1",  resultBody, user.getIdx(), "dataset", "true".equals(isShared), "true".equals(isDone));
-		resultBody.put("worksOutputId", workOutputResult.getIdx());
-		return new ResponseEntity<ResponseData>(responseBody(resultBody), HttpStatus.OK);
+		WorkOutput workOutputResult = workOutputService.create(courseWorkSubId, "1",  result, user.getIdx(), "dataset", "true".equals(isShared), "true".equals(isDone));
+		result.put("worksOutputId", workOutputResult.getIdx());
+		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
 	
 
