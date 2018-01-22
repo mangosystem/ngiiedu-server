@@ -191,7 +191,7 @@ public class WorkOutputService extends BaseService {
 	}
 	
 	public WorkOutput modifyShare(String pinogioId, boolean isShared) {
-		WorkOutput params = new WorkOutput();
+		WorkOutput params = this.getByPinogioOutputId(pinogioId);
 		params.setPinogioOutputId(pinogioId);
 		params.setIsShared(isShared);
 		workOutputMapper.modifyStatus(params);
@@ -200,7 +200,7 @@ public class WorkOutputService extends BaseService {
 	}
 	
 	public WorkOutput modifyDone(String pinogioId, boolean isDone) {
-		WorkOutput params = new WorkOutput();
+		WorkOutput params = this.getByPinogioOutputId(pinogioId);
 		params.setPinogioOutputId(pinogioId);
 		params.setIsDone(isDone);
 		workOutputMapper.modifyStatus(params);
