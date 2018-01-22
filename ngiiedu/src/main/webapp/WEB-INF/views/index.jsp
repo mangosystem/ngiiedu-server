@@ -8,6 +8,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+<link rel="shortcut icon" href="/ngiiedu/assets/images/nlip.ico" type="image/x-icon" />
 <meta charset="utf-8">
 <!--[if lt IE 9]>4
 	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -22,7 +23,6 @@
 <script src="<%=contextPath%>/assets/cdn/jquery-ui-1.12.1/jquery-ui.js"></script>
 <link rel="stylesheet"
 	href="<%=contextPath%>/assets/cdn/jquery-ui-1.12.1/jquery-ui.css">
-
 
 <title>지리원/공간정보융합 활용지원정보</title>
 

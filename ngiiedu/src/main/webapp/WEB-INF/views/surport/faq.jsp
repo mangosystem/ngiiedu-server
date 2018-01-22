@@ -9,6 +9,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+<link rel="shortcut icon" href="/ngiiedu/assets/images/nlip.ico" type="image/x-icon" />
 <meta charset="utf-8">
 <!--[if lt IE 9]>
 	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
