@@ -434,10 +434,11 @@ public class CourseService extends BaseService {
 		course.setIdx(courseId);
 		course = courseMapper.get(course);
 		
-		if (user.getIdx() != course.getCourseCreateId() && 
-				!"3".equals(user.getUserDivision().trim())) {
+		if (!user.getIdx().equals(course.getCourseCreateId())) {
 			// 자신이 만든  수어빙 아니면서 관리자 권한이 없을경우
-			throw new RuntimeException(ErrorMessage.FOBRIDDEN);
+			if (!"3".equals(user.getUserDivision().trim())) {
+				throw new RuntimeException(ErrorMessage.FOBRIDDEN);
+			}
 		}
 		
 		// 수업결과물 삭제?
