@@ -93,7 +93,7 @@
              data: formData,
              success: function(data){
                  console.log(data);
-                 //location.href='<%=contextPath %>/surport/download/'+id;
+                 location.href='<%=contextPath %>/surport/downloadView/'+id;
              }
          })
 	}

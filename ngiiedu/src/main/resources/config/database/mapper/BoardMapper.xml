@@ -157,7 +157,8 @@
 			title,
 			writer,
 			description,
-			create_date
+			create_date,
+			user_id
 		FROM bbs_qna
 		WHERE idx = #{idx}
 		ORDER BY idx desc

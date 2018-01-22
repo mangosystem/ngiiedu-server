@@ -172,7 +172,7 @@ public class RestAPIClient {
 	    	ParameterizedTypeReference<Map<String, Object>> typeRef = new ParameterizedTypeReference<Map<String, Object>>() {};
 			URI uriParam = builder.build().encode("UTF-8").toUri();
 			
-			 List<HttpMessageConverter<?>> messageConverters = new ArrayList<HttpMessageConverter<?>>();
+			List<HttpMessageConverter<?>> messageConverters = new ArrayList<HttpMessageConverter<?>>();
 	        messageConverters.add(new MappingJackson2HttpMessageConverter());
 	        messageConverters.add(new FormHttpMessageConverter());
 	        restTemplate.getMessageConverters().addAll(messageConverters);

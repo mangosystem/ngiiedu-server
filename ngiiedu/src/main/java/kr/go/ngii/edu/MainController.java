@@ -498,8 +498,10 @@ public class MainController extends BaseController {
 		
 		User user = (User)session.getAttribute("USER_INFO");
 		BbsQuestion bbsQuestion = boardService.getQnaListbyId(qnaId);
-		if (user.getIdx() != bbsQuestion.getUserId() || !"3".equals(user.getUserDivision())) {
-			return new ModelAndView("/");
+		if (user.getIdx().intValue() != bbsQuestion.getUserId()) {
+			if ( !"3".equals(user.getUserDivision().trim())) {
+				return new ModelAndView("/");
+			}
 		}
 		view.getModelMap().addAttribute("postItem", bbsQuestion);
 		return view;
