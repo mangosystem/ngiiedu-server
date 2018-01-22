@@ -15,7 +15,7 @@ var SCOPES = 'https://www.googleapis.com/auth/drive.metadata.readonly https://ww
  *  On load, called to load the auth2 library and API client library.
  */
 function handleClientLoad() {
-    console.log('handleClientLoad')
+//    console.log('handleClientLoad')
     gapi.load('client:auth2', initClient);
 }
 
@@ -35,5 +35,5 @@ function initClient() {
 
 
    var googleSuccess = function(){
-     console.log('success');
+//     console.log('success');
    };

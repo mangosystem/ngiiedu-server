@@ -49,7 +49,7 @@
 	$(function(){
 		if ("main" != mainHeader) {
 			$('#'+mainHeader).addClass("on");
-			console.log('addclass')
+			//console.log('addclass')
 			if(subHeader != null){
 				$('#'+subHeader).addClass("on");	
 			}

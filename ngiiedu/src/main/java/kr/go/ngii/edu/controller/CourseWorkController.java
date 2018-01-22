@@ -197,13 +197,6 @@ public class CourseWorkController extends BaseController {
 				
 			}
 
-			if ("zip".equals(uFileType)) {
-				options = "{\"charset\":\"x-windows-949\",  \"srid\":3857 }";
-			} else if ("csv".equals(uFileType)) {
-				options = "{\"lon\":\"x\",  \"lat\":\"y\", \"delimiter\":\",\" , \"headerLine\":1}";
-			} else if ("xlsx".equals(uFileType)) {
-				options = "{\"lon\":\"x\",  \"lat\":\"y\"}";
-			}
 		}
 		paramVals.put("options", options);
 		
@@ -245,7 +238,7 @@ public class CourseWorkController extends BaseController {
 			@RequestParam(value="privacy", required=false, defaultValue="TEAM") String privacy,
 			@RequestParam(value="metadata", required=false) String metadata,
 			@RequestParam(value="options", required=false, defaultValue="") String options,
-			@RequestParam(value="geometryDefine", required=true) String geometryDefine,
+			@RequestParam(value="geometryDefine", required=false,defaultValue="NO_GEOMETRY") String geometryDefine,
 			@RequestParam(value="boundaryId", required=true) String boundaryId,
 			@RequestParam(value="boundaryJointype", required=true) String boundaryJointype,
 			@RequestParam(value="boundaryFilter", required=false) String boundaryFilter,
@@ -292,6 +285,7 @@ public class CourseWorkController extends BaseController {
 		paramVals.put("options", options);
 		
 		paramVals.put("geometry_define", geometryDefine);
+		
 		paramVals.put("boundary_id", boundaryId);
 		paramVals.put("boundary_jointype", boundaryJointype);
 		

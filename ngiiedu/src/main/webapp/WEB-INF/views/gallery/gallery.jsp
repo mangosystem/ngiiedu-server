@@ -34,7 +34,7 @@
 	         dataType: 'json',
 	         success: function(data) {
 	        	 galleryData=data.response.data
-	        	 console.dir(galleryData)
+	        	 //console.dir(galleryData)
 	        	 for(var i = 0;i<galleryData.length;i++){
 	        		 var data = galleryData[i];
 	        		if(data.outputType=='layer'){

@@ -1,8 +1,9 @@
-const apiSvr = 'http://1.234.82.19:8083/ngiiedu/api/v1';
+var apiSvr = 'http://localhost:8080/ngiiedu/api/v1';
+//const apiSvr = 'http://1.234.82.19:8083/ngiiedu/api/v1';
 
-const contextPath = '/ngiiedu';
+var contextPath = '/ngiiedu';
 
-function ajaxJson( [method, url], data, successFnc, errorFnc ) {
+function ajaxJson(methodUrl, data, successFnc, errorFnc ) {
   if (errorFnc == null) {
     errorFnc = function(xhr, status, err) {
       console.log('ajaxJson error(xhr, status, err)');
@@ -10,8 +11,9 @@ function ajaxJson( [method, url], data, successFnc, errorFnc ) {
       alert('Error: 500');
     }
   }
-
-  let req_setting = {
+  var method = methodUrl[0];
+  var url = methodUrl[1];
+  var req_setting = {
     url: url,
     method: method,
     data: data,
@@ -37,7 +39,7 @@ function ajaxJson( [method, url], data, successFnc, errorFnc ) {
 
 
 function arrayToObject(arr) {
-  let properties = {};
+	var properties = {};
   for (var i in arr) {
     properties[arr[i].name] = arr[i].value;
   }
