@@ -2,14 +2,18 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%
 	String contextPath = request.getContextPath();
+
+	pageContext.setAttribute("br", "<br/>");
+	pageContext.setAttribute("cn", "\n");
 %>
 	
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<link rel="shortcut icon" href="/ngiiedu/assets/images/nlip.ico" type="image/x-icon" />
+<link rel="shortcut icon" href="<%=contextPath%>/assets/images/nlip.ico" type="image/x-icon" />
 <meta charset="utf-8">
 <!--[if lt IE 9]>
 	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -51,7 +55,7 @@
 				<li><fmt:formatDate value="${postItem.createDate}" pattern="YYYY-MM-dd" /></li>
 			</ul>
 			<div class="script">
-				${postItem.description}
+				${fn:replace(postItem.description, cn, br)}
 			</div>
 			
 			<div class="commentWrap">
@@ -69,7 +73,7 @@
 						</li>
 						<li>
 							<div id="qEditDescriptionDiv${bbsReply.idx}">
-								${bbsReply.description}
+								${fn:replace(bbsReply.description, cn, br)}
 							</div>
 						</li>
 					</ul>

@@ -22,7 +22,7 @@
 %>
 <!DOCTYPE html>
 <html lang="ko">
-	<link rel="shortcut icon" href="/ngiiedu/assets/images/nlip.ico" type="image/x-icon" />
+	<link rel="shortcut icon" href="<%=contextPath%>/assets/images/nlip.ico" type="image/x-icon" />
 	<head>
 		<title>공간정보융합활용지원시스템</title>
 		<meta charset="utf-8">

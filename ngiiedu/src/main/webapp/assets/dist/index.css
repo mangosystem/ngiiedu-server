@@ -79,7 +79,7 @@ a { color: rgba(0, 0, 0, 0.87); text-decoration: none; }
 }
 
 .layer-switcher >button{
-	background-image:url(/ngiiedu/assets/images/ic_map_white_24dp_2x.png);
+	background-image:url(/edu/assets/images/ic_map_white_24dp_2x.png);
 	background-repeat : no-repeat;
 	background-position:center;
 	background-color:rgb(67, 68, 76);

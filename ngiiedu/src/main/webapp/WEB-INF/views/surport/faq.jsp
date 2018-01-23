@@ -2,14 +2,18 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%
 	String contextPath = request.getContextPath();
+
+	pageContext.setAttribute("br", "<br/>");
+	pageContext.setAttribute("cn", "\n");
 %>
 	
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<link rel="shortcut icon" href="/ngiiedu/assets/images/nlip.ico" type="image/x-icon" />
+<link rel="shortcut icon" href="<%=contextPath%>/assets/images/nlip.ico" type="image/x-icon" />
 <meta charset="utf-8">
 <!--[if lt IE 9]>
 	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -58,8 +62,8 @@
 					 		ondblclick="document.location='faqModify/${bbsFAQuestion.idx}'"
 					 		value="${bbsFAQuestion.idx}"
 					 	</c:if>
-					>${bbsFAQuestion.title}</p>
-					<div>${bbsFAQuestion.description}</div>
+					>${fn:replace(bbsFAQuestion.title, cn, br)}</p>
+					<div>${fn:replace(bbsFAQuestion.description, cn, br)}</div>
 				</li>
 			</c:forEach>
 			<!-- 작업자 메모 / li class="on"일때 내용인 div가 보여짐 -->
