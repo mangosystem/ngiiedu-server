@@ -127,7 +127,7 @@
 				<%} else if (mainHeader.equals("course")){ %>			
 					<h2>수업</h2>
 				<% } else if (mainHeader.equals("rule")){%>
-					<ul>
+					<ul style="margin-right:150px">
 						<li id="policy"><a href="<%=contextPath %>/rule/copyrightPolicy">저작권정책</a></li>
 						<li id="publicInfo"><a href="<%=contextPath %>/rule/publicInformation">공공데이터 이용정책</a></li>
 						<li id="emailNon"><a href="<%=contextPath %>/rule/emailNonCollection">이메일무단수집거부</a></li>
