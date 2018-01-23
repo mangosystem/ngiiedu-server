@@ -10,7 +10,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<link rel="shortcut icon" href="/ngiiedu/assets/images/nlip.ico" type="image/x-icon" />
+<link rel="shortcut icon" href="<%=contextPath%>/assets/images/nlip.ico" type="image/x-icon" />
 <meta charset="utf-8">
 <!--[if lt IE 9]>
 	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -39,9 +39,9 @@
 	        	 for(var i = 0;i<galleryData.length;i++){
 	        		 var data = galleryData[i];
 	        		if(data.outputType=='layer'){
-		        	 $('.galleryList').append('<li><div onclick="document.location = \'/ngiiedu/gallery/view/l/'+data.pinogioOutputId+'\'"></div><img src ="'+apiSvr+'/coursesWork/layers/thumbNail/'+data.pinogioOutputId+'?width:300&height=230"></li>');
+		        	 $('.galleryList').append('<li><div onclick="document.location = \'<%=contextPath%>/gallery/view/l/'+data.pinogioOutputId+'\'"></div><img src ="'+apiSvr+'/coursesWork/layers/thumbNail/'+data.pinogioOutputId+'?width:300&height=230"></li>');
 	        		} else if(data.outputType=='maps'){
-	        			$('.galleryList').append('<li><div onclick="document.location = \'/ngiiedu/gallery/view/m/'+data.pinogioOutputId+'\'"></div><img src ="/ngiiedu/assets/images/TAB.png" style="width:300px;height:230px"></li>');
+	        			$('.galleryList').append('<li><div onclick="document.location = \'<%=contextPath%>/gallery/view/m/'+data.pinogioOutputId+'\'"></div><img src ="<%=contextPath%>/assets/images/TAB.png" style="width:300px;height:230px"></li>');
 	        		}
 	        	 }
 	         },
