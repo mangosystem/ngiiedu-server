@@ -102,13 +102,12 @@ button {
 
 /* ////////// HEADER ////////// */
 h1.edge {
-	width: 320px;
+	width: 320px;	
 	height: 85px;
-	margin: 0px auto;
+	margin:0px auto;
 	text-indent: -999em;
 }
-
-h1.edge {
+h1.edge{
 	background: url(/ngiiedu/assets/images/logo.png) no-repeat 0 25px;
 }
 
@@ -259,16 +258,14 @@ h1.edge {
 /* ////////// FOOTER ////////// */
 #footerWrap .footer {
 	position: relative;
-	width: 1040px;
+	width: 1300px;
 	height: 130px;
 	margin: 0 auto;
-	background: url(/ngiiedu/assets/images/logo_sub.png) no-repeat center
-		30px;
 }
-
 #footerWrap .footer>ul {
-	padding-top: 80px;
-	text-align: center;
+	padding-top: 30px;
+	margin-left: 330px;
+	padding-bottom:20px;
 }
 
 #footerWrap .footer>ul li {

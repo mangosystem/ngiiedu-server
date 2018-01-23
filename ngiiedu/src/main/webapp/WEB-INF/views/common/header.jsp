@@ -62,7 +62,7 @@
 <body class="edu">
 	<div id="headerWrap">
 		<div class="header">
-			<h1 class="edge" style="cursor: pointer;" onclick="document.location = '<%=contextPath %>'">공간정보융합 활용지원정보</h1>
+			<h1 class="edge" style="cursor: pointer;" onclick="document.location = '<%=contextPath %>'">공간정보융합 활용지원시스템</h1>
 
 			<%
 				if(userDivision != null) {
@@ -126,7 +126,14 @@
 					</ul>
 				<%} else if (mainHeader.equals("course")){ %>			
 					<h2>수업</h2>
-				<% }%>
+				<% } else if (mainHeader.equals("rule")){%>
+					<ul>
+						<li id="policy"><a href="<%=contextPath %>/rule/copyrightPolicy">저작권정책</a></li>
+						<li id="publicInfo"><a href="<%=contextPath %>/rule/publicInformation">공공데이터 이용정책</a></li>
+						<li id="emailNon"><a href="<%=contextPath %>/rule/emailNonCollection">이메일무단수집거부</a></li>
+						<li id="openSource"><a href="<%=contextPath %>/rule/openSourceLicense">오픈소스 라이센스</a></li>
+					</ul>
+				<%}%>
 				</div>
 			</div>
 		<% }%>

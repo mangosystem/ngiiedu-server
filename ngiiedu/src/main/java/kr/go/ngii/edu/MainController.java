@@ -616,6 +616,40 @@ public class MainController extends BaseController {
 		return view;
 	}
 	
+	
+	
+	@RequestMapping(value={"/rule/copyrightPolicy"}, method = RequestMethod.GET)
+	public ModelAndView getCopyrightPolicy(HttpServletRequest request, HttpServletResponse response, 
+			HttpSession session, Principal principal) {
+		ModelAndView view = new ModelAndView("/rule/copyrightPolicy");
+		return view;
+	}
+	
+	@RequestMapping(value={"/rule/publicInformation"}, method = RequestMethod.GET)
+	public ModelAndView getPublicInformationPage(HttpServletRequest request, HttpServletResponse response, 
+			HttpSession session, Principal principal) {
+		ModelAndView view = new ModelAndView("/rule/publicInformation");
+		return view;
+	}
+	
+	@RequestMapping(value={"/rule/emailNonCollection"}, method = RequestMethod.GET)
+	public ModelAndView getEmailNonCollectionPage(HttpServletRequest request, HttpServletResponse response, 
+			HttpSession session, Principal principal) {
+		ModelAndView view = new ModelAndView("/rule/emailNonCollection");
+		return view;
+	}
+	
+	@RequestMapping(value={"/rule/openSourceLicense"}, method = RequestMethod.GET)
+	public ModelAndView getOpenSourceLicensePage(HttpServletRequest request, HttpServletResponse response, 
+			HttpSession session, Principal principal) {
+		ModelAndView view = new ModelAndView("/rule/openSourceLicense");
+		return view;
+	}
+	
+	
+	
+	
+	
 	@RequestMapping(value="/ngiiemapProxy", method=RequestMethod.GET)
 	public void requestGETImage(
 			@RequestParam(value="ngiiproxy", required=false) String ngiiProxy,

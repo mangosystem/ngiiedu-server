@@ -81,6 +81,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/gallery/view/l/**").permitAll()
 				.antMatchers("/gallery/view/m/**").permitAll()
 				.antMatchers("/surport/**").permitAll()
+				.antMatchers("/rule/**").permitAll()
 				.antMatchers("/api/v1/**").permitAll()
 				.antMatchers("/ngiiemapProxy/**").permitAll()
 				.antMatchers("/cm-admin/**").access("hasRole('ROLE_ADMIN')")
