@@ -108,7 +108,7 @@ h1.edge {
 	text-indent: -999em;
 }
 h1.edge{
-	background: url(/ngiiedu/assets/images/logo.png) no-repeat 0 25px;
+	background: url(../images/logo.png) no-repeat 0 25px;
 }
 
 .gnb {
@@ -122,7 +122,7 @@ h1.edge{
 	margin-left: 5px;
 	padding-left: 20px;
 	cursor: pointer;
-	background: url(/ngiiedu/assets/images/bullet.png) no-repeat 2px -295px;
+	background: url(../images/bullet.png) no-repeat 2px -295px;
 }
 
 .gnb li:first-child {
@@ -140,17 +140,17 @@ h1.edge{
 
 .gnb>span.teacher {
 	padding-left: 40px;
-	background: url(/ngiiedu/assets/images/ico.png) no-repeat left 0;
+	background: url(../images/ico.png) no-repeat left 0;
 }
 
 .gnb>span.student {
 	padding-left: 40px;
-	background: url(/ngiiedu/assets/images/ico.png) no-repeat left -50px;
+	background: url(../images/ico.png) no-repeat left -50px;
 }
 
 .gnb>span.admin {
 	padding-left: 45px;
-	background: url(/ngiiedu/assets/images/ico.png) no-repeat left -350px;
+	background: url(../images/ico.png) no-repeat left -350px;
 }
 
 .gnb>button {
@@ -191,11 +191,11 @@ h1.edge{
 }
 
 .lnb li.on {
-	background: url(/ngiiedu/assets/images/lnb_deco.png) repeat-x 0 50%;
+	background: url(../images/lnb_deco.png) repeat-x 0 50%;
 }
 
 .lnb li:hover {
-	background: url(/ngiiedu/assets/images/lnb_deco.png) repeat-x 0 50%;
+	background: url(../images/lnb_deco.png) repeat-x 0 50%;
 }
 
 #headerWrap .snbWrap {
@@ -274,7 +274,7 @@ h1.edge{
 	padding: 0px;
 	cursor: pointer;
 	padding-left: 20px;
-	background: url(/ngiiedu/assets/images/bullet.png) no-repeat 2px -295px;
+	background: url(../images/bullet.png) no-repeat 2px -295px;
 }
 
 #footerWrap .footer>ul li:first-child {
@@ -390,7 +390,7 @@ button.default2:hover {
 .pagination .ico {
 	padding: 5px 7px;
 	text-indent: -999em;
-	background-image: url(/ngiiedu/assets/images/ico.png);
+	background-image: url(../images/ico.png);
 	background-repeat: no-repeat;
 }
 
@@ -419,7 +419,7 @@ button.default2:hover {
 .location li {
 	display: inline-block;
 	padding-left: 20px;
-	background: url(/ngiiedu/assets/images/bullet.png) no-repeat 5px -345px;
+	background: url(../images/bullet.png) no-repeat 5px -345px;
 }
 
 .location li:first-child {
@@ -435,7 +435,7 @@ h3.edge {
 }
 
 h3.edge {
-	background: url(/ngiiedu/assets/images/bullet.png) no-repeat right 0;
+	background: url(../images/bullet.png) no-repeat right 0;
 }
 
 /* ////////// 수업활동갤러리 ////////// */
@@ -460,7 +460,7 @@ h3.edge {
 	height: 100%;
 	opacity: 0.7;
 	background-color: #222;
-	background-image: url(/ngiiedu/assets/images/bullet.png);
+	background-image: url(../images/bullet.png);
 	background-repeat: no-repeat;
 	background-position: center -360px;
 }
@@ -490,7 +490,7 @@ h3.edge {
 	height: 30px;
 	text-indent: -999em;
 	border: none;
-	background: url(/ngiiedu/assets/images/ico.png) no-repeat 5px -95px;
+	background: url(../images/ico.png) no-repeat 5px -95px;
 }
 
 .searchWrap * {
@@ -539,7 +539,7 @@ div.boardList>table td span.comment {
 	padding-left: 18px;
 	color: #3e81f6;
 	font-size: 10pt;
-	background: url(/ngiiedu/assets/images/ico.png) no-repeat 0 -193px;
+	background: url(../images/ico.png) no-repeat 0 -193px;
 }
 
 div.boardList>button.new {
@@ -614,7 +614,7 @@ div.boardList>button.new:hover {
 	height: 25px;
 	padding-left: 30px;
 	font-weight: bold;
-	background: url(/ngiiedu/assets/images/ico.png) no-repeat -127px -200px;
+	background: url(../images/ico.png) no-repeat -127px -200px;
 }
 
 .commentWrap>ul li span.date {
@@ -680,7 +680,7 @@ ul.faqWrap li>p {
 	padding: 20px 20px 20px 100px;
 	font-size: 10.7pt;
 	border: 1px solid #d6d6d6;
-	background: url(/ngiiedu/assets/images/bullet.png) no-repeat 50px -655px;
+	background: url(../images/bullet.png) no-repeat 50px -655px;
 }
 
 ul.faqWrap li>p:hover {
@@ -697,7 +697,7 @@ ul.faqWrap li.on>div {
 	padding: 20px 20px 20px 100px;
 	line-height: 22px;
 	background-color: #f9f9f9;
-	background-image: url(/ngiiedu/assets/images/bullet.png);
+	background-image: url(../images/bullet.png);
 	background-repeat: no-repeat;
 	background-position: 50px -750px;
 }
@@ -729,7 +729,7 @@ ul.faqWrap li>div {
 	padding: 0;
 	border-radius: 7px;
 	background-color: #fff;
-	background-image: url(/ngiiedu/assets/images/logo_sub.png);
+	background-image: url(../images/logo_sub.png);
 	background-position: center 70px;
 	background-repeat: no-repeat;
 	z-index: 101;
@@ -785,7 +785,7 @@ button.goList {
 	height: 38px;
 	text-indent: -999em;
 	border: none;
-	background: url(/ngiiedu/assets/images/ico.png) no-repeat 10px -290px;
+	background: url(../images/ico.png) no-repeat 10px -290px;
 }
 
 ul.object {
@@ -819,35 +819,35 @@ ul.object {
 }
 
 ul.noise {
-	background: url(/ngiiedu/assets/images/class_noise.png) no-repeat 30px
+	background: url(../images/class_noise.png) no-repeat 30px
 		50%;
 }
 
 ul.gps {
-	background: url(/ngiiedu/assets/images/class_gps.png) no-repeat 30px 50%;
+	background: url(../images/class_gps.png) no-repeat 30px 50%;
 }
 
 ul.population {
-	background: url(/ngiiedu/assets/images/class_population.png) no-repeat
+	background: url(../images/class_population.png) no-repeat
 		30px 50%;
 }
 
 ul.territory {
-	background: url(/ngiiedu/assets/images/class_territory.png) no-repeat
+	background: url(../images/class_territory.png) no-repeat
 		30px 50%;
 }
 
 ul.school {
-	background: url(/ngiiedu/assets/images/class_school.png) no-repeat 30px
+	background: url(../images/class_school.png) no-repeat 30px
 		50%;
 }
 
 ul.map {
-	background: url(/ngiiedu/assets/images/class_map.png) no-repeat 30px 50%;
+	background: url(../images/class_map.png) no-repeat 30px 50%;
 }
 
 ul.dokdo {
-	background: url(/ngiiedu/assets/images/class_dokdo.png) no-repeat 30px
+	background: url(../images/class_dokdo.png) no-repeat 30px
 		50%;
 }
 
@@ -894,7 +894,7 @@ ul.dokdo {
 .contents table.aim ul li {
 	margin-bottom: 10px;
 	padding-left: 10px;
-	background: url(/ngiiedu/assets/images/bullet.png) no-repeat 0 -55px;
+	background: url(../images/bullet.png) no-repeat 0 -55px;
 }
 /* 수업소개 / 관련교과단원 */
 .contents .subject {
@@ -954,7 +954,7 @@ ul.dokdo {
 	color: #FFF;
 	border: 2px solid #fff;;
 	background-color: #43444c;
-	background-image: url(/ngiiedu/assets/images/lesson_arrow.png);
+	background-image: url(../images/lesson_arrow.png);
 	background-repeat: no-repeat;
 	background-position: right center;
 }
@@ -1015,7 +1015,7 @@ h5.tip {
 	margin-bottom: 10px;
 	padding: 5px 0 5px 30px;
 	font-size: 10pt;
-	background: url(/ngiiedu/assets/images/bullet.png) no-repeat -28px
+	background: url(../images/bullet.png) no-repeat -28px
 		-248px;
 }
 
@@ -1025,7 +1025,7 @@ ul.tip {
 
 ul.tip li {
 	padding-left: 25px;
-	background: url(/ngiiedu/assets/images/bullet.png) no-repeat 10px -55px;
+	background: url(../images/bullet.png) no-repeat 10px -55px;
 }
 
 /* 수업소개 목록전환 버튼 */
@@ -1090,49 +1090,49 @@ ul.tip li {
 }
 
 .introduceList>#item1 {
-	background: url(/ngiiedu/assets/images/class_noise.png) no-repeat;
+	background: url(../images/class_noise.png) no-repeat;
 	background-size: auto;
 	background-position: 50% 30%;
 }
 
 .introduceList>#item2 {
-	background: url(/ngiiedu/assets/images/class_gps.png) no-repeat;
+	background: url(../images/class_gps.png) no-repeat;
 	background-size: auto;
 	background-position: 50% 30%;
 }
 
 .introduceList>#item3 {
-	background: url(/ngiiedu/assets/images/class_population.png) no-repeat;
+	background: url(../images/class_population.png) no-repeat;
 	background-size: auto;
 	background-position: 50% 30%;
 }
 
 .introduceList>#item4 {
-	background: url(/ngiiedu/assets/images/class_territory.png) no-repeat;
+	background: url(../images/class_territory.png) no-repeat;
 	background-size: auto;
 	background-position: 50% 30%;
 }
 
 .introduceList>#item5 {
-	background: url(/ngiiedu/assets/images/class_school.png) no-repeat;
+	background: url(../images/class_school.png) no-repeat;
 	background-size: auto;
 	background-position: 50% 30%;
 }
 
 .introduceList>#item6 {
-	background: url(/ngiiedu/assets/images/class_map.png) no-repeat;
+	background: url(../images/class_map.png) no-repeat;
 	background-size: auto;
 	background-position: 50% 30%;
 }
 
 .introduceList>#item7 {
-	background: url(/ngiiedu/assets/images/class_dokdo.png) no-repeat;
+	background: url(../images/class_dokdo.png) no-repeat;
 	background-size: auto;
 	background-position: 50% 30%;
 }
 
 .introduceList>#item1:hover {
-	background: url(/ngiiedu/assets/images/class_noise_on.png) no-repeat;
+	background: url(../images/class_noise_on.png) no-repeat;
 	background-size: auto;
 	background-position: 50% 30%;
 	color: #fff;
@@ -1140,7 +1140,7 @@ ul.tip li {
 }
 
 .introduceList>#item2:hover {
-	background: url(/ngiiedu/assets/images/class_gps_on.png) no-repeat;
+	background: url(../images/class_gps_on.png) no-repeat;
 	background-size: auto;
 	background-position: 50% 30%;
 	color: #fff;
@@ -1148,7 +1148,7 @@ ul.tip li {
 }
 
 .introduceList>#item3:hover {
-	background: url(/ngiiedu/assets/images/class_population_on.png)
+	background: url(../images/class_population_on.png)
 		no-repeat;
 	background-size: auto;
 	background-position: 50% 30%;
@@ -1157,7 +1157,7 @@ ul.tip li {
 }
 
 .introduceList>#item4:hover {
-	background: url(/ngiiedu/assets/images/class_territory_on.png) no-repeat;
+	background: url(../images/class_territory_on.png) no-repeat;
 	background-size: auto;
 	background-position: 50% 30%;
 	color: #fff;
@@ -1165,7 +1165,7 @@ ul.tip li {
 }
 
 .introduceList>#item5:hover {
-	background: url(/ngiiedu/assets/images/class_school_on.png) no-repeat;
+	background: url(../images/class_school_on.png) no-repeat;
 	background-size: auto;
 	background-position: 50% 30%;
 	color: #fff;
@@ -1173,7 +1173,7 @@ ul.tip li {
 }
 
 .introduceList>#item6:hover {
-	background: url(/ngiiedu/assets/images/class_map_on.png) no-repeat;
+	background: url(../images/class_map_on.png) no-repeat;
 	background-size: auto;
 	background-position: 50% 30%;
 	color: #fff;
@@ -1181,7 +1181,7 @@ ul.tip li {
 }
 
 .introduceList>#item7:hover {
-	background: url(/ngiiedu/assets/images/class_dokdo_on.png) no-repeat;
+	background: url(../images/class_dokdo_on.png) no-repeat;
 	background-size: auto;
 	background-position: 50% 30%;
 	color: #fff;
@@ -1208,19 +1208,19 @@ ul.tip li {
 }
 
 .a {
-	background-image: url(/ngiiedu/assets/images/mvisual1.jpg);
+	background-image: url(../images/mvisual1.jpg);
 	background-repeat: no-repeat;
 	background-position: center;
 }
 
 .b {
-	background-image: url(/ngiiedu/assets/images/mvisual2.jpg);
+	background-image: url(../images/mvisual2.jpg);
 	background-repeat: no-repeat;
 	background-position: center;
 }
 
 .c {
-	background-image: url(/ngiiedu/assets/images/mvisual3.jpg);
+	background-image: url(../images/mvisual3.jpg);
 	background-repeat: no-repeat;
 	background-position: center;
 }
@@ -1243,7 +1243,7 @@ h3.title {
 	padding: 15px 15px 0 0;
 	font-size: 20pt;
 	font-weight: normal;
-	background: url(/ngiiedu/assets/images/bullet.png) no-repeat right 0;
+	background: url(../images/bullet.png) no-repeat right 0;
 }
 
 button.go {
@@ -1253,7 +1253,7 @@ button.go {
 	margin-top: 10px;
 	text-indent: -999em;
 	border: none;
-	background: url(/ngiiedu/assets/images/ico.png) no-repeat 5px -390px;
+	background: url(../images/ico.png) no-repeat 5px -390px;
 }
 
 #contentsWrap .mainContents {
@@ -1300,55 +1300,55 @@ div.mainContents .classInfo {
 }
 
 .classInfo ul li.noise {
-	background-image: url(/ngiiedu/assets/images/class_noise.png);	
+	background-image: url(../images/class_noise.png);	
 }
 
 .classInfo ul li.gps {
-	background-image: url(/ngiiedu/assets/images/class_gps.png);	
+	background-image: url(../images/class_gps.png);	
 }
 
 .classInfo ul li.population {
-	background-image: url(/ngiiedu/assets/images/class_population.png);	
+	background-image: url(../images/class_population.png);	
 }
 
 .classInfo ul li.territory {
-	background-image: url(/ngiiedu/assets/images/class_territory.png);	
+	background-image: url(../images/class_territory.png);	
 }
 
 .classInfo ul li.school {
-	background-image: url(/ngiiedu/assets/images/class_school.png);	
+	background-image: url(../images/class_school.png);	
 }
 
 .classInfo ul li.map {
-	background-image: url(/ngiiedu/assets/images/class_map.png);	
+	background-image: url(../images/class_map.png);	
 }
 
 .classInfo ul li.dokdo {
-	background-image: url(/ngiiedu/assets/images/class_dokdo.png);	
+	background-image: url(../images/class_dokdo.png);	
 }
 
 .classInfo ul li.noise:hover {
-	background-image: url(/ngiiedu/assets/images/class_noise_on.png);	
+	background-image: url(../images/class_noise_on.png);	
 }
 
 .classInfo ul li.gps:hover {
-	background-image: url(/ngiiedu/assets/images/class_gps_on.png);	
+	background-image: url(../images/class_gps_on.png);	
 }
 
 .classInfo ul li.population:hover {
-	background-image: url(/ngiiedu/assets/images/class_population_on.png);	
+	background-image: url(../images/class_population_on.png);	
 }
 .classInfo ul li.territory:hover {
-	background-image: url(/ngiiedu/assets/images/class_territory_on.png);	
+	background-image: url(../images/class_territory_on.png);	
 }
 .classInfo ul li.school:hover {
-	background-image: url(/ngiiedu/assets/images/class_school_on.png);	
+	background-image: url(../images/class_school_on.png);	
 }
 .classInfo ul li.map:hover {
-	background-image: url(/ngiiedu/assets/images/class_map_on.png);	
+	background-image: url(../images/class_map_on.png);	
 }
 .classInfo ul li.dokdo:hover {
-	background-image: url(/ngiiedu/assets/images/class_dokdo_on.png);	
+	background-image: url(../images/class_dokdo_on.png);	
 }
 /* 메인 / CONTENTS / 바로가기 */
 .mainContents .quick {
@@ -1361,7 +1361,7 @@ div.mainContents .classInfo {
 	cursor: pointer;
 	text-align: center;
 	background-color: #f4f4f4;
-	background-image: url(/ngiiedu/assets/images/ico.png);
+	background-image: url(../images/ico.png);
 	background-repeat: no-repeat;
 }
 .mainContents .quick li.attend {
@@ -1395,7 +1395,7 @@ div.mainContents > .board {
 div.mainContents > .board li {
 	padding: 7px 0 7px 10px;
 	cursor: pointer;
-	background: url(/ngiiedu/assets/images/bullet.png) no-repeat left -48px;
+	background: url(../images/bullet.png) no-repeat left -48px;
 }
 
 div.mainContents > .board li:hover {
