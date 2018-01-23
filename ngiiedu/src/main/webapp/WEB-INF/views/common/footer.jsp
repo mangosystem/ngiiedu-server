@@ -43,7 +43,7 @@
 			</li>
 		</ul>
 		<p style="margin-left:360px;">
-			경기도 수원시 영통구 월드컵로 92 (원천동)<span class="line"></span><span class="line"></span>팩스 : 031-210-2644
+           	경기도 수원시 영통구 월드컵로 92 (원천동)  팩스 : 031-210-2644
 		</p>
 		<p style="margin-left:360px;" class="ft-copyright">Copyright (c) 2015 NGII ALL RIGHTS RESERVED.</p>
 	</div>
