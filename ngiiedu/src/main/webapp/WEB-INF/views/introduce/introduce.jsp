@@ -17,7 +17,7 @@
 	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 <![endif]-->
 <meta content="IE=edge" http-equiv="X-UA-Compatible">
-<title>지리원/공간정보융합 활용지원정보</title>
+<title>공간정보융합활용지원시스템</title>
 	
 </head>
 

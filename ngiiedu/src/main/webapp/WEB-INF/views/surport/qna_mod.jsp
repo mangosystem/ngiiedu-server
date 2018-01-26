@@ -27,7 +27,7 @@
 
 <script type="text/javascript" src="<%=contextPath%>/assets/dist/request.js"></script>
 
-<title>지리원/공간정보융합 활용지원정보</title>
+<title>공간정보융합활용지원시스템</title>
 
 </head>
 

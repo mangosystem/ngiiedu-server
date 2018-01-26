@@ -62,7 +62,7 @@
 <body class="edu">
 	<div id="headerWrap">
 		<div class="header">
-			<h1 class="edge" style="cursor: pointer;" onclick="document.location = '<%=contextPath %>'">공간정보융합 활용지원시스템</h1>
+			<h1 class="edge" style="cursor: pointer;" onclick="document.location = '<%=contextPath %>/'">공간정보융합 활용지원시스템</h1>
 
 			<%
 				if(userDivision != null) {
