@@ -1,8 +1,6 @@
 var apiSvr = 'http://localhost:8080/ngiiedu/api/v1';
-//const apiSvr = 'http://1.234.82.19:8083/ngiiedu/api/v1';
-var pinoSvr = 'http://1.234.82.19:8083'
-var gisSvr ='/geoserver';
-var pngoWeb = '/pinogio-web'
+var pngoSvr = 'http://1.234.82.19:8083/pinogio-web'
+var gisSvr ='http://1.234.82.19:8083/geoserver';
 
 var contextPath = '/ngiiedu';
 
