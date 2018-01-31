@@ -72,7 +72,7 @@
 					<input type="text">
 				</li>
 				<li class="title">
-					<label for="">비밀번호 재확인</label>
+					<label for="">새 비밀번호 재확인</label>
 					<input type="text">
 				</li>
 			</ul>
