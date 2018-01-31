@@ -670,6 +670,42 @@ button.subbtn {
 	line-height: 25pt;
 }
 
+/* 사용자정보변경  */
+
+.modifyInfo {
+	margin: auto;
+	width: 80%;
+}
+
+.modifyInfo li.title {
+	padding: 15px;
+	border-bottom: 1px solid #bcbdc7;
+}
+
+.modifyInfo li.title label {
+	color: #999;
+	font-weight: bold;
+}
+
+.modifyInfo li.title>input {
+	width: 800px;
+	padding: 5px;
+	border: none;
+	font-size: 13pt;
+}
+
+.modifyInfo li.title * {
+	vertical-align: middle;
+}
+
+.modifyInfo  li.script {
+	width: 100%;
+	min-height: 400px;
+	padding: 20px 70px;
+	font-size: 13pt;
+	line-height: 25pt;
+}
+
 /* 자주묻는질문 */
 ul.faqWrap li {
 	margin: 10px 0;

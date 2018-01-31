@@ -69,14 +69,14 @@
 					if (userDivision.trim().equals("1")) {  //교사 
 			%>
 				<div class="gnb">
-					<span class="teacher"><%=userName %></span>님, 로그인하셨습니다.
+					<span class="teacher" onclick="location.href='<%=contextPath%>/modifyUserInfo'"><%=userName %></span>님, 로그인하셨습니다.
 					<button type="button" title="로그아웃" onClick="location.href='<%=contextPath%>/logout'">로그아웃</button>
 				</div>
 			<%
 					} else if(userDivision.trim().equals("2")) {  //학생
 			%>
 				<div class="gnb">
-					<span class="student"><%=userName %></span>님, 로그인하셨습니다.
+					<span class="student" onclick="location.href='<%=contextPath%>/modifyUserInfo'"><%=userName %></span>님, 로그인하셨습니다.
 					<button type="button" title="로그아웃" onClick="location.href='<%=contextPath%>/logout'">로그아웃</button>
 				</div>
 			<%
@@ -126,14 +126,16 @@
 					</ul>
 				<%} else if (mainHeader.equals("course")){ %>			
 					<h2>수업</h2>
-				<% } else if (mainHeader.equals("rule")){%>
+				<%} else if (mainHeader.equals("rule")){%>
 					<ul style="margin-right:150px">
 						<li id="policy"><a href="<%=contextPath %>/rule/copyrightPolicy">저작권정책</a></li>
 						<li id="publicInfo"><a href="<%=contextPath %>/rule/publicInformation">공공데이터 이용정책</a></li>
 						<li id="emailNon"><a href="<%=contextPath %>/rule/emailNonCollection">이메일무단수집거부</a></li>
 						<li id="openSource"><a href="<%=contextPath %>/rule/openSourceLicense">오픈소스 라이센스</a></li>
 					</ul>
-				<%}%>
+				<%} else if (mainHeader.equals("info")) {%>
+					<h2>사용자정보변경</h2>
+				<%} %>
 				</div>
 			</div>
 		<% }%>

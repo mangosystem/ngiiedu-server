@@ -646,8 +646,12 @@ public class MainController extends BaseController {
 		return view;
 	}
 	
-	
-	
+	@RequestMapping(value={"/modifyUserInfo"}, method = RequestMethod.GET)
+	public ModelAndView modifyUserInfo(HttpServletRequest request, HttpServletResponse response, 
+			HttpSession session, Principal principal) {
+		ModelAndView view = new ModelAndView("/info/modifyUserInfo");
+		return view;
+	}
 	
 	
 	@RequestMapping(value="/ngiiemapProxy", method=RequestMethod.GET)
