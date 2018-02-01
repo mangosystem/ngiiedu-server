@@ -95,6 +95,31 @@ public class UserController extends BaseController {
 		return new ResponseEntity<ResponseData>(responseBody(user), HttpStatus.OK);
 	}
 	
+	/**
+	 * 사용자 이름(별칭) 변경
+	 * 
+	 * @param userid
+	 * @param userState
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/{userid}/name", method=RequestMethod.PUT)
+	public @ResponseBody ResponseEntity<ResponseData> modifyUserName(
+			@PathVariable("userid") String userid,
+			@RequestParam(value="userName", required=true) String userName, 
+			HttpSession session) throws Exception {		
+		
+		User user = userService.modify(userid, userName, null, true);
+		
+		User newUser = (User) session.getAttribute("USER_INFO");
+		newUser.setUserName(userName);
+		
+		session.setAttribute("USER_INFO", newUser);
+		
+		return new ResponseEntity<ResponseData>(responseBody(user), HttpStatus.OK);
+	}
+	
 	
 //	/**
 //	 * 사용자 로그인

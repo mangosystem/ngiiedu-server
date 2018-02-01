@@ -8,11 +8,13 @@
 	
 	User user; 
 	String userName = null;
+	String userid = null;
 
 	user = (User)session.getAttribute("USER_INFO");
 	
 	if (user != null) {
-		userName =user.getUserName();		
+		userName = user.getUserName();
+		userid = user.getUserid();
 	}
 %>
 	
@@ -20,7 +22,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<link rel="shortcut icon" href="/ngiiedu/assets/images/nlip.ico" type="image/x-icon" />
+<link rel="shortcut icon" href="<%=contextPath%>/assets/images/nlip.ico" type="image/x-icon" />
 <meta charset="utf-8">
 <!--[if lt IE 9]>
 	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -29,11 +31,15 @@
 	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 <![endif]-->
 <meta content="IE=edge" http-equiv="X-UA-Compatible">
-<title>공간정보융합활용지원시스템</title>
-<!--jQuery  -->
+<!--jquery  -->
 <script type="text/javascript" src="<%=contextPath%>/assets/cdn/jquery/jquery-3.2.1.min.js"></script>
 <script src="<%=contextPath%>/assets/cdn/jquery-ui-1.12.1/jquery-ui.js"></script>
 <link rel="stylesheet" href="<%=contextPath%>/assets/cdn/jquery-ui-1.12.1/jquery-ui.css">
+
+<script type="text/javascript" src="<%=contextPath%>/assets/dist/request.js"></script>
+
+<title>공간정보융합활용지원시스템</title>
+
 </head>
 
 <body class="edu">
@@ -56,30 +62,44 @@
 				<img src="<%=contextPath%>/assets/images/@test1.png" alt="" title="">
 			</li> --%>
 		</ul>
-		<div>
-			
-			<ul class="modifyInfo">
-				<li class="title">
-					<label for="">별칭</label>
-					<input id="qTitle" type="text" value="<%= userName%>">
-				</li>
-				<li class="title">
-					<label for="">현재 비밀번호</label>
-					<input type="text">
-				</li>
-				<li class="title">
-					<label for="">새 비밀번호</label>
-					<input type="text">
-				</li>
-				<li class="title">
-					<label for="">새 비밀번호 재확인</label>
-					<input type="text">
-				</li>
-			</ul>
-			
-			<div class="btnCenter">
-				<button type="button" title="변경" class="point" >변경</button>
-			</div>
+		<div class="modifyInfo">			
+			<table class="table">
+				<tr>
+					<td>
+						<label for="">별칭</label>
+					</td>
+					<td>
+						<input id="userName" type="text" value="<%= userName%>">
+					</td>
+					<td>
+						<button type="button" title="변경" class="default" onclick="modifyUserName('<%= userid %>')">변경</button>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="">비밀번호</label>
+					</td>
+					<td>
+						<div id="table">
+							<div class="row">
+								<span class="cell col1"><label for="" class="password">현재 비밀번호</label></span>
+								<span class="cell col2"><input type="password"></span>
+							</div>
+							<div class="row">
+								<span class="cell col1"><label for="" class="password">새 비밀번호</label></span>
+								<span class="cell col2"><input type="password"></span>
+							</div>
+							<div class="row">
+								<span class="cell col1"><label for="" class="password">새 비밀번호 재확인</label></span>
+								<span class="cell col2"><input type="password"></span>
+							</div>
+						</div>
+					</td>
+					<td>
+						<button type="button" title="변경" class="default" >변경</button>
+					</td>
+				</tr>
+			</table>
 		</div>
 	</div>
 	<!-- CONTENTS -->
@@ -87,5 +107,22 @@
 <!-- END CONTENTSWRAP -->
 	<jsp:include page ="../common/footer.jsp"></jsp:include>
 <!-- END FOOTER -->
+
+<script>
+	
+	function modifyUserName(userid){
+				
+		let url = '/users/' + userid + '/name.json';
+		
+		ajaxJson(
+			['PUT', apiSvr + url], 
+			{
+	     		"userName" : $('#userName').val()
+	        }, 
+	        function (res) {
+				console.log(res);
+        });
+	}
+</script>
 </body>
 </html>

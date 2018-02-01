@@ -677,34 +677,56 @@ button.subbtn {
 	width: 80%;
 }
 
-.modifyInfo li.title {
-	padding: 15px;
+.modifyInfo table.table tr {
+	width: 100%;
 	border-bottom: 1px solid #bcbdc7;
 }
 
-.modifyInfo li.title label {
+.modifyInfo table.table tr:first-child {
+	border-top: 1px solid #bcbdc7;
+}
+
+.modifyInfo table.table tr>td:first-child {
+	background-color: #bcbdc7;
+	background-color: rgba( 234, 234, 234, 0.4 );
+}
+
+.modifyInfo table.table label {
+	font-weight: bold;
+}
+
+.modifyInfo table.table * {
+	vertical-align: middle;
+	padding: 15px;
+}
+
+.modifyInfo table.table label.password {
 	color: #999;
 	font-weight: bold;
 }
 
-.modifyInfo li.title>input {
-	width: 800px;
-	padding: 5px;
+.modifyInfo table.table input {
+	width: 60%;
 	border: none;
 	font-size: 13pt;
 }
 
-.modifyInfo li.title * {
-	vertical-align: middle;
+.modifyInfo table.table input[type=password] {
+	width: 100%;
+	border: 1px solid #ccc;
+	padding: 0px;
+	font-size: 13pt;
 }
 
-.modifyInfo  li.script {
+.modifyInfo table.table {
 	width: 100%;
-	min-height: 400px;
-	padding: 20px 70px;
-	font-size: 13pt;
-	line-height: 25pt;
 }
+
+#table {display: table; width: 100%;}
+#table .row {display: table-row;}
+#table .row .cell {display: table-cell;}
+#table .row .col1 { width: 40%;}
+#table .row .col2 {width: 60%;}
 
 /* 자주묻는질문 */
 ul.faqWrap li {
