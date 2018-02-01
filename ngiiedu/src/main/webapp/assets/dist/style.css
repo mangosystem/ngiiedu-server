@@ -113,7 +113,7 @@ h1.edge{
 
 .gnb {
 	position: absolute;
-	top: 40px;
+	top: 45px;
 	right: 0;
 }
 
@@ -141,16 +141,28 @@ h1.edge{
 .gnb>span.teacher {
 	padding-left: 40px;
 	background: url(../images/ico.png) no-repeat left 0;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	margin-top:-5px;
 }
 
 .gnb>span.student {
 	padding-left: 40px;
 	background: url(../images/ico.png) no-repeat left -50px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	margin-top:-5px;
 }
 
 .gnb>span.admin {
 	padding-left: 45px;
 	background: url(../images/ico.png) no-repeat left -350px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	margin-top:-5px;
 }
 
 .gnb>button {
