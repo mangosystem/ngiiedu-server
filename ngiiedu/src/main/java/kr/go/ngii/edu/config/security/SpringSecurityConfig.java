@@ -1,6 +1,7 @@
 package kr.go.ngii.edu.config.security;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -70,47 +71,47 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 
 		http
-			.authorizeRequests()
-				.antMatchers("/assets/**").permitAll()
-				.antMatchers("/login").permitAll()
-				.antMatchers("/join").permitAll()
-				.antMatchers("/").permitAll()
-				.antMatchers("/index").permitAll()
-				.antMatchers("/introduce/**").permitAll()
-				.antMatchers("/gallery/**").permitAll()
-				.antMatchers("/gallery/view/l/**").permitAll()
-				.antMatchers("/gallery/view/m/**").permitAll()
-				.antMatchers("/surport/**").permitAll()
-				.antMatchers("/rule/**").permitAll()
-				.antMatchers("/api/v1/**").permitAll()
-				.antMatchers("/ngiiemapProxy/**").permitAll()
-				.antMatchers("/cm-admin/**").access("hasRole('ROLE_ADMIN')")
-				.antMatchers("/course/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
-				.antMatchers("/storymap/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
-				.antMatchers("/map/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
-				.antMatchers("/maps/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
-				.antMatchers("/swipe").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
-				.antMatchers("/split").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
-				.anyRequest().authenticated()
-			.and()
-				.formLogin()
-				.loginPage("/login")
-				.loginProcessingUrl("/login_process")
-				.successHandler(loginSuccessHandler)
-				.failureHandler(loginFailureHandler)
-				.permitAll()
-			.and()
-				.logout()
-				.logoutUrl("/logout")
-				.logoutSuccessHandler(logoutSuccessHandler)
-				.invalidateHttpSession(true)
-				.permitAll()
-			.and()
-				.exceptionHandling()
-				.accessDeniedHandler(accessDeniedHandler)
-			.and()
-				.csrf()
-				.disable();
+		.authorizeRequests()
+		.antMatchers("/assets/**").permitAll()
+		.antMatchers("/login").permitAll()
+		.antMatchers("/join").permitAll()
+		.antMatchers("/").permitAll()
+		.antMatchers("/index").permitAll()
+		.antMatchers("/introduce/**").permitAll()
+		.antMatchers("/gallery/**").permitAll()
+		.antMatchers("/gallery/view/l/**").permitAll()
+		.antMatchers("/gallery/view/m/**").permitAll()
+		.antMatchers("/surport/**").permitAll()
+		.antMatchers("/rule/**").permitAll()
+		.antMatchers("/api/v1/**").permitAll()
+		.antMatchers("/ngiiemapProxy/**").permitAll()
+		.antMatchers("/cm-admin/**").access("hasRole('ROLE_ADMIN')")
+		.antMatchers("/course/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
+		.antMatchers("/storymap/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
+		.antMatchers("/map/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
+		.antMatchers("/maps/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
+		.antMatchers("/swipe").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
+		.antMatchers("/split").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
+		.anyRequest().authenticated()
+		.and()
+		.formLogin()
+		.loginPage("/login")
+		.loginProcessingUrl("/login_process")
+		.successHandler(loginSuccessHandler)
+		.failureHandler(loginFailureHandler)
+		.permitAll()
+		.and()
+		.logout()
+		.logoutUrl("/logout")
+		.logoutSuccessHandler(logoutSuccessHandler)
+		.invalidateHttpSession(true)
+		.permitAll()
+		.and()
+		.exceptionHandling()
+		.accessDeniedHandler(accessDeniedHandler)
+		.and()
+		.csrf()
+		.disable();
 	}
 
 
@@ -163,19 +164,31 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 				HttpServletRequest request, HttpServletResponse response,
 				Authentication authentication) throws IOException, ServletException {
 
-			super.onAuthenticationSuccess(request, response, authentication);
-
-//			setDefaultTargetUrl("/course");
-//			setDefaultTargetUrl("/");
+			//setDefaultTargetUrl("/course");
+			//setDefaultTargetUrl("/");
 
 			User user = userService.get(authentication.getName());
-			user.setPassword(null);
 
-			request.getSession().setAttribute("USER_INFO", user);
-			request.getSession().setAttribute("USER_IDX", user.getIdx());
-			request.getSession().setAttribute("USER_ID", user.getUserid());
+			if (user.getUserState()) {
 
-			response.setStatus(HttpStatus.SC_OK);
+				super.onAuthenticationSuccess(request, response, authentication);
+
+				user.setPassword(null);
+				request.getSession().setAttribute("USER_INFO", user);
+				request.getSession().setAttribute("USER_IDX", user.getIdx());
+				request.getSession().setAttribute("USER_ID", user.getUserid());
+				response.setStatus(HttpStatus.SC_OK);
+
+			} else {
+				response.setCharacterEncoding("UTF-8");
+				response.setContentType("text/html; charset=UTF-8"); 
+
+				PrintWriter out = response.getWriter();
+				out.println("<script language='javascript'>");
+				out.println("alert('접근할 수 없는 사용자 입니다.')");
+				out.println("location.href='" + request.getContextPath() + "/logout'");
+				out.println("</script>");
+			}
 		}
 	}
 
@@ -188,9 +201,18 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
 			setDefaultFailureUrl("/login?error");
 
-			super.onAuthenticationFailure(request, response, exception);
+			response.setCharacterEncoding("UTF-8");
+			response.setContentType("text/html; charset=UTF-8"); 
 
-			request.getSession().setAttribute(WebAttributes.AUTHENTICATION_EXCEPTION, exception.getMessage());
+			PrintWriter out = response.getWriter();
+			out.println("<script language='javascript'>");
+			out.println("alert('로그인에 실패하였습니다. 아이디 패스워드를 확인해주세요.')");
+			out.println("location.href='" + request.getContextPath() + "/login?error'");
+			out.println("</script>");
+			out.close();
+
+			//super.onAuthenticationFailure(request, response, exception);
+			//request.getSession().setAttribute(WebAttributes.AUTHENTICATION_EXCEPTION, exception.getMessage());
 		}
 	}
 
@@ -203,7 +225,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
 			request.getSession().setAttribute(WebAttributes.AUTHENTICATION_EXCEPTION, null);
 
-//			response.sendRedirect(request.getContextPath() + "/login");
+			//response.sendRedirect(request.getContextPath() + "/login");
 			response.sendRedirect(request.getContextPath() + "/");
 			response.setStatus(HttpStatus.SC_OK);
 		}

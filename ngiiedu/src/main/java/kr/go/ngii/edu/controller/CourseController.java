@@ -657,7 +657,7 @@ public class CourseController extends BaseController {
 			HttpSession session) throws Exception {
 
 		boolean result = courseMemberService.leave(courseId, userids, password);
-		return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
+		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
 
 	// 팀 관련  --------------------------------------------------------------------
