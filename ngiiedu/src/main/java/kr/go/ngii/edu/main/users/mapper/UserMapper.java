@@ -14,12 +14,14 @@ public interface UserMapper {
 
 	public List<User> list(@Param("offset") int offset, @Param("limit") int limit, @Param("keyword") String keyword);
 
+	public int listCount(@Param("keyword") String keyword);
+
 	public int create(User user);
 
 	public void modify(User user);
 
 	public void delete(String userid);
-	
+
 	public Boolean exists(@Param("userid") String userid);
 
 }

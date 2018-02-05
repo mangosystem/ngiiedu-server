@@ -55,20 +55,28 @@
 				school_level = #{schoolLevel} and
 			</if>
 			<if test="keyword !='' and keyword !=null">
-				(school_name like #{keyword} or
-				school_edu_office_name like #{keyword})
+				(school_name like #{keyword}||'%' OR
+				school_edu_office_name like #{keyword}||'%')
 			</if>
-			
 		</where>
-		
 		ORDER BY idx
-		
 		<if test="offset != null and limit != null">
 			OFFSET ${offset} LIMIT ${limit}
 		</if>
-		
 	</select>
 	
+	<select id="listCount" parameterType="map" resultType="int">
+		SELECT COUNT(*) FROM schools
+		<where>
+			<if test="schoolLevel !='' and schoolLevel !=null">
+				school_level = #{schoolLevel} and
+			</if>
+			<if test="keyword !='' and keyword !=null">
+				(school_name like #{keyword}||'%' OR
+				school_edu_office_name like #{keyword}||'%')
+			</if>
+		</where>
+	</select>
  
  	<select id="get" parameterType="map" resultMap="schoolMap">
 		SELECT

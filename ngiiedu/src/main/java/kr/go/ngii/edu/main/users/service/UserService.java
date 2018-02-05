@@ -1,6 +1,7 @@
 package kr.go.ngii.edu.main.users.service;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +32,19 @@ public class UserService {
 	@Autowired
 	private PngoAuthKeyMapper pngoAuthKeyMapper;
 
-	public List<User> list(int offset, int limit, String keyword) {
-		return userMapper.list(offset, limit, keyword);
+
+	public Map<String, Object> list(int offset, int limit, String keyword) {
+		
+		try {
+			Map<String, Object> result = new HashMap<String, Object>();
+			result.put("list", userMapper.list(offset, limit, keyword));
+			result.put("count", userMapper.listCount(keyword));
+			
+			return result;
+			
+		} catch (Exception e) {
+			return null;
+		}
 	}
 	
 

@@ -1,7 +1,6 @@
 package kr.go.ngii.edu.controller;
 
-import java.util.HashMap;
-import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpSession;
@@ -45,9 +44,9 @@ public class UserController extends BaseController {
 			@RequestParam(value="keyword", required=false, defaultValue="") String keyword,
 			HttpSession session) throws Exception {
 		
-		List<User> list = userService.list(offset, limit, keyword);
+		Map<String,Object> result = userService.list(offset, limit, keyword);
 		
-		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
+		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
 	
 	/**

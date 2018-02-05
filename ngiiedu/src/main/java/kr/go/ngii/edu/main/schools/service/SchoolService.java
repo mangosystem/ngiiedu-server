@@ -1,6 +1,7 @@
 package kr.go.ngii.edu.main.schools.service;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,32 +17,37 @@ public class SchoolService extends BaseService{
 	@Autowired
 	private SchoolMapper schoolMapper;
 
-/*	public List<School> list() {
-		System.out.println("list");
-		return schoolMapper.list();
-	}*/
 
-	
-	public List<School> list(int offset, int limit, String keyword, String schoolLevel) {
-		return schoolMapper.list(offset, limit, keyword, schoolLevel);
+	public Map<String, Object> list(int offset, int limit, String keyword, String schoolLevel) {
+
+		try {
+			Map<String, Object> result = new HashMap<String, Object>();
+			result.put("list", schoolMapper.list(offset, limit, keyword, schoolLevel));
+			result.put("count", schoolMapper.listCount(keyword, schoolLevel));
+
+			return result;
+
+		} catch (Exception e) {
+			return null;
+		}
 	}
-	
+
 	public School get(School school) {
 		return schoolMapper.get(school);
 	}
-	
+
 	public School get(int idx) {
 		School school = new School();
 		school.setIdx(idx);
 		return schoolMapper.get(school);
 	}
-	
+
 	public School get(String schoolAuthkey) {
 		School school = new School();
 		school.setSchoolAuthkey(schoolAuthkey);
 		return schoolMapper.get(school);
 	}
-	
+
 	public boolean delete(int idx) {
 		if (get(idx)!=null) {
 			schoolMapper.delete(idx);
@@ -50,14 +56,14 @@ public class SchoolService extends BaseService{
 			return false;
 		}
 	}
-	
+
 	public School create(String schoolId, String schoolName, String schoolLevel, String schoolStatus, String schoolEduOfficeName, Integer schoolEduOfficeCode, String schoolSidoOfficeName, 
 			Integer schoolSidoOfficeCode, String schoolAddr, String schoolBuildDate, String schoolEstablishType, String schoolLat, String schoolLon, String schoolBranchType, 
 			String schoolAddrRoad, String schoolRefDate, String schoolCreateDate, String schoolEditDate) {
-try {
-			
+		try {
+
 			School param = new School();
-			
+
 			param.setSchoolId(schoolId);
 			param.setSchoolName(schoolName);
 			param.setSchoolLevel(schoolLevel);
@@ -77,9 +83,9 @@ try {
 			param.setSchoolDataCreateDate(schoolCreateDate);
 			param.setSchoolDateEditDate(schoolEditDate);
 			param.setSchoolAuthkey(getAuthkey());
-			
+
 			schoolMapper.create(param);
-			
+
 			return param;
 		} catch (Exception e) {
 			LOGGER.debug(e.getMessage());
@@ -87,7 +93,7 @@ try {
 		}
 		return null;
 	}
-	
+
 	public School modify(Integer idx, String schoolName, String schoolLevel, String schoolStatus, String schoolEduOfficeName, Integer schoolEduOfficeCode, String schoolSidoOfficeName, 
 			Integer schoolSidoOfficeCode, String schoolAddr, String schoolBuildDate, String schoolEstablishType, String schoolLat, String schoolLon, String schoolBranchType, 
 			String schoolAddrRoad, String schoolReferenceDate, String schoolDataCreateDate, String schoolDateEditDate) {
@@ -114,15 +120,15 @@ try {
 
 		return param;
 	}
-	
+
 	public School createAPI(String schoolId, String schoolName, String schoolLevel, String schoolStatus, String schoolEduOfficeName, Integer schoolEduOfficeCode, String schoolSidoOfficeName, 
 			Integer schoolSidoOfficeCode, String schoolAddr, String schoolBuildDate, String schoolEstablishType, String schoolLat, String schoolLon, String schoolBranchType, 
 			String schoolAddrRoad, String schoolRefDate, String schoolCreateDate, String schoolEditDate) {
-		
+
 		try {
-			
+
 			School param = new School();
-			
+
 			param.setSchoolId(schoolId);
 			param.setSchoolName(schoolName);
 			param.setSchoolLevel(schoolLevel);
@@ -142,9 +148,9 @@ try {
 			param.setSchoolDataCreateDate(schoolCreateDate);
 			param.setSchoolDateEditDate(schoolEditDate);
 			param.setSchoolAuthkey(getAuthkey());
-			
+
 			schoolMapper.createAPI(param);
-			
+
 			return param;
 		} catch (Exception e) {
 			LOGGER.debug(e.getMessage());
@@ -156,7 +162,7 @@ try {
 	public int count() {
 		return schoolMapper.count();
 	}
-	
+
 	/**
 	 * 중복되지 않는 학교코드를 자동으로 생성하여 리턴한다.
 	 * 
@@ -177,25 +183,25 @@ try {
 	public void modifyAuthkey(Integer idx) {
 		try {
 			School param = new School();
-			
+
 			String schoolAuthkey = getAuthkey();
 			param.setIdx(idx);
 			param.setSchoolAuthkey(schoolAuthkey);
 
-			
-			 schoolMapper.modifyAuthkey(param);
+
+			schoolMapper.modifyAuthkey(param);
 		} catch (Exception e) {
 			LOGGER.debug(e.getMessage());
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	public School getAuthkey(Integer idx) {
-		
+
 		return schoolMapper.getAuthkey(idx);
 
 	}
-	
+
 }
 

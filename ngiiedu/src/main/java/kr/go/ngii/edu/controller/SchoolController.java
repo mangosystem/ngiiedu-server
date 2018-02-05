@@ -8,6 +8,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -54,9 +55,9 @@ public class SchoolController extends BaseController{
 			@RequestParam(value="schoolLevel", required=false, defaultValue="") String schoolLevel,
 			HttpSession session) throws Exception {
 		
-		List<School> list = schoolService.list(offset, limit, keyword, schoolLevel);
+		Map<String,Object> result = schoolService.list(offset, limit, keyword, schoolLevel);
 		
-		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
+		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
 
 	/**

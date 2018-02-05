@@ -34,7 +34,6 @@
 		</where>
 		
 	</select>
-	
 
 	<select id="list" parameterType="map" resultMap="userMap">
 		SELECT
@@ -48,15 +47,26 @@
 		FROM users
 		<where>
 			<if test="keyword != '' and keyword != null">
-				userid like #{keyword} or 
-				user_name like #{keyword} or
-				user_email like #{keyword}
+				userid like #{keyword}||'%' OR 
+				user_name like #{keyword}||'%' OR
+				user_email like #{keyword}||'%'
 			</if>
 		</where>
 		order by userid
 		<if test="offset != null and limit != null">
 			OFFSET ${offset} LIMIT ${limit}
 		</if>
+	</select>
+
+	<select id="listCount" parameterType="map" resultType="int">
+		SELECT COUNT(*) FROM users
+		<where>
+			<if test="keyword != '' and keyword != null">
+				userid like #{keyword}||'%' OR 
+				user_name like #{keyword}||'%' OR
+				user_email like #{keyword}||'%'
+			</if>
+		</where>
 	</select>
 
 	<insert id="create" parameterType="map">
