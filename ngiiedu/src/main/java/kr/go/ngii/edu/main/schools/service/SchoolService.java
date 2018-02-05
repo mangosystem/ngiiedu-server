@@ -24,6 +24,8 @@ public class SchoolService extends BaseService{
 			Map<String, Object> result = new HashMap<String, Object>();
 			result.put("list", schoolMapper.list(offset, limit, keyword, schoolLevel));
 			result.put("count", schoolMapper.listCount(keyword, schoolLevel));
+			result.put("offset", offset);
+			result.put("limit", limit);
 
 			return result;
 

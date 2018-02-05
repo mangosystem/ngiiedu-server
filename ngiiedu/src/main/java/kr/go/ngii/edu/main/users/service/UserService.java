@@ -39,7 +39,9 @@ public class UserService {
 			Map<String, Object> result = new HashMap<String, Object>();
 			result.put("list", userMapper.list(offset, limit, keyword));
 			result.put("count", userMapper.listCount(keyword));
-			
+			result.put("offset", offset);
+			result.put("limit", limit);
+
 			return result;
 			
 		} catch (Exception e) {
