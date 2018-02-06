@@ -64,7 +64,7 @@ public class UserController extends BaseController {
 		
 		User user = null;
 		
-		if (isEmail(userid)) {			
+		if (isEmail(userid)) {
 			user = userService.getByEmail(userid);
 		} else {
 			user = userService.get(userid);
@@ -87,7 +87,7 @@ public class UserController extends BaseController {
 	public @ResponseBody ResponseEntity<ResponseData> modifyUserState(
 			@PathVariable("userid") String userid,
 			@RequestParam(value="userState", required=true) boolean userState, 
-			HttpSession session) throws Exception {		
+			HttpSession session) throws Exception {
 		
 		User user = userService.modify(userid, null, null, userState);
 		
@@ -105,6 +105,26 @@ public class UserController extends BaseController {
 	 */
 	@RequestMapping(value="/{userid}/name", method=RequestMethod.PUT)
 	public @ResponseBody ResponseEntity<ResponseData> modifyUserName(
+			@PathVariable("userid") String userid,
+			@RequestParam(value="userName", required=true) String userName, 
+			HttpSession session) throws Exception {
+		
+		
+		
+		
+		User user = userService.modify(userid, userName, null, true);
+		
+		User newUser = (User) session.getAttribute("USER_INFO");
+		newUser.setUserName(userName);
+		
+		session.setAttribute("USER_INFO", newUser);
+		
+		return new ResponseEntity<ResponseData>(responseBody(user), HttpStatus.OK);
+	}
+	
+	
+	@RequestMapping(value="/{userid}/password", method=RequestMethod.PUT)
+	public @ResponseBody ResponseEntity<ResponseData> modifyUserPassword(
 			@PathVariable("userid") String userid,
 			@RequestParam(value="userName", required=true) String userName, 
 			HttpSession session) throws Exception {		
