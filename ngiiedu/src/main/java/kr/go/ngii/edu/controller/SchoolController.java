@@ -10,12 +10,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.http.HttpRequest;
-import org.apache.http.HttpResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -84,15 +80,14 @@ public class SchoolController extends BaseController{
 			@RequestParam(value="limit", required=false, defaultValue="20") Integer limit,
 			@RequestParam(value="keyword", required=false, defaultValue="") String keyword,
 			@RequestParam(value="schoolLevel", required=false, defaultValue="") String schoolLevel,
-			HttpRequest request, HttpResponse response, HttpSession session) throws Exception {
-
-		Map<String,Object> result = null;
-
+			HttpSession session) throws Exception {
+		
 		if (isAdmin(session)) {
-			result = schoolService.list(offset, limit, keyword, schoolLevel);
+			Map<String,Object> result = schoolService.list(offset, limit, keyword, schoolLevel);
+			return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
+		} else {
+			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.FORBIDDEN);
 		}
-
-		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
 
 	/**
@@ -104,7 +99,7 @@ public class SchoolController extends BaseController{
 	 */
 	@RequestMapping(value="/sync/api", method=RequestMethod.GET)
 	public @ResponseBody ResponseEntity<ResponseData> apiList(
-			HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
+			HttpSession session) throws Exception {
 
 		if (isAdmin(session)) {
 			String sPage="0";
