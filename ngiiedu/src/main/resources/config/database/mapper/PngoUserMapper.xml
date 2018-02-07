@@ -38,11 +38,11 @@
 	</insert>
 
 	<update id="modify" parameterType="map">
-		UPDATE pngo_user
+		UPDATE pngo_user 
 		<set>
 			<if test="username != null"> username = #{username}, </if>
 			<if test="passwd != null"> passwd = #{passwd}, </if>
-			<if test="firstName != null"> firstName = #{firstName}</if>
+			<if test="firstName != null"> first_name = #{firstName}</if>
 		</set>
 		WHERE idx = #{idx}
 	</update>

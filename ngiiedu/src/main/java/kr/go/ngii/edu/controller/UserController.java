@@ -124,8 +124,8 @@ public class UserController extends BaseController {
 			if (result) {
 				User newUser = (User) session.getAttribute("USER_INFO");
 				newUser.setUserName(userName);
-
 				session.setAttribute("USER_INFO", newUser);
+
 				return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 			}
 		}
@@ -152,7 +152,7 @@ public class UserController extends BaseController {
 		boolean result = false;
 
 		try {
-			if (newPasswd.length() < 9) {
+			if (newPasswd.length() < 8) {
 				return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.BAD_REQUEST);
 			}
 
@@ -171,28 +171,28 @@ public class UserController extends BaseController {
 
 
 
-//	@RequestMapping(value="/{userid}/userid", method=RequestMethod.PUT)
-//	public @ResponseBody ResponseEntity<ResponseData> modifyUserId(
-//			@PathVariable("userid") String userId,
-//			@RequestParam(value="newUserid", required=true) String newUserId, 
-//			@RequestParam(value="passwd", required=true) String passwd, 
-//
-//			HttpSession session) throws Exception {
-//
-//		boolean result = false;
-//
-//		try {
-//			String sessionUserId = (String)session.getAttribute("USER_ID");
-//
-//			if (userId.equals(sessionUserId)) {
-//				result = userService.modifyUserId(userId, newUserId, passwd);
-//			}
-//			return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
-//
-//		} catch (Exception e) {
-//			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.INTERNAL_SERVER_ERROR);
-//		}
-//	}
+	//	@RequestMapping(value="/{userid}/userid", method=RequestMethod.PUT)
+	//	public @ResponseBody ResponseEntity<ResponseData> modifyUserId(
+	//			@PathVariable("userid") String userId,
+	//			@RequestParam(value="newUserid", required=true) String newUserId, 
+	//			@RequestParam(value="passwd", required=true) String passwd, 
+	//
+	//			HttpSession session) throws Exception {
+	//
+	//		boolean result = false;
+	//
+	//		try {
+	//			String sessionUserId = (String)session.getAttribute("USER_ID");
+	//
+	//			if (userId.equals(sessionUserId)) {
+	//				result = userService.modifyUserId(userId, newUserId, passwd);
+	//			}
+	//			return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
+	//
+	//		} catch (Exception e) {
+	//			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.INTERNAL_SERVER_ERROR);
+	//		}
+	//	}
 
 
 	/**
