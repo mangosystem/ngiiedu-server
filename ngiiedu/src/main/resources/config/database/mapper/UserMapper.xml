@@ -92,8 +92,8 @@
 	</update>
 	
 	<update id="modifyUserId" parameterType="map">
-		UPDATE users SET userid = #{userId}
-		WHERE idx = #{idx} AND oldUserId = #{oldUserId}
+		UPDATE users SET userid = #{newUserId}
+		WHERE idx = #{idx} AND userid = #{oldUserId}
 	</update>
 
 	<delete id="delete" parameterType="int">

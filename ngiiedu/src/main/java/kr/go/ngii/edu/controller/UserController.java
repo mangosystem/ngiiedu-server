@@ -170,7 +170,6 @@ public class UserController extends BaseController {
 	}
 
 
-
 	/**
 	 * 사용자 아이디 변경 - 관리자만 허용
 	 * @param userId
@@ -193,7 +192,7 @@ public class UserController extends BaseController {
 			if (user == null || !"3".equals(user.getUserDivision().trim())) {
 				return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.FORBIDDEN);
 			}
-			
+
 			String sessionUserId = (String)session.getAttribute("USER_ID");
 			if (userId.equals(sessionUserId)) {
 				result = userService.modifyUserId(userId, newUserId, passwd);
