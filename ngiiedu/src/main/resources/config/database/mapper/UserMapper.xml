@@ -91,16 +91,10 @@
 		WHERE idx = #{idx}
 	</update>
 	
-	<!-- <update id="modifyUserId" parameterType="map">
-		UPDATE users
-		<set>
-			<if test="userName != null"> user_name = #{userName}, </if>
-			<if test="password != null"> password = #{password}, </if>
-			<if test="userDivision != null"> user_division = #{userDivision}, </if>
-			<if test="userState != null"> user_state = #{userState} </if>
-		</set>
-		WHERE idx = #{idx} AND oldUserId=#{oldUserId}
-	</update> -->
+	<update id="modifyUserId" parameterType="map">
+		UPDATE users SET userid = #{userId}
+		WHERE idx = #{idx} AND oldUserId = #{oldUserId}
+	</update>
 
 	<delete id="delete" parameterType="int">
 		DELETE FROM users

@@ -5,11 +5,11 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import kr.go.ngii.edu.common.message.ErrorMessage;
+import kr.go.ngii.edu.main.common.BaseService;
 import kr.go.ngii.edu.main.users.mapper.PngoAuthKeyMapper;
 import kr.go.ngii.edu.main.users.mapper.PngoUserMapper;
 import kr.go.ngii.edu.main.users.mapper.UserMapper;
@@ -19,7 +19,7 @@ import kr.go.ngii.edu.main.users.model.User;
 import kr.go.ngii.edu.main.users.model.UserRole;
 
 @Service
-public class UserService {
+public class UserService extends BaseService {
 
 	@Autowired
 	private UserMapper userMapper;
@@ -172,6 +172,42 @@ public class UserService {
 	}
 
 	/**
+	 * 아이디 변경 - 현재 관리자만 변경 가능
+	 * 
+	 * @param userId
+	 * @param newUserId
+	 * @return
+	 */
+	public boolean modifyUserId(String userId, String newUserId, String checkPasswd) {
+
+		try {
+			User user = get(userId);
+
+			if (user == null) {
+				return false;
+			}
+
+			if (newUserId != null && !"".equals(newUserId)) {
+
+				if (!new BCryptPasswordEncoder().matches(checkPasswd, user.getPassword())) {
+					return false;
+				}
+
+				userMapper.modifyUserId(user.getIdx(), userId, newUserId);
+				pngoUserMapper.modifyUserId(user.getIdx(), userId, newUserId);
+
+				return true;
+
+			} else {
+				return false;
+			}
+
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
+	/**
 	 * 이름변경
 	 * @param userId
 	 * @param changeName
@@ -251,54 +287,54 @@ public class UserService {
 			return false;
 		}
 	}
-	
-	
-//	/**
-//	 * 사용자 아이디 변경
-//	 * @param userId
-//	 * @param newUserId
-//	 * @param passwd
-//	 * @return
-//	 */
-//	public boolean modifyUserId(String userId, String newUserId, String passwd) {
-//		
-//		try {
-//			User user = get(userId);
-//
-//			if (user == null) {
-//				return false;
-//			} else {
-//				if (!"3".equals(user.getUserDivision().trim())) {
-//					return false;
-//				}
-//			}
-//
-//			if (new BCryptPasswordEncoder().matches(passwd, user.getPassword())) {
-//				
-//				user.setUserName(null);
-//				user.setPassword(passwd);
-//				user.setUserDivision(null);
-//				user.setUserState(null);
-//				userMapper.modify(user);
-//
-//				PngoUser pngoUser = getPngoUser(userId);
-//				pngoUser.setUsername(null);
-//				pngoUser.setPasswd(passwd);
-//				pngoUser.setFirstName(null);
-//				pngoUserMapper.modify(pngoUser);
-//				
-//				
-//				
-//				
-//			} else {
-//				return false;
-//			}
-//
-//		} catch (Exception e) {
-//			return false;
-//		}
-//	}
-	
+
+
+	//	/**
+	//	 * 사용자 아이디 변경
+	//	 * @param userId
+	//	 * @param newUserId
+	//	 * @param passwd
+	//	 * @return
+	//	 */
+	//	public boolean modifyUserId(String userId, String newUserId, String passwd) {
+	//		
+	//		try {
+	//			User user = get(userId);
+	//
+	//			if (user == null) {
+	//				return false;
+	//			} else {
+	//				if (!"3".equals(user.getUserDivision().trim())) {
+	//					return false;
+	//				}
+	//			}
+	//
+	//			if (new BCryptPasswordEncoder().matches(passwd, user.getPassword())) {
+	//				
+	//				user.setUserName(null);
+	//				user.setPassword(passwd);
+	//				user.setUserDivision(null);
+	//				user.setUserState(null);
+	//				userMapper.modify(user);
+	//
+	//				PngoUser pngoUser = getPngoUser(userId);
+	//				pngoUser.setUsername(null);
+	//				pngoUser.setPasswd(passwd);
+	//				pngoUser.setFirstName(null);
+	//				pngoUserMapper.modify(pngoUser);
+	//				
+	//				
+	//				
+	//				
+	//			} else {
+	//				return false;
+	//			}
+	//
+	//		} catch (Exception e) {
+	//			return false;
+	//		}
+	//	}
+
 
 	public User get(String userid) {
 		User user = new User();

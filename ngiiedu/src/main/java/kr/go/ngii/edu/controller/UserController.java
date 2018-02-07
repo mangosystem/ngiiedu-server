@@ -1,6 +1,7 @@
 package kr.go.ngii.edu.controller;
 
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpSession;
 
@@ -152,7 +153,7 @@ public class UserController extends BaseController {
 		boolean result = false;
 
 		try {
-			if (newPasswd.length() < 8) {
+			if (newPasswd.length() < 8 || !Pattern.matches("^[a-zA-Z0-9!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?~`]+$", newPasswd)) {
 				return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.BAD_REQUEST);
 			}
 
@@ -170,29 +171,39 @@ public class UserController extends BaseController {
 
 
 
+	/**
+	 * 사용자 아이디 변경 - 관리자만 허용
+	 * @param userId
+	 * @param newUserId
+	 * @param passwd
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/{userid}/userid", method=RequestMethod.PUT)
+	public @ResponseBody ResponseEntity<ResponseData> modifyUserId(
+			@PathVariable("userid") String userId,
+			@RequestParam(value="newUserid", required=true) String newUserId, 
+			@RequestParam(value="passwd", required=true) String passwd, 
+			HttpSession session) throws Exception {
 
-	//	@RequestMapping(value="/{userid}/userid", method=RequestMethod.PUT)
-	//	public @ResponseBody ResponseEntity<ResponseData> modifyUserId(
-	//			@PathVariable("userid") String userId,
-	//			@RequestParam(value="newUserid", required=true) String newUserId, 
-	//			@RequestParam(value="passwd", required=true) String passwd, 
-	//
-	//			HttpSession session) throws Exception {
-	//
-	//		boolean result = false;
-	//
-	//		try {
-	//			String sessionUserId = (String)session.getAttribute("USER_ID");
-	//
-	//			if (userId.equals(sessionUserId)) {
-	//				result = userService.modifyUserId(userId, newUserId, passwd);
-	//			}
-	//			return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
-	//
-	//		} catch (Exception e) {
-	//			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.INTERNAL_SERVER_ERROR);
-	//		}
-	//	}
+		boolean result = false;
+		try {
+			User user = (User)session.getAttribute("USER_INFO");
+			if (user == null || !"3".equals(user.getUserDivision().trim())) {
+				return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.FORBIDDEN);
+			}
+			
+			String sessionUserId = (String)session.getAttribute("USER_ID");
+			if (userId.equals(sessionUserId)) {
+				result = userService.modifyUserId(userId, newUserId, passwd);
+			}
+			return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
+
+		} catch (Exception e) {
+			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 
 
 	/**
@@ -214,6 +225,10 @@ public class UserController extends BaseController {
 			HttpSession session) throws Exception {
 
 		User user = null;
+
+		if (!Pattern.matches("^[a-zA-Z0-9!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?~`]+$", password)) {
+			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.BAD_REQUEST);
+		}
 
 		if ("1".equals(userDivision)) {
 			School list = schoolService.get(schoolAuthkey);

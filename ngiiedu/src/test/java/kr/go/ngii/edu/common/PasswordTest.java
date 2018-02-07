@@ -1,5 +1,7 @@
 package kr.go.ngii.edu.common;
 
+import java.util.regex.Pattern;
+
 import org.junit.Test;
 import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -40,6 +42,25 @@ public class PasswordTest extends BaseTest {
 		System.out.println(spe.encodePassword("1234", null));
 		System.out.println(spe.encodePassword("1234", null));
 		System.out.println(spe.encodePassword("1234", null));
+		
+	}
+	
+	@Test
+	public void testRegexp() {
+		
+		// 영문
+		System.out.println( Pattern.matches("^[a-zA-Z]*$", "aASDfab") );
+		
+		// 숫자
+		System.out.println( Pattern.matches("^[0-9]*$", "123309829084") );
+		
+		// 영문, 숫자
+		System.out.println( Pattern.matches("^[a-zA-z0-9]*$", "ASDF23sdfs") );
+		
+		// 영문, 숫자, 특수문자
+//		System.out.println( Pattern.matches("^[a-zA-z0-9~!@#$%\\^&[*]\\(\\)_[+]\\{\\}\\[\\][|]'?.,]*[$]", "AS!@#DF23sdfs") );
+		
+		System.out.println( Pattern.matches("^[a-zA-Z0-9!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?~`]+$", "askjkdf!#@!a@#23VS") );
 		
 	}
 	

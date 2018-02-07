@@ -31,9 +31,9 @@
 
 	<insert id="create" parameterType="map">
 		INSERT INTO pngo_user(
-		username, email, passwd, first_name
+			username, email, passwd, first_name
 		) VALUES (
-		#{username}, '', #{passwd}, #{firstName}
+			#{username}, '', #{passwd}, #{firstName}
 		)
 	</insert>
 
@@ -45,6 +45,11 @@
 			<if test="firstName != null"> first_name = #{firstName}</if>
 		</set>
 		WHERE idx = #{idx}
+	</update>
+	
+	<update id="modifyUserId" parameterType="map">
+		UPDATE pngo_user SET username = #{newUsername}
+		WHERE idx = #{idx} AND username = #{username}
 	</update>
 
 	<delete id="delete" parameterType="int">
