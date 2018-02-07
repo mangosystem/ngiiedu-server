@@ -83,20 +83,20 @@
 						<div id="table">
 							<div class="row">
 								<span class="cell col1"><label for="" class="password">현재 비밀번호</label></span>
-								<span class="cell col2"><input type="password"></span>
+								<span class="cell col2"><input id="oldpasswd" type="password"></span>
 							</div>
 							<div class="row">
 								<span class="cell col1"><label for="" class="password">새 비밀번호</label></span>
-								<span class="cell col2"><input type="password"></span>
+								<span class="cell col2"><input id="newpasswd" type="password"></span>
 							</div>
 							<div class="row">
 								<span class="cell col1"><label for="" class="password">새 비밀번호 재확인</label></span>
-								<span class="cell col2"><input type="password"></span>
+								<span class="cell col2"><input id="confirmpasswd" type="password"></span>
 							</div>
 						</div>
 					</td>
 					<td>
-						<button type="button" title="변경" class="default" >변경</button>
+						<button type="button" title="변경" class="default"  onclick="modifyPasswd('<%= userid %>')">변경</button>
 					</td>
 				</tr>
 			</table>
@@ -120,8 +120,59 @@
 	     		"userName" : $('#userName').val()
 	        }, 
 	        function (res) {
-				console.log(res);
+					console.log(res);
+	        	if(res.response.data == false){
+	        		alert('별칭 변경에 실패했습니다.')
+	        	}else if(res.response.data == true){
+	        		alert('별칭을 성공적으로 변경하였습니다.');
+					window.location.reload();
+	        	}
         });
+	}
+	
+	function modifyPasswd(userid){
+		var checkPw = isValidFormPassword($('#newpasswd').val());
+		if(checkPw){
+			if($('#confirmpasswd').val()==$('#newpasswd').val()){
+				
+				let url = '/users/' + userid + '/password.json';
+				
+				ajaxJson(
+					['PUT', apiSvr + url], 
+					{
+			     		"oldpasswd" : $('#oldpasswd').val(),
+			     		"newpasswd" : $('#newpasswd').val()
+			        }, 
+			        function (res) {
+						console.log(res);
+						if(res.response.data == false){
+							alert('현재 비밀번호를 확인해 주세요.');
+						}else if(res.response.data ==true){
+							alert('성공적으로 비밀번호를 변경하였습니다.');
+						}
+						$('#oldpasswd').val("");
+						$('#newpasswd').val("");
+						$('#confirmpasswd').val("");
+		        });
+				
+			}else{
+				alert('입력하신 새 비밀번호가 같지 않습니다.다시 입력해 주세요.');
+			}
+		}else{
+			alert('비밀번호는 8자리 이상, 영문, 숫자, 특수문자가 포함되어야 합니다. 다시 입력해 주세요.')
+		}
+	}
+	
+	function isValidFormPassword(pw) {
+		var check = /^(?=.*[a-zA-Z])(?=.*[~`?/!@#$%^*+=-])(?=.*[0-9]).{8,20}$/;	 
+		if (!check.test(pw))     {
+			return false;
+		}
+		         
+		if (pw.length < 8 || pw.length > 20) {
+			return false;
+		}
+	    return true;
 	}
 </script>
 </body>
