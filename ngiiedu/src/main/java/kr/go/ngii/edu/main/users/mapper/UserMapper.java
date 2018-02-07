@@ -20,6 +20,8 @@ public interface UserMapper {
 
 	public void modify(User user);
 
+	public void modifyUserId(@Param("idx") int idx, @Param("oldUserId") String oldUserId, @Param("newUserId") String newUserId);
+
 	public void delete(String userid);
 
 	public Boolean exists(@Param("userid") String userid);

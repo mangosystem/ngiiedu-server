@@ -28,7 +28,7 @@
 		</where>
 		
 	</select>
-	
+
 	<insert id="create" parameterType="map">
 		INSERT INTO pngo_user(
 		username, email, passwd, first_name
@@ -36,6 +36,16 @@
 		#{username}, '', #{passwd}, #{firstName}
 		)
 	</insert>
+
+	<update id="modify" parameterType="map">
+		UPDATE pngo_user
+		<set>
+			<if test="username != null"> username = #{username}, </if>
+			<if test="passwd != null"> passwd = #{passwd}, </if>
+			<if test="firstName != null"> firstName = #{firstName}</if>
+		</set>
+		WHERE idx = #{idx}
+	</update>
 
 	<delete id="delete" parameterType="int">
 		DELETE FROM pngo_user

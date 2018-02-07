@@ -35,7 +35,7 @@ public class User implements Serializable {
 	private String userDivision;
 	
 	/** 로그인 활성화 여부. */
-	private boolean userState;
+	private Boolean userState;
 	
 	/** 사용자 권한 */
 	private List<UserRole> userRole = new ArrayList<UserRole>();
@@ -162,11 +162,11 @@ public class User implements Serializable {
 	}
 	
 	
-	public boolean getUserState() {
+	public Boolean getUserState() {
 		return userState;
 	}
 
-	public void setUserState(boolean userState) {
+	public void setUserState(Boolean userState) {
 		this.userState = userState;
 	}
 	

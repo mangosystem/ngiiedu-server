@@ -31,7 +31,7 @@ import kr.go.ngii.edu.controller.rest.BaseController;
 import kr.go.ngii.edu.controller.rest.ResponseData;
 import kr.go.ngii.edu.main.schools.model.School;
 import kr.go.ngii.edu.main.schools.service.SchoolService;
-import kr.go.ngii.edu.main.users.model.User;
+
 
 @Controller
 @RequestMapping("/api/v1/schools")
@@ -39,32 +39,6 @@ public class SchoolController extends BaseController{
 
 	@Autowired
 	private SchoolService schoolService;
-
-
-
-	private boolean isAdmin(HttpSession session) {
-
-		try {
-			User user = (User)session.getAttribute("USER_INFO");
-			if (user == null) {
-				return false;
-
-			} else {
-				if ("3".equals(user.getUserDivision().trim())) {
-					return true;
-				} else {
-					return false;
-				}
-			}
-
-		} catch (Exception e) {
-			return false;
-
-		}
-	}
-
-
-
 
 
 	/**

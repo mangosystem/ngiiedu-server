@@ -14,5 +14,7 @@ public interface PngoUserMapper {
 
 	public void delete(PngoUser userid);
 	
+	public void modify(PngoUser user);
+	
 	public Boolean exists(@Param("username") String username);
 }
