@@ -25,6 +25,7 @@
 		<result property="courseMetadata" column="course_metadata" />
 		<result property="courseCreateId" column="course_create_id" />
 		<result property="courseCreateUserId" column="course_create_userid" />
+		<result property="courseStatus" column="course_status" />
 		<result property="userDivision" column="user_division" />
 		<result property="createDate" column="create_date" />
 		<result property="modifyDate" column="modify_date" />
@@ -168,6 +169,7 @@
 		    courses_infos.user_division,
 		    courses_infos.create_date,
 		    courses_infos.modify_date,
+		    courses_infos.status AS course_status
 		    courses_member.user_id,
 		    courses_member.join_status as status,
 			courses_infos.project_id

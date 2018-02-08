@@ -39,6 +39,8 @@ public class CourseInfo implements Serializable {
 	/** 생성자  userId. */
 	private String courseCreateUserId;
 	
+	private boolean courseStatus;
+	
 	/** 사용자 구분 */
 	private String userDivision;
 
@@ -167,4 +169,13 @@ public class CourseInfo implements Serializable {
 	public void setProjectId(String projectId) {
 		this.projectId = projectId;
 	}
+
+	public boolean isCourseStatus() {
+		return courseStatus;
+	}
+
+	public void setCourseStatus(boolean courseStatus) {
+		this.courseStatus = courseStatus;
+	}
+
 }
