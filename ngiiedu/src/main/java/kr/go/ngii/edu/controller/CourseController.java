@@ -1000,4 +1000,5 @@ public class CourseController extends BaseController {
 
 		return new ResponseEntity<ResponseData>(responseBody(publicCourse), HttpStatus.OK);
 	}
+
 }

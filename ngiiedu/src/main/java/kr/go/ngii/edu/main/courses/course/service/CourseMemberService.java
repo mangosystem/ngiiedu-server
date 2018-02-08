@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import kr.go.ngii.edu.common.enums.EnumJoinStatus;
 import kr.go.ngii.edu.common.enums.EnumRestAPIType;
 import kr.go.ngii.edu.common.message.ErrorMessage;
+import kr.go.ngii.edu.config.LocalResourceBundle;
 import kr.go.ngii.edu.main.common.BaseService;
 import kr.go.ngii.edu.main.common.RestAPIClient;
 import kr.go.ngii.edu.main.courses.course.mapper.CourseAuthkeyMapper;
@@ -101,7 +102,38 @@ public class CourseMemberService extends BaseService {
 
 		if (member == null) {
 			CourseMember params = null;
+			
 			try {
+				
+				boolean isPublicCourse = false;
+				
+				String courseNSM = LocalResourceBundle.PUBLIC_COURSE_CODE_NOISEMAP;
+				String courseGPS = LocalResourceBundle.PUBLIC_COURSE_CODE_GPS;
+				String coursePOP = LocalResourceBundle.PUBLIC_COURSE_CODE_POPULATION;
+				String courseTER = LocalResourceBundle.PUBLIC_COURSE_CODE_TERRITORY;
+				String courseECO = LocalResourceBundle.PUBLIC_COURSE_CODE_ECOLOGY;
+				String courseARC = LocalResourceBundle.PUBLIC_COURSE_CODE_ACCURACY;
+				String courseDOK = LocalResourceBundle.PUBLIC_COURSE_CODE_DOKDO;
+				
+				// 공개 수업여부 확인
+				if (courseSecurityKey.equals(courseNSM)) {
+					isPublicCourse = true;
+				} else if (courseSecurityKey.equals(courseGPS)) {
+					isPublicCourse = true;
+				} else if (courseSecurityKey.equals(coursePOP)) {
+					isPublicCourse = true;
+				} else if (courseSecurityKey.equals(courseTER)) {
+					isPublicCourse = true;
+				} else if (courseSecurityKey.equals(courseECO)) {
+					isPublicCourse = true;
+				} else if (courseSecurityKey.equals(courseARC)) {
+					isPublicCourse = true;
+				} else if (courseSecurityKey.equals(courseDOK)) {
+					isPublicCourse = true;
+				} else {
+					isPublicCourse = false;
+				}
+
 				params = new CourseMember();
 				params.setCourseId(courseId);
 				params.setUserId(userId);
@@ -109,6 +141,8 @@ public class CourseMemberService extends BaseService {
 				params.setCreateDate(new Date());
 				params.setModifyDate(new Date());
 				courseMemberMapper.create(params);
+
+				params = updateStatus(courseId, userId, "ACTIVE");
 
 			} catch (Exception e) {
 				throw new RuntimeException(ErrorMessage.SERVER_ERROR);
