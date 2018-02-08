@@ -142,7 +142,9 @@ public class CourseMemberService extends BaseService {
 				params.setModifyDate(new Date());
 				courseMemberMapper.create(params);
 
-				params = updateStatus(courseId, userId, "ACTIVE");
+				if (isPublicCourse) {
+					params = updateStatus(courseId, userId, "ACTIVE");
+				}
 
 			} catch (Exception e) {
 				throw new RuntimeException(ErrorMessage.SERVER_ERROR);
