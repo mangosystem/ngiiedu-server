@@ -86,7 +86,7 @@ public class CourseWorkService extends BaseService {
 		params.setCourseId(courseId);
 		resultList = courseWorkMapper.listCourseWorkInfo(params);
 		for(CourseWorkInfo cwinfo : resultList) {
-			cwinfo.setCourseWorkSubInfos(courseWorkSubService.list(cwinfo.getIdx()));
+			cwinfo.setCourseWorkSubInfos(courseWorkSubService.list(cwinfo.getIdx(), null));
 		}
 		return resultList;
 	}

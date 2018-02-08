@@ -50,7 +50,7 @@ public class CourseMemberServiceTest extends BaseTest {
 
 	@Test
 	public void testUpdateStatus() {
-		service.updateStatus(1, 5, "ACTIVE");
+		service.updateStatus(1, 5, "ACTIVE", null);
 	}
 
 	@Test

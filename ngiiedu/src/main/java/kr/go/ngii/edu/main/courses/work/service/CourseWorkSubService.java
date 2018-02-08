@@ -47,46 +47,35 @@ public class CourseWorkSubService extends BaseService {
 		return courseWorkSubMapper.get(courseWorkSub);
 	}
 	
-	public List<CourseWorkSubInfo> list(int courseWorkId) {
+	public List<CourseWorkSubInfo> list(int courseWorkId, Integer userId) {
 		
 		CourseWork param = new CourseWork();
 		param.setIdx(courseWorkId);
 		param = courseWorkService.get(param);
 		
-		return this.list(param);
+		return this.list(param, userId);
 	}
-	
-	public List<CourseWorkSubInfo> list(CourseWork courseWork) {
+
+
+	public List<CourseWorkSubInfo> list(CourseWork courseWork, Integer userId) {
 		
 		List<CourseWorkSubInfo> list = courseWorkSubMapper.list(courseWork);
 		
 		for (CourseWorkSubInfo cwsi : list) {
-//			List<WorkOutput> workOutputList = cwsi.getWorkOutputList();5
+			//List<WorkOutput> workOutputList = cwsi.getWorkOutputList();
 			
 			// workoutput 조회....
-//			param
+			//param
 			List<WorkOutput> workOutputList = cwsi.getWorkOutputList();
 			
 			// shared, done 체크...
 			// 다시 조회...
 			// 수업목록....11
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
 			for (WorkOutput wo : workOutputList) {
 				Object pngoData = this.requestPngoData(wo.getPinogioOutputId(), wo.getOutputType());
 				wo.setPngoData(pngoData);
 				try {
-					String outputName = 
-							((LinkedHashMap<String, String>) pngoData).get("title");
+					String outputName = ((LinkedHashMap<String, String>) pngoData).get("title");
 					wo.setOutputName(outputName);
 				} catch (NullPointerException e) {
 					e.printStackTrace();

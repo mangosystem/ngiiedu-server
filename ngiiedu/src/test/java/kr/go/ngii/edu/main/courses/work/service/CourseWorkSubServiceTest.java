@@ -344,7 +344,7 @@ public class CourseWorkSubServiceTest extends BaseTest {
 	@Test
 	public void workCourseSubListTest() {
 		
-		List<CourseWorkSubInfo> list = courseWorkSubService.list(28);
+		List<CourseWorkSubInfo> list = courseWorkSubService.list(28, null);
 		
 		for (CourseWorkSubInfo cwsi : list) {
 			List<WorkOutput> workOutputList = cwsi.getWorkOutputList();

@@ -597,7 +597,7 @@ public class CourseController extends BaseController {
 			@RequestParam(value="status", required=true) String status, 
 			HttpSession session) throws Exception {
 
-		CourseMember result = courseMemberService.updateStatus(courseId, userId, status);
+		CourseMember result = courseMemberService.updateStatus(courseId, userId, status, null);
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
 
@@ -942,7 +942,7 @@ public class CourseController extends BaseController {
 
 		if (user != null) {
 			int userId = user.getIdx();
-			List<CourseWorkSubInfo> list = courseWorkSubService.list(courseWorkId);
+			List<CourseWorkSubInfo> list = courseWorkSubService.list(courseWorkId, userId);
 			return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
 		} else {
 			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);

@@ -35,7 +35,7 @@ public class CourseWorkServiceTest extends BaseTest {
 	public void testListAndSubData() {
 		List<CourseWorkInfo> cwinfos = service.listCourseWorkInfo(65);
 		for(CourseWorkInfo cwinfo : cwinfos) {
-			cwinfo.setCourseWorkSubInfos(courseWorkSubService.list(cwinfo.getIdx()));
+			cwinfo.setCourseWorkSubInfos(courseWorkSubService.list(cwinfo.getIdx(), null));
 		}
 		System.out.println(cwinfos);
 	}

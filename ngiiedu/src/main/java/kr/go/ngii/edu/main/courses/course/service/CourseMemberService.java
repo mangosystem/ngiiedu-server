@@ -143,7 +143,11 @@ public class CourseMemberService extends BaseService {
 				courseMemberMapper.create(params);
 
 				if (isPublicCourse) {
-					params = updateStatus(courseId, userId, "ACTIVE");
+					
+					Course course = courseService.get(courseId);
+					String apiKey = userService.getApiKey(course.getCourseCreateId());
+					
+					params = updateStatus(courseId, userId, "ACTIVE", apiKey);
 				}
 
 			} catch (Exception e) {
@@ -297,7 +301,7 @@ public class CourseMemberService extends BaseService {
 	 * @param updateStatus
 	 * @return
 	 */
-	public CourseMember updateStatus(int courseId, int userId, String updateStatus) {
+	public CourseMember updateStatus(int courseId, int userId, String updateStatus, String apiKey) {
 
 		CourseMember courseMember = courseMemberMapper.get(courseId, userId);
 
@@ -328,9 +332,12 @@ public class CourseMemberService extends BaseService {
 		EnumRestAPIType restAPIType = null;
 
 		RestAPIClient rc = new RestAPIClient();
-		User loginUser = (User) getHttpSession().getAttribute("USER_INFO");
-		String apiKey = userService.getApiKey(loginUser.getIdx());
-		rc.setApiKey(apiKey);
+		
+		if (apiKey == null) {
+			User loginUser = (User) getHttpSession().getAttribute("USER_INFO");
+			apiKey = userService.getApiKey(loginUser.getIdx());
+			rc.setApiKey(apiKey);
+		}
 
 		Map<String, String> apiPathParam = new HashMap<String, String>();
 		apiPathParam.put("project_id", projectId);
