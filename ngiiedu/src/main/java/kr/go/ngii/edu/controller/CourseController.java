@@ -1,5 +1,6 @@
 package kr.go.ngii.edu.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import kr.go.ngii.edu.common.StringUtil;
 import kr.go.ngii.edu.common.enums.EnumRestAPIType;
 import kr.go.ngii.edu.common.message.ErrorMessage;
+import kr.go.ngii.edu.config.LocalResourceBundle;
 import kr.go.ngii.edu.controller.rest.BaseController;
 import kr.go.ngii.edu.controller.rest.ResponseData;
 import kr.go.ngii.edu.main.common.RestAPIClient;
@@ -77,13 +79,13 @@ public class CourseController extends BaseController {
 
 	@Autowired
 	private CourseWorkSubService courseWorkSubService;
-	
+
 	@Autowired
 	private ModuleWorkService moduleWorkService;
-	
+
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	private WorkOutputService workOutputService;
 
@@ -108,12 +110,12 @@ public class CourseController extends BaseController {
 			@RequestParam(value="courseMetadata", required=false) String courseMetadata,
 			@RequestParam(value="emptyTemplate", required=false) String emptyTemplate,
 			HttpSession session) throws Exception {
-		
+
 		User user = (User)session.getAttribute("USER_INFO");
 		if (user == null) {
 			throw new RuntimeException(ErrorMessage.FOBRIDDEN);
 		}
-		
+
 		Map<String,Object> emptyTemplateMap = null;
 		if (emptyTemplate != null) {
 			try {
@@ -127,7 +129,7 @@ public class CourseController extends BaseController {
 		PngoUser pngoUser = userService.getPngoUser(user.getUserid());
 		String apiKey = userService.getApiKey(pngoUser.getIdx());
 		rc.setApiKey(apiKey);
-		
+
 		// PROJECT 생성
 		Map<String, String> createProjectParam = new HashMap<String, String>();
 		createProjectParam.put("title", courseName);
@@ -141,39 +143,39 @@ public class CourseController extends BaseController {
 		}
 		Map<String, Object> projectCreatedData = (Map<String, Object>) r.get("data");
 		String projectId = (String) projectCreatedData.get("projectId");
-		
+
 		// Course 생성
 		Course course = courseService.create(courseName, courseMetadata, moduleId, projectId, userId);
-		
+
 		// Course Key 생성
 		courseAuthkeyService.create(course.getIdx());
-		
+
 		// Course Work Data (다운로드 가능 데이터 생성)
 		courseWorkDataService.createList(moduleId, course.getIdx());
-		
+
 		// Course Work 생성
 		// moduleWorkIds 만큼 loop를돌려 생성
 		List<CourseWork> courseWorkList = courseWorkService.create(course.getIdx(), moduleWorkIds);
 		course.setWork(courseWorkList);
-		
+
 		// Course Work Sub 생성
 		for (CourseWork courseWorkItem:courseWorkList) {
 			List<CourseWorkSub> courseWorkSubList = courseWorkSubService.createList(courseWorkItem);
-			
+
 			if (emptyTemplate != null || !"".equals(emptyTemplate)) {
-				
+
 				for (CourseWorkSub courseWorkSubItem:courseWorkSubList) {
 					ModuleWork moduleWork = moduleWorkService.get(courseWorkItem.getModuleWorkId());
-					
+
 					if (moduleWork.getModuleWorkCourseType().trim().equals("현장실습")) {
 						Map<String, Object> createdDatasetResult = courseService.createEmptyDataset(emptyTemplateMap, projectId, apiKey);
 						workOutputService.create(course.getIdx(), courseWorkSubItem.getIdx(), "1" , createdDatasetResult, userId, "dataset", false, false);
-						
+
 					}
 				}
 			}
 		}
-		
+
 		return new ResponseEntity<ResponseData>(responseBody(course), HttpStatus.OK);
 	}
 
@@ -202,7 +204,7 @@ public class CourseController extends BaseController {
 		}
 		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
 	}
-	
+
 	/*
 	 * 
 	 * 데이터셋 추가하기
@@ -213,7 +215,7 @@ public class CourseController extends BaseController {
 			@RequestParam(value = "courseId", required = true) Integer courseId,
 			@RequestParam(value = "courseWorkId", required = true) Integer courseWorkId,
 			@RequestParam(value = "emptyTemplate", required = false) String emptyTemplate, HttpSession session)
-			throws Exception {
+					throws Exception {
 
 		User user = (User) session.getAttribute("USER_INFO");
 		if (user == null) {
@@ -249,7 +251,7 @@ public class CourseController extends BaseController {
 
 		return new ResponseEntity<ResponseData>(responseBody(course), HttpStatus.OK);
 	}
-	
+
 
 	/**
 	 * 수업 목록 조회하기 
@@ -425,7 +427,7 @@ public class CourseController extends BaseController {
 		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
 	}
 
-	
+
 	/**
 	 * 수업에 설정되어 있는 과정 목록 조회
 	 * 
@@ -442,7 +444,7 @@ public class CourseController extends BaseController {
 		List<CourseWorkInfo> list = courseWorkService.listCourseWorkInfoAndSubWork(courseId);
 		return new ResponseEntity<ResponseData>(responseBody(list), HttpStatus.OK);
 	}
-	
+
 	/**
 	 * 과정 상태 업데이트
 	 * 
@@ -734,24 +736,24 @@ public class CourseController extends BaseController {
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
 
-//	/**
-//	 * 수업내 팀 순서 변경
-//	 * @param courseId
-//	 * @param teamId
-//	 * @param teamSeq
-//	 * @param session
-//	 * @return
-//	 * @throws Exception
-//	 */
-//	@RequestMapping(value="/{courseId}/team/{teamId}/sequence", method=RequestMethod.PUT)
-//	public @ResponseBody ResponseEntity<ResponseData> teamModifySeq(
-//			@PathVariable("courseId") Integer courseId,
-//			@PathVariable("teamId") Integer teamId,
-//			@RequestParam(value="seq", required=true) Integer seq, 
-//			HttpSession session) throws Exception {
+	//	/**
+	//	 * 수업내 팀 순서 변경
+	//	 * @param courseId
+	//	 * @param teamId
+	//	 * @param teamSeq
+	//	 * @param session
+	//	 * @return
+	//	 * @throws Exception
+	//	 */
+	//	@RequestMapping(value="/{courseId}/team/{teamId}/sequence", method=RequestMethod.PUT)
+	//	public @ResponseBody ResponseEntity<ResponseData> teamModifySeq(
+	//			@PathVariable("courseId") Integer courseId,
+	//			@PathVariable("teamId") Integer teamId,
+	//			@RequestParam(value="seq", required=true) Integer seq, 
+	//			HttpSession session) throws Exception {
 
-//		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
-//	}
+	//		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
+	//	}
 
 	/**
 	 * 수업내 팀 삭제
@@ -937,7 +939,7 @@ public class CourseController extends BaseController {
 			@PathVariable(value="courseWorkId") Integer courseWorkId,
 			HttpSession session) throws Exception {
 		User user = (User)session.getAttribute("USER_INFO");
-		
+
 		if (user != null) {
 			int userId = user.getIdx();
 			List<CourseWorkSubInfo> list = courseWorkSubService.list(courseWorkId);
@@ -946,7 +948,7 @@ public class CourseController extends BaseController {
 			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
 		}
 	}
-	
+
 	/**
 	 * 수업 과정내 하위 과정 및 결과물 조회
 	 * 
@@ -968,5 +970,34 @@ public class CourseController extends BaseController {
 		} else {
 			return new ResponseEntity<ResponseData>(responseBody(null), HttpStatus.OK);
 		}
+	}
+
+
+	/**
+	 * 공개수업코드 확인
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value="/list/publicCourse", method=RequestMethod.GET)
+	public @ResponseBody ResponseEntity<ResponseData> publicCourseList() {
+
+		String courseNSM = LocalResourceBundle.PUBLIC_COURSE_CODE_NOISEMAP;
+		String courseGPS = LocalResourceBundle.PUBLIC_COURSE_CODE_GPS;
+		String coursePOP = LocalResourceBundle.PUBLIC_COURSE_CODE_POPULATION;
+		String courseTER = LocalResourceBundle.PUBLIC_COURSE_CODE_TERRITORY;
+		String courseECO = LocalResourceBundle.PUBLIC_COURSE_CODE_ECOLOGY;
+		String courseARC = LocalResourceBundle.PUBLIC_COURSE_CODE_ACCURACY;
+		String courseDOK = LocalResourceBundle.PUBLIC_COURSE_CODE_DOKDO;
+
+		Map<String, String> publicCourse = new HashMap<String, String>();
+		publicCourse.put("PUBLIC_COURSE_CODE_NSM", courseNSM);
+		publicCourse.put("PUBLIC_COURSE_CODE_GPS", courseGPS);
+		publicCourse.put("PUBLIC_COURSE_CODE_POP", coursePOP);
+		publicCourse.put("PUBLIC_COURSE_CODE_TER", courseTER);
+		publicCourse.put("PUBLIC_COURSE_CODE_ECO", courseECO);
+		publicCourse.put("PUBLIC_COURSE_CODE_ARC", courseARC);
+		publicCourse.put("PUBLIC_COURSE_CODE_DOK", courseDOK);
+
+		return new ResponseEntity<ResponseData>(responseBody(publicCourse), HttpStatus.OK);
 	}
 }
