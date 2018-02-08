@@ -169,7 +169,7 @@
 		    courses_infos.user_division,
 		    courses_infos.create_date,
 		    courses_infos.modify_date,
-		    courses_infos.status AS course_status
+		    courses_infos.status AS course_status,
 		    courses_member.user_id,
 		    courses_member.join_status as status,
 			courses_infos.project_id
