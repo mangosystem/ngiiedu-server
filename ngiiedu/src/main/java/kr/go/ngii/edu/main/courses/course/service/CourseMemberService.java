@@ -95,6 +95,12 @@ public class CourseMemberService extends BaseService {
 		Integer courseId = courseAuthkeyMapper.getCourseId(courseSecurityKey);
 		if (courseId == null) {
 			throw new RuntimeException(ErrorMessage.COURSE_AUTHKEY_FAILED);
+		} else {
+			Course courseInfo = courseService.get(courseId);
+
+			if (!courseInfo.isStatus()) {
+				throw new RuntimeException(ErrorMessage.COURSE_AUTHKEY_FAILED);
+			}
 		}
 
 		// 수업에 참여하고 있는지 확인
@@ -102,11 +108,11 @@ public class CourseMemberService extends BaseService {
 
 		if (member == null) {
 			CourseMember params = null;
-			
+
 			try {
-				
+
 				boolean isPublicCourse = false;
-				
+
 				String courseNSM = LocalResourceBundle.PUBLIC_COURSE_CODE_NOISEMAP;
 				String courseGPS = LocalResourceBundle.PUBLIC_COURSE_CODE_GPS;
 				String coursePOP = LocalResourceBundle.PUBLIC_COURSE_CODE_POPULATION;
@@ -114,7 +120,7 @@ public class CourseMemberService extends BaseService {
 				String courseECO = LocalResourceBundle.PUBLIC_COURSE_CODE_ECOLOGY;
 				String courseARC = LocalResourceBundle.PUBLIC_COURSE_CODE_ACCURACY;
 				String courseDOK = LocalResourceBundle.PUBLIC_COURSE_CODE_DOKDO;
-				
+
 				// 공개 수업여부 확인
 				if (courseSecurityKey.equals(courseNSM)) {
 					isPublicCourse = true;
@@ -143,10 +149,10 @@ public class CourseMemberService extends BaseService {
 				courseMemberMapper.create(params);
 
 				if (isPublicCourse) {
-					
+
 					Course course = courseService.get(courseId);
 					String apiKey = userService.getApiKey(course.getCourseCreateId());
-					
+
 					params = updateStatus(courseId, userId, "ACTIVE", apiKey);
 				}
 
@@ -293,7 +299,7 @@ public class CourseMemberService extends BaseService {
 	//		}
 	//	}
 
-	
+
 	/**
 	 * 학생사용자 상태변경하기
 	 * @param courseId
@@ -332,7 +338,7 @@ public class CourseMemberService extends BaseService {
 		EnumRestAPIType restAPIType = null;
 
 		RestAPIClient rc = new RestAPIClient();
-		
+
 		if (apiKey == null) {
 			User loginUser = (User) getHttpSession().getAttribute("USER_INFO");
 			apiKey = userService.getApiKey(loginUser.getIdx());
@@ -347,10 +353,10 @@ public class CourseMemberService extends BaseService {
 		try {
 			Map<String, Object> getMemberResult = rc.getResponseBodyWithLinkedMap(EnumRestAPIType.PEOJECT_MEMBER_GET, apiPathParam, apiParam, apiKey);
 			Map<String, String> getMemberData = (Map<String, String>) getMemberResult.get("data");
-			
+
 			Map<String, String> setApiPathParam = new HashMap<String, String>();
 			setApiPathParam.put("project_id", projectId);
-			
+
 			if (getMemberData == null) {
 				if (updateStatus.equalsIgnoreCase("WAITING") || updateStatus.equalsIgnoreCase("DEACTIVE") || updateStatus.equalsIgnoreCase("BLOCK")) {
 					if (apiInserted) {
