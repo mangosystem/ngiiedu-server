@@ -5,8 +5,7 @@
 <%
 	String contextPath = request.getContextPath();
 %>
-	
-	
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -66,22 +65,25 @@
 	<jsp:include page ="../common/footer.jsp"></jsp:include>
 <!-- END FOOTER -->
 
-<script>
-	
+<c:if test="${'ADM' eq bbsrole}">
+	<script type="text/javascript">
 	function submitPost(){
 		ajaxJson(
 			['POST', apiSvr + '/board/notice.json'], 
 			{
-	     		"title" : $('#qTitle').val(),
-				"description" : $('#qDescription').val()
-	        }, 
-	        function (res) {
-            	var data = res.response.data;
-            	console.log(res);
-            	console.log(data);
-            	location.href="notice";
-        });
+				'title' : $('#qTitle').val(),
+				'description' : $('#qDescription').val()
+		}, 
+		function (res) {
+			
+			if (res.response.code == 500) {
+				alert('접근권한이 없습니다.')
+			}
+			location.href="notice";
+		});
 	}
-</script>
+	</script>
+</c:if>
+
 </body>
 </html>

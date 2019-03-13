@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="org.apache.commons.text.StringEscapeUtils" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
@@ -50,7 +50,7 @@
 		<h3>공지사항</h3>
 		<div class="boardView">
 			<ul class="title">
-				<li>${postItem.title} </li>
+				<li>${postItem.title}</li>
 				<li><fmt:formatDate value="${postItem.createDate}" pattern="YYYY-MM-dd" /></li>
 			</ul>
 			<div class="script">
@@ -58,7 +58,6 @@
 			</div>
 		</div>
 		<div class="btnBoth">
-		
 			<c:if test="${'ADM' eq bbsrole}">
 				<button type="button" title="수정" class="point left" onclick="location.href='<%=contextPath %>/surport/noticeModify/'+${postItem.idx}" >수정</button>
 				<button type="button" title="삭제" class="point left" onclick="submitNoticeDelete(${postItem.idx})">삭제</button>
@@ -77,18 +76,21 @@
 	<jsp:include page ="../common/footer.jsp"></jsp:include>
 <!-- END FOOTER -->
 
-<script>
-	function submitNoticeDelete(idx) {
-		ajaxJson(
-			['DELETE', apiSvr + '/board/notice/' +idx+'.json'], 
-			null, 
-	        function (res) {
-	        	var data = res.response.data;
-	        	console.log(res);
-	        	console.log(data);
-	        	location.href="<%=contextPath %>/surport/notice";
-	    });
-	}
-</script>
+<c:if test="${'ADM' eq bbsrole}">
+	<script type="text/javascript">
+		function submitNoticeDelete(idx) {
+			ajaxJson(
+				['DELETE', apiSvr + '/board/notice/' +idx+'.json'], 
+				null, 
+		        function (res) {
+		        	var data = res.response.data;
+		        	console.log(res);
+		        	console.log(data);
+		        	location.href="<%=contextPath %>/surport/notice";
+		    });
+		}
+	</script>
+</c:if>
+
 </body>
 </html>

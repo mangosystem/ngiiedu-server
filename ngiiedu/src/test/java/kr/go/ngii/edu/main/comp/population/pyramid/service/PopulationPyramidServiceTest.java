@@ -1,8 +1,6 @@
 package kr.go.ngii.edu.main.comp.population.pyramid.service;
 
-import java.util.List;
-import java.util.Map;
-
+import org.apache.commons.text.StringEscapeUtils;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -17,8 +15,19 @@ public class PopulationPyramidServiceTest extends BaseTest {
 	@Test
 	public void testList() {
 		
-		List<Map<String, Object>> list = service.list(11);
-		System.out.println(list.size());
+//		List<Map<String, Object>> list = service.list(11);
+//		System.out.println(list.size());
+		
+		
+		System.out.println(
+			StringEscapeUtils.escapeHtml3("<script>abcdefg</script>")
+		);
+		
+		
+		System.out.println(
+			StringEscapeUtils.unescapeHtml3(StringEscapeUtils.escapeHtml3("<script>abcdefg</script>"))
+		);
+		
 	}
 
 }

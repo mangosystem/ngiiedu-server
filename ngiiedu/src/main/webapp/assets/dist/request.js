@@ -1,8 +1,8 @@
-var apiSvr = 'http://localhost:8080/ngiiedu/api/v1';
-var pngoSvr = 'http://1.234.82.19:8083/pinogio-web'
-var gisSvr ='http://1.234.82.19:8083/geoserver';
+var apiSvr = 'http://localhost:8083/edu/api/v1';
+var pngoSvr = 'http://localhost:8083/pinogio-web'
+var gisSvr ='http://localhost:8083/geoserver';
 
-var contextPath = '/ngiiedu';
+var contextPath = '/edu';
 
 function ajaxJson(methodUrl, data, successFnc, errorFnc ) {
   if (errorFnc == null) {

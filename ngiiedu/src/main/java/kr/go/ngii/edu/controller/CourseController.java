@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.text.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -132,8 +133,8 @@ public class CourseController extends BaseController {
 
 		// PROJECT 생성
 		Map<String, String> createProjectParam = new HashMap<String, String>();
-		createProjectParam.put("title", courseName);
-		createProjectParam.put("description", courseMetadata);
+		createProjectParam.put("title", StringEscapeUtils.escapeHtml4(courseName));
+		createProjectParam.put("description", StringEscapeUtils.escapeHtml4(courseMetadata));
 		createProjectParam.put("privacy", "TEAM");
 		Map<String, Object> r = rc.getResponseBodyWithLinkedMap(EnumRestAPIType.PROJECT_CREATE, null, createProjectParam, apiKey);
 		Map<String, String> metaData = (Map<String, String>) r.get("meta");
@@ -366,7 +367,7 @@ public class CourseController extends BaseController {
 			@RequestParam(value="courseMetadata", required=false, defaultValue="") String courseMetadata,
 			HttpSession session) throws Exception {
 
-		Course result = courseService.modify(idx, courseName, courseMetadata);
+		Course result = courseService.modify(idx, StringEscapeUtils.escapeHtml4(courseName), StringEscapeUtils.escapeHtml4(courseMetadata));
 		return new ResponseEntity<ResponseData>(responseBody(result), HttpStatus.OK);
 	}
 

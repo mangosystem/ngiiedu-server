@@ -119,12 +119,12 @@
 	
 	<delete id="deleteNotice" parameterType="int">
 		DELETE FROM bbs_notice
-		WHERE idx = #{bbsNoticeId}
+		WHERE idx = #{noticeId}
 	</delete>
 	
 	
 	<select id="getNoticeCnt" resultType="int">
-		select count(*) from bbs_notice;  
+		select count(*) from bbs_notice;
 	</select>
 	
 	<select id="getQnaList" parameterType="map" resultMap="bbsQuestion">
