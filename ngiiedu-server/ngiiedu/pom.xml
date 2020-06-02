@@ -11,7 +11,7 @@
 	<properties>
 		<jdk.version>1.8</jdk.version>
 		<servlet.version>3.1.0</servlet.version>
-		<spring.version>4.3.10.RELEASE</spring.version>
+		<spring.version>4.3.18.RELEASE</spring.version>
 		<springmvc.version>4.2.3.RELEASE</springmvc.version>
 		<jackson.version>2.9.0</jackson.version>
 		<postgresql.jdbc.version>42.1.4</postgresql.jdbc.version>
