@@ -12,8 +12,8 @@
 		<jdk.version>1.8</jdk.version>
 		<servlet.version>3.1.0</servlet.version>
 		<spring.version>4.3.18.RELEASE</spring.version>
-		<springmvc.version>4.2.3.RELEASE</springmvc.version>
-		<jackson.version>2.9.0</jackson.version>
+		<springmvc.version>4.2.4.RELEASE</springmvc.version>
+		<jackson.version>2.9.5</jackson.version>
 		<postgresql.jdbc.version>42.1.4</postgresql.jdbc.version>
 		<mybatis.version>3.4.5</mybatis.version>
 		<slf4j.version>1.7.25</slf4j.version>
@@ -72,7 +72,7 @@
 		<dependency>
 		   <groupId>commons-fileupload</groupId>
 		   <artifactId>commons-fileupload</artifactId>
-		   <version>1.2.1</version>
+		   <version>1.3.2</version>
 		</dependency>
 		
 		<dependency>
